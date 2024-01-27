@@ -1,4 +1,5 @@
 import { View, Text } from "react-native";
+import { DefaultTheme } from "react-native-paper";
 
 
 function AppStack() {

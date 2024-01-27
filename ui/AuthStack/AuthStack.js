@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import StartPage from "./StartPage";
 import LoginPage from "./LoginPage";
+import ChooseAccountPage from './ChooseAccountPage';
 
 
 // Create stack for navigation
@@ -21,6 +22,14 @@ function AuthStack() {
         component={LoginPage}
         options={{
           presentation: 'modal',
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ChooseAccountPage"
+        component={ChooseAccountPage}
+        options={{
+          presentation: 'containedModal',
           headerShown: false,
         }}
       />

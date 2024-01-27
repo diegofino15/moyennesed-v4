@@ -10,4 +10,13 @@ async function openLink(link) {
   }
 }
 
-export { openLink };
+async function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function capitalizeWords(phrase) {
+  return phrase.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+}
+
+
+export { openLink, wait, capitalizeWords };

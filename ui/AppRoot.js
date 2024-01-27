@@ -33,7 +33,7 @@ function AppRoot({ closeSplashScreen }) {
     const credentials = await AsyncStorage.getItem("credentials");
     if (credentials) {
       await AppData.loadCache();
-      setIsLoggedIn(true);
+      // setIsLoggedIn(true);
     }
 
     // Finish loading app

@@ -13,7 +13,7 @@ function StartPage({ navigation }) {
   return (
     <LinearGradient colors={[
       DefaultTheme.colors.primary,
-      '#000',
+      'black',
     ]}>
       <View style={{
         width: '100%',
@@ -24,6 +24,7 @@ function StartPage({ navigation }) {
           flexDirection: 'column',
           height: '100%',
         }}>
+          {/* Animation */}
           <View style={{
             width: '130%',
             left: '-15%',
@@ -38,6 +39,7 @@ function StartPage({ navigation }) {
             />
           </View>
           
+          {/* Title */}
           <View style={{
             flexDirection: 'column',
             alignItems: 'center',
@@ -48,6 +50,7 @@ function StartPage({ navigation }) {
             <Text style={[DefaultTheme.fonts.labelLarge, { width: '80%', textAlign: 'center', top: -10 }]}>Rapide. Efficace. Vos moyennes en un clin d'oeil.</Text>
           </View>
           
+          {/* Login button */}
           <PressableScale style={{
             padding: 10,
             borderRadius: 15,
@@ -67,11 +70,12 @@ function StartPage({ navigation }) {
             </View>
           </PressableScale>
 
+          {/* Footer */}
           <View style={{ alignItems: 'center' }}>
             <Text style={[
               DefaultTheme.fonts.labelMedium,
               { marginTop: 10, textAlign: 'center', width: '80%' }
-            ]}>Vous devez disposer d'un compte ÉcoleDirecte élève ou parent pour vous connecter.</Text>
+            ]}>Vous devez disposer d'un compte ÉcoleDirecte pour vous connecter.</Text>
             <View style={{ width: 5, height: 5, backgroundColor: DefaultTheme.colors.onSurfaceDisabled, borderRadius: 5, margin: 10 }}/>
             <PressableScale onPress={() => openLink("https://moyennesed.my.to/privacy-policy.html")}>
               <View style={{

@@ -40,20 +40,21 @@ function initTheme(theme) {
   theme.colors = {
     background: '#020409',
     onBackground: '#E7EDF2',
+
+    backdrop: '#0E1116',
   
-    surface: '#0E1116',
-    onSurface: '#171B21',
+    surface: '#171B21',
+    onSurface: '#E7EDF2',
     onSurfaceDisabled: '#868D96',
+    surfaceOutline: '#31363C',
   
     primary: '#1985A1',
     onPrimary: '#FFF',
-    onPrimaryDisabled: '#888',
 
-    secondary: '#4CAF50',
-    onSecondary: '#000',
-
-    tertiary: '#DA3633',
-    onTertiary: '#FFF',
+    success: '#4CAF50',
+    onSuccess: '#000',
+    error: '#DA3633',
+    onError: '#FFF',
   };
 
   theme.fonts = {
