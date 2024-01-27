@@ -1,12 +1,15 @@
 import * as Haptics from "expo-haptics";
 
-import AppData from "./AppData";
-
 
 // Controls vibrations used by buttons in the app
 class HapticsHandler {
+  static enableVibrations = true;
+
+  static enable() { this.enableVibrations = true; }
+  static disable() { this.enableVibrations = false; }
+  
   static vibrate(impactWeight) {
-    if (AppData.vibrate) {
+    if (this.enableVibrations) {
       Haptics.impactAsync(
         impactWeight == "light" ? Haptics.ImpactFeedbackStyle.Light
         : impactWeight == "medium" ? Haptics.ImpactFeedbackStyle.Medium

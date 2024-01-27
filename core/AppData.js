@@ -251,14 +251,6 @@ class AppData {
   static async saveMarks(accountID, marks) {
     // TODO
   }
-
-
-
-  
-  
-  
-  // Preferences
-  static vibrate = true;
 }
 
 export default AppData;
