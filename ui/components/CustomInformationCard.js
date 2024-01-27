@@ -3,20 +3,18 @@ import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 import { ArrowRightIcon } from "lucide-react-native";
 
-import { openLink } from "../../util/Utils";
-
 
 // Custom information card
 function CustomInformationCard({
   title,
   icon,
   description,
-  link,
+  onPress,
   error,
   style,
 }) {
   return (
-    <PressableScale onPress={() => { if (link) { openLink(link) } }} activeScale={link ? 0.95 : 1} style={{
+    <PressableScale onPress={onPress} activeScale={onPress ? 0.95 : 1} style={{
       backgroundColor: DefaultTheme.colors.surface,
       borderRadius: 10,
       borderWidth: 2,
@@ -33,7 +31,7 @@ function CustomInformationCard({
           {icon}
           <Text style={[DefaultTheme.fonts.bodyMedium, { marginLeft: 10 }]}>{title}</Text>
         </View>
-        {link && <ArrowRightIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+        {onPress && <ArrowRightIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
       </View>
       <Text style={[DefaultTheme.fonts.labelMedium, { marginTop: 10 }]}>{description}</Text>
     </PressableScale>

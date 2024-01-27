@@ -1203,6 +1203,11 @@
     deepmerge "^3.2.0"
     hoist-non-react-statics "^3.3.0"
 
+"@dominicstop/ts-event-emitter@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@dominicstop/ts-event-emitter/-/ts-event-emitter-1.1.0.tgz#1f3d3fa878a1ccab686931280757954719cf88e4"
+  integrity sha512-CcxmJIvUb1vsFheuGGVSQf4KdPZC44XolpUT34+vlal+LyQoBUOn31pjFET5M9ctOxEpt8xa0M3/2M7uUiAoJw==
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
@@ -3463,6 +3468,14 @@ expo-status-bar@~1.11.1:
   resolved "https://registry.yarnpkg.com/expo-status-bar/-/expo-status-bar-1.11.1.tgz#a11318741d361048c11db2b16c4364a79a74af30"
   integrity sha512-ddQEtCOgYHTLlFUe/yH67dDBIoct5VIULthyT3LRJbEwdpzAgueKsX2FYK02ldh440V87PWKCamh7R9evk1rrg==
 
+expo-system-ui@^2.9.3:
+  version "2.9.3"
+  resolved "https://registry.yarnpkg.com/expo-system-ui/-/expo-system-ui-2.9.3.tgz#845c7615a6ede9d959dff1719df3d9392a43c080"
+  integrity sha512-RNFNBLJ9lhnjOGrHhtfDc15Ry/lF+SA4kwulmHzYGqaTeYvsL9q0K0+m9qmxuDdrbKJkuurvzvjVylDNnKNFVg==
+  dependencies:
+    "@react-native/normalize-color" "^2.0.0"
+    debug "^4.3.2"
+
 expo@~50.0.3:
   version "50.0.4"
   resolved "https://registry.yarnpkg.com/expo/-/expo-50.0.4.tgz#3ec5349a58b8b3264bc2f218d85b673beb352a99"
@@ -5513,6 +5526,18 @@ react-native-gesture-handler@^2.14.1:
     invariant "^2.2.4"
     lodash "^4.17.21"
     prop-types "^15.7.2"
+
+react-native-ios-context-menu@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-ios-context-menu/-/react-native-ios-context-menu-2.3.0.tgz#f0f8fd5d77ec8bd57326799bfbae69e45ce1adc3"
+  integrity sha512-uEMTYuuveF4Px4xdFj78D8s06NeThCVEck06e9jT5UK92KMBr2J0B1fKTrY1xDLYoyoNKY5/7NCTlu/nO51kQQ==
+  dependencies:
+    "@dominicstop/ts-event-emitter" "^1.1.0"
+
+react-native-ios-utilities@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/react-native-ios-utilities/-/react-native-ios-utilities-4.2.3.tgz#62ce45318de376585e765775e33fe65069423479"
+  integrity sha512-CmdvzmrrSGdL7PgT/KHubXtJdDen2gQtyfzPULOLPHi0nnnbhKx6hgLO0sR/FzXhW+FqqRoiqe6TWLn0tnLl7Q==
 
 react-native-paper@^5.12.3:
   version "5.12.3"

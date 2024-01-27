@@ -7,6 +7,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import CustomTextInput from "../components/CustomTextInput";
 import CustomInformationCard from "../components/CustomInformationCard";
 import { useAppContext } from "../../util/AppContext";
+import { openLink } from "../../util/Utils";
 import HapticsHandler from "../../core/HapticsHandler";
 import AppData from "../../core/AppData";
 
@@ -127,7 +128,7 @@ function LoginPage({ navigation }) {
           title='Mot de passe oublié ?'
           icon={<HelpCircleIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
           description='Pas de panique, cliquez ici pour réinitialiser votre mot de passe.'
-          link='https://api.ecoledirecte.com/mot-de-passe-oublie.awp'
+          onPress={() => openLink('https://api.ecoledirecte.com/mot-de-passe-oublie.awp')}
           style={{ marginTop: 30 }}
         />
 

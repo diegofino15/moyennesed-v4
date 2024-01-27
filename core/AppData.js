@@ -9,24 +9,28 @@ class AppData {
   // Base URLs
   static API_URL = "https://api.ecoledirecte.com";
   static CUSTOM_API_URL = "https://api.moyennesed.my.to/test-api";
+  static USED_URL = AppData.API_URL;
   
-  // Login function
+
+  // Login functions //
+
+  // Login
   static async login(username, password) {
     // Demo account
-    let usedURL = AppData.API_URL;
+    this.USED_URL = AppData.API_URL;
     if (username.substring(0, 11) == "demoaccount") {
-      usedURL = this.CUSTOM_API_URL;
+      this.USED_URL = this.CUSTOM_API_URL;
       console.log("Using custom API");
     }
 
     console.log(`Logging-in ${username}...`);
 
     const credentials = {
-      "identifiant": username,
+      "identifiant": encodeURIComponent(username),
       "motdepasse": encodeURIComponent(password),
     };
     var response = await axios.post(
-      `${usedURL}/v3/login.awp?v=4`,
+      `${this.USED_URL}/v3/login.awp?v=4`,
       `data=${JSON.stringify(credentials)}`,
       { headers: { "Content-Type": "text/plain" } },
     ).catch(error => {
@@ -41,7 +45,7 @@ class AppData {
         switch (response.data.code) {
           case 200:
             console.log("Login successful !");
-            this.saveConnectedAccounts(response.data.data);
+            this.saveConnectedAccounts(response.data.data, response.data.token);
             status = 1;
             if (response.data.data.accounts.length != 1) { status = 2; }
             else { await this.saveSelectedAccount(response.data.data.accounts[0].id); }
@@ -67,13 +71,14 @@ class AppData {
 
     return status;
   }
-  static saveConnectedAccounts(loginData) {
+  // Save all data from ÉcoleDirecte to cache
+  static saveConnectedAccounts(loginData, token) {
     var connectedAccounts = {};
 
     // Loop trough connected accounts
     for (const account of loginData.accounts) {
       var ID = `${account.id}`;
-      var accountType = account.typeCompte; // E = student | 1 = parent
+      var accountType = account.typeCompte == "E" ? "E" : "P"; // E = student | 1 = parent
       var firstName = capitalizeWords(account.prenom);
       var lastName = account.nom;
       var gender;
@@ -86,6 +91,7 @@ class AppData {
         let photoURL = account.profile.photo;
 
         connectedAccounts[ID] = {
+          "connectionToken": token,
           "accountType": accountType,
           "firstName": firstName,
           "lastName": lastName,
@@ -120,6 +126,7 @@ class AppData {
         }
 
         connectedAccounts[ID] = {
+          "connectionToken": token,
           "accountType": accountType,
           "firstName": firstName,
           "lastName": lastName,
@@ -132,39 +139,124 @@ class AppData {
     // Save data
     AsyncStorage.setItem("accounts", JSON.stringify(connectedAccounts));
   }
-  static async saveSelectedAccount(accountID) {
-    await AsyncStorage.setItem("selectedAccount", `${accountID}`);
+  // One for most users, needed for ones with more than one account connected
+  static async saveSelectedAccount(accountID) { await AsyncStorage.setItem("selectedAccount", `${accountID}`); }
+  // Refresh token
+  static async refreshLogin() {
+    const credentials = JSON.parse(await AsyncStorage.getItem("credentials"));
+    const status = await this.login(credentials.username, credentials.password);
+    return status == 1;
   }
-  
-  
+
+  // Util functions //
+
+  // One for most users, needed for ones with more than one account connected
+  static async getSelectedAccount() { return await AsyncStorage.getItem("selectedAccount"); }
+  // Get the main account
+  static async getMainAccount() {
+    const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
+    const selectedAccount = await this.getSelectedAccount();
+    return accounts[selectedAccount];
+  }
+  // Get specific account, used for children on parent accounts
+  static async getSpecificAccount(accountID) {
+    const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
+    
+    // For student accounts
+    if (accountID in accounts) { return accounts[accountID]; }
+    
+    // For parent accounts
+    for (const account in accounts) {
+      if (accountID in account.children) { return account.children[account]; }
+    }
+  }
+  // Get main account of any account, used to get login tokens from children accounts
+  static async getMainAccountOfAnyAccount(accountID) {
+    const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
+
+    // For student accounts
+    if (accountID in accounts) { return accounts[accountID]; }
+
+    // For parent accounts
+    for (const account in accounts) {
+      if (accountID in account.children) { return account; }
+    }
+  }
+
+
+  // Marks functions //
+
+  // Get marks
+  static async getMarks(accountID) {
+    // Get login token
+    const mainAccount = await this.getMainAccountOfAnyAccount(accountID);
+    const token = mainAccount.connectionToken;
+
+    var response = await axios.post(
+      `${this.USED_URL}/v3/eleves/${accountID}/notes.awp?verbe=get&v=4`,
+      'data={"anneeScolaire": ""}',
+      { headers: { "Content-Type": "text/plain", "X-Token": token } },
+    ).catch(error => {
+      console.warn(`An error occured while getting marks : ${error}`);
+    });
+    response ??= { status: 500 };
+    
+    var status = 0; // 1 = success | 0 = outdated token, re-login failed | -1 = error
+    switch (response.status) {
+      case 200:
+        console.log("API request successful");
+        switch (response.data.code) {
+          case 200:
+            console.log(`Got marks for account ${accountID} !`);
+            await this.updateToken(accountID, response.data.token);
+            await this.saveMarks(accountID, response.data.data);
+            status = 1;
+          case 520: // Outdated token
+            console.log("Outdated token, reconnecting...");
+            const reloginSuccessful = await this.refreshLogin();
+            if (reloginSuccessful) { return await this.getMarks(accountID); }
+            return 0;
+          default:
+            console.warn(`API responded with unknown code ${response.data.code}`);
+            return -1;
+        }
+      default:
+        console.warn("API request failed");
+        return -1;
+    }
+  }
+  // Update login token
+  static async updateToken(accountID, newToken) {
+    const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
+
+    // For student accounts
+    if (accountID in accounts) {
+      accounts[accountID].connectionToken = newToken;
+      await AsyncStorage.setItem("accounts", JSON.stringify(accounts));
+      return;
+    }
+
+    // For parent accounts
+    for (const account in accounts) {
+      if (accountID in account.children) {
+        account.connectionToken = newToken;
+        await AsyncStorage.setItem("accounts", JSON.stringify(accounts));
+        return;
+      }
+    }
+  }
+  // Save marks data to cache
+  static async saveMarks(accountID, marks) {
+    // TODO
+  }
+
+
+
   
   
   
   // Preferences
   static vibrate = true;
-  
-  
-  
-  // Transform data into savable cache
-  static getCachedData() {
-    return {
-      "accountID": 1662
-    }
-  }
-  
-  // Save cache
-  static async saveCache() {
-    AsyncStorage.setItem("cache", JSON.stringify(this.getCachedData()));
-  }
-
-  // Load cache
-  static async loadCache() {
-    AsyncStorage.getItem("cache").then(cacheData => {
-      if (cacheData) {
-        const data = JSON.parse(cacheData);
-      }
-    });
-  }
 }
 
 export default AppData;

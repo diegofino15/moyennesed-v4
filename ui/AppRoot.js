@@ -5,7 +5,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import AuthStack from "./AuthStack/AuthStack";
 import AppStack from "./AppStack/AppStack";
-import AppData from "../core/AppData";
 import { AppContextProvider } from "../util/AppContext";
 import { useFonts, initTheme } from "../util/Styles";
 
@@ -31,10 +30,7 @@ function AppRoot({ closeSplashScreen }) {
 
     // Check if logged-in
     const credentials = await AsyncStorage.getItem("credentials");
-    if (credentials) {
-      await AppData.loadCache();
-      // setIsLoggedIn(true);
-    }
+    if (credentials) { setIsLoggedIn(true); }
 
     // Finish loading app
     setIsLoaded(true);

@@ -4,8 +4,8 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
@@ -27,11 +27,14 @@
     "expo-linear-gradient": "^12.7.1",
     "expo-splash-screen": "^0.26.4",
     "expo-status-bar": "~1.11.1",
+    "expo-system-ui": "^2.9.3",
     "lottie-react-native": "^6.5.1",
     "lucide-react-native": "^0.316.0",
     "react": "18.2.0",
     "react-native": "0.73.2",
     "react-native-gesture-handler": "^2.14.1",
+    "react-native-ios-context-menu": "^2.3.0",
+    "react-native-ios-utilities": "^4.2.3",
     "react-native-paper": "^5.12.3",
     "react-native-pressable-scale": "^2.1.0",
     "react-native-reanimated": "^3.6.2",
