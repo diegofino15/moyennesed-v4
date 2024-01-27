@@ -71,6 +71,12 @@ class AppData {
 
     return status;
   }
+  // Refresh token
+  static async refreshLogin() {
+    const credentials = JSON.parse(await AsyncStorage.getItem("credentials"));
+    const status = await this.login(credentials.username, credentials.password);
+    return status == 1;
+  }
   // Save all data from ÉcoleDirecte to cache
   static saveConnectedAccounts(loginData, token) {
     var connectedAccounts = {};
@@ -141,12 +147,6 @@ class AppData {
   }
   // One for most users, needed for ones with more than one account connected
   static async saveSelectedAccount(accountID) { await AsyncStorage.setItem("selectedAccount", `${accountID}`); }
-  // Refresh token
-  static async refreshLogin() {
-    const credentials = JSON.parse(await AsyncStorage.getItem("credentials"));
-    const status = await this.login(credentials.username, credentials.password);
-    return status == 1;
-  }
 
   // Util functions //
 
@@ -215,15 +215,17 @@ class AppData {
             console.log("Outdated token, reconnecting...");
             const reloginSuccessful = await this.refreshLogin();
             if (reloginSuccessful) { return await this.getMarks(accountID); }
-            return 0;
+            status = 0;
           default:
             console.warn(`API responded with unknown code ${response.data.code}`);
-            return -1;
+            status = -1;
         }
       default:
         console.warn("API request failed");
-        return -1;
+        status = -1;
     }
+    
+    return status;
   }
   // Update login token
   static async updateToken(accountID, newToken) {
