@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import { View, TextInput, Dimensions } from 'react-native';
 import { DefaultTheme } from 'react-native-paper';
+import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
+import { PressableScale } from 'react-native-pressable-scale';
 
 
 // Custom text input
@@ -12,6 +15,8 @@ function CustomTextInput({
   style,
   controller,
 }) {
+  const [showContent, setShowContent] = useState(!secureTextEntry);
+
   return (
     <View style={[{
       backgroundColor: DefaultTheme.colors.surface,
@@ -35,12 +40,20 @@ function CustomTextInput({
         }}
         placeholder={label}
         onChangeText={onChangeText}
-        secureTextEntry={secureTextEntry}
+        secureTextEntry={!showContent}
         placeholderTextColor={labelColor ? labelColor : DefaultTheme.colors.onSurfaceDisabled}
         autoCapitalize='none'
         autoCorrect={false}
         ref={controller}
       />
+      {secureTextEntry && (
+        <PressableScale onPress={() => setShowContent(!showContent)} style={{
+          position: 'absolute',
+          right: 15,
+        }}>
+          {showContent ? <EyeIcon size={20} color={DefaultTheme.colors.onSurface} /> : <EyeOffIcon size={20} color={DefaultTheme.colors.onSurface} />}
+        </PressableScale>
+      )}
     </View>
   );
 }

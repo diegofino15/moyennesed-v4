@@ -52,7 +52,7 @@ function MarksOverview({
         justifyContent: 'space-between',
         alignItems: 'center',
       }}>
-        <Text style={DefaultTheme.fonts.bodyMedium}>{gotMarks ? "À jour" : gettingMarks ? "Chargement..." : "Pas à jour"}</Text>
+        <Text style={DefaultTheme.fonts.bodyMedium}>{gotMarks ? "À jour" : gettingMarks ? "Chargement..." : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
         <ContextMenuButton menuConfig={{
           menuTitle: 'Choisissez une période',
           menuItems: Object.values(periods).map((period) => {

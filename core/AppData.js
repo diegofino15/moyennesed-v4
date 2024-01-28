@@ -44,7 +44,6 @@ class AppData {
         console.log("API request successful");
         switch (response.data.code) {
           case 200:
-            console.log("Login successful !");
             await this.saveConnectedAccounts(response.data.data, response.data.token);
             status = 1;
             if (response.data.data.accounts.length != 1) { status = 2; }
@@ -53,6 +52,7 @@ class AppData {
               "username": username,
               "password": password,
             }));
+            console.log("Login successful !");
             break;
           case 505: // Wrong password
             console.log(`Couldn't connect, wrong password for ${username}`);
@@ -220,10 +220,9 @@ class AppData {
         console.log("API request successful");
         switch (response.data.code) {
           case 200:
-            console.log(`Got marks for account ${accountID} !`);
             await this.updateToken(accountID, response.data.token);
-            await this.saveMarks(accountID, response.data.data);
-            status = 1;
+            status = await this.saveMarks(accountID, response.data.data);
+            console.log(`Got marks for account ${accountID} ! (status ${status})`);
             break;
           case 520: // Outdated token
             console.log("Outdated token, reconnecting...");
@@ -269,6 +268,9 @@ class AppData {
   // Save marks data to cache
   static async saveMarks(accountID, marks) {
     var periods = {};
+
+    // Problem with ÉcoleDirecte
+    if (!marks.periodes || !marks.notes) { return 0; }
 
     // Create period objects
     const possiblePeriodCodes = ["A001", "A002", "A003"];
@@ -416,6 +418,8 @@ class AppData {
 
     // Calculate averages
     await this.refreshAverages(accountID);
+
+    return 1;
   }
   // Calculate all averages
   static async refreshAverages(accountID) {
