@@ -2288,6 +2288,16 @@ aggregate-error@^3.0.0:
     clean-stack "^2.0.0"
     indent-string "^4.0.0"
 
+ajv@8.11.0:
+  version "8.11.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.11.0.tgz#977e91dd96ca669f54a11e23e378e33b884a565f"
+  integrity sha512-wGgprdCvMalC0BztXvitD2hC04YffAvtsUn93JbGXYLAtCUO4xd17mCCZQxUOItiBwZvJScWo8NIvQMQ71rdpg==
+  dependencies:
+    fast-deep-equal "^3.1.1"
+    json-schema-traverse "^1.0.0"
+    require-from-string "^2.0.2"
+    uri-js "^4.2.2"
+
 ajv@^8.11.0:
   version "8.12.0"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.12.0.tgz#d1a0527323e22f53562c567c00991577dfbe19d1"
@@ -3410,6 +3420,49 @@ expo-constants@~15.4.0:
   dependencies:
     "@expo/config" "~8.5.0"
 
+expo-dev-client@^3.3.7:
+  version "3.3.7"
+  resolved "https://registry.yarnpkg.com/expo-dev-client/-/expo-dev-client-3.3.7.tgz#3d1fab382d5fb0d7670025e6d05ff3ec9cccd2c9"
+  integrity sha512-dsucMzezNuP7zxSxYi1EbIA16j491tD9joUlGlpvBW1IylxUmbPraOqUqdXsDxRIAJh5HgJx/8X03Xoo1j7YKw==
+  dependencies:
+    expo-dev-launcher "3.6.4"
+    expo-dev-menu "4.5.5"
+    expo-dev-menu-interface "1.7.2"
+    expo-manifests "~0.13.0"
+    expo-updates-interface "~0.15.1"
+
+expo-dev-launcher@3.6.4:
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/expo-dev-launcher/-/expo-dev-launcher-3.6.4.tgz#d8b980b7faff8176e83685211871ffa1acdd8d35"
+  integrity sha512-i5NGm2QeVl7ePk9nyvW1hAEg29FRMltNNEkRiK/AF77ObrD0YG/FhhidQL8C/SIIm/3RcsjAiw4buF5QRoieKg==
+  dependencies:
+    ajv "8.11.0"
+    expo-dev-menu "4.5.4"
+    expo-manifests "~0.13.0"
+    resolve-from "^5.0.0"
+    semver "^7.5.3"
+
+expo-dev-menu-interface@1.7.2:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/expo-dev-menu-interface/-/expo-dev-menu-interface-1.7.2.tgz#772fb97c6b0a44c27965cdfcfa078f316b0930ca"
+  integrity sha512-V/geSB9rW0IPTR+d7E5CcvkV0uVUCE7SMHZqE/J0/dH06Wo8AahB16fimXeh5/hTL2Qztq8CQ41xpFUBoA9TEw==
+
+expo-dev-menu@4.5.4:
+  version "4.5.4"
+  resolved "https://registry.yarnpkg.com/expo-dev-menu/-/expo-dev-menu-4.5.4.tgz#e529d5f1e1615acfb7c750077eef620feded45b0"
+  integrity sha512-TLCfXKI7r5PJpMKUcslKz9J7tChdYdm6DmOEYwFQC3OLcegXzCT/H92WfTdVXU+xz5XYTcyvnIZQa7/d2Ig90g==
+  dependencies:
+    expo-dev-menu-interface "1.7.2"
+    semver "^7.5.3"
+
+expo-dev-menu@4.5.5:
+  version "4.5.5"
+  resolved "https://registry.yarnpkg.com/expo-dev-menu/-/expo-dev-menu-4.5.5.tgz#c010b158f448c2544bc1ba00486e6eaeaeab0114"
+  integrity sha512-PcbI/SqAvueOIEtR1O0s+WvVD7yizQSqXisDSkBrTym3u8XZSN+K730kz2Z64ukY9YIPG4qWR4sd+9rcjsbMWw==
+  dependencies:
+    expo-dev-menu-interface "1.7.2"
+    semver "^7.5.3"
+
 expo-file-system@~16.0.0, expo-file-system@~16.0.5:
   version "16.0.5"
   resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-16.0.5.tgz#7ade3b1295d47a38a2236c5b121069d1bf27a526"
@@ -3427,6 +3480,11 @@ expo-haptics@^12.8.1:
   resolved "https://registry.yarnpkg.com/expo-haptics/-/expo-haptics-12.8.1.tgz#42b996763be33d661bd33bbc3b3958c3f2734b9d"
   integrity sha512-ntLsHkfle8K8w9MW8pZEw92ZN3sguaGUSSIxv30fPKNeQFu7Cq/h47Qv3tONv2MO3wU48N9FbKnant6XlfptpA==
 
+expo-json-utils@~0.12.0:
+  version "0.12.3"
+  resolved "https://registry.yarnpkg.com/expo-json-utils/-/expo-json-utils-0.12.3.tgz#cabb704a344d6d75f225cf4032c64479e442a2a9"
+  integrity sha512-4pypQdinpNc6XY9wsZk56njvzDh+B/9mISr7FPP3CVk1QGB1nSLh883/BCDSgnsephATZkC5HG+cdE60kCAR6A==
+
 expo-keep-awake@~12.8.2:
   version "12.8.2"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-12.8.2.tgz#6cfdf8ad02b5fa130f99d4a1eb98e459d5b4332e"
@@ -3436,6 +3494,14 @@ expo-linear-gradient@^12.7.1:
   version "12.7.1"
   resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-12.7.1.tgz#bd4f29826bcf8009efce1cad7752baa1bb892896"
   integrity sha512-2obkeC1hyOlljCpTbO3xS4WkEEYA9UtgDO486H+8wYYl1qf6C05d+LgWEVMD7B7CKI3xG/g5chPr9T0BLMSY4w==
+
+expo-manifests@~0.13.0:
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/expo-manifests/-/expo-manifests-0.13.2.tgz#02b28bb2fb002ef93a03faf1ede9ecaa43e5d6c0"
+  integrity sha512-l0Sia1WmLULx8V41K8RzGLsFoTe4qqthPRGpHjItsYn8ZB6lRrdTBM9OYp2McIflgqN1HAimUCQMFIwJyH+UmA==
+  dependencies:
+    "@expo/config" "~8.5.0"
+    expo-json-utils "~0.12.0"
 
 expo-modules-autolinking@1.10.2:
   version "1.10.2"
@@ -3475,6 +3541,11 @@ expo-system-ui@^2.9.3:
   dependencies:
     "@react-native/normalize-color" "^2.0.0"
     debug "^4.3.2"
+
+expo-updates-interface@~0.15.1:
+  version "0.15.3"
+  resolved "https://registry.yarnpkg.com/expo-updates-interface/-/expo-updates-interface-0.15.3.tgz#cdee536dea0a8692833a4d074005bf9c6bbbdd99"
+  integrity sha512-uLvsbaCmUsXgJqeen8rYH/jPr874ZUCXEvWpKHxrCv5/XATPlYEaDuecbNSGQ+cu78i6MdtB4BHOwZmoH2d47A==
 
 expo@~50.0.3:
   version "50.0.4"

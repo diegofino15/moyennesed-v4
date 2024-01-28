@@ -6,10 +6,6 @@ import { capitalizeWords } from "../util/Utils";
 
 // This class contains the data used inside cache troughout the app
 class AppData {
-  // Used to update screens
-  static loginUpdateCount = 0;
-  static marksUpdateCount = 0;
-
   // Base URLs
   static API_URL = "https://api.ecoledirecte.com";
   static CUSTOM_API_URL = "https://api.moyennesed.my.to/test-api";
@@ -49,7 +45,7 @@ class AppData {
         switch (response.data.code) {
           case 200:
             console.log("Login successful !");
-            this.saveConnectedAccounts(response.data.data, response.data.token);
+            await this.saveConnectedAccounts(response.data.data, response.data.token);
             status = 1;
             if (response.data.data.accounts.length != 1) { status = 2; }
             else { await this.saveSelectedAccount(response.data.data.accounts[0].id); }
@@ -57,7 +53,6 @@ class AppData {
               "username": username,
               "password": password,
             }));
-            this.loginUpdateCount += 1;
             break;
           case 505: // Wrong password
             console.log(`Couldn't connect, wrong password for ${username}`);
@@ -83,7 +78,7 @@ class AppData {
     return status == 1;
   }
   // Save all data from ÉcoleDirecte to cache
-  static saveConnectedAccounts(loginData, token) {
+  static async saveConnectedAccounts(loginData, token) {
     var connectedAccounts = {};
 
     // Loop trough connected accounts
@@ -102,6 +97,7 @@ class AppData {
         let photoURL = account.profile.photo;
 
         connectedAccounts[ID] = {
+          "id": ID,
           "connectionToken": token,
           "accountType": accountType,
           "firstName": firstName,
@@ -127,6 +123,7 @@ class AppData {
           let childPhotoURL = childAccount.photo;
 
           children[childID] = {
+            "id": childID,
             "firstName": childFirstName,
             "lastName": childLastName,
             "gender": childGender,
@@ -137,6 +134,7 @@ class AppData {
         }
 
         connectedAccounts[ID] = {
+          "id": ID,
           "connectionToken": token,
           "accountType": accountType,
           "firstName": firstName,
@@ -148,7 +146,7 @@ class AppData {
     }
 
     // Save data
-    AsyncStorage.setItem("accounts", JSON.stringify(connectedAccounts));
+    await AsyncStorage.setItem("accounts", JSON.stringify(connectedAccounts));
   }
   // One for most users, needed for ones with more than one account connected
   static async saveSelectedAccount(accountID) { await AsyncStorage.setItem("selectedAccount", `${accountID}`); }
@@ -171,7 +169,8 @@ class AppData {
     if (accountID in accounts) { return accounts[accountID]; }
     
     // For parent accounts
-    for (const account in accounts) {
+    for (const account_ in accounts) {
+      const account = accounts[account_];
       if (account.accountType == "P") {
         if (accountID in account.children) { return account.children[account]; }
       }
@@ -185,12 +184,16 @@ class AppData {
     if (accountID in accounts) { return accounts[accountID]; }
 
     // For parent accounts
-    for (const account in accounts) {
+    for (const account_ in accounts) {
+      const account = accounts[account_];
       if (account.accountType == "P") {
         if (accountID in account.children) { return account; }
       }
     }
   }
+  // Child account
+  static async setSelectedChildAccount(accountID) { await AsyncStorage.setItem("selectedChildAccount", `${accountID}`); }
+  static async getSelectedChildAccount() { return await AsyncStorage.getItem("selectedChildAccount"); }
 
 
   // Marks functions //
@@ -221,7 +224,6 @@ class AppData {
             await this.updateToken(accountID, response.data.token);
             await this.saveMarks(accountID, response.data.data);
             status = 1;
-            this.marksUpdateCount += 1;
             break;
           case 520: // Outdated token
             console.log("Outdated token, reconnecting...");
@@ -255,7 +257,8 @@ class AppData {
     }
 
     // For parent accounts
-    for (const account in accounts) {
+    for (const account_ in accounts) {
+      const account = accounts[account_];
       if (accountID in account.children) {
         account.connectionToken = newToken;
         await AsyncStorage.setItem("accounts", JSON.stringify(accounts));
@@ -290,23 +293,25 @@ class AppData {
           let subjectID = subject.codeMatiere;
           let subSubjectID = subject.codeSousMatiere;
           let subjectTitle = subject.discipline;
-          let subjectCoefficient = subject.coef;
+          let subjectCoefficient = parseFloat(subject.coef);
+          if (!subjectCoefficient) { subjectCoefficient = 1; }
           let subjectTeachers = [];
           for (const teacher in subject.professeurs) { subjectTeachers.push(teacher.nom); }
 
           if (subSubjectID) {
+            let finalSubject = {
+              "title": subjectTitle,
+              "coefficient": subjectCoefficient,
+              "id": subjectID,
+              "subID": subSubjectID,
+              "isSub": true,
+              "marks": [],
+              "teachers": subjectTeachers,
+            };
             // Find parent subject
             if (subjectID in periodSubjects) {
               let parentSubject = periodSubjects[subjectID];
-              parentSubject.subSubjects[subSubjectID] = {
-                "title": subjectTitle,
-                "coefficient": subjectCoefficient,
-                "id": subjectID,
-                "subID": subSubjectID,
-                "isSub": true,
-                "marks": [],
-                "teachers": subjectTeachers,
-              };
+              parentSubject.subSubjects[subSubjectID] = finalSubject;
             } else {
               periodSubjects[subjectID] = {
                 "title": subjectID,
@@ -317,15 +322,7 @@ class AppData {
                 "subSubjects": {},
                 "teachers": subjectTeachers,
               };
-              periodSubjects[subjectID].subSubjects[subSubjectID] = {
-                "title": subjectTitle,
-                "coefficient": subjectCoefficient,
-                "id": subjectID,
-                "subID": subSubjectID,
-                "isSub": true,
-                "marks": [],
-                "teachers": subjectTeachers,
-              };
+              periodSubjects[subjectID].subSubjects[subSubjectID] = finalSubject;
             }
           } else {
             let subjectSubjectGroupID = subject.idGroupeMatiere;
@@ -369,14 +366,15 @@ class AppData {
       let subjectID = mark.codeMatiere;
       let subSubjectID = mark.codeSousMatiere;
 
-      let isMarkEffective = mark.enLettre || mark.nonSignificatif;
+      let isMarkEffective = !(mark.enLettre || mark.nonSignificatif);
       let markValueStr = `${mark.valeur}`;
       let markClassValue = parseFloat(mark.moyenneClasse);
       let markValue = parseFloat(mark.valeur);
       let markValueOn = parseFloat(mark.noteSur);
 
       let markDate = mark.dateSaisie;
-      let markCoefficient = mark.coef;
+      let markCoefficient = parseFloat(mark.coef);
+      if (!markCoefficient) { markCoefficient = 1; }
 
       let finalMark = {
         "isEffective": isMarkEffective,
@@ -407,18 +405,20 @@ class AppData {
     }
 
     // Save
-    AsyncStorage.getItem("marks").then(async (data) => {
-      var cacheData = {};
-      if (data) { cacheData = JSON.parse(data); }
-      cacheData[accountID] = periods;
-      await AsyncStorage.setItem("marks", JSON.stringify(cacheData));
-    });
+    var cacheData = {};
+    const data = await AsyncStorage.getItem("marks");
+    if (data) { cacheData = JSON.parse(data); }
+    cacheData[accountID] = {
+      "data": periods,
+      "date": Date.now(),
+    };
+    await AsyncStorage.setItem("marks", JSON.stringify(cacheData));
 
-    // Calculate data
-    await this.calculateAverages(accountID);
+    // Calculate averages
+    await this.refreshAverages(accountID);
   }
   // Calculate all averages
-  static async calculateAverages(accountID) {
+  static async refreshAverages(accountID) {
     function calculateSubjectAverage(subject, sumOfMarks=0, coefOfMarks=0, sumOfClassMarks=0, coefOfClassMarks=0) {
       subject.marks.forEach(mark => {
         if (mark.isEffective) {
@@ -491,7 +491,7 @@ class AppData {
     const data = await AsyncStorage.getItem("marks");
     if (data) { cacheData = JSON.parse(data); }
     if (accountID in cacheData) {
-      Object.values(cacheData[accountID]).forEach(period => {
+      Object.values(cacheData[accountID].data).forEach(period => {
         calculatePeriodAverage(period);
       })
       await AsyncStorage.setItem("marks", JSON.stringify(cacheData));

@@ -1,27 +1,33 @@
 import { useEffect } from "react";
-import { View, Text, SafeAreaView, Dimensions, ScrollView } from "react-native";
+import { View, Text, SafeAreaView, Dimensions, ScrollView, RefreshControl } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import useState from "react-usestateref";
 
+import EmbeddedMarksPage from "./Marks/EmbeddedMarksPage";
 import WelcomeMessage from "../components/WelcomeMessage";
 import ProfilePhoto from "../components/ProfilePhoto";
+import HapticsHandler from "../../core/HapticsHandler";
 import AppData from "../../core/AppData";
-import EmbeddedMarksPage from "./Marks/EmbeddedMarksPage";
+
 
 
 // Main page
 function MainPage({ navigation }) {
-  // Connected account
+  // Only for profile photo
   const [selectedAccount, setSelectedAccount, selectedAccountRef] = useState(null);
-  const [account, setAccount] = useState({});
+  
+  // Connected main account (parent / student)
+  const [account, setAccount] = useState({ "accountType": "E" });
   useEffect(() => {
     async function setup() {
       setSelectedAccount(await AppData.getSelectedAccount());
       setAccount(await AppData.getMainAccount());
-      AppData.getMarks(selectedAccountRef.current);
     }
     setup();
   }, []);
+
+  // Manual refresh
+  const [manualRefreshing, setManualRefreshing] = useState(false);
   
   return (
     <ScrollView
@@ -29,11 +35,18 @@ function MainPage({ navigation }) {
       showsVerticalScrollIndicator={false}
       contentInsetAdjustmentBehavior="automatic"
       style={{
-      width: '100%',
-      height: '100%',
-      backgroundColor: '#0B0A0C',
-      paddingHorizontal: 20,
-    }}>
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#0B0A0C',
+        paddingHorizontal: 20,
+      }}
+      refreshControl={
+        <RefreshControl refreshing={manualRefreshing} onRefresh={() => {
+          setManualRefreshing(true);
+          HapticsHandler.vibrate("light");
+        }} tintColor={DefaultTheme.colors.onBackground}/>
+      }
+    >
       <SafeAreaView>
         {/* Header */}
         <View style={{
@@ -50,7 +63,11 @@ function MainPage({ navigation }) {
         </View>
 
         {/* Marks overview */}
-        <EmbeddedMarksPage/>
+        <EmbeddedMarksPage
+          mainAccount={account}
+          manualRefreshing={manualRefreshing}
+          setManualRefreshing={setManualRefreshing}
+        />
 
       </SafeAreaView>
     </ScrollView>

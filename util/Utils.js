@@ -15,7 +15,7 @@ async function wait(ms) {
 }
 
 function capitalizeWords(phrase) {
-  return phrase.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+  return phrase.split(" ").map(word => word.charAt(0).toUpperCase() + word.toLowerCase().slice(1)).join(" ");
 }
 
 
