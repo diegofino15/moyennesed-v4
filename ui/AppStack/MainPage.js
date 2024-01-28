@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { View, Text, SafeAreaView, Dimensions, ScrollView } from "react-native";
 import { DefaultTheme } from "react-native-paper";
+import useState from "react-usestateref";
 
 import WelcomeMessage from "../components/WelcomeMessage";
 import ProfilePhoto from "../components/ProfilePhoto";
@@ -11,11 +12,15 @@ import EmbeddedMarksPage from "./Marks/EmbeddedMarksPage";
 // Main page
 function MainPage({ navigation }) {
   // Connected account
-  const [selectedAccount, setSelectedAccount] = useState(null);
+  const [selectedAccount, setSelectedAccount, selectedAccountRef] = useState(null);
   const [account, setAccount] = useState({});
   useEffect(() => {
-    AppData.getSelectedAccount().then(value => setSelectedAccount(value));
-    AppData.getMainAccount().then(value => setAccount(value));
+    async function setup() {
+      setSelectedAccount(await AppData.getSelectedAccount());
+      setAccount(await AppData.getMainAccount());
+      AppData.getMarks(selectedAccountRef.current);
+    }
+    setup();
   }, []);
   
   return (

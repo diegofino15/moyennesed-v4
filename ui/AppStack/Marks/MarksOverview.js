@@ -1,31 +1,34 @@
+import { useEffect } from "react";
 import { View, Text } from "react-native";
 import { ContextMenuButton } from "react-native-ios-context-menu";
 import { DefaultTheme } from "react-native-paper";
+import AppData from "../../../core/AppData";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import useState from "react-usestateref";
 
 
 // Marks overview
 function MarksOverview({ selectedPeriod, setSelectedPeriod }) {
-  const periods = {
-    "A001": {
-      "code": "A001",
-      "title": "1er Trimestre",
-      "start": "2022-01-01",
-      "end": "2022-03-31",
-    },
-    "A002": {
-      "code": "A002",
-      "title": "2e Trimestre",
-      "start": "2022-04-01",
-      "end": "2022-06-30",
-    },
-    "A003": {
-      "code": "A003",
-      "title": "3e Trimestre",
-      "start": "2022-07-01",
-      "end": "2022-09-30",
-    },
-  };
+  const [periods, setPeriods, periodsRef] = useState({});
+  useEffect(() => {
+    AsyncStorage.getItem("marks").then(async (data) => {
+      const cacheData = JSON.parse(data);
+      const selectedAccount = await AppData.getSelectedAccount();
+      if (selectedAccount in cacheData) {
+        setPeriods(cacheData[selectedAccount]);
 
+        // Choose period that isn't finished
+        if (!selectedPeriod) {
+          let shownPeriod = 0;
+          Object.values(periodsRef.current).forEach(period => {
+            if (period.isFinished) { shownPeriod += 1; }
+          })
+          if (shownPeriod == Object.keys(periodsRef.current).length) { shownPeriod -= 1; }
+          setSelectedPeriod(Object.keys(periodsRef.current)[shownPeriod]);
+        }
+      }
+    });
+  }, [AppData.marksUpdateCount]);
 
   return (
     <View style={{
@@ -43,7 +46,7 @@ function MarksOverview({ selectedPeriod, setSelectedPeriod }) {
           menuTitle: 'Choisissez une période',
           menuItems: Object.values(periods).map((period) => {
             return {
-              actionKey: period.code,
+              actionKey: period.id,
               actionTitle: period.title,
             };
           }),
@@ -53,6 +56,7 @@ function MarksOverview({ selectedPeriod, setSelectedPeriod }) {
           <Text style={{ fontSize: 14, color: DefaultTheme.colors.primary }}>{selectedPeriod ? periods[selectedPeriod].title : "Chargement..."}</Text>
         </ContextMenuButton>
       </View>
+      <Text style={DefaultTheme.fonts.headlineLarge}>{periods[selectedPeriod].average ? periods[selectedPeriod].average : "--"}</Text>
       <View style={{ height: 300 }}/>
     </View>
   );

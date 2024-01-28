@@ -1,4 +1,4 @@
-package me.diegof.moyennesed
+package me.diegof.moyennesed.dev
 
 import android.os.Build
 import android.os.Bundle

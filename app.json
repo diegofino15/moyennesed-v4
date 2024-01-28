@@ -16,7 +16,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "me.diegof.moyennesed",
+      "bundleIdentifier": "me.diegof.moyennesed.dev",
       "buildNumber": "1"
     },
     "android": {
@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "me.diegof.moyennesed",
+      "package": "me.diegof.moyennesed.dev",
       "versionCode": 19
     },
     "plugins": [

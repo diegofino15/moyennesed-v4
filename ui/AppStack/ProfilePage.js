@@ -18,7 +18,7 @@ function ProfilePage({ navigation }) {
       "credentials",
       "selectedAccount",
       "photos",
-      "cache",
+      "marks",
     ]);
     navigation.pop();
     appContext.setIsLoggedIn(false);

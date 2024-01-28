@@ -6,6 +6,10 @@ import { capitalizeWords } from "../util/Utils";
 
 // This class contains the data used inside cache troughout the app
 class AppData {
+  // Used to update screens
+  static loginUpdateCount = 0;
+  static marksUpdateCount = 0;
+
   // Base URLs
   static API_URL = "https://api.ecoledirecte.com";
   static CUSTOM_API_URL = "https://api.moyennesed.my.to/test-api";
@@ -53,6 +57,7 @@ class AppData {
               "username": username,
               "password": password,
             }));
+            this.loginUpdateCount += 1;
             break;
           case 505: // Wrong password
             console.log(`Couldn't connect, wrong password for ${username}`);
@@ -167,7 +172,9 @@ class AppData {
     
     // For parent accounts
     for (const account in accounts) {
-      if (accountID in account.children) { return account.children[account]; }
+      if (account.accountType == "P") {
+        if (accountID in account.children) { return account.children[account]; }
+      }
     }
   }
   // Get main account of any account, used to get login tokens from children accounts
@@ -179,7 +186,9 @@ class AppData {
 
     // For parent accounts
     for (const account in accounts) {
-      if (accountID in account.children) { return account; }
+      if (account.accountType == "P") {
+        if (accountID in account.children) { return account; }
+      }
     }
   }
 
@@ -192,6 +201,7 @@ class AppData {
     const mainAccount = await this.getMainAccountOfAnyAccount(accountID);
     const token = mainAccount.connectionToken;
 
+    console.log(`Getting marks for account ${accountID}...`);
     var response = await axios.post(
       `${this.USED_URL}/v3/eleves/${accountID}/notes.awp?verbe=get&v=4`,
       'data={"anneeScolaire": ""}',
@@ -211,18 +221,24 @@ class AppData {
             await this.updateToken(accountID, response.data.token);
             await this.saveMarks(accountID, response.data.data);
             status = 1;
+            this.marksUpdateCount += 1;
+            break;
           case 520: // Outdated token
             console.log("Outdated token, reconnecting...");
             const reloginSuccessful = await this.refreshLogin();
             if (reloginSuccessful) { return await this.getMarks(accountID); }
             status = 0;
+            break;
           default:
             console.warn(`API responded with unknown code ${response.data.code}`);
             status = -1;
+            break;
         }
+        break;
       default:
         console.warn("API request failed");
         status = -1;
+        break;
     }
     
     return status;
@@ -249,7 +265,237 @@ class AppData {
   }
   // Save marks data to cache
   static async saveMarks(accountID, marks) {
-    // TODO
+    var periods = {};
+
+    // Create period objects
+    const possiblePeriodCodes = ["A001", "A002", "A003"];
+    for (const period of marks.periodes) {
+      let periodID = period.codePeriode;
+      if (!possiblePeriodCodes.includes(periodID)) { continue; }
+      let periodTitle = period.periode;
+      let isPeriodFinished = period.cloture;
+      let periodSubjects = {};
+      let periodSubjectGroups = {};
+      for (const subject of period.ensembleMatieres.disciplines) {
+        let isSubjectGroup = subject.groupeMatiere;
+        if (isSubjectGroup) {
+          let subjectGroupID = subject.id;
+          let subjectGroupTitle = subject.discipline;
+          let subjectGroupSubjects = [];
+          periodSubjectGroups[subjectGroupID] = {
+            "title": subjectGroupTitle,
+            "subjects": subjectGroupSubjects,
+          };
+        } else {
+          let subjectID = subject.codeMatiere;
+          let subSubjectID = subject.codeSousMatiere;
+          let subjectTitle = subject.discipline;
+          let subjectCoefficient = subject.coef;
+          let subjectTeachers = [];
+          for (const teacher in subject.professeurs) { subjectTeachers.push(teacher.nom); }
+
+          if (subSubjectID) {
+            // Find parent subject
+            if (subjectID in periodSubjects) {
+              let parentSubject = periodSubjects[subjectID];
+              parentSubject.subSubjects[subSubjectID] = {
+                "title": subjectTitle,
+                "coefficient": subjectCoefficient,
+                "id": subjectID,
+                "subID": subSubjectID,
+                "isSub": true,
+                "marks": [],
+                "teachers": subjectTeachers,
+              };
+            } else {
+              periodSubjects[subjectID] = {
+                "title": subjectID,
+                "coefficient": subjectCoefficient,
+                "id": subjectID,
+                "isSub": false,
+                "marks": [],
+                "subSubjects": {},
+                "teachers": subjectTeachers,
+              };
+              periodSubjects[subjectID].subSubjects[subSubjectID] = {
+                "title": subjectTitle,
+                "coefficient": subjectCoefficient,
+                "id": subjectID,
+                "subID": subSubjectID,
+                "isSub": true,
+                "marks": [],
+                "teachers": subjectTeachers,
+              };
+            }
+          } else {
+            let subjectSubjectGroupID = subject.idGroupeMatiere;
+            // Find subject group
+            if (subjectSubjectGroupID in periodSubjectGroups) {
+              periodSubjectGroups[subjectSubjectGroupID].subjects.push(subjectID);
+            } else {
+              periodSubjectGroups[subjectSubjectGroupID] = {
+                "title": subjectSubjectGroupID,
+                "subjects": [subjectID],
+              };
+              periodSubjectGroups[subjectSubjectGroupID].subjects.push(subjectID);
+            }
+            
+            periodSubjects[subjectID] = {
+              "title": subjectTitle,
+              "coefficient": subjectCoefficient,
+              "id": subjectID,
+              "isSub": false,
+              "marks": [],
+              "subjectGroupID": subjectSubjectGroupID,
+              "teachers": subjectTeachers,
+              "subSubjects": {},
+            };
+          }
+        }
+      }
+      periods[periodID] = {
+        "id": periodID,
+        "title": periodTitle,
+        "isFinished": isPeriodFinished,
+        "subjects": periodSubjects,
+        "subjectGroups": periodSubjectGroups,
+        "marks": [],
+      };
+    }
+
+    // Add marks
+    for (const mark of marks.notes) {
+      let periodID = mark.codePeriode;
+      let subjectID = mark.codeMatiere;
+      let subSubjectID = mark.codeSousMatiere;
+
+      let isMarkEffective = mark.enLettre || mark.nonSignificatif;
+      let markValueStr = `${mark.valeur}`;
+      let markClassValue = parseFloat(mark.moyenneClasse);
+      let markValue = parseFloat(mark.valeur);
+      let markValueOn = parseFloat(mark.noteSur);
+
+      let markDate = mark.dateSaisie;
+      let markCoefficient = mark.coef;
+
+      let finalMark = {
+        "isEffective": isMarkEffective,
+        "valueStr": markValueStr,
+        "classValue": markClassValue,
+        "value": markValue,
+        "valueOn": markValueOn,
+        "date": markDate,
+        "periodID": periodID,
+        "subjectID": subjectID,
+        "subSubjectID": subSubjectID,
+        "coefficient": markCoefficient,
+      };
+
+      if (subSubjectID) {
+        // Find parent subject
+        if (subjectID in periods[periodID].subjects) {
+          let parentSubject = periods[periodID].subjects[subjectID];
+          parentSubject.subSubjects[subSubjectID].marks.push(finalMark);
+        }
+      }
+      if (subjectID in periods[periodID].subjects) {
+        let subject = periods[periodID].subjects[subjectID];
+        subject.marks.push(finalMark);
+      }
+
+      periods[periodID].marks.push(finalMark);
+    }
+
+    // Save
+    AsyncStorage.getItem("marks").then(async (data) => {
+      var cacheData = {};
+      if (data) { cacheData = JSON.parse(data); }
+      cacheData[accountID] = periods;
+      await AsyncStorage.setItem("marks", JSON.stringify(cacheData));
+    });
+
+    // Calculate data
+    await this.calculateAverages(accountID);
+  }
+  // Calculate all averages
+  static async calculateAverages(accountID) {
+    function calculateSubjectAverage(subject, sumOfMarks=0, coefOfMarks=0, sumOfClassMarks=0, coefOfClassMarks=0) {
+      subject.marks.forEach(mark => {
+        if (mark.isEffective) {
+          if (mark.value) {
+            sumOfMarks += (mark.value / mark.valueOn * 20) * mark.coefficient;
+            coefOfMarks += mark.coefficient;
+          }
+          if (mark.classValue) {
+            sumOfClassMarks += (mark.classValue / mark.valueOn * 20) * mark.coefficient;
+            coefOfClassMarks += mark.coefficient;
+          }
+        }
+      });
+      let subjectAverage = sumOfMarks / coefOfMarks;
+      subject.average = subjectAverage;
+
+      let subjectClassAverage = sumOfClassMarks / coefOfClassMarks;
+      subject.classAverage = subjectClassAverage;
+    }
+    
+    function calculatePeriodAverage(period) {
+      let sumOfSubjectAverages = 0
+      let coefOfSubjectAverages = 0;
+      let sumOfClassSubjectAverages = 0
+      let coefOfClassSubjectAverages = 0;
+
+      for (const subjectID in period.subjects) {
+        const subject = period.subjects[subjectID];
+
+        let sumOfMarks = 0;
+        let coefOfMarks = 0;
+        let sumOfClassMarks = 0;
+        let coefOfClassMarks = 0;
+        
+        for (const subSubjectID in subject.subSubjects) {
+          const subSubject = subject.subSubjects[subSubjectID];
+          calculateSubjectAverage(subSubject);
+          if (subSubject.average) {
+            sumOfMarks += subSubject.average * subSubject.coefficient;
+            coefOfMarks += subSubject.coefficient;
+          }
+          if (subSubject.classAverage) {
+            sumOfClassMarks += subSubject.classAverage * subSubject.coefficient;
+            coefOfClassMarks += subSubject.coefficient;
+          }
+        }
+
+        // To not count twice marks in subject containing sub subjects
+        if (!sumOfMarks) {
+          calculateSubjectAverage(subject, sumOfMarks, coefOfMarks, sumOfClassMarks, coefOfClassMarks);
+        }
+        
+        if (subject.average) {
+          sumOfSubjectAverages += subject.average * subject.coefficient;
+          coefOfSubjectAverages += subject.coefficient;
+        }
+        if (subject.classAverage) {
+          sumOfClassSubjectAverages += subject.classAverage * subject.coefficient;
+          coefOfClassSubjectAverages += subject.coefficient;
+        }
+      }
+
+      let periodAverage = sumOfSubjectAverages / coefOfSubjectAverages;
+      period.average = periodAverage;
+      let periodClassAverage = sumOfClassSubjectAverages / coefOfClassSubjectAverages;
+      period.classAverage = periodClassAverage;
+    }
+
+    var cacheData = {};
+    const data = await AsyncStorage.getItem("marks");
+    if (data) { cacheData = JSON.parse(data); }
+    if (accountID in cacheData) {
+      Object.values(cacheData[accountID]).forEach(period => {
+        calculatePeriodAverage(period);
+      })
+      await AsyncStorage.setItem("marks", JSON.stringify(cacheData));
+    }
   }
 }
 
