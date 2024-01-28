@@ -258,10 +258,12 @@ class AppData {
     // For parent accounts
     for (const account_ in accounts) {
       const account = accounts[account_];
-      if (accountID in account.children) {
-        account.connectionToken = newToken;
-        await AsyncStorage.setItem("accounts", JSON.stringify(accounts));
-        return;
+      if (account.accountType == "P") {
+        if (accountID in account.children) {
+          account.connectionToken = newToken;
+          await AsyncStorage.setItem("accounts", JSON.stringify(accounts));
+          return;
+        }
       }
     }
   }
