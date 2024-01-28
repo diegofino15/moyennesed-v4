@@ -22,7 +22,6 @@ function InformationPage({ navigation }) {
     getLastTimeUpdatedMarks();
   }, []);
   
-  
   return (
     <View>
       <ScrollView style={{
