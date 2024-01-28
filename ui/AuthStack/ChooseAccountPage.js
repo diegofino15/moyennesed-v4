@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { View, Text, FlatList } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
-import { UserRoundIcon } from "lucide-react-native";
+import { CheckCircleIcon, CircleIcon, UserRoundIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import AppData from "../../core/AppData";
@@ -80,6 +80,17 @@ function ChooseAccountPage({ navigation }) {
           }} onPress={() => setSelectedAccount(index)}>
             <Text style={DefaultTheme.fonts.bodyLarge}>{item.firstName} {item.lastName}</Text>
             <Text style={DefaultTheme.fonts.labelMedium}>{item.accountType == "E" ? "Compte élève" : "Compte parent"}</Text>
+            <View style={{
+              position: 'absolute',
+              right: 10,
+              top: 10,
+            }}>
+              {index === selectedAccount ? (
+                <CheckCircleIcon size={20} color={DefaultTheme.colors.primary}/>
+              ) : (
+                <CircleIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+              )}
+            </View>
           </PressableScale>
         )} style={{
           maxHeight: 280
