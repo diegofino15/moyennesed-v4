@@ -5,6 +5,7 @@ import ChildChooser from "./ChildChooser";
 import AppData from "../../../core/AppData";
 import useState from "react-usestateref";
 import HapticsHandler from "../../../core/HapticsHandler";
+import SubjectsOverview from "./SubjectsOverview";
 
 
 // Embedded mark page
@@ -12,6 +13,7 @@ function EmbeddedMarksPage({
   mainAccount,
   manualRefreshing,
   setManualRefreshing,
+  navigation,
 }) {
   // Update display
   const [displayRefresher, _increment] = useState(0);
@@ -79,7 +81,9 @@ function EmbeddedMarksPage({
         errorGettingMarks={errorGettingMarksForID[showMarksAccount.id]}
         showMarksAccount={showMarksAccount}
         displayRefresher={displayRefresher}
+        navigation={navigation}
       />
+      <SubjectsOverview/>
     </View>
   );
 }

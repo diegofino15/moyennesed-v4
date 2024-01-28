@@ -23,7 +23,7 @@ function ProfilePhoto({ accountID, onPress, size=60 }) {
       }
       getPhoto(accountID, async (newPhoto) => {
         photos[accountID] = {
-          "date": Date.now(),
+          "date": new Date(),
           "photo": newPhoto,
         }
         await AsyncStorage.setItem("photos", JSON.stringify(photos));

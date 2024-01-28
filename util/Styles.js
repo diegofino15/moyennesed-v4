@@ -6,6 +6,7 @@ const useFonts = async () => await loadAsync({
   'Text-Regular': require('../assets/fonts/Poppins-Regular.ttf'),
   'Text-Medium': require('../assets/fonts/Poppins-Medium.ttf'),
   'Text-Bold': require('../assets/fonts/Poppins-Bold.ttf'),
+  'Text-Italic': require('../assets/fonts/Poppins-MediumItalic.ttf'),
   
   'MainTitle': require('../assets/fonts/Playball-Regular.ttf'),
 

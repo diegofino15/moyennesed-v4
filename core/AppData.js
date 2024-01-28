@@ -154,7 +154,14 @@ class AppData {
   // Util functions //
 
   // One for most users, needed for ones with more than one account connected
-  static async getSelectedAccount() { return await AsyncStorage.getItem("selectedAccount"); }
+  static async getSelectedAccount() {
+    var selectedAccount = await AsyncStorage.getItem("selectedAccount");
+    if (selectedAccount) { return selectedAccount; }
+    const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
+    selectedAccount = Object.keys(accounts)[0];
+    await AsyncStorage.setItem("selectedAccount", selectedAccount);
+    return selectedAccount;
+  }
   // Get the main account
   static async getMainAccount() {
     const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
@@ -414,7 +421,7 @@ class AppData {
     if (data) { cacheData = JSON.parse(data); }
     cacheData[accountID] = {
       "data": periods,
-      "date": Date.now(),
+      "date": new Date(),
     };
     await AsyncStorage.setItem("marks", JSON.stringify(cacheData));
 
@@ -501,6 +508,12 @@ class AppData {
         calculatePeriodAverage(period);
       })
       await AsyncStorage.setItem("marks", JSON.stringify(cacheData));
+    }
+  }
+  static async getLastTimeUpdatedMarks(accountID) {
+    const marks = JSON.parse(await AsyncStorage.getItem("marks"));
+    if (marks && accountID in marks) {
+      return marks[accountID].date;
     }
   }
 }

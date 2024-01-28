@@ -67,6 +67,7 @@ function MainPage({ navigation }) {
           mainAccount={account}
           manualRefreshing={manualRefreshing}
           setManualRefreshing={setManualRefreshing}
+          navigation={navigation}
         />
 
       </SafeAreaView>

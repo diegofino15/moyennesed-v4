@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { View, Text } from "react-native";
 import { ContextMenuButton } from "react-native-ios-context-menu";
 import { DefaultTheme } from "react-native-paper";
-import AppData from "../../../core/AppData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
-import { ChevronDownIcon } from "lucide-react-native";
+import { ChevronDownIcon, HelpCircleIcon } from "lucide-react-native";
+import { PressableScale } from "react-native-pressable-scale";
 
 
 // Marks overview
@@ -17,6 +17,7 @@ function MarksOverview({
   errorGettingMarks,
   showMarksAccount,
   displayRefresher,
+  navigation,
 }) {
   // Get periods of student and choose which to display
   const [periods, setPeriods, periodsRef] = useState({});
@@ -29,7 +30,7 @@ function MarksOverview({
         setPeriods(cacheData[showMarksAccount.id].data);
 
         // Choose period that isn't finished
-        if (!selectedPeriod) {
+        if (!selectedPeriod || !periodsRef.current[selectedPeriod]) {
           let shownPeriod = 0;
           Object.values(periodsRef.current).forEach(period => {
             if (period.isFinished) { shownPeriod += 1; }
@@ -51,8 +52,37 @@ function MarksOverview({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginBottom: 20,
       }}>
-        <Text style={DefaultTheme.fonts.bodyMedium}>{gotMarks ? "À jour" : gettingMarks ? "Chargement..." : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
+        <PressableScale style={{
+          borderWidth: 2,
+          borderColor: gotMarks ? DefaultTheme.colors.success : gettingMarks ? DefaultTheme.colors.primary : DefaultTheme.colors.error,
+          borderRadius: 5,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }} onPress={() => {
+          if (gotMarks || errorGettingMarks) {
+            navigation.navigate("InformationPage");
+          }
+        }}>
+          <Text style={[
+            DefaultTheme.fonts.labelMedium, {
+              color: gotMarks ? DefaultTheme.colors.success : gettingMarks ? DefaultTheme.colors.primary : DefaultTheme.colors.error,
+              marginVertical: 2,
+              marginHorizontal: 5,
+          }]}>{gotMarks ? "À jour" : gettingMarks ? "Chargement..." : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
+          {(gotMarks || errorGettingMarks) && <HelpCircleIcon size={20} color={gotMarks ? DefaultTheme.colors.success : gettingMarks ? DefaultTheme.colors.primary : DefaultTheme.colors.error} style={{ marginRight: 5 }}/>}
+          
+          <View style={{
+            backgroundColor: gotMarks ? DefaultTheme.colors.success : gettingMarks ? DefaultTheme.colors.primary : DefaultTheme.colors.error,
+            opacity: 0.2,
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+          }}/>
+        </PressableScale>
+
+        {/* Period chooser */}
         <ContextMenuButton menuConfig={{
           menuTitle: 'Choisissez une période',
           menuItems: Object.values(periods).map((period) => {

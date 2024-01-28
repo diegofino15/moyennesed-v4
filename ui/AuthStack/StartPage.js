@@ -31,7 +31,7 @@ function StartPage({ navigation }) {
           }}>
             <LottieView
               autoPlay
-              source={require('../../assets/lottie/login-2.json')}
+              source={require('../../assets/lottie/login.json')}
               resizeMode="contain"
               style={{
                 height: Dimensions.get('window').width,
