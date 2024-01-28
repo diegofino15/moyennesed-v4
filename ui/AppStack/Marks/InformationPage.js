@@ -1,13 +1,13 @@
+import { useEffect, useState } from "react";
 import { View, Text, Dimensions, ScrollView } from "react-native";
+import { AlertTriangleIcon, ChevronLeftIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 import LottieView from "lottie-react-native";
 
 import CustomInformationCard from "../../components/CustomInformationCard";
-import { AlertTriangleIcon, ChevronLeftIcon } from "lucide-react-native";
-import { useEffect, useState } from "react";
-import AppData from "../../../core/AppData";
 import { formatDate } from "../../../util/Utils";
+import AppData from "../../../core/AppData";
 
 
 // Information page
