@@ -19,6 +19,7 @@ function CustomModal({
         borderBottomWidth: 2,
         borderColor: DefaultTheme.colors.surfaceOutline,
         padding: 10,
+        paddingTop: 12,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
@@ -34,15 +35,15 @@ function CustomModal({
         height: '100%',
         padding: 20,
         ...style,
-      }}>
+      }} showsVerticalScrollIndicator={false}>
         {children}
       </ScrollView>
 
       {/* Back button */}
       <PressableScale style={{
         position: 'absolute',
-        left: 10,
-        top: 10,
+        left: 12,
+        top: 12,
         borderWidth: 2,
         borderColor: DefaultTheme.colors.surfaceOutline,
         backgroundColor: DefaultTheme.colors.surface,

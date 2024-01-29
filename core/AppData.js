@@ -46,7 +46,10 @@ class AppData {
           case 200:
             await this.saveConnectedAccounts(response.data.data, response.data.token);
             status = 1;
-            if (response.data.data.accounts.length != 1) { status = 2; }
+            if (response.data.data.accounts.length != 1) {
+              const alreadySavedPreference = await AsyncStorage.getItem("selectedAccount");
+              if (!alreadySavedPreference) { status = 2; }
+            }
             else { await this.saveSelectedAccount(response.data.data.accounts[0].id); }
             await AsyncStorage.setItem("credentials", JSON.stringify({
               "username": username,
@@ -423,6 +426,7 @@ class AppData {
       "data": periods,
       "date": new Date(),
     };
+    console.log(cacheData[accountID]);
     await AsyncStorage.setItem("marks", JSON.stringify(cacheData));
 
     // Calculate averages

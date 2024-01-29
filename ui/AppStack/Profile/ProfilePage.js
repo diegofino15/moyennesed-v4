@@ -47,7 +47,8 @@ function ProfilePage({ navigation }) {
         <View>
           {/* Profile */}
           <SectionButton
-            icon={<ProfilePhoto accountID={mainAccount.id} size={50}/>}
+            showBigIcon
+            icon={<ProfilePhoto accountID={mainAccount.id} size={70}/>}
             title={`${mainAccount.firstName} ${mainAccount.lastName}`}
             description="Paramètres du profil"
             onPress={() => navigation.navigate("ProfileSettingsPage", { isModal: false })}

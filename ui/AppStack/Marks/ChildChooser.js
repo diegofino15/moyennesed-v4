@@ -4,6 +4,7 @@ import { DefaultTheme } from "react-native-paper";
 
 import Separator from "../../components/Separator";
 import HapticsHandler from "../../../core/HapticsHandler";
+import AppData from "../../../core/AppData";
 
 
 // Child chooser
@@ -27,6 +28,7 @@ function ChildChooser({ mainAccount, showMarksAccount, setShowMarksAccount }) {
               onPress={() => {
                 if (showMarksAccount.id != item) {
                   setShowMarksAccount(childAccount);
+                  AppData.setSelectedChildAccount(childAccount.id);
                   HapticsHandler.vibrate("light");
                 }
               }}

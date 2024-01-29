@@ -36,8 +36,8 @@
             "useFrameworks": "static"
           },
           "android": {
-            "compileSdkVersion": 33,
-            "targetSdkVersion": 33,
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
             "buildToolsVersion": "34.0.0",
             "extraProguardRules": "-keep class com.google.android.gms.internal.consent_sdk.** { *; }"
           }

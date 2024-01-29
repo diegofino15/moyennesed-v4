@@ -10,6 +10,7 @@ import { useAppContext } from "../../util/AppContext";
 import { openLink } from "../../util/Utils";
 import HapticsHandler from "../../core/HapticsHandler";
 import AppData from "../../core/AppData";
+import CustomModal from "../components/CustomModal";
 
 
 // Login page
@@ -52,94 +53,68 @@ function LoginPage({ navigation }) {
   }
   
   return (
-    <View>
-      {/* Header */}
-      <View style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: DefaultTheme.colors.surface,
-        borderBottomWidth: 2,
-        borderColor: DefaultTheme.colors.surfaceOutline,
-        padding: 10,
-      }}>
-        <PressableScale style={{
-          borderWidth: 2,
-          borderColor: DefaultTheme.colors.surfaceOutline,
-          backgroundColor: DefaultTheme.colors.surface,
-          padding: 5,
-          borderRadius: 10,
-        }} onPress={() => navigation.pop()}>
-          <ChevronLeftIcon size={30} color={DefaultTheme.colors.onPrimary}/>
-        </PressableScale>
+    <CustomModal
+      title="Se connecter"
+      goBackFunction={() => navigation.pop()}
+      children={(
+        <View>
+          <Text style={[DefaultTheme.fonts.labelMedium, { marginBottom: 30 }]}>Vous pouvez vous connecter en tant qu'élève ou en tant que parent.</Text>
+          
+          {/* Inputs */}
+          <CustomTextInput
+            label='Identifiant'
+            onChangeText={setUsername}
+            icon={<CircleUserRoundIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+            style={{ marginBottom: 10 }}
+          />
+          <CustomTextInput
+            label={wrongPassword ? "Mot de passe incorrect" : "Mot de passe"}
+            labelColor={wrongPassword ? DefaultTheme.colors.error : null}
+            onChangeText={setPassword}
+            secureTextEntry={true}
+            icon={<KeySquareIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+            controller={passwordTextController}
+            style={{ marginBottom: 20 }}
+          />
 
-        <Text style={DefaultTheme.fonts.titleSmall}>Se connecter</Text>
-        
-        <View style={{ width: 40 }}/>
-      </View>
-      
-      {/* Login form */}
-      <ScrollView style={{
-        backgroundColor: DefaultTheme.colors.backdrop,
-        padding: 20,
-        height: '100%',
-      }} showsVerticalScrollIndicator={false}>
-        <Text style={[DefaultTheme.fonts.labelMedium, { marginBottom: 30 }]}>Vous pouvez vous connecter en tant qu'élève ou en tant que parent.</Text>
-        
-        {/* Inputs */}
-        <CustomTextInput
-          label='Identifiant'
-          onChangeText={setUsername}
-          icon={<CircleUserRoundIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
-          style={{ marginBottom: 10 }}
-        />
-        <CustomTextInput
-          label={wrongPassword ? "Mot de passe incorrect" : "Mot de passe"}
-          labelColor={wrongPassword ? DefaultTheme.colors.error : null}
-          onChangeText={setPassword}
-          secureTextEntry={true}
-          icon={<KeySquareIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
-          controller={passwordTextController}
-          style={{ marginBottom: 20 }}
-        />
+          {/* Login button */}
+          <PressableScale style={{
+            padding: 15,
+            borderRadius: 15,
+            backgroundColor: DefaultTheme.colors.primary,
+            alignItems: 'center',
+            height: 55,
+          }} onPress={login}>
+            {isConnecting
+              ? <ActivityIndicator size={20} color={DefaultTheme.colors.onPrimary}/>
+              : <Text style={[DefaultTheme.fonts.bodyLarge, { marginLeft: 10, color: DefaultTheme.colors.onPrimary }]}>Se connecter</Text>}
+          </PressableScale>
 
-        {/* Login button */}
-        <PressableScale style={{
-          padding: 15,
-          borderRadius: 15,
-          backgroundColor: DefaultTheme.colors.primary,
-          alignItems: 'center',
-          height: 55,
-        }} onPress={login}>
-          {isConnecting
-            ? <ActivityIndicator size={20} color={DefaultTheme.colors.onPrimary}/>
-            : <Text style={[DefaultTheme.fonts.bodyLarge, { marginLeft: 10, color: DefaultTheme.colors.onPrimary }]}>Se connecter</Text>}
-        </PressableScale>
+          {/* Connection failed */}
+          {errorConnecting && <CustomInformationCard
+            title='Une erreur est survenue'
+            icon={<AlertTriangleIcon size={20} color={DefaultTheme.colors.error}/>}
+            description='La connexion aux serveurs a échoué, vérifiez votre connexion internet.'
+            error={true}
+            style={{ marginTop: 30 }}
+          />}
 
-        {/* Connection failed */}
-        {errorConnecting && <CustomInformationCard
-          title='Une erreur est survenue'
-          icon={<AlertTriangleIcon size={20} color={DefaultTheme.colors.error}/>}
-          description='La connexion aux serveurs a échoué, vérifiez votre connexion internet.'
-          error={true}
-          style={{ marginTop: 30 }}
-        />}
+          {/* Reset password */}
+          <CustomInformationCard
+            title='Mot de passe oublié ?'
+            icon={<HelpCircleIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+            description='Pas de panique, cliquez ici pour réinitialiser votre mot de passe.'
+            onPress={() => openLink('https://api.ecoledirecte.com/mot-de-passe-oublie.awp')}
+            style={{ marginTop: 30 }}
+          />
 
-        {/* Reset password */}
-        <CustomInformationCard
-          title='Mot de passe oublié ?'
-          icon={<HelpCircleIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
-          description='Pas de panique, cliquez ici pour réinitialiser votre mot de passe.'
-          onPress={() => openLink('https://api.ecoledirecte.com/mot-de-passe-oublie.awp')}
-          style={{ marginTop: 30 }}
-        />
-
-        {/* Information */}
-        <Text style={[DefaultTheme.fonts.labelMedium, { marginTop: 30, width: '80%', textAlign: 'center', alignSelf: 'center' }]}>
-          Aucune information n'est enregistrée, vos identifiants restent entre vous et ÉcoleDirecte.
-        </Text>
-      </ScrollView>
-    </View>
+          {/* Information */}
+          <Text style={[DefaultTheme.fonts.labelMedium, { marginTop: 30, width: '80%', textAlign: 'center', alignSelf: 'center' }]}>
+            Aucune information n'est enregistrée, vos identifiants restent entre vous et ÉcoleDirecte.
+          </Text>
+        </View>
+      )}
+    />
   );
 }
 
