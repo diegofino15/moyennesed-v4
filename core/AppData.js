@@ -179,7 +179,7 @@ class AppData {
     for (const account_ in accounts) {
       const account = accounts[account_];
       if (account.accountType == "P") {
-        if (accountID in account.children) { return account.children[account]; }
+        if (accountID in account.children) { return account.children[accountID]; }
       }
     }
   }

@@ -19,10 +19,10 @@ function capitalizeWords(phrase) {
 }
 
 function formatDate(date) {
-  if (!date) { return; }
+  if (!date) { return "--"; }
   const previousDate = new Date(date);
 
-  if ((previousDate - Date.now()) < 43200000) {
+  if ((Date.now() - previousDate) < 43200000) {
     return previousDate.toLocaleString("fr-FR", { timeZone: "Europe/Paris", hour: "2-digit", minute: "2-digit" }).replace(":", "h");
   }
   return previousDate.toLocaleString("fr-FR", { timeZone: "Europe/Paris", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }).replace(":", "h");

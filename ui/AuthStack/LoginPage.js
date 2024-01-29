@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, ScrollView } from "react-native";
 import { AlertTriangleIcon, ChevronLeftIcon, CircleUserRoundIcon, HelpCircleIcon, KeySquareIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
@@ -58,30 +58,32 @@ function LoginPage({ navigation }) {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#395D6F',
+        backgroundColor: DefaultTheme.colors.surface,
+        borderBottomWidth: 2,
+        borderColor: DefaultTheme.colors.surfaceOutline,
         padding: 10,
       }}>
         <PressableScale style={{
+          borderWidth: 2,
+          borderColor: DefaultTheme.colors.surfaceOutline,
           backgroundColor: DefaultTheme.colors.surface,
-          opacity: 0.6,
           padding: 5,
           borderRadius: 10,
-          marginRight: 10,
         }} onPress={() => navigation.pop()}>
           <ChevronLeftIcon size={30} color={DefaultTheme.colors.onPrimary}/>
         </PressableScale>
 
-        <Text style={[DefaultTheme.fonts.titleSmall, { fontSize: 17 }]}>Se connecter avec ÉcoleDirecte</Text>
+        <Text style={DefaultTheme.fonts.titleSmall}>Se connecter</Text>
         
         <View style={{ width: 40 }}/>
       </View>
       
       {/* Login form */}
-      <View style={{
+      <ScrollView style={{
         backgroundColor: DefaultTheme.colors.backdrop,
         padding: 20,
         height: '100%',
-      }}>
+      }} showsVerticalScrollIndicator={false}>
         <Text style={[DefaultTheme.fonts.labelMedium, { marginBottom: 30 }]}>Vous pouvez vous connecter en tant qu'élève ou en tant que parent.</Text>
         
         {/* Inputs */}
@@ -136,7 +138,7 @@ function LoginPage({ navigation }) {
         <Text style={[DefaultTheme.fonts.labelMedium, { marginTop: 30, width: '80%', textAlign: 'center', alignSelf: 'center' }]}>
           Aucune information n'est enregistrée, vos identifiants restent entre vous et ÉcoleDirecte.
         </Text>
-      </View>
+      </ScrollView>
     </View>
   );
 }

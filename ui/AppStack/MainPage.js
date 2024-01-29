@@ -14,7 +14,7 @@ import AppData from "../../core/AppData";
 // Main page
 function MainPage({ navigation }) {
   // Only for profile photo
-  const [selectedAccount, setSelectedAccount, selectedAccountRef] = useState(null);
+  const [selectedAccount, setSelectedAccount] = useState(null);
   
   // Connected main account (parent / student)
   const [account, setAccount] = useState({ "accountType": "E" });
@@ -59,7 +59,7 @@ function MainPage({ navigation }) {
             <Text style={[DefaultTheme.fonts.titleLarge, { fontSize: 22 }]}>Bonjour {account.firstName} !</Text>
             <WelcomeMessage />
           </View>
-          <ProfilePhoto accountID={selectedAccount} size={70} onPress={() => navigation.navigate("ProfilePage")}/>
+          <ProfilePhoto accountID={selectedAccount} size={70} onPress={() => navigation.navigate("ProfileStack")}/>
         </View>
 
         {/* Marks overview */}

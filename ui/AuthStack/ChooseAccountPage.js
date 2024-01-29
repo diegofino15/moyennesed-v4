@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, Dimensions } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 import { CheckCircleIcon, CircleIcon, UserRoundIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import ProfilePhoto from "../components/ProfilePhoto";
 import AppData from "../../core/AppData";
 import HapticsHandler from "../../core/HapticsHandler";
 import { useAppContext } from "../../util/AppContext";
@@ -68,30 +69,42 @@ function ChooseAccountPage({ navigation }) {
         
         {/* List connected accounts */}
         <FlatList data={Object.values(accounts)} renderItem={({ item, index }) => (
-          <PressableScale style={{
+          <View style={{
             marginTop: 20,
-            paddingHorizontal: 20,
-            paddingVertical: 10,
-            backgroundColor: DefaultTheme.colors.surface,
-            borderWidth: 2,
-            borderColor: index === selectedAccount ? DefaultTheme.colors.primary : DefaultTheme.colors.surfaceOutline,
-            borderRadius: 10,
-            flexDirection: 'column',
-          }} onPress={() => setSelectedAccount(index)}>
-            <Text style={DefaultTheme.fonts.bodyLarge}>{item.firstName} {item.lastName}</Text>
-            <Text style={DefaultTheme.fonts.labelMedium}>{item.accountType == "E" ? "Compte élève" : "Compte parent"}</Text>
-            <View style={{
-              position: 'absolute',
-              right: 10,
-              top: 10,
-            }}>
-              {index === selectedAccount ? (
-                <CheckCircleIcon size={20} color={DefaultTheme.colors.primary}/>
-              ) : (
-                <CircleIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
-              )}
-            </View>
-          </PressableScale>
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+            {item.accountType == "E" && (
+              <ProfilePhoto accountID={item.id} size={70} style={{
+                marginRight: 10,
+              }}/> 
+            )}
+            <PressableScale style={{
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+              backgroundColor: DefaultTheme.colors.surface,
+              borderWidth: 2,
+              borderColor: index === selectedAccount ? DefaultTheme.colors.primary : DefaultTheme.colors.surfaceOutline,
+              borderRadius: 10,
+              flexDirection: 'column',
+              height: 70,
+              width: item.accountType == "P" ? '100%' : (Dimensions.get('window').width - 120),
+            }} onPress={() => setSelectedAccount(index)}>
+              <Text style={DefaultTheme.fonts.bodyLarge}>{item.firstName} {item.lastName}</Text>
+              <Text style={DefaultTheme.fonts.labelMedium}>{item.accountType == "E" ? "Compte élève" : "Compte parent"}</Text>
+              <View style={{
+                position: 'absolute',
+                right: 10,
+                top: 10,
+              }}>
+                {index === selectedAccount ? (
+                  <CheckCircleIcon size={20} color={DefaultTheme.colors.primary}/>
+                ) : (
+                  <CircleIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                )}
+              </View>
+            </PressableScale>
+          </View>
         )} style={{
           maxHeight: 280
         }}/>
