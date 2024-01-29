@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { View, Text } from "react-native";
-import { ContextMenuButton } from "react-native-ios-context-menu";
 import { DefaultTheme } from "react-native-paper";
+import { HelpCircleIcon } from "lucide-react-native";
+import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
-import { ChevronDownIcon, HelpCircleIcon } from "lucide-react-native";
-import { PressableScale } from "react-native-pressable-scale";
+
+import PeriodChooser from "./PeriodChooser/PeriodChooser";
 
 
 // Marks overview
@@ -83,23 +84,11 @@ function MarksOverview({
         </PressableScale>
 
         {/* Period chooser */}
-        <ContextMenuButton menuConfig={{
-          menuTitle: 'Choisissez une période',
-          menuItems: Object.values(periods).map((period) => {
-            return {
-              actionKey: period.id,
-              actionTitle: period.title,
-            };
-          }),
-        }} onPressMenuItem={({ nativeEvent }) => {
-          setSelectedPeriod(nativeEvent.actionKey);
-        }} style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-          <ChevronDownIcon size={20} color={DefaultTheme.colors.primary} />
-          <Text style={{ fontSize: 14, color: DefaultTheme.colors.primary }}>{selectedPeriod ? periods[selectedPeriod].title : "Chargement..."}</Text>
-        </ContextMenuButton>
+        <PeriodChooser
+          periods={periods}
+          selectedPeriod={selectedPeriod}
+          setSelectedPeriod={setSelectedPeriod}
+        />
       </View>
       <Text style={DefaultTheme.fonts.headlineLarge}>{periods[selectedPeriod]?.average ? periods[selectedPeriod].average : "--"}</Text>
       <View style={{ height: 300 }}/>
