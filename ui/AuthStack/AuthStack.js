@@ -23,6 +23,7 @@ function AuthStack() {
         options={{
           presentation: 'modal',
           headerShown: false,
+          animation: 'fade_from_bottom',
         }}
       />
       <Stack.Screen
@@ -31,6 +32,7 @@ function AuthStack() {
         options={{
           presentation: 'containedModal',
           headerShown: false,
+          animation: 'fade_from_bottom',
         }}
       />
     </Stack.Navigator>

@@ -17,6 +17,7 @@
     "@babel/preset-env": "^7.23.9",
     "@expo/ngrok": "^4.1.0",
     "@react-native-async-storage/async-storage": "^1.21.0",
+    "@react-native-menu/menu": "^0.9.1",
     "@react-native/babel-preset": "^0.73.20",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
@@ -44,7 +45,8 @@
     "react-native-screens": "^3.29.0",
     "react-native-svg": "^14.1.0",
     "react-native-vector-icons": "^10.0.3",
-    "react-usestateref": "^1.0.8"
+    "react-usestateref": "^1.0.8",
+    "zeego": "^1.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

@@ -426,7 +426,6 @@ class AppData {
       "data": periods,
       "date": new Date(),
     };
-    console.log(cacheData[accountID]);
     await AsyncStorage.setItem("marks", JSON.stringify(cacheData));
 
     // Calculate averages

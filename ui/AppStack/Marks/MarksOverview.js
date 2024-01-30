@@ -6,7 +6,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
-import CustomChooser from "../../components/native/CustomChooser";
+import CustomChooser from "../../components/CustomChooser";
 
 
 // Marks overview
@@ -88,12 +88,10 @@ function MarksOverview({
         <CustomChooser
           title="Sélectionnez une période"
           defaultLabel="---"
-          items={Object.values(periods).map(period => {
-            return {
-              actionTitle: period.title,
-              actionKey: period.id,
-            }
-          })}
+          items={Object.values(periods).map(period => { return {
+            title: period.title,
+            id: period.id,
+          }})}
           getTitleForSelected={(periodID) => periods[periodID].title}
           selected={selectedPeriod}
           setSelected={setSelectedPeriod}

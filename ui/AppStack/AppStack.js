@@ -24,6 +24,7 @@ function MainStack() {
         options={{
           presentation: 'modal',
           headerShown: false,
+          animation: 'fade_from_bottom',
         }}
       />
     </Stack.Navigator>
@@ -45,7 +46,10 @@ function ProfileStack() {
       <Stack.Screen
         name="ProfileSettingsPage"
         component={ProfileSettingsPage}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          animation: 'slide_from_right',
+        }}
       />
     </Stack.Navigator>
   );
@@ -67,6 +71,7 @@ function AppStack() {
         options={{
           headerShown: false,
           presentation: 'modal',
+          animation: 'fade_from_bottom',
         }}
       />
     </Stack.Navigator>

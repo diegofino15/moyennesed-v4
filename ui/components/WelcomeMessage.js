@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Text, Animated } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import AppData from "../../core/AppData";
+import { OSvalue } from "../../util/Utils";
 
 
 // Welcome message
@@ -19,7 +20,7 @@ function WelcomeMessage() {
   function getWelcomeMessage() {
     var messages = [
       "Bienvenue dans l'application de gestion des notes !",
-      "L'appli est aussi sur Android (au cas où) !",
+      `L'appli est aussi sur ${OSvalue({ iosValue: "Android", androidValue: "iOS" })} (au cas où) !`,
       "Vos avis sur l'appli sont toujours apprécies !",
     ];
     if (account.accountType == "E") {
