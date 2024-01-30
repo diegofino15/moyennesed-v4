@@ -2,15 +2,14 @@ import { useEffect } from "react";
 import { View, Text, Dimensions } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { AlertTriangleIcon, CornerDownRightIcon } from "lucide-react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
+import CustomModal from "../../components/CustomModal";
 import SectionButton from "../../components/SectionButton";
 import ProfilePhoto from "../../components/ProfilePhoto";
 import CustomInformationCard from "../../components/CustomInformationCard";
 import { useAppContext } from "../../../util/AppContext";
 import AppData from "../../../core/AppData";
-import CustomModal from "../../components/CustomModal";
 
 
 // Profile page
@@ -20,12 +19,7 @@ function ProfilePage({ navigation }) {
 
   // Disconnect
   async function disconnect() {
-    await AsyncStorage.multiRemove([
-      "credentials",
-      "selectedAccount",
-      "photos",
-      "marks",
-    ]);
+    await AppData.eraseData();
     navigation.pop();
     appContext.setIsLoggedIn(false);
   }

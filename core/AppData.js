@@ -160,7 +160,8 @@ class AppData {
   static async getSelectedAccount() {
     var selectedAccount = await AsyncStorage.getItem("selectedAccount");
     if (selectedAccount) { return selectedAccount; }
-    const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
+    var accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
+    accounts ??= {"0": {}}
     selectedAccount = Object.keys(accounts)[0];
     await AsyncStorage.setItem("selectedAccount", selectedAccount);
     return selectedAccount;
@@ -518,6 +519,17 @@ class AppData {
     if (marks && accountID in marks) {
       return marks[accountID].date;
     }
+  }
+
+  // Erase all data //
+  static async eraseData() {
+    await AsyncStorage.multiRemove([
+      "credentials",
+      "accounts",
+      "selectedAccount",
+      "photos",
+      "marks",
+    ]);
   }
 }
 

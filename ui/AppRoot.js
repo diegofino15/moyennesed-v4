@@ -7,6 +7,7 @@ import AuthStack from "./AuthStack/AuthStack";
 import AppStack from "./AppStack/AppStack";
 import { AppContextProvider } from "../util/AppContext";
 import { useFonts, initTheme } from "../util/Styles";
+import AppData from "../core/AppData";
 
 
 // App Root
@@ -30,7 +31,11 @@ function AppRoot({ closeSplashScreen }) {
 
     // Check if logged-in
     const credentials = await AsyncStorage.getItem("credentials");
-    if (credentials) { setIsLoggedIn(true); }
+    if (credentials) {
+      const accounts = await AsyncStorage.getItem("accounts");
+      if (!accounts) { await AppData.refreshLogin(); }
+      setIsLoggedIn(true);
+    }
 
     // Finish loading app
     setIsLoaded(true);
