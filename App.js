@@ -13,9 +13,7 @@ function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
-        <AppRoot
-          closeSplashScreen={() => SplashScreen.hideAsync()}
-        />
+        <AppRoot/>
       </NavigationContainer>
     </GestureHandlerRootView>
   );

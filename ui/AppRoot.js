@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { StatusBar } from "react-native";
 import { PaperProvider, useTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SplashScreen from "expo-splash-screen";
 
 import AuthStack from "./AuthStack/AuthStack";
 import AppStack from "./AppStack/AppStack";
@@ -11,10 +12,10 @@ import AppData from "../core/AppData";
 
 
 // App Root
-function AppRoot({ closeSplashScreen }) {
+function AppRoot() {
   // Close SplashScreen once app is loaded
   const [isLoaded, setIsLoaded] = useState(false);
-  useEffect(() => { if (isLoaded) { closeSplashScreen(); } }, [isLoaded]);
+  useEffect(() => { if (isLoaded) { SplashScreen.hideAsync(); } }, [isLoaded]);
 
   // Is user logged-in
   const [isLoggedIn, setIsLoggedIn] = useState(false);
