@@ -1,7 +1,9 @@
-import { View, ScrollView, Text, Platform } from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 import { ChevronLeftIcon } from "lucide-react-native";
+
+import { OSvalue } from "../../util/Utils";
 
 
 // Custom modal
@@ -16,7 +18,7 @@ function CustomModal({
       backgroundColor: title ? DefaultTheme.colors.surface : DefaultTheme.colors.backdrop,
     }}>
       <View style={{
-        marginTop: Platform.OS == 'android' ? 20 : 0,
+        marginTop: OSvalue({ iosValue: 0, androidValue: 20 }),
       }}>
         {/* Header */}
         {title && <View style={{
@@ -30,7 +32,7 @@ function CustomModal({
           justifyContent: 'center',
         }}>
           <View style={{ height: 45 }}/>
-          <Text style={DefaultTheme.fonts.titleSmall}>{title}</Text>
+          <Text style={[DefaultTheme.fonts.titleSmall, { height: 30 }]}>{title}</Text>
         </View>}
 
         {/* Main view */}

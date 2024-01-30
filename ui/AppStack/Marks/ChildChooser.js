@@ -41,7 +41,7 @@ function ChildChooser({ mainAccount, showMarksAccount, setShowMarksAccount }) {
               }}>
                 <Text style={[
                   DefaultTheme.fonts.labelLarge,
-                  { color: showMarksAccount.id == item ? DefaultTheme.colors.onPrimary : DefaultTheme.colors.onSurfaceDisabled }
+                  { color: showMarksAccount.id == item ? DefaultTheme.colors.onPrimary : DefaultTheme.colors.onSurfaceDisabled, height: 25 }
                 ]}>{childAccount.firstName}</Text>
               </View>
             </PressableScale>

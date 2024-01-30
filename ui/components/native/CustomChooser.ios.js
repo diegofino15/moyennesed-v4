@@ -5,26 +5,21 @@ import { DefaultTheme } from "react-native-paper";
 
 
 // Period chooser for iOS
-function PeriodChooser({ periods, selectedPeriod, setSelectedPeriod }) {
+function CustomChooser({ title, defaultLabel, items, getTitleForSelected, selected, setSelected }) {
   return (
     <ContextMenuButton menuConfig={{
-      menuTitle: 'Choisissez une période',
-      menuItems: Object.values(periods).map((period) => {
-        return {
-          actionKey: period.id,
-          actionTitle: period.title,
-        };
-      }),
+      menuTitle: title,
+      menuItems: items,
     }} onPressMenuItem={({ nativeEvent }) => {
-      setSelectedPeriod(nativeEvent.actionKey);
+      setSelected(nativeEvent.actionKey);
     }} style={{
       flexDirection: 'row',
       alignItems: 'center',
     }}>
       <ChevronDownIcon size={20} color={DefaultTheme.colors.primary} />
-      <Text style={{ fontSize: 14, color: DefaultTheme.colors.primary }}>{selectedPeriod ? periods[selectedPeriod].title : "Chargement..."}</Text>
+      <Text style={{ fontSize: 14, color: DefaultTheme.colors.primary }}>{selected ? getTitleForSelected(selected) : defaultLabel}</Text>
     </ContextMenuButton>
   );
 }
 
-export default PeriodChooser;
+export default CustomChooser;

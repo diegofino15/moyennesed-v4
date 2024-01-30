@@ -4,6 +4,8 @@ import { DefaultTheme } from 'react-native-paper';
 import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
 import { PressableScale } from 'react-native-pressable-scale';
 
+import { OSvalue } from '../../util/Utils';
+
 
 // Custom text input
 function CustomTextInput({
@@ -37,6 +39,7 @@ function CustomTextInput({
           position: 'absolute',
           left: 40,
           height: 50,
+          top: OSvalue({ iosValue: -3, androidValue: 0 }),
         }}
         placeholder={label}
         onChangeText={onChangeText}

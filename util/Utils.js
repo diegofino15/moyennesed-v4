@@ -1,4 +1,5 @@
 import { Linking, Alert } from "react-native";
+import { Platform } from 'react-native';
 
 
 async function openLink(link) {
@@ -28,5 +29,9 @@ function formatDate(date) {
   return previousDate.toLocaleString("fr-FR", { timeZone: "Europe/Paris", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }).replace(":", "h");
 }
 
+function OSvalue({ iosValue, androidValue }) {
+  return Platform.OS === "ios" ? iosValue : androidValue;
+}
 
-export { openLink, wait, capitalizeWords, formatDate };
+
+export { openLink, wait, capitalizeWords, formatDate, OSvalue };

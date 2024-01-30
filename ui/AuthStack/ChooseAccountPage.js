@@ -56,12 +56,13 @@ function ChooseAccountPage({ navigation }) {
                 
                 <PressableScale style={{
                   paddingHorizontal: 20,
-                  paddingVertical: 8,
+                  paddingVertical: 10,
                   backgroundColor: DefaultTheme.colors.surface,
                   borderWidth: 2,
                   borderColor: index === selectedAccount ? DefaultTheme.colors.primary : DefaultTheme.colors.surfaceOutline,
                   borderRadius: 10,
                   flexDirection: 'column',
+                  justifyContent: 'space-evenly',
                   height: 70,
                   width: item.accountType == "P" ? '100%' : (Dimensions.get('window').width - 120),
                 }} onPress={() => setSelectedAccount(index)}>

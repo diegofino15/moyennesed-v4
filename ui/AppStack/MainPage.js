@@ -1,14 +1,14 @@
 import { useEffect } from "react";
-import { View, Text, SafeAreaView, Dimensions, ScrollView, RefreshControl, Platform } from "react-native";
+import { View, Text, SafeAreaView, Dimensions, ScrollView, RefreshControl } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import useState from "react-usestateref";
 
 import EmbeddedMarksPage from "./Marks/EmbeddedMarksPage";
 import WelcomeMessage from "../components/WelcomeMessage";
 import ProfilePhoto from "../components/ProfilePhoto";
+import { OSvalue } from "../../util/Utils";
 import HapticsHandler from "../../core/HapticsHandler";
 import AppData from "../../core/AppData";
-
 
 
 // Main page
@@ -42,7 +42,7 @@ function MainPage({ navigation }) {
           height: '100%',
           backgroundColor: '#0B0A0C',
           paddingHorizontal: 20,
-          marginTop: Platform.OS == "android" ? 20 : 0,
+          marginTop: OSvalue({ iosValue: 0, androidValue: 20 }),
         }}
         refreshControl={
           <RefreshControl refreshing={manualRefreshing} onRefresh={() => {
@@ -60,7 +60,7 @@ function MainPage({ navigation }) {
             marginBottom: 20,
           }}>
             <View style={{ flexDirection: 'column', width: Dimensions.get('window').width - 120 }}>
-              <Text style={[DefaultTheme.fonts.titleLarge, { fontSize: 22 }]}>Bonjour {account.firstName} !</Text>
+              <Text style={[DefaultTheme.fonts.titleLarge, { fontSize: 22, height: 30 }]} numberOfLines={1}>Bonjour {account.firstName} !</Text>
               <WelcomeMessage />
             </View>
             <ProfilePhoto accountID={selectedAccount} size={70} onPress={() => navigation.navigate("ProfileStack")}/>

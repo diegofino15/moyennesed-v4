@@ -6,7 +6,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
-import PeriodChooser from "./PeriodChooser/PeriodChooser";
+import CustomChooser from "../../components/native/CustomChooser";
 
 
 // Marks overview
@@ -71,6 +71,7 @@ function MarksOverview({
               color: gotMarks ? DefaultTheme.colors.success : gettingMarks ? DefaultTheme.colors.primary : DefaultTheme.colors.error,
               marginVertical: 2,
               marginHorizontal: 5,
+              height: 22,
           }]}>{gotMarks ? "À jour" : gettingMarks ? "Chargement..." : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
           {(gotMarks || errorGettingMarks) && <HelpCircleIcon size={20} color={gotMarks ? DefaultTheme.colors.success : gettingMarks ? DefaultTheme.colors.primary : DefaultTheme.colors.error} style={{ marginRight: 5 }}/>}
           
@@ -84,10 +85,18 @@ function MarksOverview({
         </PressableScale>
 
         {/* Period chooser */}
-        <PeriodChooser
-          periods={periods}
-          selectedPeriod={selectedPeriod}
-          setSelectedPeriod={setSelectedPeriod}
+        <CustomChooser
+          title="Sélectionnez une période"
+          defaultLabel="---"
+          items={Object.values(periods).map(period => {
+            return {
+              actionTitle: period.title,
+              actionKey: period.id,
+            }
+          })}
+          getTitleForSelected={(periodID) => periods[periodID].title}
+          selected={selectedPeriod}
+          setSelected={setSelectedPeriod}
         />
       </View>
       <Text style={DefaultTheme.fonts.headlineLarge}>{periods[selectedPeriod]?.average ? periods[selectedPeriod].average : "--"}</Text>

@@ -38,6 +38,8 @@ function SectionButton({
         {showBigIcon ? null : icon}
         <View style={{
           flexDirection: 'column',
+          justifyContent: 'space-evenly',
+          height: '100%',
           marginLeft: (showBigIcon && icon) ? 0 : icon ? 10 : 0,
           paddingRight: 20,
         }}>

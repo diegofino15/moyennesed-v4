@@ -45,7 +45,7 @@ function StartPage({ navigation }) {
             alignItems: 'center',
             top: -75,
           }}>
-            <Text style={[DefaultTheme.fonts.titleLarge, { fontSize: 25 }]}>Bienvenue sur</Text>
+            <Text style={[DefaultTheme.fonts.titleLarge, { fontSize: 25, height: 35 }]}>Bienvenue sur</Text>
             <Text style={[DefaultTheme.fonts.titleLarge, { fontSize: 40, top: -15 }]}>MoyennesED</Text>
             <Text style={[DefaultTheme.fonts.labelLarge, { width: '80%', textAlign: 'center', top: -10 }]}>Rapide. Efficace. Vos moyennes en un clin d'oeil.</Text>
           </View>
