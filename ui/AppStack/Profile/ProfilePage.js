@@ -77,7 +77,7 @@ function ProfilePage({ navigation }) {
                   width: Dimensions.get('window').width - 145,
                   height: 55,
                 }}>
-                  <Text style={DefaultTheme.fonts.bodyMedium} numberOfLines={1}>{child.firstName} {child.lastName}</Text>
+                  <Text style={[DefaultTheme.fonts.bodyMedium, { height: 20 }]} numberOfLines={1}>{child.firstName} {child.lastName}</Text>
                   <Text style={DefaultTheme.fonts.labelMedium}>{child.grade}</Text>
                 </View>
               </View>
