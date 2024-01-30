@@ -42,6 +42,7 @@ function SectionButton({
           height: '100%',
           marginLeft: (showBigIcon && icon) ? 0 : icon ? 10 : 0,
           paddingRight: 20,
+          width: Dimensions.get('window').width - ((showBigIcon && icon) ? 150 : icon ? 130 : 70),
         }}>
           <Text style={DefaultTheme.fonts.titleSmall} numberOfLines={1}>{title}</Text>
           <Text style={DefaultTheme.fonts.labelMedium} numberOfLines={1}>{description}</Text>
