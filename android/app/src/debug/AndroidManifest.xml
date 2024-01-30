@@ -5,4 +5,9 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <application android:usesCleartextTraffic="true" tools:targetApi="28" tools:ignore="GoogleAppIndexingWarning" tools:replace="android:usesCleartextTraffic" />
+
+    <!-- Gather consent for personnalized ads - Admob -->
+    <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-1869877675520642~9782266497"/>
+    <meta-data android:name="com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT" android:value="true"/>
+    <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 </manifest>

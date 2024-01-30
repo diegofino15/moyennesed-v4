@@ -10,6 +10,8 @@ import { AppContextProvider } from "../util/AppContext";
 import { useFonts, initTheme } from "../util/Styles";
 import AppData from "../core/AppData";
 
+import showConsentFormAndInitAdMob from "../util/AdsHandler";
+
 
 // App Root
 function AppRoot() {
@@ -26,6 +28,9 @@ function AppRoot() {
   // Prepare function
   useEffect(() => { prepare(); }, []);
   async function prepare() {
+    // Get consent for ads
+    await showConsentFormAndInitAdMob("pub-1869877675520642");
+    
     // Load UI
     await useFonts();
     initTheme(theme);
