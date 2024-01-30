@@ -1,6 +1,7 @@
-import mobileAds, { MaxAdContentRating } from 'react-native-google-mobile-ads';
+import mobileAds, { MaxAdContentRating, AppOpenAd, TestIds } from 'react-native-google-mobile-ads';
 import RNAdConsent from '@ulangi/react-native-ad-consent';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import { Platform } from 'react-native';
 
 
 // Set configuration for the app
@@ -26,7 +27,7 @@ async function initAds() {
 async function checkATTConsent() {
   const result = await check(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
   if (result === RESULTS.DENIED) {
-    await request(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
+    const newResult = await request(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
   }
 }
 
@@ -52,6 +53,8 @@ async function showConsentFormAndInitAdMob(publisherId){
 
   // Init Admob
   await initAds();
+
+  // Show AppOpen Ad
 }
 
 export default showConsentFormAndInitAdMob;

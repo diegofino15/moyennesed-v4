@@ -28,9 +28,6 @@ function AppRoot() {
   // Prepare function
   useEffect(() => { prepare(); }, []);
   async function prepare() {
-    // Get consent for ads
-    await showConsentFormAndInitAdMob("pub-1869877675520642");
-    
     // Load UI
     await useFonts();
     initTheme(theme);
@@ -40,6 +37,10 @@ function AppRoot() {
     if (credentials) {
       const accounts = await AsyncStorage.getItem("accounts");
       if (!accounts) { await AppData.refreshLogin(); }
+
+      // Get consent for ads
+      await showConsentFormAndInitAdMob("pub-1869877675520642");
+
       setIsLoggedIn(true);
     }
 

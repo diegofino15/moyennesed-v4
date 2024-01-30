@@ -15,6 +15,7 @@
     "@babel/plugin-transform-shorthand-properties": "^7.23.3",
     "@babel/plugin-transform-template-literals": "^7.23.3",
     "@babel/preset-env": "^7.23.9",
+    "@expo/config-plugins": "^7.8.4",
     "@expo/ngrok": "^4.1.0",
     "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-native-menu/menu": "^0.9.1",
