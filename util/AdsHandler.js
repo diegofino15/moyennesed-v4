@@ -50,17 +50,19 @@ function getAppOpenAdUnitID() {
 }
 
 // Complete function
-async function setupAdmobAndShowAppOpenAd(publisherId, hideSplashScreen){
-  // Check ATT consent
-  const attConsent = await checkATTConsent();
-  
+async function setupAdmobAndShowAppOpenAd(publisherId, hideSplashScreen){  
   // Check personnalized ads consent
   var [consentStatus, shouldGetConsent] = await shouldGetConsentFromUser(publisherId);
-  if (shouldGetConsent) {
+  if (shouldGetConsent) { // Check consent with Google's UMP message
     consentStatus = await RNAdConsent.showGoogleConsentForm({
       privacyPolicyUrl: "https://moyennesed.my.to/privacy-policy.html",
       shouldOfferAdFree: false,
     });
+  }
+
+  var attConsent = false;
+  if (Platform.OS == "ios" && consentStatus == "personalized") { // Check consent with Apple's ATT message
+    attConsent = await checkATTConsent();
   }
 
   // Init Admob
