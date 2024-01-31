@@ -51,17 +51,18 @@ function getAppOpenAdUnitID() {
 
 // Complete function
 async function setupAdmobAndShowAppOpenAd(publisherId, hideSplashScreen){  
-  // Check personnalized ads consent
+  // Check consent with Google's UMP message
   var [consentStatus, shouldGetConsent] = await shouldGetConsentFromUser(publisherId);
-  if (shouldGetConsent) { // Check consent with Google's UMP message
+  if (shouldGetConsent) {
     consentStatus = await RNAdConsent.showGoogleConsentForm({
       privacyPolicyUrl: "https://moyennesed.my.to/privacy-policy.html",
       shouldOfferAdFree: false,
     });
   }
 
-  var attConsent = false;
-  if (Platform.OS == "ios" && consentStatus == "personalized") { // Check consent with Apple's ATT message
+  // Check consent with Apple's ATT message
+  var attConsent = (Platform.OS == "android");
+  if (Platform.OS == "ios" && consentStatus == "personalized") {
     attConsent = await checkATTConsent();
   }
 
@@ -74,7 +75,7 @@ async function setupAdmobAndShowAppOpenAd(publisherId, hideSplashScreen){
     const appOpenAd = AppOpenAd.createForAdRequest(
       getAppOpenAdUnitID(), {
       publisherProvidedId: process.env.EXPO_PUBLIC_ADMOB_PUBLISHER_ID,
-      requestNonPersonalizedAdsOnly: consentStatus == "non_personalized" || !attConsent,
+      requestNonPersonalizedAdsOnly: (consentStatus == "non_personalized") || !attConsent,
       keywords: ["élève", "lycée", "collège", "école"],
     });
     appOpenAd.addAdEventsListener((event) => {
