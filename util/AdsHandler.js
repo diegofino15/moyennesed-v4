@@ -50,7 +50,7 @@ function getAppOpenAdUnitID() {
 }
 
 // Complete function
-async function showConsentFormAndInitAdMob(publisherId, hideSplashScreen){
+async function setupAdmobAndShowAppOpenAd(publisherId, hideSplashScreen){
   // Check ATT consent
   const attConsent = await checkATTConsent();
   
@@ -85,4 +85,4 @@ async function showConsentFormAndInitAdMob(publisherId, hideSplashScreen){
   } else { hideSplashScreen(); }
 }
 
-export default showConsentFormAndInitAdMob;
+export default setupAdmobAndShowAppOpenAd;

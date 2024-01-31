@@ -10,7 +10,7 @@ import { AppContextProvider } from "../util/AppContext";
 import { useFonts, initTheme } from "../util/Styles";
 import AppData from "../core/AppData";
 
-import showConsentFormAndInitAdMob from "../util/AdsHandler";
+import setupAdmobAndShowAppOpenAd from "../util/AdsHandler";
 
 
 // App Root
@@ -41,7 +41,7 @@ function AppRoot() {
       setIsLoggedIn(true);
 
       // AppOpen ad
-      await showConsentFormAndInitAdMob(
+      await setupAdmobAndShowAppOpenAd(
         process.env.EXPO_PUBLIC_ADMOB_PUBLISHER_ID,
         () => setIsLoaded(true),
       );
