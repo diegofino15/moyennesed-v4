@@ -38,14 +38,16 @@ function AppRoot() {
       const accounts = await AsyncStorage.getItem("accounts");
       if (!accounts) { await AppData.refreshLogin(); }
 
-      // Get consent for ads
-      await showConsentFormAndInitAdMob("pub-1869877675520642");
-
       setIsLoggedIn(true);
-    }
 
-    // Finish loading app
-    setIsLoaded(true);
+      // AppOpen ad
+      await showConsentFormAndInitAdMob(
+        process.env.EXPO_PUBLIC_ADMOB_PUBLISHER_ID,
+        () => setIsLoaded(true),
+      );
+    } else {
+      setIsLoaded(true);
+    }
   }
 
   if (!isLoaded) { return null; }

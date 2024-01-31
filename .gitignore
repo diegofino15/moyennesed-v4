@@ -37,6 +37,9 @@ yarn-error.*
 
 # CUSTOM #
 
+# Admob IDs
+.env
+
 # Builds compiled locally
 builds/
 
