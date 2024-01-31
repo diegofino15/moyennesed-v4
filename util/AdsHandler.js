@@ -36,9 +36,17 @@ async function checkATTConsent() {
 
 // Should request personnalized ads consent from user
 async function shouldGetConsentFromUser(publisherId) {
-    const consentStatus = await RNAdConsent.requestConsentInfoUpdate({ publisherId });
-    const isInEeaOrUnknown = await RNAdConsent.isRequestLocationInEeaOrUnknown();
-    return [consentStatus, consentStatus === "unknown" && isInEeaOrUnknown === true];
+  const consentStatus = await RNAdConsent.requestConsentInfoUpdate({ publisherId });
+  const isInEeaOrUnknown = await RNAdConsent.isRequestLocationInEeaOrUnknown();
+  return [consentStatus, consentStatus === "unknown" && isInEeaOrUnknown === true];
+}
+
+// Get ad unit id
+function getAppOpenAdUnitID() {
+  return __DEV__ ? TestIds.APP_OPEN : Platform.select({
+    ios: process.env.EXPO_PUBLIC_IOS_APPOPEN_AD_UNIT_ID,
+    android: process.env.EXPO_PUBLIC_ANDROID_APPOPEN_AD_UNIT_ID,
+  });
 }
 
 // Complete function
@@ -49,10 +57,10 @@ async function showConsentFormAndInitAdMob(publisherId, hideSplashScreen){
   // Check personnalized ads consent
   var [consentStatus, shouldGetConsent] = await shouldGetConsentFromUser(publisherId);
   if (shouldGetConsent) {
-      consentStatus = await RNAdConsent.showGoogleConsentForm({
-        privacyPolicyUrl: "https://moyennesed.my.to/privacy-policy.html",
-        shouldOfferAdFree: false,
-      });
+    consentStatus = await RNAdConsent.showGoogleConsentForm({
+      privacyPolicyUrl: "https://moyennesed.my.to/privacy-policy.html",
+      shouldOfferAdFree: false,
+    });
   }
 
   // Init Admob
@@ -75,14 +83,6 @@ async function showConsentFormAndInitAdMob(publisherId, hideSplashScreen){
     });
     appOpenAd.load();
   } else { hideSplashScreen(); }
-}
-
-// Get ad unit id
-function getAppOpenAdUnitID() {
-  return __DEV__ ? TestIds.APP_OPEN : Platform.select({
-    ios: process.env.EXPO_PUBLIC_IOS_APPOPEN_AD_UNIT_ID,
-    android: process.env.EXPO_PUBLIC_ANDROID_APPOPEN_AD_UNIT_ID,
-  });
 }
 
 export default showConsentFormAndInitAdMob;
