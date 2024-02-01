@@ -41,10 +41,7 @@ function AppRoot() {
       setIsLoggedIn(true);
 
       // AppOpen ad
-      await setupAdmobAndShowAppOpenAd(
-        process.env.EXPO_PUBLIC_ADMOB_PUBLISHER_ID,
-        () => setIsLoaded(true),
-      );
+      await setupAdmobAndShowAppOpenAd(() => setIsLoaded(true));
     } else {
       setIsLoaded(true);
     }

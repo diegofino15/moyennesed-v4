@@ -1,5 +1,4 @@
-import mobileAds, { MaxAdContentRating, AppOpenAd, AdEventType, TestIds } from 'react-native-google-mobile-ads';
-import RNAdConsent from '@ulangi/react-native-ad-consent';
+import mobileAds, { AdsConsent, MaxAdContentRating, AppOpenAd, AdEventType, TestIds } from 'react-native-google-mobile-ads';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { Platform } from 'react-native';
 
@@ -34,13 +33,6 @@ async function checkATTConsent() {
   return result == RESULTS.GRANTED;
 }
 
-// Should request personnalized ads consent from user
-async function shouldGetConsentFromUser(publisherId) {
-  const consentStatus = await RNAdConsent.requestConsentInfoUpdate({ publisherId });
-  const isInEeaOrUnknown = await RNAdConsent.isRequestLocationInEeaOrUnknown();
-  return [consentStatus, consentStatus === "unknown" && isInEeaOrUnknown === true];
-}
-
 // Get ad unit id
 function getAppOpenAdUnitID() {
   return __DEV__ ? TestIds.APP_OPEN : Platform.select({
@@ -50,20 +42,21 @@ function getAppOpenAdUnitID() {
 }
 
 // Complete function
-async function setupAdmobAndShowAppOpenAd(publisherId, hideSplashScreen){  
+async function setupAdmobAndShowAppOpenAd(hideSplashScreen){  
   // Check consent with Google's UMP message
-  var [consentStatus, shouldGetConsent] = await shouldGetConsentFromUser(publisherId);
-  if (shouldGetConsent) {
-    consentStatus = await RNAdConsent.showGoogleConsentForm({
-      privacyPolicyUrl: "https://moyennesed.my.to/privacy-policy.html",
-      shouldOfferAdFree: false,
-    });
-  }
+  var adsConsentInfo = await AdsConsent.requestInfoUpdate();
+  if (adsConsentInfo.isConsentFormAvailable) { adsConsentInfo = await AdsConsent.loadAndShowConsentFormIfRequired(); }
+  const userPreferences = await AdsConsent.getUserChoices();
+  const allowPersonalizedAds = userPreferences.selectPersonalisedAds;
 
   // Check consent with Apple's ATT message
   var attConsent = (Platform.OS == "android");
-  if (Platform.OS == "ios" && consentStatus == "personalized") {
-    attConsent = await checkATTConsent();
+  if (Platform.OS == "ios") {
+    const gdprApplies = await AdsConsent.getGdprApplies();
+    const hasConsentForPurposeOne = gdprApplies && (await AdsConsent.getPurposeConsents()).startsWith("1");
+    if (!gdprApplies || hasConsentForPurposeOne) {
+      attConsent = await checkATTConsent();
+    }
   }
 
   // Init Admob
@@ -75,7 +68,7 @@ async function setupAdmobAndShowAppOpenAd(publisherId, hideSplashScreen){
     const appOpenAd = AppOpenAd.createForAdRequest(
       getAppOpenAdUnitID(), {
       publisherProvidedId: process.env.EXPO_PUBLIC_ADMOB_PUBLISHER_ID,
-      requestNonPersonalizedAdsOnly: (consentStatus == "non_personalized") || !attConsent,
+      requestNonPersonalizedAdsOnly: !allowPersonalizedAds || !attConsent,
       keywords: ["élève", "lycée", "collège", "école"],
     });
     appOpenAd.addAdEventsListener((event) => {

@@ -2634,11 +2634,6 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@ulangi/react-native-ad-consent@^2.0.2-patch.1":
-  version "2.0.2-patch.1"
-  resolved "https://registry.yarnpkg.com/@ulangi/react-native-ad-consent/-/react-native-ad-consent-2.0.2-patch.1.tgz#ec46e206a069c5702be99a6072a180cbdf05f0a1"
-  integrity sha512-unK6R+nPGE+eBZUcNMJYbO21JWWwLpsRO3JoDzITE1fc/gzmTKBUnS4Chi7cxVdbi0alJbcW0YiYAMGfJ0/3rg==
-
 "@urql/core@2.3.6":
   version "2.3.6"
   resolved "https://registry.yarnpkg.com/@urql/core/-/core-2.3.6.tgz#ee0a6f8fde02251e9560c5f17dce5cd90f948552"
