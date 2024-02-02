@@ -37,6 +37,9 @@ yarn-error.*
 
 # CUSTOM #
 
+# Environment variables
+.env
+
 # Builds compiled locally
 builds/
 
