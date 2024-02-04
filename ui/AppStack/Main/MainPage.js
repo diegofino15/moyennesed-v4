@@ -52,7 +52,7 @@ function MainPage({ route, navigation }) {
           }}>
             <View style={{ flexDirection: 'column', width: Dimensions.get('window').width - 120 }}>
               <Text style={[DefaultTheme.fonts.titleLarge, { fontSize: 22, height: 30 }]} numberOfLines={1}>Bonjour {currentAccount.firstName} !</Text>
-              <WelcomeMessage />
+              {currentAccount.id && <WelcomeMessage currentAccount={currentAccount}/>}
             </View>
             <ProfilePhoto accountID={currentAccount.id} size={70} onPress={() => navigation.navigate("SettingsStack")}/>
           </View>
