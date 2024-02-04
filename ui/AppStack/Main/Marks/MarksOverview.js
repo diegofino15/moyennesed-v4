@@ -39,7 +39,7 @@ function MarksOverview({
           if (shownPeriod == Object.keys(periodsRef.current).length) { shownPeriod -= 1; }
           setSelectedPeriod(Object.keys(periodsRef.current)[shownPeriod]);
         }
-      }
+      } else { setPeriods({}); }
     });
   }, [showMarksAccount.id, displayRefresher]);
 
@@ -92,7 +92,7 @@ function MarksOverview({
             title: period.title,
             id: period.id,
           }})}
-          getTitleForSelected={(periodID) => periods[periodID].title}
+          getTitleForSelected={(periodID) => periods[periodID]?.title}
           selected={selectedPeriod}
           setSelected={setSelectedPeriod}
         />
