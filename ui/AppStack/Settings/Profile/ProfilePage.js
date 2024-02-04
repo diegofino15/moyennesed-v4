@@ -42,7 +42,7 @@ function ProfilePage({ route, navigation }) {
   async function disconnect() {
     await AppData.eraseData();
     setIsDisconnecting(false);
-    navigation.popToTop();
+    navigation.navigate("MainPage", { newAccountID: 0 });
     appContext.setIsLoggedIn(false);
   }
 

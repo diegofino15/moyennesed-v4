@@ -47,8 +47,8 @@ class AppData {
             await this.saveConnectedAccounts(response.data.data, response.data.token);
             status = 1;
             if (response.data.data.accounts.length != 1) {
-              const alreadySavedPreference = await AsyncStorage.getItem("selectedAccount");
-              if (!alreadySavedPreference) { status = 2; }
+              let alreadySavedPreference = await AsyncStorage.getItem("selectedAccount");
+              if (!alreadySavedPreference || alreadySavedPreference == 0) { status = 2; }
             }
             else { await this.saveSelectedAccount(response.data.data.accounts[0].id); }
             await AsyncStorage.setItem("credentials", JSON.stringify({
@@ -170,7 +170,7 @@ class AppData {
   static async getMainAccount() {
     const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
     const selectedAccount = await this.getSelectedAccount();
-    return accounts[selectedAccount];
+    return accounts && selectedAccount ? accounts[selectedAccount] : null;
   }
   // Get specific account, used for children on parent accounts
   static async getSpecificAccount(accountID) {
@@ -523,13 +523,7 @@ class AppData {
 
   // Erase all data //
   static async eraseData() {
-    await AsyncStorage.multiRemove([
-      "credentials",
-      "accounts",
-      "selectedAccount",
-      "photos",
-      "marks",
-    ]);
+    await AsyncStorage.clear();
   }
 }
 

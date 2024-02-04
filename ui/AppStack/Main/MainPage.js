@@ -15,7 +15,7 @@ import AppData from "../../../core/AppData";
 function MainPage({ route, navigation }) {
   // Connected main account (parent / student)
   const [currentAccount, setCurrentAccount] = useState({ "accountType": "E" });
-  useEffect(() => { AppData.getMainAccount().then(account => { setCurrentAccount(account); }); }, [route.params?.newAccountID]);
+  useEffect(() => { AppData.getMainAccount().then(account => { if (account) { setCurrentAccount(account); } }); }, [route.params?.newAccountID]);
 
   // Manual refresh
   const [manualRefreshing, setManualRefreshing] = useState(false);
