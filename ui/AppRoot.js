@@ -10,6 +10,8 @@ import { AppContextProvider } from "../util/AppContext";
 import { useFonts, initTheme } from "../util/Styles";
 import AppData from "../core/AppData";
 
+import setupAdmobAndShowAppOpenAd from "../util/AdsHandler";
+
 
 // App Root
 function AppRoot() {
@@ -35,11 +37,14 @@ function AppRoot() {
     if (credentials) {
       const accounts = await AsyncStorage.getItem("accounts");
       if (!accounts) { await AppData.refreshLogin(); }
-      setIsLoggedIn(true);
-    }
 
-    // Finish loading app
-    setIsLoaded(true);
+      setIsLoggedIn(true);
+
+      // AppOpen ad
+      await setupAdmobAndShowAppOpenAd(() => setIsLoaded(true));
+    } else {
+      setIsLoaded(true);
+    }
   }
 
   if (!isLoaded) { return null; }
