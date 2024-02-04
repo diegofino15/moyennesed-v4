@@ -12,6 +12,7 @@ import ProfilePhoto from "../../../components/ProfilePhoto";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import { useAppContext } from "../../../../util/AppContext";
 import AppData from "../../../../core/AppData";
+import HapticsHandler from "../../../../core/HapticsHandler";
 
 
 // Profile settings page
@@ -19,19 +20,18 @@ function ProfilePage({ route, navigation }) {
   // Currently selected account
   const { currentAccount } = route.params;
 
-  // Can switch account
+  // Switch account
   const [canSwitchAccounts, setCanSwitchAccounts] = useState(false);
   const [isSwitchingAccount, setIsSwitchingAccount] = useState(false);
-  useEffect(() => {
-    AsyncStorage.getItem("accounts").then(jsonAccounts => {
-      if (Object.keys(JSON.parse(jsonAccounts)).length > 1) { setCanSwitchAccounts(true); }
-    });
-  }, []);
+  useEffect(() => { AsyncStorage.getItem("accounts").then(jsonAccounts => {
+    if (Object.keys(JSON.parse(jsonAccounts)).length > 1) { setCanSwitchAccounts(true); }
+  }); }, []);
   async function switchAccount(newAccountID) {
     if (newAccountID != currentAccount.id) {
       await AsyncStorage.setItem("selectedAccount", `${newAccountID}`);
       navigation.navigate("MainPage", { newAccountID: newAccountID });
       console.log(`Switched to account ${newAccountID} !`);
+      HapticsHandler.vibrate("light");
     }
     setIsSwitchingAccount(false);
   }

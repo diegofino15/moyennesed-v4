@@ -1,5 +1,5 @@
 import { Text } from "react-native";
-import { ChevronDownIcon } from "lucide-react-native";
+import { ChevronsUpDownIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import * as DropdownMenu from 'zeego/dropdown-menu'
 
@@ -20,8 +20,8 @@ function CustomChooser({
         flexDirection: "row",
         alignItems: "center",
       }}>
-        <ChevronDownIcon size={16} color={color} />
-        <Text style={[DefaultTheme.fonts.labelMedium, { color: color, marginLeft: 5 }]}>{selected ? getTitleForSelected(selected) : defaultLabel}</Text>
+        <Text style={[DefaultTheme.fonts.labelMedium, { color: color }]}>{selected ? getTitleForSelected(selected) : defaultLabel}</Text>
+        <ChevronsUpDownIcon size={16} color={color} style={{ marginLeft: 5 }} />
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         <DropdownMenu.Label>{title}</DropdownMenu.Label>
