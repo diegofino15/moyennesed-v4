@@ -48,7 +48,7 @@ function WelcomeMessage({ currentAccount }) {
   }
 
   // Change message every 30 seconds
-  const refreshRate = 10 * 1000;
+  const refreshRate = 30 * 1000;
   const [welcomeMessage, setWelcomeMessage] = useState("");
   useEffect(() => {
     async function refreshWelcomeMessage(startAccountID) {
