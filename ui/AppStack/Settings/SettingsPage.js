@@ -1,37 +1,20 @@
 import { useEffect } from "react";
 import { View, Text, Dimensions } from "react-native";
 import { DefaultTheme } from "react-native-paper";
-import { AlertTriangleIcon, CornerDownRightIcon } from "lucide-react-native";
+import { CornerDownRightIcon } from "lucide-react-native";
 import useState from "react-usestateref";
 
 import CustomModal from "../../components/CustomModal";
 import SectionButton from "../../components/SectionButton";
 import ProfilePhoto from "../../components/ProfilePhoto";
-import CustomInformationCard from "../../components/CustomInformationCard";
-import { useAppContext } from "../../../util/AppContext";
 import AppData from "../../../core/AppData";
 
 
 // Profile page
-function ProfilePage({ navigation }) {
-  // Show AppStack once logged-in
-  const appContext = useAppContext();
-
-  // Disconnect
-  async function disconnect() {
-    await AppData.eraseData();
-    navigation.pop();
-    appContext.setIsLoggedIn(false);
-  }
-
-  // Get main account
-  const [mainAccount, setMainAccount] = useState({});
-  useEffect(() => {
-    async function setup() {
-      setMainAccount(await AppData.getMainAccount());
-    }
-    setup();
-  }, []);
+function SettingsPage({ navigation }) {
+  // Currently selected account
+  const [currentAccount, setCurrentAccount] = useState({});
+  useEffect(() => { AppData.getMainAccount().then(account => { setCurrentAccount(account); }); }, []);
 
   return (
     <CustomModal
@@ -41,17 +24,17 @@ function ProfilePage({ navigation }) {
         <View>
           {/* Profile */}
           <SectionButton
-            showBigIcon
-            icon={<ProfilePhoto accountID={mainAccount.id} size={70}/>}
-            title={`${mainAccount.firstName} ${mainAccount.lastName}`}
+            showBigIcon={currentAccount.accountType == "E"}
+            icon={currentAccount.accountType == "E" && <ProfilePhoto accountID={currentAccount.id} size={70}/>}
+            title={`${currentAccount.firstName} ${currentAccount.lastName}`}
             description="Paramètres du profil"
-            onPress={() => navigation.navigate("ProfileSettingsPage", { isModal: false })}
+            onPress={() => navigation.navigate("ProfilePage", { isModal: false, currentAccount: currentAccount })}
             style={{ marginBottom: 10 }}
           />
 
           {/* Show children accounts for parent accounts */}
-          {mainAccount.accountType == "P" && Object.keys(mainAccount.children).map(childID => {
-            const child = mainAccount.children[childID];
+          {currentAccount.accountType == "P" && Object.keys(currentAccount.children).map(childID => {
+            const child = currentAccount.children[childID];
             return (
               <View key={childID} style={{
                 flexDirection: 'row',
@@ -77,20 +60,10 @@ function ProfilePage({ navigation }) {
               </View>
             );
           })}
-          
-          {/* Temporary */}
-          <CustomInformationCard
-            title="Se déconnecter"
-            description="Cela effacera toutes vos préférences, vous devrez vous reconnecter."
-            error={true}
-            icon={<AlertTriangleIcon size={20} color={DefaultTheme.colors.error}/>}
-            onPress={disconnect}
-            style={{ marginTop: 10 }}
-          />
         </View>
       )}
     />
   );
 }
 
-export default ProfilePage;
+export default SettingsPage;

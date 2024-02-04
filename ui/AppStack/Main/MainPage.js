@@ -4,27 +4,18 @@ import { DefaultTheme } from "react-native-paper";
 import useState from "react-usestateref";
 
 import EmbeddedMarksPage from "./Marks/EmbeddedMarksPage";
-import WelcomeMessage from "../components/WelcomeMessage";
-import ProfilePhoto from "../components/ProfilePhoto";
-import { OSvalue } from "../../util/Utils";
-import HapticsHandler from "../../core/HapticsHandler";
-import AppData from "../../core/AppData";
+import WelcomeMessage from "./WelcomeMessage";
+import ProfilePhoto from "../../components/ProfilePhoto";
+import { OSvalue } from "../../../util/Utils";
+import HapticsHandler from "../../../core/HapticsHandler";
+import AppData from "../../../core/AppData";
 
 
 // Main page
-function MainPage({ navigation }) {
-  // Only for profile photo
-  const [selectedAccount, setSelectedAccount] = useState(null);
-  
+function MainPage({ route, navigation }) {
   // Connected main account (parent / student)
-  const [account, setAccount] = useState({ "accountType": "E" });
-  useEffect(() => {
-    async function setup() {
-      setSelectedAccount(await AppData.getSelectedAccount());
-      setAccount(await AppData.getMainAccount());
-    }
-    setup();
-  }, []);
+  const [currentAccount, setCurrentAccount] = useState({ "accountType": "E" });
+  useEffect(() => { AppData.getMainAccount().then(account => { setCurrentAccount(account); }); }, [route.params?.newAccountID]);
 
   // Manual refresh
   const [manualRefreshing, setManualRefreshing] = useState(false);
@@ -60,20 +51,19 @@ function MainPage({ navigation }) {
             marginBottom: 20,
           }}>
             <View style={{ flexDirection: 'column', width: Dimensions.get('window').width - 120 }}>
-              <Text style={[DefaultTheme.fonts.titleLarge, { fontSize: 22, height: 30 }]} numberOfLines={1}>Bonjour {account.firstName} !</Text>
+              <Text style={[DefaultTheme.fonts.titleLarge, { fontSize: 22, height: 30 }]} numberOfLines={1}>Bonjour {currentAccount.firstName} !</Text>
               <WelcomeMessage />
             </View>
-            <ProfilePhoto accountID={selectedAccount} size={70} onPress={() => navigation.navigate("ProfileStack")}/>
+            <ProfilePhoto accountID={currentAccount.id} size={70} onPress={() => navigation.navigate("SettingsStack")}/>
           </View>
 
           {/* Marks overview */}
           <EmbeddedMarksPage
-            mainAccount={account}
+            mainAccount={currentAccount}
             manualRefreshing={manualRefreshing}
             setManualRefreshing={setManualRefreshing}
             navigation={navigation}
           />
-
         </SafeAreaView>
       </ScrollView>
     </View>

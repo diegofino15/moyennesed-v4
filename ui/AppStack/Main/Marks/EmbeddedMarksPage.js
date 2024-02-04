@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { View } from "react-native";
-import MarksOverview from "./MarksOverview";
-import ChildChooser from "./ChildChooser";
-import AppData from "../../../core/AppData";
 import useState from "react-usestateref";
-import HapticsHandler from "../../../core/HapticsHandler";
+
+import ChildChooser from "./ChildChooser";
+import MarksOverview from "./MarksOverview";
 import SubjectsOverview from "./SubjectsOverview";
+import HapticsHandler from "../../../../core/HapticsHandler";
+import AppData from "../../../../core/AppData";
 
 
 // Embedded mark page

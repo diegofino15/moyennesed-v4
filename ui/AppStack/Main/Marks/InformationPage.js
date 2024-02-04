@@ -4,10 +4,10 @@ import { AlertTriangleIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import LottieView from "lottie-react-native";
 
-import CustomModal from "../../components/CustomModal";
-import CustomInformationCard from "../../components/CustomInformationCard";
-import { formatDate } from "../../../util/Utils";
-import AppData from "../../../core/AppData";
+import CustomModal from "../../../components/CustomModal";
+import CustomInformationCard from "../../../components/CustomInformationCard";
+import { formatDate } from "../../../../util/Utils";
+import AppData from "../../../../core/AppData";
 
 
 // Information page
@@ -35,7 +35,7 @@ function InformationPage({ navigation }) {
           }}>
             <LottieView
               autoPlay
-              source={require('../../../assets/lottie/about-marks.json')}
+              source={require('../../../../assets/lottie/about-marks.json')}
               style={{
                 width: '90%',
                 height: Dimensions.get('window').width * 0.9,

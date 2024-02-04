@@ -66,7 +66,7 @@ function StartPage({ navigation }) {
                 height: 40,
                 borderRadius: 10,
               }}/>
-              <Text style={[DefaultTheme.fonts.bodyMedium, { marginLeft: 10, color: DefaultTheme.colors.onPrimary }]}>Se connecter avec ÉcoleDirecte</Text>
+              <Text style={[DefaultTheme.fonts.bodyMedium, { marginLeft: 10, color: DefaultTheme.colors.onPrimary, height: 23 }]}>Se connecter avec ÉcoleDirecte</Text>
             </View>
           </PressableScale>
 

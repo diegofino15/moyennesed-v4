@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Text, Animated } from "react-native";
 import { DefaultTheme } from "react-native-paper";
-import AppData from "../../core/AppData";
-import { OSvalue } from "../../util/Utils";
+
+import AppData from "../../../core/AppData";
+import { OSvalue } from "../../../util/Utils";
 
 
 // Welcome message

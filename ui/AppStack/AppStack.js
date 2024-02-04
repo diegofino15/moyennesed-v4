@@ -1,9 +1,9 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MainPage from './MainPage';
-import ProfilePage from './Profile/ProfilePage';
-import ProfileSettingsPage from './Profile/ProfileSettingsPage';
-import InformationPage from './Marks/InformationPage';
+import MainPage from './Main/MainPage';
+import InformationPage from './Main/Marks/InformationPage';
+import SettingsPage from './Settings/SettingsPage';
+import ProfilePage from './Settings/Profile/ProfilePage';
 
 
 // Create stack for navigation
@@ -17,6 +17,9 @@ function MainStack() {
         name="MainPage"
         component={MainPage}
         options={{ headerShown: false }}
+        initialParams={{
+          newAccountID: 0, // Used to update app when switching accounts
+        }}
       />
       <Stack.Screen
         name="InformationPage"
@@ -32,20 +35,20 @@ function MainStack() {
 }
 
 // Profile page stack
-function ProfileStack() {
+function SettingsStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="ProfilePage"
-        component={ProfilePage}
+        name="SettingsPage"
+        component={SettingsPage}
         options={{
           presentation: 'modal',
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="ProfileSettingsPage"
-        component={ProfileSettingsPage}
+        name="ProfilePage"
+        component={ProfilePage}
         options={{
           headerShown: false,
           animation: 'slide_from_right',
@@ -66,8 +69,8 @@ function AppStack() {
       />
 
       <Stack.Screen
-        name="ProfileStack"
-        component={ProfileStack}
+        name="SettingsStack"
+        component={SettingsStack}
         options={{
           headerShown: false,
           presentation: 'modal',

@@ -10,7 +10,7 @@ function CustomInformationCard({
   icon,
   description,
   onPress,
-  error,
+  error=false,
   style,
 }) {
   return (

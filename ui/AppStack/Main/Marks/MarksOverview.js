@@ -6,7 +6,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
-import CustomChooser from "../../components/CustomChooser";
+import CustomChooser from "../../../components/CustomChooser";
 
 
 // Marks overview
