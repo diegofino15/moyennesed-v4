@@ -3,7 +3,6 @@ import { Text, Animated } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 
 import { OSvalue } from "../../../util/Utils";
-import AppData from "../../../core/AppData";
 
 
 // Welcome message
@@ -50,23 +49,19 @@ function WelcomeMessage({ currentAccount }) {
   // Change message every 30 seconds
   const refreshRate = 30 * 1000;
   const [welcomeMessage, setWelcomeMessage] = useState("");
-  useEffect(() => {
-    async function refreshWelcomeMessage(startAccountID) {
-      let currentAccountID = await AppData.getSelectedAccount();
-      if (currentAccountID != startAccountID) { return; }
-
-      setWelcomeMessage(getWelcomeMessage());
-      setTimeout(() => {
-        Animated.timing(textOpacity, {
-          toValue: 0,
-          duration: 1000,
-          useNativeDriver: true,
-        }).start();
-      }, refreshRate - 1000);
-      setTimeout(() => refreshWelcomeMessage(startAccountID), refreshRate);
-    }
-    refreshWelcomeMessage(currentAccount.id);
-  }, [currentAccount.id]);
+  async function refreshWelcomeMessage() {
+    setWelcomeMessage(getWelcomeMessage());
+    setTimeout(() => {
+      Animated.timing(textOpacity, {
+        toValue: 0,
+        duration: 1000,
+        useNativeDriver: true,
+      }).start();
+    }, refreshRate - 1000);
+    setTimeout(() => refreshWelcomeMessage(), refreshRate);
+  }
+  useEffect(() => { refreshWelcomeMessage(); }, []);
+  useEffect(() => { setWelcomeMessage(getWelcomeMessage()); }, [currentAccount.id]);
 
   // Animation object
   let textOpacity = new Animated.Value(0);

@@ -1,8 +1,11 @@
 import { useEffect, useRef } from "react";
-import { Modal, StyleSheet, Pressable, Animated, SafeAreaView } from "react-native";
+import { Modal, StyleSheet, Pressable, Animated, SafeAreaView, Dimensions } from "react-native";
 import { BlurView } from "expo-blur";
 import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { PressableScale } from "react-native-pressable-scale";
+import { DefaultTheme } from "react-native-paper";
+import { XIcon } from "lucide-react-native";
 
 
 // Animated card
@@ -70,11 +73,33 @@ function CustomConfirmModal({
           marginHorizontal: 20,
           marginBottom: useSafeAreaInsets().bottom + 20,
         }}>
+          <AnimatedCard
+            key={-1}
+            visible={visible}
+            delay={0}
+            children={(
+              <PressableScale key={1} style={{
+                borderWidth: 2,
+                borderColor: DefaultTheme.colors.surfaceOutline,
+                backgroundColor: DefaultTheme.colors.surface,
+                borderRadius: 10,
+                padding: 5,
+                width: 35,
+                height: 35,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: 5,
+                left: Dimensions.get('window').width - 75,
+              }} onPress={exitModal}>
+                <XIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+              </PressableScale>
+            )}
+          />
           {children.map((child, index) => (
             <AnimatedCard
               key={index}
               visible={visible}
-              delay={index * 50}
+              delay={(index + 1) * 50}
               children={child}
             />
           ))}

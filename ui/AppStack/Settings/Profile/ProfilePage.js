@@ -13,6 +13,7 @@ import CustomInformationCard from "../../../components/CustomInformationCard";
 import { useAppContext } from "../../../../util/AppContext";
 import AppData from "../../../../core/AppData";
 import HapticsHandler from "../../../../core/HapticsHandler";
+import { PressableScale } from "react-native-pressable-scale";
 
 
 // Profile settings page
@@ -44,6 +45,7 @@ function ProfilePage({ route, navigation }) {
     setIsDisconnecting(false);
     navigation.navigate("MainPage", { newAccountID: 0 });
     appContext.setIsLoggedIn(false);
+    HapticsHandler.vibrate("light");
   }
 
   return (
@@ -87,17 +89,20 @@ function ProfilePage({ route, navigation }) {
               style={{ marginTop: 20 }}
             />
           )}
+
+          <PressableScale style={{
+            padding: 10,
+            borderRadius: 20,
+            borderWidth: 2,
+            borderColor: DefaultTheme.colors.error,
+            backgroundColor: DefaultTheme.colors.backdrop,
+            marginTop: 20,
+            alignItems: "center",
+            justifyContent: "center",
+          }} onPress={() => setIsDisconnecting(true)}>
+            <Text style={[DefaultTheme.fonts.bodyLarge, { color: DefaultTheme.colors.error }]}>Se déconnecter</Text>
+          </PressableScale>
           
-          <CustomInformationCard
-            title="Se déconnecter"
-            description="Effacer les données de ce compte sur l'application"
-            icon={<AlertTriangleIcon size={20} color={DefaultTheme.colors.error}/>}
-            onPress={() => setIsDisconnecting(!isDisconnecting)}
-            style={{ marginTop: 20 }}
-            error
-          />
-
-
           {/* MODALS */}
 
           {/* Switch accounts modal */}
