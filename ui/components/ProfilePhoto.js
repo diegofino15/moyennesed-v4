@@ -53,7 +53,7 @@ function ProfilePhoto({ accountID, onPress, size=60, style }) {
         let base64data = fileReaderInstance.result;
         callback(base64data);
       }
-    }
+    } else { callback(null); }
   }
 
   return (

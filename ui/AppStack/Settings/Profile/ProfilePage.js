@@ -1,19 +1,23 @@
 import { useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import { DefaultTheme } from "react-native-paper";
-import { AlertTriangleIcon, ArrowDownUpIcon } from "lucide-react-native";
+import { ArrowDownUpIcon } from "lucide-react-native";
+import { PressableScale } from "react-native-pressable-scale";
+import { LinearGradient } from "expo-linear-gradient";
+import { BlurView } from "expo-blur";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
 import DisconnectModal from "./DisconnectModal";
 import SwitchAccountModal from "./SwitchAccountModal";
+import SettingsSection from "../SettingsSection";
 import CustomModal from "../../../components/CustomModal";
 import ProfilePhoto from "../../../components/ProfilePhoto";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import { useAppContext } from "../../../../util/AppContext";
 import AppData from "../../../../core/AppData";
 import HapticsHandler from "../../../../core/HapticsHandler";
-import { PressableScale } from "react-native-pressable-scale";
+import Separator from "../../../components/Separator";
 
 
 // Profile settings page
@@ -52,56 +56,82 @@ function ProfilePage({ route, navigation }) {
     <CustomModal
       title="Profil"
       goBackFunction={() => navigation.pop()}
+      style={{ padding: 0 }}
       children={(
         <View>
           <View style={{
-            backgroundColor: DefaultTheme.colors.surface,
-            borderWidth: 2,
-            borderColor: DefaultTheme.colors.surfaceOutline,
-            width: '100%',
-            height: 200,
-            borderRadius: 20,
-            padding: 20,
+            overflow: 'hidden',
           }}>
-            <View style={{
-              flexDirection: 'row',
+            <ProfilePhoto accountID={currentAccount.id} size={Dimensions.get('window').width} style={{
+              height: 380,
+              top: -50,
+            }}/>
+            <BlurView intensity={currentAccount.accountType == "E" ? 50 : 30} tint="dark" style={{
+              width: '100%',
+              height: 330,
+              position: 'absolute',
             }}>
-              <ProfilePhoto accountID={currentAccount.id} size={70}/>
-              <View style={{
-                flexDirection: 'column',
-                marginLeft: 10,
+              <LinearGradient colors={[
+                'transparent',
+                'black',
+              ]} style={{
+                height: 330,
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                paddingBottom: 20,
+                paddingHorizontal: 50,
               }}>
-                <Text style={[
-                  DefaultTheme.fonts.titleMedium,
-                  { textAlign: "center" }, 
-                ]}>{currentAccount.firstName} {currentAccount.lastName}</Text>
-                <Text style={DefaultTheme.fonts.labelMedium}>Établissement : </Text>
-              </View>
-            </View>
+                <Text style={[DefaultTheme.fonts.titleMedium, { textAlign: 'center' }]}>{currentAccount.firstName} {currentAccount.lastName}</Text>
+                <Text style={DefaultTheme.fonts.labelLarge}>{currentAccount.grade ?? "Compte parent"}</Text>
+              </LinearGradient>
+
+              <Separator style={{ backgroundColor: DefaultTheme.colors.surfaceOutline }}/>
+            </BlurView>
+            <PressableScale style={{
+              position: 'absolute',
+              top: 20,
+              right: 20,
+              overflow: 'hidden',
+              borderRadius: 5,
+            }}>
+              <BlurView tint="light" style={{
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+              }}>
+                <Text style={[DefaultTheme.fonts.bodyMedium, { height: 22 }]}>ID - {currentAccount.id}</Text>
+              </BlurView>
+            </PressableScale>
           </View>
 
-          {canSwitchAccounts && (
-            <CustomInformationCard
-              title={"Changer de compte"}
-              description={"Plusieurs comptes ont été détectés, cliquez ici pour changer."}
-              icon={<ArrowDownUpIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
-              onPress={() => setIsSwitchingAccount(true)}
-              style={{ marginTop: 20 }}
-            />
-          )}
+          <View style={{
+            paddingHorizontal: 20,
+          }}>
+            {/* Change account / Disconnect */}
+            <SettingsSection title={"Danger zone"}/>
 
-          <PressableScale style={{
-            padding: 10,
-            borderRadius: 20,
-            borderWidth: 2,
-            borderColor: DefaultTheme.colors.error,
-            backgroundColor: DefaultTheme.colors.backdrop,
-            marginTop: 20,
-            alignItems: "center",
-            justifyContent: "center",
-          }} onPress={() => setIsDisconnecting(true)}>
-            <Text style={[DefaultTheme.fonts.bodyLarge, { color: DefaultTheme.colors.error }]}>Se déconnecter</Text>
-          </PressableScale>
+            {canSwitchAccounts && (
+              <CustomInformationCard
+                title={"Changer de compte"}
+                description={"Plusieurs comptes ont été détectés, cliquez ici pour changer."}
+                icon={<ArrowDownUpIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                onPress={() => setIsSwitchingAccount(true)}
+                style={{ marginTop: 20 }}
+              />
+            )}
+
+            <PressableScale style={{
+              padding: 10,
+              borderRadius: 20,
+              borderWidth: 2,
+              borderColor: DefaultTheme.colors.error,
+              backgroundColor: DefaultTheme.colors.backdrop,
+              marginTop: 20,
+              alignItems: "center",
+              justifyContent: "center",
+            }} onPress={() => setIsDisconnecting(true)}>
+              <Text style={[DefaultTheme.fonts.bodyLarge, { color: DefaultTheme.colors.error }]}>Se déconnecter</Text>
+            </PressableScale>
+          </View>
           
           {/* MODALS */}
 

@@ -7,6 +7,8 @@ import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 import { XIcon } from "lucide-react-native";
 
+import { OSvalue } from "../../util/Utils";
+
 
 // Animated card
 function AnimatedCard({ visible, delay, children }) {
@@ -63,7 +65,7 @@ function CustomConfirmModal({
     >
       <StatusBar hidden animated/>
 
-      <BlurView intensity={50} tint="dark" style={[
+      <BlurView intensity={OSvalue({ iosValue: 50, androidValue: 100 })} tint="dark" style={[
         StyleSheet.absoluteFill,
         { justifyContent: 'flex-end' },
       ]}>

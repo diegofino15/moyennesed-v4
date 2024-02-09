@@ -243,6 +243,7 @@ class AppData {
             break;
           default:
             console.warn(`API responded with unknown code ${response.data.code}`);
+            console.warn(response.data);
             status = -1;
             break;
         }
