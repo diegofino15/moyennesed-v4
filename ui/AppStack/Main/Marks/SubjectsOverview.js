@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { View } from "react-native";
 
 
@@ -12,4 +13,4 @@ function SubjectsOverview() {
   );
 }
 
-export default SubjectsOverview;
+export default memo(SubjectsOverview);

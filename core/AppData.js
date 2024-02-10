@@ -95,7 +95,7 @@ class AppData {
       // Student account
       if (accountType == "E") {
         gender = account.profile.sexe;
-        let school = account.profile.nomEtablissement;
+        let school = capitalizeWords(account.profile.nomEtablissement);
         let grade = account.profile.classe.libelle;
         let photoURL = account.profile.photo;
 
@@ -120,7 +120,7 @@ class AppData {
           let childFirstName = capitalizeWords(childAccount.prenom);
           let childLastName = childAccount.nom;
           let childGender = childAccount.sexe;
-          let childSchool = childAccount.nomEtablissement;
+          let childSchool = capitalizeWords(childAccount.nomEtablissement);
           if (childSchool.length == 0) { childSchool = account.nomEtablissement; }
           let grade = childAccount.classe.libelle;
           let childPhotoURL = childAccount.photo;

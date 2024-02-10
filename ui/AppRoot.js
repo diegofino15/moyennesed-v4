@@ -8,7 +8,6 @@ import AuthStack from "./AuthStack/AuthStack";
 import AppStack from "./AppStack/AppStack";
 import { AppContextProvider } from "../util/AppContext";
 import { useFonts, initTheme } from "../util/Styles";
-import AppData from "../core/AppData";
 
 import setupAdmobAndShowAppOpenAd from "../util/AdsHandler";
 
@@ -21,6 +20,7 @@ function AppRoot() {
 
   // Is user logged-in
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [cameFromAuthStack, setCameFromAuthStack] = useState(false);
 
   // Init theme object (doesn't work in prepare function ?)
   var theme = useTheme();
@@ -35,9 +35,6 @@ function AppRoot() {
     // Check if logged-in
     const credentials = await AsyncStorage.getItem("credentials");
     if (credentials) {
-      const accounts = await AsyncStorage.getItem("accounts");
-      if (!accounts) { await AppData.refreshLogin(); }
-
       setIsLoggedIn(true);
 
       // AppOpen ad
@@ -57,8 +54,8 @@ function AppRoot() {
       />
       <AppContextProvider state={{ isLoggedIn, setIsLoggedIn }}>
         {isLoggedIn
-          ? <AppStack/>
-          : <AuthStack/>}
+          ? <AppStack cameFromAuthStack={cameFromAuthStack}/>
+          : <AuthStack setCameFromAuthStack={setCameFromAuthStack}/>}
       </AppContextProvider>
     </PaperProvider>
   );

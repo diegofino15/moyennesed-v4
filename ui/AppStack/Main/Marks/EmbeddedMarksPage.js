@@ -12,6 +12,8 @@ import AppData from "../../../../core/AppData";
 // Embedded mark page
 function EmbeddedMarksPage({
   mainAccount,
+  isConnected,
+  isConnecting,
   manualRefreshing,
   setManualRefreshing,
   navigation,
@@ -61,8 +63,8 @@ function EmbeddedMarksPage({
         HapticsHandler.vibrate("light");
       }
     }
-    if (showMarksAccount.id) { autoGetMarks(); }
-  }, [showMarksAccount.id, manualRefreshing]);  
+    if (isConnected && showMarksAccount.id) { autoGetMarks(); }
+  }, [isConnected, showMarksAccount.id, manualRefreshing]);  
 
   // Selected period
   const [selectedPeriod, setSelectedPeriod] = useState(null);
@@ -77,8 +79,8 @@ function EmbeddedMarksPage({
       <MarksOverview
         selectedPeriod={selectedPeriod}
         setSelectedPeriod={setSelectedPeriod}
+        isLoading={isConnecting || gettingMarksForID[showMarksAccount.id]}
         gotMarks={gotMarksForID[showMarksAccount.id]}
-        gettingMarks={gettingMarksForID[showMarksAccount.id]}
         errorGettingMarks={errorGettingMarksForID[showMarksAccount.id]}
         showMarksAccount={showMarksAccount}
         displayRefresher={displayRefresher}

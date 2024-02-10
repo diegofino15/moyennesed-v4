@@ -13,8 +13,8 @@ import CustomChooser from "../../../components/CustomChooser";
 function MarksOverview({
   selectedPeriod,
   setSelectedPeriod,
+  isLoading,
   gotMarks,
-  gettingMarks,
   errorGettingMarks,
   showMarksAccount,
   displayRefresher,
@@ -57,7 +57,7 @@ function MarksOverview({
       }}>
         <PressableScale style={{
           borderWidth: 2,
-          borderColor: gotMarks ? DefaultTheme.colors.success : gettingMarks ? DefaultTheme.colors.primary : DefaultTheme.colors.error,
+          borderColor: gotMarks ? DefaultTheme.colors.success : isLoading ? DefaultTheme.colors.primary : DefaultTheme.colors.error,
           borderRadius: 5,
           flexDirection: 'row',
           alignItems: 'center',
@@ -68,15 +68,15 @@ function MarksOverview({
         }}>
           <Text style={[
             DefaultTheme.fonts.labelMedium, {
-              color: gotMarks ? DefaultTheme.colors.success : gettingMarks ? DefaultTheme.colors.primary : DefaultTheme.colors.error,
+              color: gotMarks ? DefaultTheme.colors.success : isLoading ? DefaultTheme.colors.primary : DefaultTheme.colors.error,
               marginVertical: 2,
               marginHorizontal: 5,
               height: 22,
-          }]}>{gotMarks ? "À jour" : gettingMarks ? "Chargement..." : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
-          {(gotMarks || errorGettingMarks) && <HelpCircleIcon size={20} color={gotMarks ? DefaultTheme.colors.success : gettingMarks ? DefaultTheme.colors.primary : DefaultTheme.colors.error} style={{ marginRight: 5 }}/>}
+          }]}>{gotMarks ? "À jour" : isLoading ? "Chargement..." : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
+          {(gotMarks || errorGettingMarks) && <HelpCircleIcon size={20} color={gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error} style={{ marginRight: 5 }}/>}
           
           <View style={{
-            backgroundColor: gotMarks ? DefaultTheme.colors.success : gettingMarks ? DefaultTheme.colors.primary : DefaultTheme.colors.error,
+            backgroundColor: gotMarks ? DefaultTheme.colors.success : isLoading ? DefaultTheme.colors.primary : DefaultTheme.colors.error,
             opacity: 0.2,
             position: 'absolute',
             width: '100%',

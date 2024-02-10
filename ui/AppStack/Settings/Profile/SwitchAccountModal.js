@@ -29,6 +29,7 @@ function SwitchAccountModal({ isSwitchingAccount, setIsSwitchingAccount, switchA
         }}>
           <Text style={DefaultTheme.fonts.titleSmall}>Changer de compte</Text>
           <Text style={DefaultTheme.fonts.labelMedium}>Cliquez sur un compte pour le sélectionner.</Text>
+          <Text style={DefaultTheme.fonts.labelMedium}>Vos données et préférences seront sauvegardées.</Text>
         </View>),
         
         Object.values(availableAccounts).map(account => (

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import StartPage from "./StartPage";
@@ -9,7 +10,9 @@ import ChooseAccountPage from './ChooseAccountPage';
 const Stack = createNativeStackNavigator();
 
 // Stack shown when not logged-in
-function AuthStack() {
+function AuthStack({ setCameFromAuthStack }) {
+  useEffect(() => { setCameFromAuthStack(true); }, []);
+  
   return (
     <Stack.Navigator>
       <Stack.Screen

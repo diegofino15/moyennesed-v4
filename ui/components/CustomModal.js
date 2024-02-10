@@ -12,6 +12,7 @@ function CustomModal({
   goBackFunction,
   children,
   style,
+  showScrollView=true,
 }) {
   return (
     <View style={{
@@ -36,15 +37,17 @@ function CustomModal({
         </View>}
 
         {/* Main view */}
-        <ScrollView style={{
-          backgroundColor: DefaultTheme.colors.backdrop,
-          width: '100%',
-          height: '100%',
-          padding: 20,
-          ...style,
-        }} showsVerticalScrollIndicator={false}>
-          {children}
-        </ScrollView>
+        {showScrollView ? (
+          <ScrollView style={{
+            backgroundColor: DefaultTheme.colors.backdrop,
+            width: '100%',
+            height: '100%',
+            padding: 20,
+            ...style,
+          }} showsVerticalScrollIndicator={false}>
+            {children}
+          </ScrollView>
+        ) : {...children}}
 
         {/* Back button */}
         {goBackFunction && <PressableScale style={{

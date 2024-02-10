@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { View, Text, SafeAreaView, Dimensions, ScrollView, RefreshControl } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import useState from "react-usestateref";
@@ -12,7 +12,7 @@ import AppData from "../../../core/AppData";
 
 
 // Main page
-function MainPage({ route, navigation }) {
+function MainPage({ isConnected, isConnecting, route, navigation }) {
   // Connected main account (parent / student)
   const [currentAccount, setCurrentAccount] = useState({ "accountType": "E" });
   useEffect(() => { AppData.getMainAccount().then(account => { if (account) { setCurrentAccount(account); } }); }, [route.params?.newAccountID]);
@@ -60,6 +60,8 @@ function MainPage({ route, navigation }) {
           {/* Marks overview */}
           <EmbeddedMarksPage
             mainAccount={currentAccount}
+            isConnected={isConnected}
+            isConnecting={isConnecting}
             manualRefreshing={manualRefreshing}
             setManualRefreshing={setManualRefreshing}
             navigation={navigation}
@@ -70,4 +72,4 @@ function MainPage({ route, navigation }) {
   );
 }
 
-export default MainPage;
+export default memo(MainPage);

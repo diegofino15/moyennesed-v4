@@ -1,26 +1,35 @@
+import { useEffect, useState } from 'react'; 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MainPage from './Main/MainPage';
 import InformationPage from './Main/Marks/InformationPage';
 import SettingsPage from './Settings/SettingsPage';
 import ProfilePage from './Settings/Profile/ProfilePage';
+import AppData from '../../core/AppData';
 
 
 // Create stack for navigation
 const Stack = createNativeStackNavigator();
 
 // Main page stack
-function MainStack() {
+function MainStack({ refreshLogin, isConnected, isConnecting }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="MainPage"
-        component={MainPage}
         options={{ headerShown: false }}
         initialParams={{
           newAccountID: 0, // Used to update app when switching accounts
         }}
-      />
+      >
+        {(props) => <MainPage
+          {...props}
+          refreshLogin={refreshLogin}
+          isConnected={isConnected}
+          isConnecting={isConnecting}
+        />}
+      </Stack.Screen>
+
       <Stack.Screen
         name="InformationPage"
         component={InformationPage}
@@ -35,17 +44,24 @@ function MainStack() {
 }
 
 // Profile page stack
-function SettingsStack() {
+function SettingsStack({ refreshLogin, isConnected, isConnecting }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="SettingsPage"
-        component={SettingsPage}
         options={{
           presentation: 'modal',
           headerShown: false,
         }}
-      />
+      >
+        {(props) => <SettingsPage
+          {...props}
+          refreshLogin={refreshLogin}
+          isConnected={isConnected}
+          isConnecting={isConnecting}
+        />}
+      </Stack.Screen>
+
       <Stack.Screen
         name="ProfilePage"
         component={ProfilePage}
@@ -59,24 +75,52 @@ function SettingsStack() {
 }
 
 // Stack shown when not logged-in
-function AppStack() {
+function AppStack({ cameFromAuthStack }) {
+  // Login status
+  const [isConnected, setIsConnected] = useState(cameFromAuthStack);
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  // Auto-login
+  useEffect(() => { if (!cameFromAuthStack) { refreshLogin(); } }, []);
+  async function refreshLogin() {
+    console.log("Refreshing login...");
+    
+    setIsConnecting(true);
+    setIsConnected(false);
+    const successful = await AppData.refreshLogin();
+    setIsConnected(successful);
+    setIsConnecting(false);
+  }
+  
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="MainStack"
-        component={MainStack}
         options={{ headerShown: false }}
-      />
+      >
+        {(props) => <MainStack
+          {...props}
+          refreshLogin={refreshLogin}
+          isConnected={isConnected}
+          isConnecting={isConnecting}
+        />}
+      </Stack.Screen>
 
       <Stack.Screen
         name="SettingsStack"
-        component={SettingsStack}
         options={{
           headerShown: false,
           presentation: 'modal',
           animation: 'fade_from_bottom',
         }}
-      />
+      >
+        {(props) => <SettingsStack
+          {...props}
+          refreshLogin={refreshLogin}
+          isConnected={isConnected}
+          isConnecting={isConnecting}
+        />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }
