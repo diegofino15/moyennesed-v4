@@ -8,6 +8,7 @@ import AuthStack from "./AuthStack/AuthStack";
 import AppStack from "./AppStack/AppStack";
 import { AppContextProvider } from "../util/AppContext";
 import { useFonts, initTheme } from "../util/Styles";
+import AppData from "../core/AppData";
 
 import setupAdmobAndShowAppOpenAd from "../util/AdsHandler";
 
@@ -36,6 +37,13 @@ function AppRoot() {
     const credentials = await AsyncStorage.getItem("credentials");
     if (credentials) {
       setIsLoggedIn(true);
+
+      // For users migrating from v3
+      const accounts = await AsyncStorage.getItem("accounts");
+      if (!accounts) {
+        await AppData.refreshLogin();
+        setCameFromAuthStack(true);
+      }
 
       // AppOpen ad
       await setupAdmobAndShowAppOpenAd(() => setIsLoaded(true));
