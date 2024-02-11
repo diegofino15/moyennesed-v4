@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { View, Text, Dimensions, ScrollView } from "react-native";
 import { DefaultTheme } from "react-native-paper";
-import { ArrowDownUpIcon, UserRoundIcon, CornerDownRightIcon, SchoolIcon } from "lucide-react-native";
+import { ArrowDownUpIcon, CornerDownRightIcon, SchoolIcon, GraduationCapIcon, UserRoundCogIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
@@ -14,10 +14,10 @@ import SettingsSection from "../SettingsSection";
 import CustomModal from "../../../components/CustomModal";
 import CustomProfilePhoto from "../../../components/CustomProfilePhoto";
 import CustomInformationCard from "../../../components/CustomInformationCard";
+import CustomLittleInformationCard from "../../../components/CustomLittleInformationCard";
 import { useAppContext } from "../../../../util/AppContext";
 import AppData from "../../../../core/AppData";
 import HapticsHandler from "../../../../core/HapticsHandler";
-import CustomSeparator from "../../../components/CustomSeparator";
 import { OSvalue } from "../../../../util/Utils";
 
 
@@ -102,84 +102,91 @@ function ProfilePage({ route, navigation }) {
               </View>
             </LinearGradient>
 
-            <CustomSeparator style={{ backgroundColor: DefaultTheme.colors.surfaceOutline }}/>
-            
-            <View style={{ backgroundColor: DefaultTheme.colors.backdrop, padding: 20 }}>
-              {/* Informations */}
+            <View style={{ backgroundColor: 'black' }}>
               <View style={{
-                backgroundColor: DefaultTheme.colors.surface,
+                backgroundColor: DefaultTheme.colors.backdrop,
+                padding: 20,
                 borderWidth: 2,
                 borderColor: DefaultTheme.colors.surfaceOutline,
-                borderRadius: 10,
-                flexDirection: 'row',
-                alignItems: 'center',
-                padding: 10,
-              }}>
-                {currentAccount.accountType == "E" ? (
-                  <SchoolIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 10 }}/>
-                ) : (
-                  <UserRoundIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 10 }}/>
-                )}
-                <Text style={DefaultTheme.fonts.bodyLarge}>{currentAccount.accountType == "E" ? currentAccount.school : "Compte parent"}</Text>
-              </View>
-
-              {/* Show children accounts for parent accounts */}
-              {currentAccount.accountType == "P" && Object.keys(currentAccount.children).map(childID => {
-                const child = currentAccount.children[childID];
-                return (
-                  <View key={childID} style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginTop: 10,
-                  }}>
-                    <CornerDownRightIcon size={30} color={DefaultTheme.colors.onSurfaceDisabled}/>
-                    <CustomProfilePhoto accountID={childID} size={55} style={{ marginLeft: 10 }}/>
-                    <View style={{
-                      borderWidth: 2,
-                      borderColor: DefaultTheme.colors.surfaceOutline,
-                      backgroundColor: DefaultTheme.colors.surface,
-                      borderRadius: 10,
-                      paddingHorizontal: 10,
-                      paddingVertical: 5,
-                      marginLeft: 10,
-                      width: Dimensions.get('window').width - 145,
-                      height: 55,
-                    }}>
-                      <Text style={[DefaultTheme.fonts.bodyMedium, { height: 20 }]} numberOfLines={1}>{child.firstName} {child.lastName}</Text>
-                      <Text style={DefaultTheme.fonts.labelMedium}>{child.grade}</Text>
-                    </View>
-                  </View>
-                );
-              })}
-              
-              
-              
-              {/* Change account / Disconnect */}
-              <SettingsSection title={"Danger zone"}/>
-
-              {canSwitchAccounts && (
-                <CustomInformationCard
-                  title={"Changer de compte"}
-                  description={"Plusieurs comptes ont été détectés, cliquez ici pour changer."}
-                  icon={<ArrowDownUpIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
-                  onPress={() => setIsSwitchingAccount(true)}
-                  style={{ marginTop: 20 }}
-                />
-              )}
-
-              <PressableScale style={{
-                padding: 10,
                 borderRadius: 20,
-                borderWidth: 2,
-                borderColor: DefaultTheme.colors.error,
-                backgroundColor: DefaultTheme.colors.backdrop,
-                marginTop: 20,
-                alignItems: "center",
-                justifyContent: "center",
-              }} onPress={() => setIsDisconnecting(true)}>
-                <Text style={[DefaultTheme.fonts.bodyLarge, { color: DefaultTheme.colors.error }]}>Se déconnecter</Text>
-              </PressableScale>
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
+                borderBottomWidth: 0,
+                width: Dimensions.get('window').width + 4,
+                left: -2,
+              }}>
+                {/* Informations */}
+                {currentAccount.accountType == "E" && (
+                  <CustomLittleInformationCard
+                    icon={<GraduationCapIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 10 }}/>}
+                    content={currentAccount.grade}
+                    style={{ marginBottom: 10 }}
+                  />
+                )}
 
+                {/* Show children for parent accounts */}
+                <CustomLittleInformationCard
+                  icon={currentAccount.accountType == "E" ? (
+                    <SchoolIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 10 }}/>
+                  ) : (
+                    <UserRoundCogIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 10 }}/>
+                  )}
+                  content={currentAccount.accountType == "E" ? currentAccount.school : "Élèves associés"}
+                />
+                {currentAccount.accountType == "P" && Object.keys(currentAccount.children).map(childID => {
+                  const child = currentAccount.children[childID];
+                  return (
+                    <View key={childID} style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginTop: 10,
+                    }}>
+                      <CornerDownRightIcon size={30} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                      <CustomProfilePhoto accountID={childID} size={55} style={{ marginLeft: 10 }}/>
+                      <View style={{
+                        borderWidth: 2,
+                        borderColor: DefaultTheme.colors.surfaceOutline,
+                        backgroundColor: DefaultTheme.colors.surface,
+                        borderRadius: 10,
+                        paddingHorizontal: 10,
+                        paddingVertical: 5,
+                        marginLeft: 10,
+                        width: Dimensions.get('window').width - 145,
+                        height: 55,
+                      }}>
+                        <Text style={[DefaultTheme.fonts.bodyMedium, { height: 20 }]} numberOfLines={1}>{child.firstName} {child.lastName}</Text>
+                        <Text style={DefaultTheme.fonts.labelMedium}>{child.grade}</Text>
+                      </View>
+                    </View>
+                  );
+                })}
+                
+                {/* Switch account if available */}
+                {canSwitchAccounts && <View>
+                  <SettingsSection title={"Compte sélectionné"}/>
+                  <CustomInformationCard
+                    title={"Changer de compte"}
+                    description={"Plusieurs comptes ont été détectés, cliquez ici pour changer."}
+                    icon={<ArrowDownUpIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                    onPress={() => setIsSwitchingAccount(true)}
+                  />
+                </View>}
+                
+                {/* Destructive actions */}
+                <SettingsSection title={"Danger zone"}/>
+                <PressableScale style={{
+                  padding: 10,
+                  borderRadius: 20,
+                  borderWidth: 2,
+                  borderColor: DefaultTheme.colors.error,
+                  backgroundColor: DefaultTheme.colors.errorLight,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }} onPress={() => setIsDisconnecting(true)}>
+                  <Text style={[DefaultTheme.fonts.bodyLarge, { color: DefaultTheme.colors.error }]}>Se déconnecter</Text>
+                </PressableScale>
+
+              </View>
             </View>
 
             <View style={{ height: 250 }}/>

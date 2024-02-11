@@ -3,18 +3,21 @@ import { Text, Animated } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 
 import { OSvalue } from "../../../util/Utils";
+import AppData from "../../../core/AppData";
 
 
 // Welcome message
 function WelcomeMessage({ currentAccount }) {
   // Get random message
-  function getWelcomeMessage() {
+  async function getWelcomeMessage() {
+    const currentConnectedAccount = await AppData.getMainAccount();
+    
     var messages = [
       "Bienvenue dans l'application de gestion des notes !",
       `L'appli est aussi sur ${OSvalue({ iosValue: "Android", androidValue: "iOS" })} (au cas où) !`,
       "Vos avis sur l'appli sont toujours apprécies !",
     ];
-    if (currentAccount.accountType == "E") {
+    if (currentConnectedAccount.accountType == "E") {
       messages.push(
         "Allez, les cours sont bientôt finis !",
         "Plus que quelques jours avant le week-end...",
@@ -22,15 +25,15 @@ function WelcomeMessage({ currentAccount }) {
         "Allez, pense aux grandes vacances c'est pas si loin...",
         "Déjà des contrôles toutes les semaines...",
 
-        `Quelques nouvelles notes pour ${currentAccount.gender == "M" ? "monsieur" : "madame"} ?`,
-        `Tu seras ${currentAccount.gender == "M" ? "premier" : "première"} de classe un jour t'inquiète 🔥`,
+        `Quelques nouvelles notes pour ${currentConnectedAccount.gender == "M" ? "monsieur" : "madame"} ?`,
+        `Tu seras ${currentConnectedAccount.gender == "M" ? "premier" : "première"} de classe un jour t'inquiète 🔥`,
 
         "Toute nouvelle version de l'appli, t'aimes bien ?",
         "Reste à l'affut des mises à jour !",
         "Signale un bug si l'appli ne fonctionne pas bien !",
       );
     } else {
-      let numberOfChildren = Object.keys(currentAccount.children).length;
+      let numberOfChildren = Object.keys(currentConnectedAccount.children).length;
       messages.push(
         `Les résultats de ${numberOfChildren > 1 ? "vos" : "votre"} champion${numberOfChildren > 1 ? "s" : ".ne"} sont disponibles !`,
         `Le plus important c'est d'encourager ${numberOfChildren > 1 ? "vos" : "votre"} enfant${numberOfChildren > 1 ? "s" : ""} !`,
@@ -50,7 +53,7 @@ function WelcomeMessage({ currentAccount }) {
   const refreshRate = 30 * 1000;
   const [welcomeMessage, setWelcomeMessage] = useState("");
   async function refreshWelcomeMessage() {
-    setWelcomeMessage(getWelcomeMessage());
+    setWelcomeMessage(await getWelcomeMessage());
     setTimeout(() => {
       Animated.timing(textOpacity, {
         toValue: 0,
@@ -58,10 +61,10 @@ function WelcomeMessage({ currentAccount }) {
         useNativeDriver: true,
       }).start();
     }, refreshRate - 1000);
-    setTimeout(() => refreshWelcomeMessage(), refreshRate);
+    setTimeout(refreshWelcomeMessage, refreshRate);
   }
   useEffect(() => { refreshWelcomeMessage(); }, []);
-  useEffect(() => { setWelcomeMessage(getWelcomeMessage()); }, [currentAccount.id]);
+  useEffect(() => { async function setup() { setWelcomeMessage(await getWelcomeMessage()); }; setup(); }, [currentAccount.id]);
 
   // Animation object
   let textOpacity = new Animated.Value(0);

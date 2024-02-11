@@ -1,7 +1,7 @@
-import { View, Text, Dimensions } from "react-native";
+import { View, Text } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
-import { ChevronLeftIcon, ChevronRightIcon, XIcon } from "lucide-react-native";
+import { ChevronRightIcon } from "lucide-react-native";
 
 import CustomConfirmModal from "../../../components/CustomConfirmModal";
 

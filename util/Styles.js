@@ -52,10 +52,11 @@ function initTheme(theme) {
     primary: '#1985A1',
     onPrimary: '#FFF',
 
+    primaryLight: '#162831',
     success: '#4CAF50',
-    onSuccess: '#000',
+    successLight: '#1F3023',
     error: '#DA3633',
-    onError: '#FFF',
+    errorLight: '#33191C',
   };
 
   theme.fonts = {

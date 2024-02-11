@@ -3,11 +3,12 @@ import { DefaultTheme } from "react-native-paper";
 
 
 // Settings section
-function SettingsSection({ title }) {
+function SettingsSection({ title, marginTop=20 }) {
   return (
     <View style={{
-      marginTop: 20,
+      marginTop: marginTop,
       marginBottom: 10,
+      height: 20,
     }}>
       <View style={{
         top: 10,

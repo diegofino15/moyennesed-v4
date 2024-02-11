@@ -56,6 +56,7 @@ function MarksOverview({
         marginBottom: 20,
       }}>
         <PressableScale style={{
+          backgroundColor: gotMarks ? DefaultTheme.colors.successLight : isLoading ? DefaultTheme.colors.primaryLight : DefaultTheme.colors.errorLight,
           borderWidth: 2,
           borderColor: gotMarks ? DefaultTheme.colors.success : isLoading ? DefaultTheme.colors.primary : DefaultTheme.colors.error,
           borderRadius: 5,
@@ -74,14 +75,6 @@ function MarksOverview({
               height: 22,
           }]}>{gotMarks ? "À jour" : isLoading ? "Chargement..." : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
           {(gotMarks || errorGettingMarks) && <HelpCircleIcon size={20} color={gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error} style={{ marginRight: 5 }}/>}
-          
-          <View style={{
-            backgroundColor: gotMarks ? DefaultTheme.colors.success : isLoading ? DefaultTheme.colors.primary : DefaultTheme.colors.error,
-            opacity: 0.2,
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-          }}/>
         </PressableScale>
 
         {/* Period chooser */}

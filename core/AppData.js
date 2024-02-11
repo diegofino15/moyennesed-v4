@@ -526,6 +526,11 @@ class AppData {
   static async eraseData() {
     await AsyncStorage.clear();
   }
+  static async erasePreferences() {
+    await AsyncStorage.multiRemove([
+      
+    ]);
+  }
 }
 
 export default AppData;
