@@ -48,7 +48,7 @@ function ChooseAccountPage({ navigation }) {
             const item = accounts[accountID];
             return (
               <View key={accountID} style={{
-                marginTop: 20,
+                marginTop: 10,
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
