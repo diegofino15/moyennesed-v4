@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 import { ArrowRightIcon } from "lucide-react-native";
@@ -20,6 +20,7 @@ function CustomInformationCard({
       borderWidth: 2,
       borderColor: error ? DefaultTheme.colors.error : DefaultTheme.colors.surfaceOutline,
       padding: 10,
+      width: Dimensions.get('window').width - 40,
       ...style
     }}>
       <View style={{
