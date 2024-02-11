@@ -14,7 +14,7 @@ function CustomChooser({
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger action={longPress ? "longPress" : undefined}>
-        {selected ? getItemForSelected(selected) : defaultItem}
+        {(selected && getItemForSelected) ? getItemForSelected(selected) : defaultItem}
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         <DropdownMenu.Label>{title}</DropdownMenu.Label>

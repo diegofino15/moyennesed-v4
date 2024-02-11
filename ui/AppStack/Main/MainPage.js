@@ -83,7 +83,6 @@ function MainPage({ isConnected, isConnecting, route, navigation }) {
                 title: `${account.firstName} ${account.lastName}`,
               }})}
               defaultItem={<CustomProfilePhoto accountID={currentAccount.id} size={70} onPress={() => navigation.navigate("SettingsStack")}/>}
-              getItemForSelected={(newAccountID) => <CustomProfilePhoto accountID={newAccountID} size={70} onPress={() => navigation.navigate("SettingsStack")}/>}
               selected={currentAccount.id}
               setSelected={switchAccount}
               longPress
