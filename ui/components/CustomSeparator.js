@@ -2,8 +2,8 @@ import { View } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 
 
-// Separator
-function Separator({ style }) {
+// Custom Separator
+function CustomSeparator({ style }) {
   return (
     <View
       style={[{
@@ -16,4 +16,4 @@ function Separator({ style }) {
   );
 }
 
-export default Separator;
+export default CustomSeparator;

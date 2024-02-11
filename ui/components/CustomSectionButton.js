@@ -5,7 +5,7 @@ import { PressableScale } from "react-native-pressable-scale";
 
 
 // Section button
-function SectionButton({
+function CustomSectionButton({
   icon,
   showBigIcon=false,
   title,
@@ -56,4 +56,4 @@ function SectionButton({
   );
 }
 
-export default SectionButton;
+export default CustomSectionButton;

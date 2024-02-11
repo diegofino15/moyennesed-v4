@@ -5,7 +5,7 @@ import useState from "react-usestateref";
 
 import EmbeddedMarksPage from "./Marks/EmbeddedMarksPage";
 import WelcomeMessage from "./WelcomeMessage";
-import ProfilePhoto from "../../components/ProfilePhoto";
+import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import { OSvalue } from "../../../util/Utils";
 import HapticsHandler from "../../../core/HapticsHandler";
 import AppData from "../../../core/AppData";
@@ -54,7 +54,7 @@ function MainPage({ isConnected, isConnecting, route, navigation }) {
               <Text style={[DefaultTheme.fonts.titleLarge, { fontSize: 22, height: 30 }]} numberOfLines={1}>Bonjour {currentAccount.firstName} !</Text>
               {currentAccount.id && <WelcomeMessage currentAccount={currentAccount}/>}
             </View>
-            <ProfilePhoto accountID={currentAccount.id} size={70} onPress={() => navigation.navigate("SettingsStack")}/>
+            <CustomProfilePhoto accountID={currentAccount.id} size={70} onPress={() => navigation.navigate("SettingsStack")}/>
           </View>
 
           {/* Marks overview */}

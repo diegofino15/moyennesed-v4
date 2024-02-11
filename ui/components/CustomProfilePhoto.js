@@ -9,7 +9,7 @@ import AppData from "../../core/AppData";
 
 
 // Profile photo
-function ProfilePhoto({ accountID, onPress, size=60, style }) {
+function CustomProfilePhoto({ accountID, onPress, size=60, style }) {
   const [photo, setPhoto] = useState(null);
   useEffect(() => {
     if (!accountID) { return; }
@@ -79,4 +79,4 @@ function ProfilePhoto({ accountID, onPress, size=60, style }) {
   );
 }
 
-export default ProfilePhoto;
+export default CustomProfilePhoto;

@@ -2,7 +2,7 @@ import { View, Text, FlatList } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 
-import Separator from "../../../components/Separator";
+import CustomSeparator from "../../../components/CustomSeparator";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import AppData from "../../../../core/AppData";
 
@@ -13,7 +13,7 @@ function ChildChooser({ mainAccount, showMarksAccount, setShowMarksAccount }) {
     <View style={{
       marginBottom: 20,
     }}>
-      <Separator style={{ marginBottom: 10 }}/>
+      <CustomSeparator style={{ marginBottom: 10 }}/>
       
       <FlatList
         horizontal={true}
@@ -49,7 +49,7 @@ function ChildChooser({ mainAccount, showMarksAccount, setShowMarksAccount }) {
         }}
       />
       
-      <Separator style={{ marginTop: 10 }}/>
+      <CustomSeparator style={{ marginTop: 10 }}/>
     </View>
   );
 }

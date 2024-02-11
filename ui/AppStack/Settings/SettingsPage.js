@@ -6,8 +6,8 @@ import { DefaultTheme } from "react-native-paper";
 import useState from "react-usestateref";
 
 import CustomModal from "../../components/CustomModal";
-import SectionButton from "../../components/SectionButton";
-import ProfilePhoto from "../../components/ProfilePhoto";
+import CustomSectionButton from "../../components/CustomSectionButton";
+import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import AppData from "../../../core/AppData";
 import HapticsHandler from "../../../core/HapticsHandler";
 
@@ -76,9 +76,9 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
           </PressableScale>
           
           {/* Profile */}
-          <SectionButton
+          <CustomSectionButton
             showBigIcon={currentAccount.accountType == "E"}
-            icon={currentAccount.accountType == "E" && <ProfilePhoto accountID={currentAccount.id} size={70}/>}
+            icon={currentAccount.accountType == "E" && <CustomProfilePhoto accountID={currentAccount.id} size={70}/>}
             title={`${currentAccount.firstName} ${currentAccount.lastName}`}
             description="Paramètres du profil"
             onPress={() => navigation.navigate("ProfilePage", { isModal: false, currentAccount: currentAccount })}

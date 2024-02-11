@@ -12,12 +12,12 @@ import DisconnectModal from "./DisconnectModal";
 import SwitchAccountModal from "./SwitchAccountModal";
 import SettingsSection from "../SettingsSection";
 import CustomModal from "../../../components/CustomModal";
-import ProfilePhoto from "../../../components/ProfilePhoto";
+import CustomProfilePhoto from "../../../components/CustomProfilePhoto";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import { useAppContext } from "../../../../util/AppContext";
 import AppData from "../../../../core/AppData";
 import HapticsHandler from "../../../../core/HapticsHandler";
-import Separator from "../../../components/Separator";
+import CustomSeparator from "../../../components/CustomSeparator";
 import { OSvalue } from "../../../../util/Utils";
 
 
@@ -69,8 +69,8 @@ function ProfilePage({ route, navigation }) {
             position: 'absolute',
             overflow: 'hidden',
           }}>
-            <ProfilePhoto accountID={currentAccount.id} size={Dimensions.get('window').width} style={{ height: 380, top: -50 }}/>
-            <BlurView intensity={OSvalue({ iosValue: currentAccount.photoURL ? 50 : 30, androidValue: 100 })} tint="dark" style={{ width: '100%', height: 330, position: 'absolute', }}/>
+            <CustomProfilePhoto accountID={currentAccount.id} size={Dimensions.get('window').width} style={{ height: 280, top: -50 }}/>
+            <BlurView intensity={OSvalue({ iosValue: currentAccount.photoURL ? 50 : 30, androidValue: 100 })} tint="dark" style={{ width: '100%', height: 230, position: 'absolute', }}/>
           </View>
           
           {/* Actual page */}
@@ -78,7 +78,7 @@ function ProfilePage({ route, navigation }) {
             <LinearGradient colors={[
               'transparent',
               'black',
-            ]} style={{ width: '100%', height: 330 }}>
+            ]} style={{ width: '100%', height: 230 }}>
               {/* Account ID */}
               <PressableScale style={{
                 position: 'absolute',
@@ -102,7 +102,7 @@ function ProfilePage({ route, navigation }) {
               </View>
             </LinearGradient>
 
-            <Separator style={{ backgroundColor: DefaultTheme.colors.surfaceOutline }}/>
+            <CustomSeparator style={{ backgroundColor: DefaultTheme.colors.surfaceOutline }}/>
             
             <View style={{ backgroundColor: DefaultTheme.colors.backdrop, padding: 20 }}>
               {/* Informations */}
@@ -133,7 +133,7 @@ function ProfilePage({ route, navigation }) {
                     marginTop: 10,
                   }}>
                     <CornerDownRightIcon size={30} color={DefaultTheme.colors.onSurfaceDisabled}/>
-                    <ProfilePhoto accountID={childID} size={55} style={{ marginLeft: 10 }}/>
+                    <CustomProfilePhoto accountID={childID} size={55} style={{ marginLeft: 10 }}/>
                     <View style={{
                       borderWidth: 2,
                       borderColor: DefaultTheme.colors.surfaceOutline,

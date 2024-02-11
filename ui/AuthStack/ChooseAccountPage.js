@@ -5,7 +5,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import { CheckCircleIcon, CircleIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import ProfilePhoto from "../components/ProfilePhoto";
+import CustomProfilePhoto from "../components/CustomProfilePhoto";
 import CustomModal from "../components/CustomModal";
 import AppData from "../../core/AppData";
 import HapticsHandler from "../../core/HapticsHandler";
@@ -52,7 +52,7 @@ function ChooseAccountPage({ navigation }) {
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
-                {item.accountType == "E" && <ProfilePhoto accountID={item.id} size={70} style={{ marginRight: 10 }}/>}
+                {item.accountType == "E" && <CustomProfilePhoto accountID={item.id} size={70} style={{ marginRight: 10 }}/>}
                 
                 <PressableScale style={{
                   paddingHorizontal: 20,
