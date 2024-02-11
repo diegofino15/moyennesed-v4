@@ -183,7 +183,7 @@ function ProfilePage({ route, navigation }) {
                   alignItems: "center",
                   justifyContent: "center",
                 }} onPress={() => setIsDisconnecting(true)}>
-                  <Text style={[DefaultTheme.fonts.bodyLarge, { color: DefaultTheme.colors.error }]}>Se déconnecter</Text>
+                  <Text style={[DefaultTheme.fonts.bodyLarge, { color: DefaultTheme.colors.error, height: 25 }]}>Se déconnecter</Text>
                 </PressableScale>
 
               </View>

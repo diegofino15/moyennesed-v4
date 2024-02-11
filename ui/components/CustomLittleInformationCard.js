@@ -16,7 +16,7 @@ function CustomLittleInformationCard({ icon, content, style }) {
       ...style,
     }}>
       {icon}
-      <Text style={DefaultTheme.fonts.bodyLarge}>{content}</Text>
+      <Text style={[DefaultTheme.fonts.bodyLarge, { height: 25 }]}>{content}</Text>
     </View>
   );
 }
