@@ -55,7 +55,7 @@ function ChooseAccountPage({ navigation }) {
                 {item.accountType == "E" && <CustomProfilePhoto accountID={item.id} size={70} style={{ marginRight: 10 }}/>}
                 
                 <PressableScale style={{
-                  paddingHorizontal: 20,
+                  paddingHorizontal: 15,
                   paddingVertical: 10,
                   backgroundColor: DefaultTheme.colors.surface,
                   borderWidth: 2,
@@ -66,8 +66,8 @@ function ChooseAccountPage({ navigation }) {
                   height: 70,
                   width: item.accountType == "P" ? '100%' : (Dimensions.get('window').width - 120),
                 }} onPress={() => setSelectedAccount(index)}>
-                  <Text style={DefaultTheme.fonts.bodyLarge}>{item.firstName} {item.lastName}</Text>
-                  <Text style={DefaultTheme.fonts.labelMedium}>{item.accountType == "E" ? "Compte élève" : "Compte parent"}</Text>
+                  <Text style={[DefaultTheme.fonts.bodyLarge, { height: 25 }]}>{item.firstName} {item.lastName}</Text>
+                  <Text style={[DefaultTheme.fonts.labelMedium, { height: 20 }]}>{item.accountType == "E" ? "Compte élève" : "Compte parent"}</Text>
                   <View style={{
                     position: 'absolute',
                     right: 10,
