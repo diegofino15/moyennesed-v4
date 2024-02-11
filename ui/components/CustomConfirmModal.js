@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Modal, StyleSheet, Pressable, Animated, SafeAreaView, Dimensions } from "react-native";
+import { View, Modal, StyleSheet, Pressable, Animated, SafeAreaView, Dimensions } from "react-native";
 import { BlurView } from "expo-blur";
 import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -11,7 +11,7 @@ import { OSvalue } from "../../util/Utils";
 
 
 // Animated card
-function AnimatedCard({ visible, delay, children }) {
+function AnimatedCard({ visible, delay, child, style, reverse=false }) {
   let animation = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     if (visible) {
@@ -31,7 +31,7 @@ function AnimatedCard({ visible, delay, children }) {
       transform: [{
         translateY: animation.interpolate({
           inputRange: [0, 1],
-          outputRange: [50, 0]
+          outputRange: [reverse ? -50 : 50, 0]
         })
       }, {
         scaleX: animation.interpolate({
@@ -44,8 +44,9 @@ function AnimatedCard({ visible, delay, children }) {
           outputRange: [0.9, 1]
         })
       }],
+      ...style,
     }}>
-      {children}
+      {child}
     </Animated.View>
   );
 }
@@ -56,6 +57,7 @@ function CustomConfirmModal({
   visible,
   exitModal,
   children,
+  specialTip,
 }) {
   return (
     <Modal
@@ -75,11 +77,24 @@ function CustomConfirmModal({
           marginHorizontal: 20,
           marginBottom: useSafeAreaInsets().bottom + 20,
         }}>
+          {specialTip && (
+            <AnimatedCard
+              key={-2}
+              visible={visible}
+              delay={0}
+              child={specialTip}
+              style={{
+                position: 'absolute',
+                bottom: Dimensions.get('window').height - 250,
+              }}
+              reverse
+            />
+          )}
           <AnimatedCard
             key={-1}
             visible={visible}
             delay={0}
-            children={(
+            child={(
               <PressableScale key={1} style={{
                 borderWidth: 2,
                 borderColor: DefaultTheme.colors.surfaceOutline,
@@ -102,7 +117,7 @@ function CustomConfirmModal({
               key={index}
               visible={visible}
               delay={(index + 1) * 50}
-              children={child}
+              child={child}
             />
           ))}
         </SafeAreaView>

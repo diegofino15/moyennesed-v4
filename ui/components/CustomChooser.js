@@ -1,33 +1,26 @@
-import { Text } from "react-native";
-import { ChevronsUpDownIcon } from "lucide-react-native";
-import { DefaultTheme } from "react-native-paper";
 import * as DropdownMenu from 'zeego/dropdown-menu'
 
 
 // Period chooser for Android
 function CustomChooser({
   title,
-  defaultLabel,
-  items,
-  getTitleForSelected,
+  defaultItem,
+  getItemForSelected,
   selected,
   setSelected,
-  color=DefaultTheme.colors.primary,
+  items,
+  longPress=false,
 }) {
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger style={{
-        flexDirection: "row",
-        alignItems: "center",
-      }}>
-        <Text style={[DefaultTheme.fonts.labelMedium, { color: color }]}>{selected ? getTitleForSelected(selected) : defaultLabel}</Text>
-        <ChevronsUpDownIcon size={16} color={color} style={{ marginLeft: 5 }} />
+      <DropdownMenu.Trigger action={longPress ? "longPress" : undefined}>
+        {selected ? getItemForSelected(selected) : defaultItem}
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         <DropdownMenu.Label>{title}</DropdownMenu.Label>
 
         {items.map((item) => (
-          <DropdownMenu.Item key={item.id} onSelect={() => setSelected(item.id)} >
+          <DropdownMenu.Item key={item.id} onSelect={() => setSelected(item.id)}>
             <DropdownMenu.ItemTitle>{item.title}</DropdownMenu.ItemTitle>
           </DropdownMenu.Item>
         ))}

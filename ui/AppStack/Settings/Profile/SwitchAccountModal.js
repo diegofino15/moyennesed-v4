@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { CheckCircleIcon } from "lucide-react-native";
+import { CheckCircleIcon, LightbulbIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomConfirmModal from "../../../components/CustomConfirmModal";
+import CustomInformationCard from "../../../components/CustomInformationCard";
 
 
 // Switch accounts modal
@@ -52,6 +53,13 @@ function SwitchAccountModal({ isSwitchingAccount, setIsSwitchingAccount, switchA
           </PressableScale>
         )),
       ]}
+      specialTip={(
+        <CustomInformationCard
+          title={"Le saviez-vous ?"}
+          description={"Vous pouvez changer de compte en laissant pressé le bouton profil sur la page d'accueil."}
+          icon={<LightbulbIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+        />
+      )}
     />
   );
 }

@@ -11,6 +11,7 @@ function WelcomeMessage({ currentAccount }) {
   // Get random message
   async function getWelcomeMessage() {
     const currentConnectedAccount = await AppData.getMainAccount();
+    if (!currentConnectedAccount) { return; }
     
     var messages = [
       "Bienvenue dans l'application de gestion des notes !",

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { View, Text } from "react-native";
 import { DefaultTheme } from "react-native-paper";
-import { HelpCircleIcon } from "lucide-react-native";
+import { HelpCircleIcon, ChevronsUpDownIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
@@ -80,12 +80,15 @@ function MarksOverview({
         {/* Period chooser */}
         <CustomChooser
           title="Sélectionnez une période"
-          defaultLabel="---"
           items={Object.values(periods).map(period => { return {
             title: period.title,
             id: period.id,
           }})}
-          getTitleForSelected={(periodID) => periods[periodID]?.title}
+          defaultItem={<Text style={[DefaultTheme.fonts.labelMedium, { color: DefaultTheme.colors.primary }]}>---</Text>}
+          getItemForSelected={(periodID) => <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text style={[DefaultTheme.fonts.labelMedium, { color: DefaultTheme.colors.primary }]}>{periods[periodID]?.title}</Text>
+            <ChevronsUpDownIcon size={16} color={DefaultTheme.colors.primary} style={{ marginLeft: 5 }} />
+          </View>}
           selected={selectedPeriod}
           setSelected={setSelectedPeriod}
         />
