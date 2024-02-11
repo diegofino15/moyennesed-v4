@@ -9,7 +9,7 @@ import AppData from "../../core/AppData";
 
 
 // Profile photo
-function CustomProfilePhoto({ accountID, onPress, size=60, style }) {
+function CustomProfilePhoto({ accountID, onPress, size=60, style, hasOtherPressAction=false }) {
   const [photo, setPhoto] = useState(null);
   useEffect(() => {
     if (!accountID) { return; }
@@ -68,7 +68,7 @@ function CustomProfilePhoto({ accountID, onPress, size=60, style }) {
       borderWidth: 2,
       borderColor: DefaultTheme.colors.surfaceOutline,
       ...style,
-    }} onPress={onPress} activeScale={onPress ? 0.95 : 1}>
+    }} onPress={onPress} activeScale={onPress ? 0.95 : 1} onLongPress={hasOtherPressAction ? () => {} : undefined}>
       {photo ? <Image source={{ uri: photo }} style={{
         width: size + 10,
         height: size + 10,
