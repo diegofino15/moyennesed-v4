@@ -89,14 +89,14 @@ class AppData {
       var ID = `${account.id}`;
       var accountType = account.typeCompte == "E" ? "E" : "P"; // E = student | 1 = parent
       var firstName = capitalizeWords(account.prenom);
-      var lastName = account.nom;
+      var lastName = account.nom.toUpperCase();
       var gender;
       
       // Student account
       if (accountType == "E") {
         gender = account.profile.sexe;
         let school = capitalizeWords(account.profile.nomEtablissement);
-        let grade = account.profile.classe.libelle;
+        let grade = capitalizeWords(account.profile.classe.libelle);
         let photoURL = account.profile.photo;
 
         connectedAccounts[ID] = {
@@ -118,11 +118,11 @@ class AppData {
         for (const childAccount of account.profile.eleves) {
           let childID = `${childAccount.id}`;
           let childFirstName = capitalizeWords(childAccount.prenom);
-          let childLastName = childAccount.nom;
+          let childLastName = childAccount.nom.toUpperCase();
           let childGender = childAccount.sexe;
           let childSchool = capitalizeWords(childAccount.nomEtablissement);
           if (childSchool.length == 0) { childSchool = account.nomEtablissement; }
-          let grade = childAccount.classe.libelle;
+          let grade = capitalizeWords(childAccount.classe.libelle);
           let childPhotoURL = childAccount.photo;
 
           children[childID] = {
