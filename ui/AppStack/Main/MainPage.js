@@ -42,72 +42,68 @@ function MainPage({ isConnected, isConnecting, route, navigation }) {
   const [manualRefreshing, setManualRefreshing] = useState(false);
   
   return (
-    <View style={{
-      backgroundColor: DefaultTheme.colors.background,
-    }}>
-      <ScrollView
-        bounces={true}
-        showsVerticalScrollIndicator={false}
-        contentInsetAdjustmentBehavior="automatic"
-        style={{
-          width: '100%',
-          height: '100%',
-          backgroundColor: '#0B0A0C',
-          paddingHorizontal: 20,
-          marginTop: OSvalue({ iosValue: 0, androidValue: 20 }),
-        }}
-        refreshControl={
-          <RefreshControl refreshing={manualRefreshing} onRefresh={() => {
-            setManualRefreshing(true);
-            HapticsHandler.vibrate("light");
-          }} tintColor={DefaultTheme.colors.onBackground}/>
-        }
-      >
-        <SafeAreaView>
-          {/* Header */}
-          <View style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: 20,
-          }}>
-            <View style={{ flexDirection: 'column', width: Dimensions.get('window').width - 120 }}>
-              <Text style={[DefaultTheme.fonts.titleLarge, { fontSize: 22, height: 30 }]} numberOfLines={1}>Bonjour {currentAccount.firstName} !</Text>
-              {currentAccount.id && <WelcomeMessage currentAccount={currentAccount}/>}
-            </View>
-
-            <CustomChooser
-              title={"Basculer de compte"}
-              items={availableAccounts.map(account => { return {
-                id: account.id,
-                title: `${account.firstName} ${account.lastName}`,
-              }})}
-              defaultItem={(
-                <CustomProfilePhoto
-                  accountID={currentAccount.id}
-                  size={70}
-                  onPress={() => navigation.navigate("SettingsStack")}
-                  hasOtherPressAction={availableAccounts.length >= 1}
-                />
-              )}
-              selected={currentAccount.id}
-              setSelected={switchAccount}
-              longPress
-            />
+    <ScrollView
+      bounces={true}
+      showsVerticalScrollIndicator={false}
+      contentInsetAdjustmentBehavior="automatic"
+      style={{
+        width: '100%',
+        height: '100%',
+        backgroundColor: DefaultTheme.colors.background,
+        paddingHorizontal: 20,
+        marginTop: OSvalue({ iosValue: 0, androidValue: 20 }),
+      }}
+      refreshControl={
+        <RefreshControl refreshing={manualRefreshing} onRefresh={() => {
+          setManualRefreshing(true);
+          HapticsHandler.vibrate("light");
+        }} tintColor={DefaultTheme.colors.onBackground}/>
+      }
+    >
+      <SafeAreaView>
+        {/* Header */}
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: 20,
+        }}>
+          <View style={{ flexDirection: 'column', width: Dimensions.get('window').width - 120 }}>
+            <Text style={[DefaultTheme.fonts.titleLarge, { fontSize: 22, height: 30 }]} numberOfLines={1}>Bonjour {currentAccount.firstName} !</Text>
+            {currentAccount.id && <WelcomeMessage currentAccount={currentAccount}/>}
           </View>
 
-          {/* Marks overview */}
-          <EmbeddedMarksPage
-            mainAccount={currentAccount}
-            isConnected={isConnected}
-            isConnecting={isConnecting}
-            manualRefreshing={manualRefreshing}
-            setManualRefreshing={setManualRefreshing}
-            navigation={navigation}
+          <CustomChooser
+            title={"Basculer de compte"}
+            items={availableAccounts.map(account => { return {
+              id: account.id,
+              title: `${account.firstName} ${account.lastName}`,
+            }})}
+            defaultItem={(
+              <CustomProfilePhoto
+                accountID={currentAccount.id}
+                size={70}
+                onPress={() => navigation.navigate("SettingsStack")}
+                hasOtherPressAction={availableAccounts.length >= 1}
+              />
+            )}
+            selected={currentAccount.id}
+            setSelected={switchAccount}
+            longPress
           />
-        </SafeAreaView>
-      </ScrollView>
-    </View>
+        </View>
+
+        {/* Marks overview */}
+        <EmbeddedMarksPage
+          mainAccount={currentAccount}
+          isConnected={isConnected}
+          isConnecting={isConnecting}
+          manualRefreshing={manualRefreshing}
+          setManualRefreshing={setManualRefreshing}
+          navigation={navigation}
+        />
+      </SafeAreaView>
+    </ScrollView>
   );
 }
 

@@ -17,26 +17,6 @@ const useFonts = async () => await loadAsync({
 
 // Set all colors and fonts in app
 function initTheme(theme) {
-  // Light
-  // theme.colors = {
-  //   background: '#FEF7F7',
-  //   onBackground: '#222222',
-  
-  //   surface: '#ECECEC',
-  //   onSurface: '#000',
-  //   onSurfaceDisabled: '#888',
-  
-  //   primary: '#1985A1',
-  //   onPrimary: '#FFF',
-  //   onPrimaryDisabled: '#888',
-
-  //   secondary: '#4CAF50',
-  //   onSecondary: '#000',
-
-  //   tertiary: '#DA3633',
-  //   onTertiary: '#FFF',
-  // };
-
   // Dark
   theme.colors = {
     background: '#020409',
@@ -45,14 +25,13 @@ function initTheme(theme) {
     backdrop: '#0E1116',
   
     surface: '#171B21',
+    surfaceOutline: '#31363C',
     onSurface: '#E7EDF2',
     onSurfaceDisabled: '#868D96',
-    surfaceOutline: '#31363C',
   
     primary: '#1985A1',
-    onPrimary: '#FFF',
-
     primaryLight: '#162831',
+    onPrimary: '#FFF',
     success: '#4CAF50',
     successLight: '#1F3023',
     error: '#DA3633',

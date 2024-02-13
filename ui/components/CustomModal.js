@@ -60,7 +60,7 @@ function CustomModal({
           padding: 5,
           borderRadius: 10,
         }} onPress={goBackFunction}>
-          <ChevronLeftIcon size={30} color={DefaultTheme.colors.onPrimary}/>
+          <ChevronLeftIcon size={30} color={DefaultTheme.colors.onSurface}/>
         </PressableScale>}
       </View>
     </View>
