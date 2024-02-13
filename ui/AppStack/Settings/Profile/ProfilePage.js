@@ -16,9 +16,9 @@ import CustomProfilePhoto from "../../../components/CustomProfilePhoto";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import CustomLittleInformationCard from "../../../components/CustomLittleInformationCard";
 import { useAppContext } from "../../../../util/AppContext";
+import { OSvalue } from "../../../../util/Utils";
 import AppData from "../../../../core/AppData";
 import HapticsHandler from "../../../../core/HapticsHandler";
-import { OSvalue } from "../../../../util/Utils";
 
 
 // Profile settings page
@@ -50,6 +50,7 @@ function ProfilePage({ route, navigation }) {
     setIsDisconnecting(false);
     navigation.navigate("MainPage", { newAccountID: 0 });
     appContext.setIsLoggedIn(false);
+    console.log("Logged out !");
     HapticsHandler.vibrate("light");
   }
 
