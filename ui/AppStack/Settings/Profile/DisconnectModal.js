@@ -17,7 +17,8 @@ function DisconnectModal({ isDisconnecting, setIsDisconnecting, disconnect }) {
           backgroundColor: DefaultTheme.colors.surface,
           borderWidth: 2,
           borderColor: DefaultTheme.colors.error,
-          padding: 10,
+          paddingHorizontal: 15,
+          paddingVertical: 10,
           borderRadius: 10,
           marginBottom: 10,
         }}>

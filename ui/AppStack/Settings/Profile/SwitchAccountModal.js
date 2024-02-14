@@ -25,7 +25,8 @@ function SwitchAccountModal({ isSwitchingAccount, setIsSwitchingAccount, switchA
           backgroundColor: DefaultTheme.colors.surface,
           borderWidth: 2,
           borderColor: DefaultTheme.colors.surfaceOutline,
-          padding: 10,
+          paddingHorizontal: 15,
+          paddingVertical: 10,
           borderRadius: 10,
           marginBottom: 10,
         }}>
