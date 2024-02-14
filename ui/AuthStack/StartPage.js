@@ -1,10 +1,11 @@
-import { View, SafeAreaView, Text, Image, Dimensions } from 'react-native';
+import { View, SafeAreaView, Text, Dimensions } from 'react-native';
 import { DefaultTheme } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { PressableScale } from 'react-native-pressable-scale';
 import { ScaleIcon } from 'lucide-react-native';
 import LottieView from 'lottie-react-native';
 
+import CustomButton from '../components/CustomButton';
 import { openLink } from "../../util/Utils";
 
 
@@ -51,24 +52,10 @@ function StartPage({ navigation }) {
           </View>
           
           {/* Login button */}
-          <PressableScale style={{
-            padding: 10,
-            borderRadius: 15,
-            backgroundColor: DefaultTheme.colors.primary,
-          }} onPress={() => navigation.navigate("LoginPage")}>
-            <View style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <Image source={require('../../assets/images/ecoledirecte-logo.png')} style={{
-                width: 40,
-                height: 40,
-                borderRadius: 10,
-              }}/>
-              <Text style={[DefaultTheme.fonts.bodyMedium, { marginLeft: 10, color: DefaultTheme.colors.onPrimary, height: 23 }]}>Se connecter avec ÉcoleDirecte</Text>
-            </View>
-          </PressableScale>
+          <CustomButton
+            title={<Text style={DefaultTheme.fonts.bodyLarge}>Se connecter avec ÉcoleDirecte</Text>}
+            onPress={() => navigation.navigate("LoginPage")}
+          />
 
           {/* Footer */}
           <View style={{ alignItems: 'center' }}>

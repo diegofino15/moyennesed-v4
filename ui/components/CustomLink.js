@@ -7,7 +7,7 @@ import { openLink } from "../../util/Utils";
 
 
 // Custom link
-function CustomLink({ title, link, onPress, icon, style }) {
+function CustomLink({ title, icon, link, onPress, style }) {
   return (
     <PressableScale style={{
       flexDirection: 'row',

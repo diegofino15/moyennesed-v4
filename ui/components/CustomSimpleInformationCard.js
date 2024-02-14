@@ -3,7 +3,7 @@ import { DefaultTheme } from "react-native-paper";
 
 
 // Custom little information card
-function CustomLittleInformationCard({ icon, content, style }) {
+function CustomSimpleInformationCard({ icon, content, style }) {
   return (
     <View style={{
       backgroundColor: DefaultTheme.colors.surface,
@@ -19,4 +19,4 @@ function CustomLittleInformationCard({ icon, content, style }) {
   );
 }
 
-export default CustomLittleInformationCard;
+export default CustomSimpleInformationCard;

@@ -1,7 +1,7 @@
 import * as DropdownMenu from 'zeego/dropdown-menu'
 
 
-// Period chooser for Android
+// Custom chooser
 function CustomChooser({
   title,
   defaultItem,

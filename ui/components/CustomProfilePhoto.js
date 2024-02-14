@@ -8,8 +8,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppData from "../../core/AppData";
 
 
-// Profile photo
+// Custom profile photo
 function CustomProfilePhoto({ accountID, onPress, size=60, style, hasOtherPressAction=false }) {
+  // Auto-update photo
   const [photo, setPhoto] = useState(null);
   useEffect(() => {
     if (!accountID) { return; }

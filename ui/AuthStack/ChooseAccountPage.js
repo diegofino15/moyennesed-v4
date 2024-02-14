@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { View, Text, FlatList, Dimensions } from "react-native";
+import { View, Text } from "react-native";
 import { DefaultTheme } from "react-native-paper";
-import { PressableScale } from "react-native-pressable-scale";
 import { CheckCircleIcon, CircleIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CustomProfilePhoto from "../components/CustomProfilePhoto";
 import CustomModal from "../components/CustomModal";
+import CustomSectionButton from "../components/CustomSectionButton";
+import CustomProfilePhoto from "../components/CustomProfilePhoto";
+import CustomButton from "../components/CustomButton";
+import { useAppContext } from "../../util/AppContext";
 import AppData from "../../core/AppData";
 import HapticsHandler from "../../core/HapticsHandler";
-import { useAppContext } from "../../util/AppContext";
 
 
 // Choose account page
@@ -44,57 +45,37 @@ function ChooseAccountPage({ navigation }) {
           <Text style={[DefaultTheme.fonts.labelMedium, { marginBottom: 10 }]}>Vous pourrez changer de compte à tout moment dans les paramètres.</Text>
           
           {/* List connected accounts */}
-          {Object.keys(accounts).map((accountID, index) => {
-            const item = accounts[accountID];
-            return (
-              <View key={accountID} style={{
-                marginTop: 10,
-                flexDirection: 'row',
-                alignItems: 'center',
+          {Object.values(accounts).map((account, index) => <CustomSectionButton
+            key={account.id}
+            icon={account.accountType == "E" && <CustomProfilePhoto accountID={account.id} size={70}/>}
+            title={`${account.firstName} ${account.lastName}`}
+            description={account.accountType == "E" ? "Compte élève" : "Compte parent"}
+            onPress={() => setSelectedAccount(index)}
+            endIcon={(
+              <View style={{
+                position: 'absolute',
+                right: 10,
+                top: 10,
               }}>
-                {item.accountType == "E" && <CustomProfilePhoto accountID={item.id} size={70} style={{ marginRight: 10 }}/>}
-                
-                <PressableScale style={{
-                  paddingHorizontal: 15,
-                  paddingVertical: 10,
-                  backgroundColor: DefaultTheme.colors.surface,
-                  borderWidth: 2,
-                  borderColor: index === selectedAccount ? DefaultTheme.colors.primary : DefaultTheme.colors.surfaceOutline,
-                  borderRadius: 10,
-                  flexDirection: 'column',
-                  justifyContent: 'space-evenly',
-                  height: 70,
-                  width: item.accountType == "P" ? '100%' : (Dimensions.get('window').width - 120),
-                }} onPress={() => setSelectedAccount(index)}>
-                  <Text style={[DefaultTheme.fonts.bodyLarge, { height: 25 }]}>{item.firstName} {item.lastName}</Text>
-                  <Text style={[DefaultTheme.fonts.labelMedium, { height: 20 }]}>{item.accountType == "E" ? "Compte élève" : "Compte parent"}</Text>
-                  <View style={{
-                    position: 'absolute',
-                    right: 10,
-                    top: 10,
-                  }}>
-                    {index === selectedAccount ? (
-                      <CheckCircleIcon size={20} color={DefaultTheme.colors.primary}/>
-                    ) : (
-                      <CircleIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
-                    )}
-                  </View>
-                </PressableScale>
+                {index === selectedAccount ? (
+                  <CheckCircleIcon size={20} color={DefaultTheme.colors.primary}/>
+                ) : (
+                  <CircleIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                )}
               </View>
-            );
-          })}
+            )}
+            wrapperStyle={{ marginTop: 10 }}
+            style={{
+              borderColor: index === selectedAccount ? DefaultTheme.colors.primary : DefaultTheme.colors.surfaceOutline,
+            }}
+          />)}
 
           {/* Confirm selection */}
-          <PressableScale style={{
-            padding: 15,
-            borderRadius: 15,
-            backgroundColor: DefaultTheme.colors.primary,
-            alignItems: 'center',
-            height: 55,
-            marginTop: 20,
-          }} onPress={confirmSelection}>
-            <Text style={[DefaultTheme.fonts.bodyLarge, { marginLeft: 10, color: DefaultTheme.colors.onPrimary }]}>Confirmer</Text>
-          </PressableScale>
+          <CustomButton
+            title={<Text style={DefaultTheme.fonts.bodyLarge}>Confirmer</Text>}
+            onPress={confirmSelection}
+            style={{ marginTop: 20 }}
+          />
         </View>
       )}
     />

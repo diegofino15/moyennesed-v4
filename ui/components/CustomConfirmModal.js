@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { View, Modal, StyleSheet, Pressable, Animated, SafeAreaView, Dimensions } from "react-native";
+import { Modal, StyleSheet, Pressable, Animated, SafeAreaView, Dimensions } from "react-native";
 import { BlurView } from "expo-blur";
 import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -52,7 +52,7 @@ function AnimatedCard({ visible, delay, child, style, reverse=false }) {
 }
 
 
-// Confirm modal
+// Custom confirm modal
 function CustomConfirmModal({
   visible,
   exitModal,

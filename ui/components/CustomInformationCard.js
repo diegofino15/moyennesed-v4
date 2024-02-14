@@ -21,7 +21,8 @@ function CustomInformationCard({
       borderColor: error ? DefaultTheme.colors.error : DefaultTheme.colors.surfaceOutline,
       padding: 10,
       width: Dimensions.get('window').width - 40,
-      ...style
+      flexDirection: 'column',
+      ...style,
     }}>
       <View style={{
         flexDirection: 'row',
@@ -34,7 +35,7 @@ function CustomInformationCard({
         </View>
         {onPress && <ArrowRightIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
       </View>
-      <Text style={[DefaultTheme.fonts.labelMedium, { marginTop: 10 }]}>{description}</Text>
+      <Text style={[DefaultTheme.fonts.labelMedium, { marginTop: 5 }]}>{description}</Text>
     </PressableScale>
   );
 }

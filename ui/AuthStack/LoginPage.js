@@ -1,16 +1,16 @@
 import { useState, useRef } from "react";
-import { View, Text, ActivityIndicator, ScrollView } from "react-native";
-import { AlertTriangleIcon, ChevronLeftIcon, CircleUserRoundIcon, HelpCircleIcon, KeySquareIcon } from "lucide-react-native";
+import { View, Text, ActivityIndicator } from "react-native";
+import { AlertTriangleIcon, CircleUserRoundIcon, HelpCircleIcon, KeySquareIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
-import { PressableScale } from "react-native-pressable-scale";
 
+import CustomModal from "../components/CustomModal";
 import CustomTextInput from "../components/CustomTextInput";
+import CustomButton from "../components/CustomButton";
 import CustomInformationCard from "../components/CustomInformationCard";
 import { useAppContext } from "../../util/AppContext";
 import { openLink } from "../../util/Utils";
-import HapticsHandler from "../../core/HapticsHandler";
 import AppData from "../../core/AppData";
-import CustomModal from "../components/CustomModal";
+import HapticsHandler from "../../core/HapticsHandler";
 
 
 // Login page
@@ -78,17 +78,14 @@ function LoginPage({ navigation }) {
           />
 
           {/* Login button */}
-          <PressableScale style={{
-            padding: 15,
-            borderRadius: 15,
-            backgroundColor: DefaultTheme.colors.primary,
-            alignItems: 'center',
-            height: 55,
-          }} onPress={login}>
-            {isConnecting
-              ? <ActivityIndicator size={20} color={DefaultTheme.colors.onPrimary}/>
-              : <Text style={[DefaultTheme.fonts.bodyLarge, { marginLeft: 10, color: DefaultTheme.colors.onPrimary }]}>Se connecter</Text>}
-          </PressableScale>
+          <CustomButton
+            title={isConnecting ? (
+              <ActivityIndicator size={20} color={DefaultTheme.colors.onPrimary}/>
+            ) : (
+              <Text style={DefaultTheme.fonts.bodyLarge}>Se connecter</Text>
+            )}
+            onPress={login}
+          />
 
           {/* Connection failed */}
           {errorConnecting && <CustomInformationCard

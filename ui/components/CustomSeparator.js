@@ -2,7 +2,7 @@ import { View } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 
 
-// Custom Separator
+// Custom separator
 function CustomSeparator({ style }) {
   return (
     <View

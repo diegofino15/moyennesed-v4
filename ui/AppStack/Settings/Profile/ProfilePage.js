@@ -14,7 +14,7 @@ import SettingsSection from "../SettingsSection";
 import CustomModal from "../../../components/CustomModal";
 import CustomProfilePhoto from "../../../components/CustomProfilePhoto";
 import CustomInformationCard from "../../../components/CustomInformationCard";
-import CustomLittleInformationCard from "../../../components/CustomLittleInformationCard";
+import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import { useAppContext } from "../../../../util/AppContext";
 import { OSvalue } from "../../../../util/Utils";
 import AppData from "../../../../core/AppData";
@@ -118,7 +118,7 @@ function ProfilePage({ route, navigation }) {
               }}>
                 {/* Informations */}
                 {currentAccount.accountType == "E" && (
-                  <CustomLittleInformationCard
+                  <CustomSimpleInformationCard
                     icon={<GraduationCapIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 10 }}/>}
                     content={currentAccount.grade}
                     style={{ marginBottom: 10 }}
@@ -126,7 +126,7 @@ function ProfilePage({ route, navigation }) {
                 )}
 
                 {/* Show children for parent accounts */}
-                <CustomLittleInformationCard
+                <CustomSimpleInformationCard
                   icon={currentAccount.accountType == "E" ? (
                     <SchoolIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 10 }}/>
                   ) : (
