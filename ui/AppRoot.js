@@ -10,7 +10,7 @@ import { AppContextProvider } from "../util/AppContext";
 import { useFonts, initTheme } from "../util/Styles";
 import AppData from "../core/AppData";
 
-import setupAdmobAndShowAppOpenAd from "../util/AdsHandler";
+import AdsHandler from "../util/AdsHandler";
 
 
 // App Root
@@ -45,8 +45,9 @@ function AppRoot() {
         setCameFromAuthStack(true);
       }
 
-      // AppOpen ad
-      await setupAdmobAndShowAppOpenAd(() => setIsLoaded(true));
+      // Setup admob
+      await AdsHandler.setupAdmob();
+      setIsLoaded(true);
     } else {
       setIsLoaded(true);
     }

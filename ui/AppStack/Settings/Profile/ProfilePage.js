@@ -143,17 +143,15 @@ function ProfilePage({ route, navigation }) {
                       marginTop: 10,
                     }}>
                       <CornerDownRightIcon size={30} color={DefaultTheme.colors.onSurfaceDisabled}/>
-                      <CustomProfilePhoto accountID={childID} size={55} style={{ marginLeft: 10 }}/>
+                      <CustomProfilePhoto accountID={childID} size={60} style={{ marginLeft: 10, borderWidth: 0 }}/>
                       <View style={{
-                        borderWidth: 2,
-                        borderColor: DefaultTheme.colors.surfaceOutline,
                         backgroundColor: DefaultTheme.colors.surface,
                         borderRadius: 10,
-                        paddingHorizontal: 10,
-                        paddingVertical: 5,
+                        paddingHorizontal: 15,
                         marginLeft: 10,
-                        width: Dimensions.get('window').width - 145,
-                        height: 55,
+                        width: Dimensions.get('window').width - 150,
+                        height: 60,
+                        justifyContent: 'center',
                       }}>
                         <Text style={[DefaultTheme.fonts.bodyMedium, { height: 20 }]} numberOfLines={1}>{child.firstName} {child.lastName}</Text>
                         <Text style={DefaultTheme.fonts.labelMedium}>{child.grade}</Text>

@@ -7,8 +7,6 @@ function CustomLittleInformationCard({ icon, content, style }) {
   return (
     <View style={{
       backgroundColor: DefaultTheme.colors.surface,
-      borderWidth: 2,
-      borderColor: DefaultTheme.colors.surfaceOutline,
       borderRadius: 10,
       flexDirection: 'row',
       alignItems: 'center',

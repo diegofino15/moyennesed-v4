@@ -11,6 +11,7 @@ import CustomSectionButton from "../../components/CustomSectionButton";
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import CustomLink from "../../components/CustomLink";
 import AppData from "../../../core/AppData";
+import { OSvalue } from "../../../util/Utils";
 
 
 // Profile page
@@ -46,11 +47,9 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
           <SettingsSection title={"Informations"}/>
           <View style={{
             backgroundColor: DefaultTheme.colors.surface,
-            borderWidth: 2,
-            borderColor: DefaultTheme.colors.surfaceOutline,
             borderRadius: 20,
-            paddingHorizontal: 15,
-            paddingVertical: 10,
+            paddingHorizontal: 20,
+            paddingVertical: 15,
           }}>
             <Text style={[DefaultTheme.fonts.labelLarge, {
               textAlign: 'justify',
@@ -66,17 +65,18 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
           <SettingsSection title={"Soutenir"}/>
           <View style={{
             backgroundColor: DefaultTheme.colors.surface,
-            borderWidth: 2,
-            borderColor: DefaultTheme.colors.surfaceOutline,
             borderRadius: 20,
-            paddingHorizontal: 15,
-            paddingVertical: 10,
+            paddingHorizontal: 20,
+            paddingVertical: 15,
           }}>
             <Text style={[DefaultTheme.fonts.labelLarge, {
               textAlign: 'justify',
               marginBottom: 10,
             }]}>Aimez-vous l'application ? Vous pouvez la soutenir en écrivant un commentaire !</Text>
-            <CustomLink title="Écrire un commentaire" link={"https://moyennesed.my.to/privacy-policy.html"} icon={(
+            <CustomLink title="Écrire un commentaire" link={OSvalue({
+              iosValue: 'https://apps.apple.com/app/apple-store/id6446418445?action=write-review',
+              androidValue: 'https://play.google.com/store/apps/details?id=me.diegof.moyennesed&showAllReviews=true',
+            })} icon={(
               <HandHelpingIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
             )}/>
           </View>

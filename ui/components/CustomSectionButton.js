@@ -1,4 +1,4 @@
-import { ChevronRightIcon } from "lucide-react-native";
+import { ArrowRightIcon } from "lucide-react-native";
 import { View, Text, Dimensions } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
@@ -48,9 +48,9 @@ function CustomSectionButton({
           <Text style={DefaultTheme.fonts.titleSmall} numberOfLines={1}>{title}</Text>
           <Text style={DefaultTheme.fonts.labelMedium} numberOfLines={1}>{description}</Text>
         </View>
-        <ChevronRightIcon size={30} color={DefaultTheme.colors.onSurfaceDisabled} style={{
+        <ArrowRightIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled} style={{
           position: 'absolute',
-          right: 10,
+          right: 20,
         }}/>
       </PressableScale>
     </View>
