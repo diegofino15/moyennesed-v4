@@ -5,7 +5,7 @@ import { DefaultTheme } from "react-native-paper";
 import useState from "react-usestateref";
 
 import CustomModal from "../../components/CustomModal";
-import SettingsSection from "./SettingsSection";
+import CustomSection from "../../components/CustomSection";
 import LoginStatus from "./LoginStatus";
 import CustomSectionButton from "../../components/CustomSectionButton";
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
@@ -28,7 +28,7 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
       children={(
         <View>
           {/* Login status */}
-          <SettingsSection title={"Compte"} marginTop={0}/>
+          <CustomSection title={"Compte"} marginTop={0}/>
           <LoginStatus isConnected={isConnected} isConnecting={isConnecting} refreshLogin={refreshLogin} style={{ marginBottom: 10 }}/>
           
           {/* Profile */}
@@ -41,12 +41,12 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
           />
 
           {/* Coefficients */}
-          <SettingsSection title={"Coefficients"}/>
+          <CustomSection title={"Coefficients"}/>
           {/* TODO */}
 
 
           {/* About */}
-          <SettingsSection title={"Informations"}/>
+          <CustomSection title={"Informations"}/>
           <CustomTextArea
             children={(
               <View>
@@ -63,7 +63,7 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
           />
 
           {/* Write a comment ? */}
-          <SettingsSection title={"Soutenir"}/>
+          <CustomSection title={"Soutenir"}/>
           <CustomTextArea
             children={(
               <View>

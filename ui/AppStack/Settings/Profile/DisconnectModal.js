@@ -1,9 +1,9 @@
 import { View, Text } from "react-native";
 import { DefaultTheme } from "react-native-paper";
-import { PressableScale } from "react-native-pressable-scale";
 import { ChevronRightIcon } from "lucide-react-native";
 
 import CustomConfirmModal from "../../../components/CustomConfirmModal";
+import CustomButton from "../../../components/CustomButton";
 
 
 // Disconnect modal
@@ -25,18 +25,16 @@ function DisconnectModal({ isDisconnecting, setIsDisconnecting, disconnect }) {
           <Text style={DefaultTheme.fonts.titleSmall}>Voulez-vous vraiment vous déconnecter ?</Text>
           <Text style={DefaultTheme.fonts.labelMedium}>Toutes vos données et préférences seront effacées, pas de retour en arrière.</Text>
         </View>),
-        (<PressableScale key={3} onPress={disconnect} style={{
-          backgroundColor: DefaultTheme.colors.error,
-          padding: 10,
-          borderRadius: 20,
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexDirection: 'row',
-        }}>
-          <View style={{ width: 30 }}/>
-          <Text style={[DefaultTheme.fonts.bodyLarge, { color: 'white', height: 23 }]}>Se déconnecter</Text>
-          <ChevronRightIcon size={30} color={'white'}/>
-        </PressableScale>)
+        (<CustomButton
+          key={3}
+          title={<Text style={[DefaultTheme.fonts.bodyLarge, { color: 'white', height: 23 }]}>Se déconnecter</Text>}
+          onPress={disconnect}
+          rightIcon={<ChevronRightIcon size={30} color={'white'}/>}
+          style={{
+            backgroundColor: DefaultTheme.colors.error,
+            paddingVertical: 10,
+          }}
+        />)
       ]}
     />
   );

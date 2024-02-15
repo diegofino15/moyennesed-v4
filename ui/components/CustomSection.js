@@ -3,7 +3,7 @@ import { DefaultTheme } from "react-native-paper";
 
 
 // Settings section
-function SettingsSection({ title, marginTop=20 }) {
+function CustomSection({ title, marginTop=20, textAreaStyle }) {
   return (
     <View style={{
       marginTop: marginTop,
@@ -23,6 +23,7 @@ function SettingsSection({ title, marginTop=20 }) {
         backgroundColor: DefaultTheme.colors.backdrop,
         height: 20,
         paddingHorizontal: 10,
+        ...textAreaStyle,
       }}>
         <Text style={DefaultTheme.fonts.labelMedium}>{title}</Text>
       </View>
@@ -30,4 +31,4 @@ function SettingsSection({ title, marginTop=20 }) {
   );
 }
 
-export default SettingsSection;
+export default CustomSection;

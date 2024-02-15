@@ -10,11 +10,12 @@ import useState from "react-usestateref";
 
 import DisconnectModal from "./DisconnectModal";
 import SwitchAccountModal from "./SwitchAccountModal";
-import SettingsSection from "../SettingsSection";
+import CustomSection from "../../../components/CustomSection";
 import CustomModal from "../../../components/CustomModal";
 import CustomProfilePhoto from "../../../components/CustomProfilePhoto";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
+import CustomButton from "../../../components/CustomButton";
 import { useAppContext } from "../../../../util/AppContext";
 import { OSvalue } from "../../../../util/Utils";
 import AppData from "../../../../core/AppData";
@@ -162,7 +163,7 @@ function ProfilePage({ route, navigation }) {
                 
                 {/* Switch account if available */}
                 {canSwitchAccounts && <View>
-                  <SettingsSection title={"Compte sélectionné"}/>
+                  <CustomSection title={"Compte sélectionné"}/>
                   <CustomInformationCard
                     title={"Changer de compte"}
                     description={"Plusieurs comptes ont été détectés, cliquez ici pour changer."}
@@ -172,19 +173,17 @@ function ProfilePage({ route, navigation }) {
                 </View>}
                 
                 {/* Destructive actions */}
-                <SettingsSection title={"Danger zone"}/>
-                <PressableScale style={{
-                  padding: 10,
-                  borderRadius: 20,
-                  borderWidth: 2,
-                  borderColor: DefaultTheme.colors.error,
-                  backgroundColor: DefaultTheme.colors.errorLight,
-                  alignItems: "center",
-                  justifyContent: "center",
-                }} onPress={() => setIsDisconnecting(true)}>
-                  <Text style={[DefaultTheme.fonts.bodyLarge, { color: DefaultTheme.colors.error, height: 25 }]}>Se déconnecter</Text>
-                </PressableScale>
-
+                <CustomSection title={"Danger zone"}/>
+                <CustomButton
+                  title={<Text style={[DefaultTheme.fonts.bodyLarge, { color: DefaultTheme.colors.error, height: 25 }]}>Se déconnecter</Text>}
+                  onPress={() => setIsDisconnecting(true)}
+                  style={{
+                    backgroundColor: DefaultTheme.colors.errorLight,
+                    borderWidth: 2,
+                    borderColor: DefaultTheme.colors.error,
+                    paddingVertical: 10,
+                  }}
+                />
               </View>
             </View>
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Modal, StyleSheet, Pressable, Animated, SafeAreaView, Dimensions } from "react-native";
+import { Modal, StyleSheet, Pressable, Animated, SafeAreaView, Dimensions, View } from "react-native";
 import { BlurView } from "expo-blur";
 import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -8,6 +8,7 @@ import { DefaultTheme } from "react-native-paper";
 import { XIcon } from "lucide-react-native";
 
 import { OSvalue } from "../../util/Utils";
+import CustomSection from "./CustomSection";
 
 
 // Animated card
@@ -82,7 +83,19 @@ function CustomConfirmModal({
               key={-2}
               visible={visible}
               delay={0}
-              child={specialTip}
+              child={(
+                <View>
+                  <CustomSection title={"Astuce"} textAreaStyle={{
+                    borderRadius: 5,
+                    borderWidth: 2,
+                    borderColor: DefaultTheme.colors.surfaceOutline,
+                    backgroundColor: DefaultTheme.colors.surface,
+                    top: -1,
+                    height: 'auto',
+                  }} marginTop={0}/>
+                  {specialTip}
+                </View>
+              )}
               style={{
                 position: 'absolute',
                 bottom: Dimensions.get('window').height - 250,
