@@ -86,7 +86,12 @@ function EmbeddedMarksPage({
         displayRefresher={displayRefresher}
         navigation={navigation}
       />
-      <SubjectsOverview/>
+      <SubjectsOverview
+        selectedPeriod={selectedPeriod}
+        showMarksAccount={showMarksAccount}
+        displayRefresher={displayRefresher}
+        navigation={navigation}
+      />
     </View>
   );
 }

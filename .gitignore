@@ -43,5 +43,5 @@ yarn-error.*
 # Builds compiled locally
 builds/
 
-# Fixes no connection problem on Android simulator
-android_simulator.sh
+# Testing
+test-accounts.txt

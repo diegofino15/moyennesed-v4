@@ -39,7 +39,6 @@
     "react-dom": "^18.2.0",
     "react-native": "0.73.2",
     "react-native-gesture-handler": "^2.14.1",
-    "react-native-google-mobile-ads": "^12.10.0",
     "react-native-ios-context-menu": "^2.3.0",
     "react-native-ios-utilities": "^4.2.3",
     "react-native-paper": "^5.12.3",
