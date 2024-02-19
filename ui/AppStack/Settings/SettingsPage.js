@@ -1,5 +1,5 @@
 import { memo, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import { HandHelpingIcon, ScaleIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import useState from "react-usestateref";
@@ -11,7 +11,6 @@ import CustomSectionButton from "../../components/CustomSectionButton";
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import CustomTextArea from "../../components/CustomTextArea";
 import CustomLink from "../../components/CustomLink";
-import { OSvalue } from "../../../util/Utils";
 import AppData from "../../../core/AppData";
 
 
@@ -71,9 +70,9 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
                   textAlign: 'justify',
                   marginBottom: 10,
                 }]}>Aimez-vous l'application ? Vous pouvez la soutenir en écrivant un commentaire !</Text>
-                <CustomLink title="Écrire un commentaire" link={OSvalue({
-                  iosValue: 'https://apps.apple.com/app/apple-store/id6446418445?action=write-review',
-                  androidValue: 'https://play.google.com/store/apps/details?id=me.diegof.moyennesed&showAllReviews=true',
+                <CustomLink title="Écrire un commentaire" link={Platform.select({
+                  ios: 'https://apps.apple.com/app/apple-store/id6446418445?action=write-review',
+                  android: 'https://play.google.com/store/apps/details?id=me.diegof.moyennesed&showAllReviews=true',
                 })} icon={(
                   <HandHelpingIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
                 )}/>

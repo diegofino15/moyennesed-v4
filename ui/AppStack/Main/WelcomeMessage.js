@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { Text, Animated } from "react-native";
+import { Text, Animated, Platform } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 
-import { OSvalue } from "../../../util/Utils";
 import AppData from "../../../core/AppData";
 
 
@@ -15,7 +14,7 @@ function WelcomeMessage({ currentAccount }) {
     
     var messages = [
       "Bienvenue dans l'application de gestion des notes !",
-      `L'appli est aussi sur ${OSvalue({ iosValue: "Android", androidValue: "iOS" })} (au cas où) !`,
+      `L'appli est aussi sur ${Platform.select({ ios: "Android", android: "iOS" })} (au cas où) !`,
       "Vos avis sur l'appli sont toujours apprécies !",
     ];
     if (currentConnectedAccount.accountType == "E") {

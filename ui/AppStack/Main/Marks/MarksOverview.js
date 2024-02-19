@@ -11,12 +11,13 @@ import CustomChooser from "../../../components/CustomChooser";
 
 // Marks overview
 function MarksOverview({
-  selectedPeriod,
-  setSelectedPeriod,
+  accountID,
+  selectedPeriod, setSelectedPeriod,
+
   isLoading,
   gotMarks,
   errorGettingMarks,
-  showMarksAccount,
+  
   displayRefresher,
   navigation,
 }) {
@@ -27,8 +28,8 @@ function MarksOverview({
     AsyncStorage.getItem("marks").then(async (data) => {
       var cacheData = {};
       if (data) { cacheData = JSON.parse(data); }
-      if (showMarksAccount.id in cacheData) {
-        setPeriods(cacheData[showMarksAccount.id].data);
+      if (accountID in cacheData) {
+        setPeriods(cacheData[accountID].data);
 
         // Choose period that isn't finished
         if (!selectedPeriod || !periodsRef.current[selectedPeriod]) {
@@ -41,7 +42,7 @@ function MarksOverview({
         }
       } else { setPeriods({}); }
     });
-  }, [showMarksAccount.id, displayRefresher]);
+  }, [accountID, displayRefresher]);
 
   return (
     <View style={{

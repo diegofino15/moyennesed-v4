@@ -1,5 +1,4 @@
 import { Linking, Alert } from "react-native";
-import { Platform } from 'react-native';
 
 
 async function openLink(link) {
@@ -29,9 +28,10 @@ function formatDate(date) {
   return previousDate.toLocaleString("fr-FR", { timeZone: "Europe/Paris", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }).replace(":", "h");
 }
 
-function OSvalue({ iosValue, androidValue }) {
-  return Platform.OS === "ios" ? iosValue : androidValue;
+function formatAverage(average, decimals=true) {
+  if (!average) { return "--"; }
+  if (decimals) { return average.toFixed(2).replace('.', ','); }
+  return (Math.round(average * 100) / 100).toString().replace('.', ',');
 }
 
-
-export { openLink, wait, capitalizeWords, formatDate, OSvalue };
+export { openLink, wait, capitalizeWords, formatDate, formatAverage };

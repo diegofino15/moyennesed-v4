@@ -1,5 +1,5 @@
-import { memo, useEffect } from "react";
-import { View, Text, SafeAreaView, Dimensions, ScrollView, RefreshControl } from "react-native";
+import { useEffect } from "react";
+import { View, Text, SafeAreaView, Dimensions, ScrollView, RefreshControl, Platform } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
@@ -7,7 +7,6 @@ import useState from "react-usestateref";
 import EmbeddedMarksPage from "./Marks/EmbeddedMarksPage";
 import WelcomeMessage from "./WelcomeMessage";
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
-import { OSvalue } from "../../../util/Utils";
 import HapticsHandler from "../../../core/HapticsHandler";
 import AppData from "../../../core/AppData";
 import CustomChooser from "../../components/CustomChooser";
@@ -51,7 +50,7 @@ function MainPage({ isConnected, isConnecting, route, navigation }) {
         height: '100%',
         backgroundColor: DefaultTheme.colors.background,
         paddingHorizontal: 20,
-        marginTop: OSvalue({ iosValue: 0, androidValue: 20 }),
+        marginTop: Platform.select({ ios: 0, android: 20 }),
       }}
       refreshControl={
         <RefreshControl refreshing={manualRefreshing} onRefresh={() => {
@@ -107,4 +106,4 @@ function MainPage({ isConnected, isConnecting, route, navigation }) {
   );
 }
 
-export default memo(MainPage);
+export default MainPage;

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Modal, StyleSheet, Pressable, Animated, SafeAreaView, Dimensions, View } from "react-native";
+import { Modal, StyleSheet, Pressable, Animated, SafeAreaView, Dimensions, View, Platform } from "react-native";
 import { BlurView } from "expo-blur";
 import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -7,7 +7,6 @@ import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 import { XIcon } from "lucide-react-native";
 
-import { OSvalue } from "../../util/Utils";
 import CustomSection from "./CustomSection";
 
 
@@ -68,7 +67,7 @@ function CustomConfirmModal({
     >
       <StatusBar hidden animated/>
 
-      <BlurView intensity={OSvalue({ iosValue: 50, androidValue: 100 })} tint="dark" style={[
+      <BlurView intensity={Platform.select({ ios: 50, android: 100 })} tint="dark" style={[
         StyleSheet.absoluteFill,
         { justifyContent: 'flex-end' },
       ]}>

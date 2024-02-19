@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MainPage from './Main/MainPage';
+import SubjectPage from './Main/Marks/SubjectPage';
 import InformationPage from './Main/Marks/InformationPage';
 import SettingsPage from './Settings/SettingsPage';
 import ProfilePage from './Settings/Profile/ProfilePage';
@@ -27,6 +28,25 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
           refreshLogin={refreshLogin}
           isConnected={isConnected}
           isConnecting={isConnecting}
+        />}
+      </Stack.Screen>
+
+      <Stack.Screen
+        name="SubjectPage"
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
+        initialParams={{
+          accountID: 0,
+          periodID: "",
+          subjectID: "",
+          subSubjectID: null,
+        }}
+      >
+        {(props) => <SubjectPage
+          {...props}
         />}
       </Stack.Screen>
 

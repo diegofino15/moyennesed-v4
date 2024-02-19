@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { View, Text, Dimensions, ScrollView } from "react-native";
+import { View, Text, Dimensions, ScrollView, Platform } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { ArrowDownUpIcon, CornerDownRightIcon, SchoolIcon, GraduationCapIcon, UserRoundCogIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
@@ -17,7 +17,6 @@ import CustomInformationCard from "../../../components/CustomInformationCard";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import CustomButton from "../../../components/CustomButton";
 import { useAppContext } from "../../../../util/AppContext";
-import { OSvalue } from "../../../../util/Utils";
 import AppData from "../../../../core/AppData";
 import HapticsHandler from "../../../../core/HapticsHandler";
 
@@ -72,7 +71,7 @@ function ProfilePage({ route, navigation }) {
             overflow: 'hidden',
           }}>
             <CustomProfilePhoto accountID={currentAccount.id} size={Dimensions.get('window').width} style={{ height: 280, top: -50 }}/>
-            <BlurView intensity={OSvalue({ iosValue: currentAccount.photoURL ? 50 : 30, androidValue: 100 })} tint="dark" style={{ width: '100%', height: 230, position: 'absolute', }}/>
+            <BlurView intensity={Platform.select({ ios: currentAccount.photoURL ? 50 : 30, android: 100 })} tint="dark" style={{ width: '100%', height: 230, position: 'absolute', }}/>
           </View>
           
           {/* Actual page */}

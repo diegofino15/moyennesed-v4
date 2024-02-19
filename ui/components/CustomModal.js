@@ -1,9 +1,7 @@
-import { View, ScrollView, Text } from "react-native";
+import { View, ScrollView, Text, Platform } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 import { ChevronLeftIcon } from "lucide-react-native";
-
-import { OSvalue } from "../../util/Utils";
 
 
 // Custom modal
@@ -11,7 +9,9 @@ function CustomModal({
   title,
   goBackFunction,
   children,
+  childrenOutsideScrollView,
   style,
+  isBackButtonInScrollView=false,
   showScrollView=true,
 }) {
   return (
@@ -19,7 +19,7 @@ function CustomModal({
       backgroundColor: title ? DefaultTheme.colors.surface : DefaultTheme.colors.backdrop,
     }}>
       <View style={{
-        marginTop: OSvalue({ iosValue: 0, androidValue: 20 }),
+        marginTop: Platform.select({ ios: 0, android: 20 }),
       }}>
         {/* Header */}
         {title && <View style={{
@@ -48,9 +48,10 @@ function CustomModal({
             {children}
           </ScrollView>
         ) : {...children}}
+        {childrenOutsideScrollView}
 
         {/* Back button */}
-        {goBackFunction && <PressableScale style={{
+        {goBackFunction && !isBackButtonInScrollView && <PressableScale style={{
           position: 'absolute',
           left: 12,
           top: 12,

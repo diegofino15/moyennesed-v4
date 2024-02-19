@@ -77,18 +77,20 @@ function EmbeddedMarksPage({
         setShowMarksAccount={setShowMarksAccount}
       />}
       <MarksOverview
-        selectedPeriod={selectedPeriod}
-        setSelectedPeriod={setSelectedPeriod}
+        accountID={showMarksAccount.id}
+        selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod}
+        
         isLoading={isConnecting || gettingMarksForID[showMarksAccount.id]}
         gotMarks={gotMarksForID[showMarksAccount.id]}
         errorGettingMarks={errorGettingMarksForID[showMarksAccount.id]}
-        showMarksAccount={showMarksAccount}
+        
         displayRefresher={displayRefresher}
         navigation={navigation}
       />
       <SubjectsOverview
+        accountID={showMarksAccount.id}
         selectedPeriod={selectedPeriod}
-        showMarksAccount={showMarksAccount}
+        
         displayRefresher={displayRefresher}
         navigation={navigation}
       />
