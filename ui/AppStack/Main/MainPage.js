@@ -15,8 +15,9 @@ import CustomChooser from "../../components/CustomChooser";
 // Main page
 function MainPage({ isConnected, isConnecting, route, navigation }) {
   // Connected main account (parent / student)
+  const { newAccountID } = route.params; 
   const [currentAccount, setCurrentAccount] = useState({ "accountType": "E" });
-  useEffect(() => { AppData.getMainAccount().then(account => { if (account) { setCurrentAccount(account); } }); }, [route.params?.newAccountID]);
+  useEffect(() => { AppData.getMainAccount().then(account => { if (account) { setCurrentAccount(account); } }); }, [newAccountID]);
 
   // Switch account
   const [availableAccounts, setAvailableAccounts] = useState([]);
@@ -29,12 +30,10 @@ function MainPage({ isConnected, isConnecting, route, navigation }) {
     }
   }); }, [currentAccount.id]);
   async function switchAccount(newAccountID) {
-    if (newAccountID != currentAccount.id) {
-      await AsyncStorage.setItem("selectedAccount", `${newAccountID}`);
-      navigation.navigate("MainPage", { newAccountID: newAccountID });
-      console.log(`Switched to account ${newAccountID} !`);
-      HapticsHandler.vibrate("light");
-    }
+    await AsyncStorage.setItem("selectedAccount", `${newAccountID}`);
+    navigation.navigate("MainPage", { newAccountID: newAccountID });
+    console.log(`Switched to account ${newAccountID} !`);
+    HapticsHandler.vibrate("light");
   }
 
   // Manual refresh
@@ -46,7 +45,6 @@ function MainPage({ isConnected, isConnecting, route, navigation }) {
       showsVerticalScrollIndicator={false}
       contentInsetAdjustmentBehavior="automatic"
       style={{
-        width: '100%',
         height: '100%',
         backgroundColor: DefaultTheme.colors.background,
         paddingHorizontal: 20,
