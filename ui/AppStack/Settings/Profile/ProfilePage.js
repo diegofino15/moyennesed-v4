@@ -119,7 +119,7 @@ function ProfilePage({ route, navigation }) {
                 {/* Informations */}
                 {currentAccount.accountType == "E" && (
                   <CustomSimpleInformationCard
-                    icon={<GraduationCapIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 10 }}/>}
+                    icon={<GraduationCapIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
                     content={currentAccount.grade}
                     style={{ marginBottom: 10 }}
                   />
@@ -128,9 +128,9 @@ function ProfilePage({ route, navigation }) {
                 {/* Show children for parent accounts */}
                 <CustomSimpleInformationCard
                   icon={currentAccount.accountType == "E" ? (
-                    <SchoolIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 10 }}/>
+                    <SchoolIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
                   ) : (
-                    <UserRoundCogIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 10 }}/>
+                    <UserRoundCogIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
                   )}
                   content={currentAccount.accountType == "E" ? currentAccount.school : "Élèves associés"}
                 />

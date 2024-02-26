@@ -14,7 +14,7 @@ function CustomSimpleInformationCard({ icon, content, style }) {
       ...style,
     }}>
       {icon}
-      <Text style={[DefaultTheme.fonts.bodyLarge, { height: 25 }]}>{content}</Text>
+      <Text style={[DefaultTheme.fonts.bodyLarge, { height: 25, marginLeft: 10 }]}>{content}</Text>
     </View>
   );
 }

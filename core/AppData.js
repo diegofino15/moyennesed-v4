@@ -463,7 +463,7 @@ class AppData {
 
       // Check mark numerical value
       let isMarkEffective = !(mark.enLettre || mark.nonSignificatif);
-      let markValueStr = `${mark.valeur}`;
+      let markValueStr = `${mark.valeur}`.trim();
       let markValue = parseFloat(`${mark.valeur}`.replace(",", "."));
       let markValueOn = parseFloat(`${mark.noteSur}`.replace(",", "."));
 

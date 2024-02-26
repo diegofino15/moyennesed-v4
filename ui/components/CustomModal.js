@@ -11,12 +11,15 @@ function CustomModal({
   children,
   childrenOutsideScrollView,
   style,
+  headerStyle,
   isBackButtonInScrollView=false,
   showScrollView=true,
+  extraHeight=0,
 }) {
   return (
     <View style={{
       backgroundColor: title ? DefaultTheme.colors.surface : DefaultTheme.colors.backdrop,
+      ...headerStyle,
     }}>
       <View style={{
         marginTop: Platform.select({ ios: 0, android: 20 }),
@@ -31,6 +34,7 @@ function CustomModal({
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
+          ...headerStyle,
         }}>
           <View style={{ height: 45 }}/>
           <Text style={[DefaultTheme.fonts.titleSmall, { height: 30 }]}>{title}</Text>
@@ -46,6 +50,7 @@ function CustomModal({
             ...style,
           }} showsVerticalScrollIndicator={false}>
             {children}
+            <View style={{ height: extraHeight }}/> 
           </ScrollView>
         ) : {...children}}
         {childrenOutsideScrollView}
