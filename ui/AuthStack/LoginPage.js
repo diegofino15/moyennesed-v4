@@ -80,9 +80,9 @@ function LoginPage({ navigation }) {
           {/* Login button */}
           <CustomButton
             title={isConnecting ? (
-              <ActivityIndicator size={20} color={DefaultTheme.colors.onPrimary}/>
+              <ActivityIndicator size={25} color={DefaultTheme.colors.onPrimary}/>
             ) : (
-              <Text style={DefaultTheme.fonts.bodyLarge}>Se connecter</Text>
+              <Text style={[DefaultTheme.fonts.bodyLarge, { height: 25 }]}>Se connecter</Text>
             )}
             onPress={login}
           />
