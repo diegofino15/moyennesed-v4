@@ -58,6 +58,9 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
           headerShown: false,
           animation: 'fade_from_bottom',
         }}
+        initialParams={{
+          accountID: 0,
+        }}
       />
     </Stack.Navigator>
   );

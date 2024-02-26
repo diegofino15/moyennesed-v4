@@ -65,7 +65,7 @@ function MarksOverview({
           alignItems: 'center',
         }} onPress={() => {
           if (gotMarks || errorGettingMarks) {
-            navigation.navigate("InformationPage");
+            navigation.navigate("InformationPage", { accountID: accountID });
           }
         }}>
           <Text style={[

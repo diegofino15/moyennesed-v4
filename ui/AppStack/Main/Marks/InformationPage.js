@@ -11,16 +11,11 @@ import AppData from "../../../../core/AppData";
 
 
 // Information page
-function InformationPage({ navigation }) {
+function InformationPage({ navigation, route }) {
   // Get last time the marks were updated
+  const { accountID } = route.params;
   const [lastTimeUpdatedMarks, setLastTimeUpdatedMarks] = useState(null);
-  useEffect(() => {
-    async function getLastTimeUpdatedMarks() {
-      const currentAccountID = await AppData.getSelectedChildAccount();
-      setLastTimeUpdatedMarks(await AppData.getLastTimeUpdatedMarks(currentAccountID));
-    }
-    getLastTimeUpdatedMarks();
-  }, []);
+  useEffect(() => { AppData.getLastTimeUpdatedMarks(accountID).then(setLastTimeUpdatedMarks); }, []);
   
   return (
     <CustomModal
@@ -47,7 +42,6 @@ function InformationPage({ navigation }) {
           
           {/* Text */}
           <View style={{
-            width: '100%',
             padding: 20,
             top: -110,
           }}>
@@ -59,6 +53,7 @@ function InformationPage({ navigation }) {
               style={{ marginBottom: 20 }}
             />
             <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>Dépendant de votre établissement, il est possible que les coefficients de chaque note et chaque matière ne soient pas exacts.</Text>
+            <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>Vous pouvez modifier manuellement les coefficients des notes et des matières pour améliorer la précision des moyennes.</Text>
             <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 30 }]}>La moyenne est mise à jour en temps réel, mais elle peut être différente de celle finale affichée sur votre bulletin.</Text>
             <Text style={[DefaultTheme.fonts.labelMedium, { fontFamily: 'Text-Italic' }]}>Dernière mise à jour : {formatDate(lastTimeUpdatedMarks)}</Text>
           </View>
