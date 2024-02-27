@@ -7,11 +7,14 @@ import { ChevronLeftIcon } from "lucide-react-native";
 // Custom modal
 function CustomModal({
   title,
+  titleObject,
   goBackFunction,
   children,
   childrenOutsideScrollView,
   style,
+  titleStyle,
   headerStyle,
+  goBackButtonStyle,
   isBackButtonInScrollView=false,
   showScrollView=true,
   extraHeight=0,
@@ -25,7 +28,7 @@ function CustomModal({
         marginTop: Platform.select({ ios: 0, android: 20 }),
       }}>
         {/* Header */}
-        {title && <View style={{
+        {(title || titleObject) && <View style={{
           backgroundColor: DefaultTheme.colors.surface,
           borderBottomWidth: 2,
           borderColor: DefaultTheme.colors.surfaceOutline,
@@ -37,7 +40,7 @@ function CustomModal({
           ...headerStyle,
         }}>
           <View style={{ height: 45 }}/>
-          <Text style={[DefaultTheme.fonts.titleSmall, { height: 30 }]}>{title}</Text>
+          {titleObject ? titleObject : <Text style={[DefaultTheme.fonts.titleSmall, { height: 30, ...titleStyle }]}>{title}</Text>}
         </View>}
 
         {/* Main view */}
@@ -65,6 +68,7 @@ function CustomModal({
           backgroundColor: DefaultTheme.colors.surface,
           padding: 5,
           borderRadius: 10,
+          ...goBackButtonStyle,
         }} onPress={goBackFunction}>
           <ChevronLeftIcon size={30} color={DefaultTheme.colors.onSurface}/>
         </PressableScale>}

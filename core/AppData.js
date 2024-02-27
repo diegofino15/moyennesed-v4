@@ -1,7 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-import { capitalizeWords } from "../util/Utils";
+import { capitalizeWords, getLatestDate } from "../util/Utils";
+import ColorsHandler from "../util/ColorsHandler";
 
 
 // This class contains the data used inside cache troughout the app
@@ -281,8 +282,6 @@ class AppData {
   }
   // Save marks data to cache
   static async saveMarks(accountID, marks) {
-    var periods = {};
-
     // Problem with ÉcoleDirecte
     if (!marks.periodes) { return 0; }
 
@@ -296,6 +295,7 @@ class AppData {
         "subjectGroups": subjectGroups,                           // Map<ID, SubjectGroup>
         "subjectsNotInSubjectGroup": subjectsNotInSubjectGroup,   // List<ID>
         "marks": {},                                              // Map<ID, Mark>
+        "sortedMarks": [],                                        // List<ID>
       };
     }
     function createSubjectGroup(id, periodID, title, defaultCoefficient) {
@@ -312,6 +312,7 @@ class AppData {
       };
     }
     function createSubject(id, subID, subjectGroupID, periodID, title, teachers, defaultCoefficient) {
+      ColorsHandler.registerSubjectColor(id);
       return {
         "id": id,                                   // String
         "subID": subID,                             // String
@@ -327,10 +328,12 @@ class AppData {
         "defaultCoefficient": defaultCoefficient,   // Float
         "coefficientWasChanged": false,             // Boolean
         "marks": [],                                // List<ID>
+        "sortedMarks": [],                          // List<ID>
       };
     }
 
     // Create period objects
+    var periods = {};
     const possiblePeriodCodes = ["A001", "A002", "A003"];
     for (const period of marks.periodes) {
       // Verify validity of period
@@ -441,13 +444,17 @@ class AppData {
     }
 
     // Add marks
+    var sortedMarks = [];
     for (const mark of (marks.notes ?? [])) {
       let markID = mark.id;
       let periodID = mark.codePeriode;
       let subjectID = mark.codeMatiere;
       let subSubjectID = mark.codeSousMatiere;
       let markTitle = mark.devoir;
-      let markDate = mark.dateSaisie;
+      let markDate = getLatestDate(
+        new Date(mark.dateSaisie),
+        new Date(mark.date),
+      );
       let markCoefficient = parseFloat(mark.coef);
       if (!markCoefficient) { markCoefficient = 1; }
 
@@ -502,6 +509,12 @@ class AppData {
         "maxClassValue": markMaxClassValue,
       };
 
+      sortedMarks.push(finalMark);
+    }
+    sortedMarks.sort((a, b) => a.date.getTime() - b.date.getTime());
+    sortedMarks.forEach(mark => {
+      const { id, subjectID, subSubjectID, periodID } = mark;
+      
       // Add mark to corresponding Subject
       if (!(subjectID in periods[periodID].subjects)) {
         periods[periodID].subjects[subjectID] = createSubject(
@@ -514,7 +527,8 @@ class AppData {
           1,
         );
       }
-      periods[periodID].subjects[subjectID].marks.push(markID);
+      periods[periodID].subjects[subjectID].marks.push(id);
+      periods[periodID].subjects[subjectID].sortedMarks.push(id);
 
       // Add mark to corresponding SubSubject
       if (subSubjectID) {
@@ -530,11 +544,24 @@ class AppData {
             1,
           );
         }
-        parentSubject.subSubjects[subSubjectID].marks.push(markID);
+        parentSubject.subSubjects[subSubjectID].marks.push(id);
+        parentSubject.subSubjects[subSubjectID].sortedMarks.push(id);
       }
 
       // Add mark to corresponding Period
-      periods[periodID].marks[markID] = finalMark;
+      periods[periodID].marks[id] = mark;
+      periods[periodID].sortedMarks.push(id);
+    })
+
+    // Reverse mark lists
+    for (const periodID in periods) {
+      periods[periodID].sortedMarks.reverse();
+      for (const subjectID in periods[periodID].subjects) {
+        periods[periodID].subjects[subjectID].sortedMarks.reverse();
+        for (const subSubjectID in periods[periodID].subjects[subjectID].subSubjects) {
+          periods[periodID].subjects[subjectID].subSubjects[subSubjectID].sortedMarks.reverse();
+        }
+      }
     }
 
     // Save

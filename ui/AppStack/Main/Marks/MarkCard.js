@@ -28,21 +28,15 @@ function ImbeddedInfoCard({ title, value, endIcon }) {
 }
 
 // Mark card
-function MarkCard({ mark, navigation }) {
-  // DOESNT WORK
-  const currentDeployment = useSharedValue(150);
-  const handlePress = () => {
-    currentDeployment.value = withSpring(currentDeployment.value - 149);
-  };
-  
+function MarkCard({ mark, openMarkDetails, outline }) {
   return (
     <PressableScale style={{
       backgroundColor: DefaultTheme.colors.surface,
       borderWidth: 2,
-      borderColor: DefaultTheme.colors.surfaceOutline,
+      borderColor: outline ? DefaultTheme.colors.primary : DefaultTheme.colors.surfaceOutline,
       borderRadius: 10,
       marginVertical: 5,
-    }} onPress={handlePress}>
+    }} onPress={openMarkDetails}>
       <View style={{
         paddingHorizontal: 15,
         paddingVertical: 10,
@@ -55,10 +49,9 @@ function MarkCard({ mark, navigation }) {
         <Text style={DefaultTheme.fonts.headlineMedium}>{mark.valueStr}</Text>
       </View>
       <>
-        <Animated.View style={{
+        <View style={{
           paddingHorizontal: 10,
           paddingVertical: 5,
-          height: currentDeployment,
         }}>
           {/* Class values */}
           {mark.classValue && (
@@ -74,7 +67,7 @@ function MarkCard({ mark, navigation }) {
             value={`${mark.coefficient}`.replace(".", ",")}
             endIcon={<XIcon size={15} color={DefaultTheme.colors.onSurface}/>}
           />
-        </Animated.View>
+        </View>
       </>
     </PressableScale>
   );

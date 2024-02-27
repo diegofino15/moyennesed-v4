@@ -56,8 +56,8 @@ function SubjectsOverview({
             return <SubjectCard
               key={subjectID}
               accountID={accountID}
-              periodID={period.id}
               subject={period.subjects[subjectID]}
+              getMark={(markID) => period.marks[markID]}
               navigation={navigation}
             />;
           })}
@@ -70,8 +70,8 @@ function SubjectsOverview({
         return <SubjectCard
           key={subjectID}
           accountID={accountID}
-          periodID={period.id}
           subject={period.subjects[subjectID]}
+          getMark={(markID) => period.marks[markID]}
           navigation={navigation}
         />;
       })}

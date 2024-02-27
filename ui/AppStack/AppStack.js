@@ -7,6 +7,7 @@ import InformationPage from './Main/Marks/InformationPage';
 import SettingsPage from './Settings/SettingsPage';
 import ProfilePage from './Settings/Profile/ProfilePage';
 import AppData from '../../core/AppData';
+import MarkPage from './Main/Marks/MarkPage';
 
 
 // Create stack for navigation
@@ -32,25 +33,6 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
       </Stack.Screen>
 
       <Stack.Screen
-        name="SubjectPage"
-        options={{
-          presentation: 'modal',
-          headerShown: false,
-          animation: 'fade_from_bottom',
-        }}
-        initialParams={{
-          accountID: 0,
-          periodID: "",
-          subjectID: "",
-          subSubjectID: null,
-        }}
-      >
-        {(props) => <SubjectPage
-          {...props}
-        />}
-      </Stack.Screen>
-
-      <Stack.Screen
         name="InformationPage"
         component={InformationPage}
         options={{
@@ -62,9 +44,65 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
           accountID: 0,
         }}
       />
+
+      <Stack.Screen
+        name="SubjectStack"
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
+        initialParams={{
+          accountID: 0,
+          periodID: "",
+          subjectID: "",
+          subSubjectID: null,
+          openMarkID: null,
+        }}
+      >
+        {(props) => <SubjectStack
+          {...props}
+        />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }
+
+function SubjectStack({ route }) {
+  const { accountID, periodID, subjectID, subSubjectID, openMarkID } = route.params;
+  
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="SubjectPage"
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
+        initialParams={{ accountID, periodID, subjectID, subSubjectID, openMarkID }}
+      >
+        {(props) => <SubjectPage
+          {...props}
+        />}
+      </Stack.Screen>
+
+      <Stack.Screen
+        name="MarkPage"
+        options={{
+          headerShown: false,
+          animation: 'slide_from_right',
+        }}
+        initialParams={{ accountID, mark: null }}
+      >
+        {(props) => <MarkPage
+          {...props}
+        />}
+      </Stack.Screen>
+    </Stack.Navigator>
+  );
+}
+
 
 // Profile page stack
 function SettingsStack({ refreshLogin, isConnected, isConnecting }) {

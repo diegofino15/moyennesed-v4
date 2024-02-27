@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Dimensions, ScrollView, Text, View } from "react-native";
-import { ChevronLeftIcon, GraduationCapIcon, SquarePenIcon } from "lucide-react-native";
+import { ChevronLeftIcon, ChevronRightIcon, GraduationCapIcon, SquarePenIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -11,11 +11,12 @@ import AppData from "../../../../core/AppData";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import CustomSection from "../../../components/CustomSection";
 import MarkCard from "./MarkCard";
+import ColorsHandler from "../../../../util/ColorsHandler";
 
 
 // Subject page
 function SubjectPage({ route, navigation }) {
-  const { accountID, periodID, subjectID, subSubjectID } = route.params;
+  const { accountID, periodID, subjectID, subSubjectID, openMarkID } = route.params;
 
   // Get selected subject
   const [period, _setPeriod] = useState({});
@@ -32,14 +33,32 @@ function SubjectPage({ route, navigation }) {
     });
   }, []);
 
+  // Open mark details
+  function openMarkDetails(markID) {
+    navigation.navigate("MarkPage", {
+      accountID,
+      mark: period.marks[markID],
+    });
+  }
+
+  // Auto-open mark page if selected
+  useEffect(() => { if (openMarkID && period.id) { openMarkDetails(openMarkID); } }, [period.id]);
+
+  // Get subject colors
+  const { light, dark } = ColorsHandler.getSubjectColors(subjectID);
+
   return (
     <CustomModal
-      title={subject.title}
-      goBackFunction={() => navigation.pop()}
-      headerStyle={{
-        backgroundColor: DefaultTheme.colors.backdrop,
-        borderBottomWidth: 1,
-      }}
+      title={!subject.subID && subject.title}
+      titleObject={subject.subID && (
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={[DefaultTheme.fonts.titleSmall, { color: 'black' }]}>{period.subjects[subject.id]?.title}</Text>
+          <ChevronRightIcon size={25} color={'black'}/>
+          <Text style={[DefaultTheme.fonts.titleSmall, { color: 'black' }]}>{subject.title}</Text>
+        </View>
+      )}
+      headerStyle={{ backgroundColor: dark }}
+      titleStyle={{ color: 'black' }}
       extraHeight={200}
       children={(
         <View>
@@ -56,11 +75,12 @@ function SubjectPage({ route, navigation }) {
           
           {/* Marks */}
           {subject.marks && <CustomSection title={"Notes"}/>}
-          {subject.marks?.map((markID) => (
+          {subject.sortedMarks?.map((markID) => (
             <MarkCard
               key={markID}
               mark={period.marks[markID]}
-              navigation={navigation}
+              openMarkDetails={() => openMarkDetails(markID)}
+              outline={markID == openMarkID}
             />
           ))}
         </View>

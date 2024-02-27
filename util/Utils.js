@@ -28,10 +28,49 @@ function formatDate(date) {
   return previousDate.toLocaleString("fr-FR", { timeZone: "Europe/Paris", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }).replace(":", "h");
 }
 
+const daysNames = [
+  "Dimanche",
+  "Lundi",
+  "Mardi",
+  "Mercredi",
+  "Jeudi",
+  "Vendredi",
+  "Samedi",
+];
+const monthsNames = [
+  "Janvier",
+  "Février",
+  "Mars",
+  "Avril",
+  "Mai",
+  "Juin",
+  "Juillet",
+  "Aout",
+  "Septembre",
+  "Octobre",
+  "Novembre",
+  "Décembre",
+];
+function formatDate2(givenDate) {
+  const date = new Date(givenDate);
+  return `${daysNames[date.getDay()]} ${date.getDate()} ${monthsNames[date.getMonth()]}`;
+}
+
 function formatAverage(average, decimals=true) {
   if (!average) { return "--"; }
   if (decimals) { return average.toFixed(2).replace('.', ','); }
   return (Math.round(average * 100) / 100).toString().replace('.', ',');
 }
 
-export { openLink, wait, capitalizeWords, formatDate, formatAverage };
+function formatMark(mark) {
+  if (mark.valueOn == 20) { return mark.valueStr; }
+  return `${mark.valueStr}/${mark.valueOn}`;
+}
+
+function getLatestDate(date1, date2) {
+  // Compare two date objects and return the latest
+  if (date1 > date2) { return date1; }
+  return date1;
+}
+
+export { openLink, wait, capitalizeWords, formatDate, formatDate2, formatAverage, formatMark, getLatestDate };

@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
-import { Text, Animated, Platform } from "react-native";
+import { Platform } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 
 import AppData from "../../../core/AppData";
+import CustomChangingText from "../../components/CustomChangingText";
 
 
 // Welcome message
 function WelcomeMessage({ currentAccount }) {
   // Get random message
+  const [welcomeMessage, setWelcomeMessage] = useState("");
   async function getWelcomeMessage() {
     const currentConnectedAccount = await AppData.getMainAccount();
     if (!currentConnectedAccount) { return; }
@@ -49,37 +51,21 @@ function WelcomeMessage({ currentAccount }) {
     return messages[Math.floor(Math.random() * messages.length)];
   }
 
-  // Change message every 30 seconds
-  const refreshRate = 30 * 1000;
-  const [welcomeMessage, setWelcomeMessage] = useState("");
-  async function refreshWelcomeMessage() {
-    setWelcomeMessage(await getWelcomeMessage());
-    setTimeout(() => {
-      Animated.timing(textOpacity, {
-        toValue: 0,
-        duration: 1000,
-        useNativeDriver: true,
-      }).start();
-    }, refreshRate - 1000);
-    setTimeout(refreshWelcomeMessage, refreshRate);
-  }
-  useEffect(() => { refreshWelcomeMessage(); }, []);
-  useEffect(() => { async function setup() { setWelcomeMessage(await getWelcomeMessage()); }; setup(); }, [currentAccount.id]);
+  // Update on account change
+  useEffect(() => { getWelcomeMessage().then(message => setWelcomeMessage(message)); }, [currentAccount.id]);
 
-  // Animation object
-  let textOpacity = new Animated.Value(0);
-  useEffect(() => {
-    Animated.timing(textOpacity, {
-      toValue: 1,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
-  }, [welcomeMessage]);
-  
   return (
-    <Animated.View style={{ opacity: textOpacity }}>
-      <Text style={DefaultTheme.fonts.labelMedium}>{welcomeMessage}</Text>
-    </Animated.View>
+    <CustomChangingText
+      text={welcomeMessage}
+      changeTextContent={async () => {
+        let newMessage = await getWelcomeMessage();
+        setWelcomeMessage(newMessage);
+      }}
+      refreshRate={30 * 1000}
+      animationTime={500}
+      style={DefaultTheme.fonts.labelMedium}
+      nof={2}
+    />
   );
 }
 
