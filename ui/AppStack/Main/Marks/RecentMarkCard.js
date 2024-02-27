@@ -10,10 +10,7 @@ import CustomChangingText from "../../../components/CustomChangingText";
 
 
 // Date text
-function InfoText({ data }) {
-  const { subjectTitle, subSubjectTitle, mark } = data;
-  const { date } = mark ?? {};
-  
+function InfoText({ subjectTitle, subSubjectTitle, date }) {
   const [showDate, setShowDate, showDateRef] = useState(false);
   async function toggleShowDate() { setShowDate(!showDateRef.current); }
 
@@ -30,34 +27,17 @@ function InfoText({ data }) {
 
 
 // Recent mark card
-function RecentMarkCard({ accountID, markID, getMark, getSubject, navigation }) {
-  // Get mark data
-  const [data, setData] = useState({});
-  useEffect(() => {
-    const mark = getMark(markID);
-    const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
-    const subject = getSubject(mark.subjectID);
-    var subSubjectTitle;
-    if (mark.subSubjectID) {
-      subSubjectTitle = subject.subSubjects[mark.subSubjectID].title;
-    }
-    setData({
-      light,
-      dark,
-      subjectTitle: subject.title,
-      subSubjectTitle,
-      mark,
-    });
-  }, []);
-
+function RecentMarkCard({ accountID, mark, getSubject, getPeriod, navigation }) {
+  const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
+  
   // Open mark details
   function openMarkDetails() {
     navigation.navigate("SubjectStack", {
       accountID,
-      periodID: data.mark.periodID,
-      subjectID: data.mark.subjectID,
-      subSubjectID: data.mark.subSubjectID,
-      openMarkID: markID,
+      period: getPeriod(),
+      subject: getSubject(),
+      subSubjectID: mark.subSubjectID,
+      openMarkID: mark.id,
     });
   }
 
@@ -73,7 +53,7 @@ function RecentMarkCard({ accountID, markID, getMark, getSubject, navigation }) 
     }} onPress={openMarkDetails}>
       {/* Mark value */}
       <View style={{
-        backgroundColor: data.light,
+        backgroundColor: light,
         width: 60,
         height: 60,
         borderRadius: 10,
@@ -81,9 +61,9 @@ function RecentMarkCard({ accountID, markID, getMark, getSubject, navigation }) 
         justifyContent: 'center',
         marginRight: 10,
       }}>
-        <Text style={[DefaultTheme.fonts.headlineMedium, { color: 'black' }]}>{data.mark?.valueStr}</Text>
+        <Text style={[DefaultTheme.fonts.headlineMedium, { color: 'black' }]}>{mark.valueStr}</Text>
 
-        {data.mark?.valueOn != 20 && (
+        {mark.valueOn != 20 && (
           <View style={{
             position: 'absolute',
             right: -5,
@@ -91,11 +71,11 @@ function RecentMarkCard({ accountID, markID, getMark, getSubject, navigation }) 
             paddingVertical: 2,
             paddingHorizontal: 5,
             borderRadius: 5,
-            backgroundColor: data.dark ?? 'black',
+            backgroundColor: dark ?? 'black',
             shadowOpacity: 0.5,
             shadowOffset: { width: 0, height: 0 },
           }}>
-            <Text style={[DefaultTheme.fonts.headlineSmall, { color: 'black', fontSize: 15 }]}>/{data.mark?.valueOn}</Text>
+            <Text style={[DefaultTheme.fonts.headlineSmall, { color: 'black', fontSize: 15 }]}>/{mark.valueOn}</Text>
           </View>
         )}
       </View>
@@ -105,8 +85,8 @@ function RecentMarkCard({ accountID, markID, getMark, getSubject, navigation }) 
         justifyContent: 'space-evenly',
         width: 200,
       }}>
-        <Text style={DefaultTheme.fonts.bodyMedium} numberOfLines={2}>{data.mark?.title}</Text>
-        <InfoText data={data}/>
+        <Text style={DefaultTheme.fonts.bodyMedium} numberOfLines={2}>{mark.title}</Text>
+        <InfoText subjectTitle={getSubject().title} subSubjectTitle={mark.subSubjectID ? getSubject().subSubjects[mark.subSubjectID].title : null} date={mark.date}/>
       </View>
     </PressableScale>
   );

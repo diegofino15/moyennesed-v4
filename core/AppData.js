@@ -286,13 +286,14 @@ class AppData {
     if (!marks.periodes) { return 0; }
 
     // Helper functions
-    function createPeriod(id, title, isFinished, subjects, subjectGroups, subjectsNotInSubjectGroup) {
+    function createPeriod(id, title, isFinished, subjects, subjectGroups, sortedSubjectGroups, subjectsNotInSubjectGroup) {
       return {
         "id": id,                                                 // String
         "title": capitalizeWords(title),                          // String
         "isFinished": isFinished,                                 // Boolean
         "subjects": subjects,                                     // Map<ID, Subject>
         "subjectGroups": subjectGroups,                           // Map<ID, SubjectGroup>
+        "sortedSubjectGroups": sortedSubjectGroups,               // List<ID>
         "subjectsNotInSubjectGroup": subjectsNotInSubjectGroup,   // List<ID>
         "marks": {},                                              // Map<ID, Mark>
         "sortedMarks": [],                                        // List<ID>
@@ -347,6 +348,7 @@ class AppData {
       // Fill period data
       let periodSubjects = {};
       let periodSubjectGroups = {};
+      let periodSortedSubjectGroups = [];
       for (const subject of period.ensembleMatieres.disciplines) {
         if (subject.groupeMatiere) { // Is a SubjectGroup
           // Check if already exists
@@ -358,6 +360,7 @@ class AppData {
             subject.discipline,
             parseFloat(`${subject.coef}`.replace(",", ".")),
           );
+          periodSortedSubjectGroups.push(subject.id);
         } else { // Is a normal Subject
           let subjectID = subject.codeMatiere;
           let subSubjectID = subject.codeSousMatiere;
@@ -406,6 +409,7 @@ class AppData {
                   subjectSubjectGroupID,
                   0,
                 );
+                periodSortedSubjectGroups.push(subjectSubjectGroupID);
               }
               periodSubjectGroups[subjectSubjectGroupID].subjects.push(subjectID);
             }
@@ -439,6 +443,7 @@ class AppData {
         isPeriodFinished,
         periodSubjects,
         periodSubjectGroups,
+        periodSortedSubjectGroups,
         subjectsNotInSubjectGroup,
       );
     }

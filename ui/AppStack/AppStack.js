@@ -41,7 +41,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
           animation: 'fade_from_bottom',
         }}
         initialParams={{
-          accountID: 0,
+          lastDateUpdated: null,
         }}
       />
 
@@ -54,8 +54,8 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
         }}
         initialParams={{
           accountID: 0,
-          periodID: "",
-          subjectID: "",
+          period: null,
+          subject: null,
           subSubjectID: null,
           openMarkID: null,
         }}
@@ -69,7 +69,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
 }
 
 function SubjectStack({ route }) {
-  const { accountID, periodID, subjectID, subSubjectID, openMarkID } = route.params;
+  const { accountID, period, subject, subSubjectID, openMarkID } = route.params;
   
   return (
     <Stack.Navigator>
@@ -80,7 +80,7 @@ function SubjectStack({ route }) {
           headerShown: false,
           animation: 'fade_from_bottom',
         }}
-        initialParams={{ accountID, periodID, subjectID, subSubjectID, openMarkID }}
+        initialParams={{ accountID, period, subject, subSubjectID, openMarkID }}
       >
         {(props) => <SubjectPage
           {...props}

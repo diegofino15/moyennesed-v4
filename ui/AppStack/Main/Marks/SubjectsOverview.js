@@ -25,44 +25,46 @@ function SubjectsOverview({
       }
     });
   }, [accountID, selectedPeriod, displayRefresher]);
-  
+
   return (
     <View>
       {/* Subject groups */}
-      {Object.values(period?.subjectGroups ?? {}).map(subjectGroup => (
-        <View key={subjectGroup.id} style={{
-          marginTop: 30,
-        }}>
-          <View style={{
-            paddingRight: 15,
-            borderRadius: 10,
-            flexDirection: "row",
-            justifyContent: "space-between",
+      {period?.sortedSubjectGroups?.map(subjectGroupID => {
+        const subjectGroup = period.subjectGroups[subjectGroupID];
+        return (
+          <View key={subjectGroup.id} style={{
+            marginTop: 30,
           }}>
-            <Text style={DefaultTheme.fonts.labelLarge}>{subjectGroup.title}</Text>
-            <Text style={[DefaultTheme.fonts.headlineMedium, { color: DefaultTheme.colors.onSurfaceDisabled }]}>{formatAverage(subjectGroup.average)}</Text>
+            <View style={{
+              paddingRight: 15,
+              borderRadius: 10,
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}>
+              <Text style={DefaultTheme.fonts.labelLarge}>{subjectGroup.title}</Text>
+              <Text style={[DefaultTheme.fonts.headlineMedium, { color: DefaultTheme.colors.onSurfaceDisabled }]}>{formatAverage(subjectGroup.average)}</Text>
+            </View>
+
+            <View style={{
+              position: 'absolute',
+              left: -10,
+              width: 4,
+              borderRadius: 5,
+              backgroundColor: DefaultTheme.colors.surfaceOutline,
+              height: '100%',
+            }}/>
+
+            {subjectGroup.subjects.map(subjectID => {
+              return <SubjectCard
+                key={subjectID}
+                accountID={accountID}
+                period={period}
+                subject={period.subjects[subjectID]}
+                navigation={navigation}
+              />;
+            })}
           </View>
-
-          <View style={{
-            position: 'absolute',
-            left: -10,
-            width: 4,
-            borderRadius: 5,
-            backgroundColor: DefaultTheme.colors.surfaceOutline,
-            height: '100%',
-          }}/>
-
-          {subjectGroup.subjects.map(subjectID => {
-            return <SubjectCard
-              key={subjectID}
-              accountID={accountID}
-              subject={period.subjects[subjectID]}
-              getMark={(markID) => period.marks[markID]}
-              navigation={navigation}
-            />;
-          })}
-        </View>
-      ))}
+      )})}
 
       {/* Other subjects */}
       <View style={{ height: 20 }} /> 
@@ -70,8 +72,8 @@ function SubjectsOverview({
         return <SubjectCard
           key={subjectID}
           accountID={accountID}
+          period={period}
           subject={period.subjects[subjectID]}
-          getMark={(markID) => period.marks[markID]}
           navigation={navigation}
         />;
       })}

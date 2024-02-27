@@ -25,6 +25,7 @@ function MarksOverview({
 }) {
   // Get periods of student and choose which to display
   const [periods, setPeriods, periodsRef] = useState({});
+  const [lastDateUpdated, setLastDateUpdated] = useState(null);
   useEffect(() => {
     console.log("Updated display !")
     AsyncStorage.getItem("marks").then(async (data) => {
@@ -32,6 +33,7 @@ function MarksOverview({
       if (data) { cacheData = JSON.parse(data); }
       if (accountID in cacheData) {
         setPeriods(cacheData[accountID].data);
+        setLastDateUpdated(cacheData[accountID].date);
 
         // Choose period that isn't finished
         if (!selectedPeriod || !periodsRef.current[selectedPeriod]) {
@@ -65,7 +67,7 @@ function MarksOverview({
           borderRadius: 5,
           flexDirection: 'row',
           alignItems: 'center',
-        }} onPress={() => { if (gotMarks || errorGettingMarks) { navigation.navigate("InformationPage", { accountID: accountID }); } }}>
+        }} onPress={() => { if (gotMarks || errorGettingMarks) { navigation.navigate("InformationPage", { lastDateUpdated: lastDateUpdated }); } }}>
           <Text style={[
             DefaultTheme.fonts.labelMedium, {
               color: gotMarks ? DefaultTheme.colors.success : isLoading ? DefaultTheme.colors.primary : DefaultTheme.colors.error,
@@ -119,9 +121,9 @@ function MarksOverview({
           renderItem={({ item }) => (
             <RecentMarkCard
               accountID={accountID}
-              markID={item}
-              getMark={(markID) => periods[selectedPeriod]?.marks[markID]}
-              getSubject={(subjectID) => periods[selectedPeriod]?.subjects[subjectID]}
+              mark={periods[selectedPeriod].marks[item]}
+              getSubject={() => periods[selectedPeriod].subjects[periods[selectedPeriod].marks[item].subjectID]}
+              getPeriod={() => periods[selectedPeriod]}
               navigation={navigation}
             />
           )}

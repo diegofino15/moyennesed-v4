@@ -16,23 +16,13 @@ import ColorsHandler from "../../../../util/ColorsHandler";
 
 // Subject page
 function SubjectPage({ route, navigation }) {
-  const { accountID, periodID, subjectID, subSubjectID, openMarkID } = route.params;
-
-  // Get selected subject
-  const [period, _setPeriod] = useState({});
-  const [subject, _setSubject] = useState({});
+  const { accountID, period, subject, subSubjectID, openMarkID } = route.params;
+  const [shownSubject, setShownSubject] = useState({});
   useEffect(() => {
-    AsyncStorage.getItem("marks").then(data => {
-      var cacheData = {};
-      if (data) { cacheData = JSON.parse(data); }
-      if (accountID in cacheData) {
-        _setPeriod(cacheData[accountID].data[periodID]);
-        if (subSubjectID) { _setSubject(cacheData[accountID].data[periodID].subjects[subjectID].subSubjects[subSubjectID]); }
-        else { _setSubject(cacheData[accountID].data[periodID].subjects[subjectID]); }
-      }
-    });
+    if (subSubjectID) { setShownSubject(subject.subSubjects[subSubjectID]); }
+    else { setShownSubject(subject); }
   }, []);
-
+  
   // Open mark details
   function openMarkDetails(markID) {
     navigation.navigate("MarkPage", {
@@ -42,19 +32,19 @@ function SubjectPage({ route, navigation }) {
   }
 
   // Auto-open mark page if selected
-  useEffect(() => { if (openMarkID && period.id) { openMarkDetails(openMarkID); } }, [period.id]);
+  useEffect(() => { if (openMarkID && period.id) { setTimeout(() => openMarkDetails(openMarkID), 100) } }, [period.id]);
 
   // Get subject colors
-  const { light, dark } = ColorsHandler.getSubjectColors(subjectID);
+  const { light, dark } = ColorsHandler.getSubjectColors(subject.id);
 
   return (
     <CustomModal
-      title={!subject.subID && subject.title}
-      titleObject={subject.subID && (
+      title={!shownSubject.subID && shownSubject.title}
+      titleObject={shownSubject.subID && (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={[DefaultTheme.fonts.titleSmall, { color: 'black' }]}>{period.subjects[subject.id]?.title}</Text>
+          <Text style={[DefaultTheme.fonts.titleSmall, { color: 'black' }]}>{period.subjects[shownSubject.id]?.title}</Text>
           <ChevronRightIcon size={25} color={'black'}/>
-          <Text style={[DefaultTheme.fonts.titleSmall, { color: 'black' }]}>{subject.title}</Text>
+          <Text style={[DefaultTheme.fonts.titleSmall, { color: 'black' }]}>{shownSubject.title}</Text>
         </View>
       )}
       headerStyle={{ backgroundColor: dark }}
@@ -63,8 +53,8 @@ function SubjectPage({ route, navigation }) {
       children={(
         <View>
           {/* Teachers */}
-          {subject.teachers && <CustomSection title={"Professeur.es"}/>}
-          {subject.teachers?.map((teacher, index) => (
+          {shownSubject.teachers && <CustomSection title={"Professeur.es"}/>}
+          {shownSubject.teachers?.map((teacher, index) => (
             <CustomSimpleInformationCard
               key={index}
               icon={<GraduationCapIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
@@ -74,8 +64,8 @@ function SubjectPage({ route, navigation }) {
           ))}
           
           {/* Marks */}
-          {subject.marks && <CustomSection title={"Notes"}/>}
-          {subject.sortedMarks?.map((markID) => (
+          {shownSubject.marks && <CustomSection title={"Notes"}/>}
+          {shownSubject.sortedMarks?.map((markID) => (
             <MarkCard
               key={markID}
               mark={period.marks[markID]}
