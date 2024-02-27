@@ -1,8 +1,8 @@
 PODS:
   - boost (1.83.0)
-  - ContextMenuAuxiliaryPreview (0.3.1):
-    - DGSwiftUtilities (~> 0.6)
-  - DGSwiftUtilities (0.12.6)
+  - ContextMenuAuxiliaryPreview (0.4.0):
+    - DGSwiftUtilities (~> 0.13)
+  - DGSwiftUtilities (0.17.2)
   - DoubleConversion (1.1.6)
   - EXConstants (15.4.5):
     - ExpoModulesCore
@@ -115,9 +115,9 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.73.4)
   - fmt (6.2.1)
   - glog (0.3.5)
-  - hermes-engine (0.73.2):
-    - hermes-engine/Pre-built (= 0.73.2)
-  - hermes-engine/Pre-built (0.73.2)
+  - hermes-engine (0.73.4):
+    - hermes-engine/Pre-built (= 0.73.4)
+  - hermes-engine/Pre-built (0.73.4)
   - libevent (2.1.12)
   - lottie-ios (4.3.4)
   - lottie-react-native (6.5.1):
@@ -1454,8 +1454,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
-  ContextMenuAuxiliaryPreview: afc65e70568ed72d98f9e7c96402c28c38e2edea
-  DGSwiftUtilities: 46adca3abbb5b5fc83a785b7d7aeada4a6e38010
+  ContextMenuAuxiliaryPreview: 484e47f66bcb9ffe485b5e7e34cc968ff3218a9f
+  DGSwiftUtilities: f371248003eb7feea3cfe594f00599e01186198c
   DoubleConversion: fea03f2699887d960129cc54bba7e52542b6f953
   EXConstants: 988aa430ca0f76b43cd46b66e7fae3287f9cc2fc
   EXFont: f20669cb266ef48b004f1eb1f2b20db96cd1df9f
@@ -1479,7 +1479,7 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: d0086a479be91c44ce4687a962956a352d2dc697
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
-  hermes-engine: b361c9ef5ef3cda53f66e195599b47e1f84ffa35
+  hermes-engine: b2669ce35fc4ac14f523b307aff8896799829fe2
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   lottie-ios: 3d98679b41fa6fd6aff2352b3953dbd3df8a397e
   lottie-react-native: 01b0fc0cfd7619de43e878edd6a61b930ccf485b
@@ -1538,6 +1538,6 @@ SPEC CHECKSUMS:
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 1b901a6d6eeba4e8a2e8f308f708691cdb5db312
 
-PODFILE CHECKSUM: 4f65f49941c65af027ff7ac009de31f9396ae4b4
+PODFILE CHECKSUM: 8f49117895cb6b95a0eb53fd033be4ea70400b78
 
 COCOAPODS: 1.14.3

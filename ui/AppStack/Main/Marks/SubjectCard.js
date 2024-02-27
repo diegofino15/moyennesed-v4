@@ -83,7 +83,7 @@ function EmbeddedSubjectCard({ accountID, subject, getMark, navigation }) {
                   }]}>{formatMark(mark)}</Text>
                 );
               }}
-              ItemSeparatorComponent={<View style={{ width: 10 }}/>} 
+              ItemSeparatorComponent={<View style={{ width: 12.5 }}/>} 
             />
           </View>
         ) : null}
