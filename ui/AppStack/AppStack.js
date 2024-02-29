@@ -47,6 +47,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
 
       <Stack.Screen
         name="SubjectStack"
+        component={SubjectStack}
         options={{
           presentation: 'modal',
           headerShown: false,
@@ -59,11 +60,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
           subSubjectID: null,
           openMarkID: null,
         }}
-      >
-        {(props) => <SubjectStack
-          {...props}
-        />}
-      </Stack.Screen>
+      />
     </Stack.Navigator>
   );
 }
@@ -75,30 +72,24 @@ function SubjectStack({ route }) {
     <Stack.Navigator>
       <Stack.Screen
         name="SubjectPage"
+        component={SubjectPage}
         options={{
           presentation: 'modal',
           headerShown: false,
           animation: 'fade_from_bottom',
         }}
         initialParams={{ accountID, subject, subSubjectID, openMarkID }}
-      >
-        {(props) => <SubjectPage
-          {...props}
-        />}
-      </Stack.Screen>
+      />
 
       <Stack.Screen
         name="MarkPage"
+        component={MarkPage}
         options={{
           headerShown: false,
           animation: 'slide_from_right',
         }}
         initialParams={{ accountID, mark: null }}
-      >
-        {(props) => <MarkPage
-          {...props}
-        />}
-      </Stack.Screen>
+      />
     </Stack.Navigator>
   );
 }
