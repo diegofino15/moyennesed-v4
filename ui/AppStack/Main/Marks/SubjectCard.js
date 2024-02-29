@@ -8,15 +8,15 @@ import ColorsHandler from "../../../../util/ColorsHandler";
 
 
 // Embedded subject card
-function EmbeddedSubjectCard({ accountID, period, subject, navigation }) {
+function EmbeddedSubjectCard({ accountID, subject, getMark, navigation }) {
   const { light, dark } = ColorsHandler.getSubjectColors(subject.id)
   
   // Open subject page
   function openSubjectPage() {
     navigation.navigate("SubjectStack", {
       accountID,
-      period: period,
       subject: subject,
+      subSubjectID: subject.subID,
     });
   }
 
@@ -73,7 +73,7 @@ function EmbeddedSubjectCard({ accountID, period, subject, navigation }) {
               scrollEnabled={false}
               data={subject.sortedMarks}
               renderItem={({ item }) => {
-                const mark = period.marks[item];
+                const mark = getMark(item);
                 return (
                   <Text style={[DefaultTheme.fonts.headlineMedium, {
                     color: 'black',
@@ -92,13 +92,13 @@ function EmbeddedSubjectCard({ accountID, period, subject, navigation }) {
 }
 
 // Main subject card
-function SubjectCard({ accountID, period, subject, navigation }) {
+function SubjectCard({ accountID, subject, getMark, navigation }) {
   return (
     <View>
       <EmbeddedSubjectCard
         accountID={accountID}
-        period={period}
         subject={subject}
+        getMark={getMark}
         navigation={navigation}
       />
 
@@ -107,8 +107,8 @@ function SubjectCard({ accountID, period, subject, navigation }) {
         <EmbeddedSubjectCard
           key={index}
           accountID={accountID}
-          period={period}
           subject={subSubject}
+          getMark={getMark}
           navigation={navigation}
         />
       ))}

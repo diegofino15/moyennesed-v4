@@ -123,7 +123,6 @@ function MarksOverview({
               accountID={accountID}
               mark={periods[selectedPeriod].marks[item]}
               getSubject={() => periods[selectedPeriod].subjects[periods[selectedPeriod].marks[item].subjectID]}
-              getPeriod={() => periods[selectedPeriod]}
               navigation={navigation}
             />
           )}

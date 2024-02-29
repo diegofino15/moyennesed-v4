@@ -27,14 +27,13 @@ function InfoText({ subjectTitle, subSubjectTitle, date }) {
 
 
 // Recent mark card
-function RecentMarkCard({ accountID, mark, getSubject, getPeriod, navigation }) {
+function RecentMarkCard({ accountID, mark, getSubject, navigation }) {
   const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
   
   // Open mark details
   function openMarkDetails() {
     navigation.navigate("SubjectStack", {
       accountID,
-      period: getPeriod(),
       subject: getSubject(),
       subSubjectID: mark.subSubjectID,
       openMarkID: mark.id,

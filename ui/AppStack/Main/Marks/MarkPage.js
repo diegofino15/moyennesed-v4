@@ -17,10 +17,9 @@ function MarkPage({ navigation, route }) {
       headerStyle={{ backgroundColor: dark }}
       goBackButtonStyle={{ opacity: 0.6 }}
       title={"Détails de la note"}
-      showScrollView={false}
       children={(
         <View>
-          <Text style={DefaultTheme.fonts.labelLarge}>{accountID}</Text>
+          <Text style={DefaultTheme.fonts.labelLarge}>{mark.title}</Text>
         </View>
       )}
     />

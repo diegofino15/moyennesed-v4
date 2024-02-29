@@ -69,7 +69,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
 }
 
 function SubjectStack({ route }) {
-  const { accountID, period, subject, subSubjectID, openMarkID } = route.params;
+  const { accountID, subject, subSubjectID, openMarkID } = route.params;
   
   return (
     <Stack.Navigator>
@@ -80,7 +80,7 @@ function SubjectStack({ route }) {
           headerShown: false,
           animation: 'fade_from_bottom',
         }}
-        initialParams={{ accountID, period, subject, subSubjectID, openMarkID }}
+        initialParams={{ accountID, subject, subSubjectID, openMarkID }}
       >
         {(props) => <SubjectPage
           {...props}
