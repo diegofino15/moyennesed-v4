@@ -78,7 +78,7 @@ function SubjectPage({ route, navigation }) {
           
           {/* Marks */}
           {marks && <CustomSection title={"Notes"}/>}
-          {marks && subject.sortedMarks?.map((markID) => (
+          {marks && shownSubject?.sortedMarks?.map((markID) => (
             <MarkCard
               key={markID}
               mark={marks[markID]}

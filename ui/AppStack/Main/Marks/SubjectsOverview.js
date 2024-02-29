@@ -43,7 +43,13 @@ function SubjectsOverview({
               justifyContent: "space-between",
             }}>
               <Text style={DefaultTheme.fonts.labelLarge}>{subjectGroup.title}</Text>
-              <Text style={[DefaultTheme.fonts.headlineMedium, { color: DefaultTheme.colors.onSurfaceDisabled }]}>{formatAverage(subjectGroup.average)}</Text>
+              <View style={{
+                flexDirection: 'row',
+                alignItems: 'flex-end',
+              }}>
+                <Text style={[DefaultTheme.fonts.headlineMedium, { color: DefaultTheme.colors.onSurfaceDisabled }]}>{formatAverage(subjectGroup.average)}</Text>
+                {subjectGroup.average && <Text style={[DefaultTheme.fonts.labelSmall, { color: DefaultTheme.colors.onSurfaceDisabled, fontFamily: "Numbers-Medium" }]}>/20</Text>}
+              </View>
             </View>
 
             <View style={{

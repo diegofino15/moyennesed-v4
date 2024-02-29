@@ -8,14 +8,14 @@ import ColorsHandler from "../../../../util/ColorsHandler";
 
 
 // Embedded subject card
-function EmbeddedSubjectCard({ accountID, subject, getMark, navigation }) {
+function EmbeddedSubjectCard({ accountID, subject, mainSubject, getMark, navigation }) {
   const { light, dark } = ColorsHandler.getSubjectColors(subject.id)
   
   // Open subject page
   function openSubjectPage() {
     navigation.navigate("SubjectStack", {
       accountID,
-      subject: subject,
+      subject: subject.subID ? mainSubject : subject,
       subSubjectID: subject.subID,
     });
   }
@@ -58,7 +58,7 @@ function EmbeddedSubjectCard({ accountID, subject, getMark, navigation }) {
             alignItems: 'flex-end',
           }}>
             <Text style={[DefaultTheme.fonts.headlineMedium, { color: 'black' }]}>{formatAverage(subject.average)}</Text>
-            {subject.average && <Text style={[DefaultTheme.fonts.labelSmall, { color: 'black', fontFamily: "Numbers-Regular" }]}>/20</Text>}
+            {subject.average && <Text style={[DefaultTheme.fonts.labelSmall, { color: 'black', fontFamily: "Numbers-Medium" }]}>/20</Text>}
           </View>
         </View>
         
@@ -108,6 +108,7 @@ function SubjectCard({ accountID, subject, getMark, navigation }) {
           key={index}
           accountID={accountID}
           subject={subSubject}
+          mainSubject={subject}
           getMark={getMark}
           navigation={navigation}
         />
