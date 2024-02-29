@@ -15,22 +15,23 @@ function SubjectsOverview({
   displayRefresher,
   navigation,
 }) {
-  const [period, _setPeriod] = useState({});
+  // Get periods of student
+  const [periods, setPeriods] = useState({});
   useEffect(() => {
-    AsyncStorage.getItem("marks").then(data => {
+    AsyncStorage.getItem("marks").then(async (data) => {
       var cacheData = {};
       if (data) { cacheData = JSON.parse(data); }
       if (accountID in cacheData) {
-        _setPeriod(cacheData[accountID].data[selectedPeriod]);
-      }
+        setPeriods(cacheData[accountID].data);
+      } else { setPeriods({}); }
     });
-  }, [accountID, selectedPeriod, displayRefresher]);
-
+  }, [accountID, displayRefresher]);
+  
   return (
     <View>
       {/* Subject groups */}
-      {period?.sortedSubjectGroups?.map(subjectGroupID => {
-        const subjectGroup = period.subjectGroups[subjectGroupID];
+      {periods[selectedPeriod]?.sortedSubjectGroups?.map(subjectGroupID => {
+        const subjectGroup = periods[selectedPeriod].subjectGroups[subjectGroupID];
         return (
           <View key={subjectGroup.id} style={{
             marginTop: 30,
@@ -58,8 +59,8 @@ function SubjectsOverview({
               return <SubjectCard
                 key={subjectID}
                 accountID={accountID}
-                period={period}
-                subject={period.subjects[subjectID]}
+                period={periods[selectedPeriod]}
+                subject={periods[selectedPeriod].subjects[subjectID]}
                 navigation={navigation}
               />;
             })}
@@ -68,12 +69,12 @@ function SubjectsOverview({
 
       {/* Other subjects */}
       <View style={{ height: 20 }} /> 
-      {Object.values(period?.subjectsNotInSubjectGroup ?? {}).map(subjectID => {
+      {Object.values(periods[selectedPeriod]?.subjectsNotInSubjectGroup ?? {}).map(subjectID => {
         return <SubjectCard
           key={subjectID}
           accountID={accountID}
-          period={period}
-          subject={period.subjects[subjectID]}
+          period={periods[selectedPeriod]}
+          subject={periods[selectedPeriod].subjects[subjectID]}
           navigation={navigation}
         />;
       })}

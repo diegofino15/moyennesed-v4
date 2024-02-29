@@ -8,6 +8,7 @@ import AuthStack from "./AuthStack/AuthStack";
 import AppStack from "./AppStack/AppStack";
 import { AppContextProvider } from "../util/AppContext";
 import { useFonts, initTheme } from "../util/Styles";
+import AdsHandler from "../util/AdsHandler";
 import AppData from "../core/AppData";
 
 
@@ -43,8 +44,10 @@ function AppRoot() {
         setCameFromAuthStack(true);
       }
 
+      await AdsHandler.setupAdmob({ checkForConsent: true });
       setIsLoaded(true);
     } else {
+      await AdsHandler.setupAdmob({ checkForConsent: false });
       setIsLoaded(true);
     }
   }

@@ -48,6 +48,8 @@
       <key>NSAllowsLocalNetworking</key>
       <true/>
     </dict>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>Autorisez-vous les publicités personnalisées sur MoyennesED ?</string>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>
@@ -74,7 +76,5 @@
     <string>Light</string>
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
-    <key>NSUserTrackingUsageDescription</key>
-    <string>Autorisez-vous les publicités personnalisées sur MoyennesED ?</string>
   </dict>
 </plist>
