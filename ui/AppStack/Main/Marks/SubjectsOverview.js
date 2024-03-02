@@ -12,7 +12,7 @@ function SubjectsOverview({
   accountID,
   selectedPeriod,
 
-  displayRefresher,
+  globalDisplayUpdater,
   navigation,
 }) {
   // Get periods of student
@@ -25,7 +25,7 @@ function SubjectsOverview({
         setPeriods(cacheData[accountID].data);
       } else { setPeriods({}); }
     });
-  }, [accountID, displayRefresher]);
+  }, [accountID, globalDisplayUpdater]);
   
   return (
     <View>

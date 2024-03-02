@@ -14,13 +14,13 @@ function CustomChooser({
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger action={longPress ? "longPress" : undefined}>
-        {(selected && getItemForSelected) ? getItemForSelected(selected) : defaultItem}
+        {((selected || selected === 0) && getItemForSelected) ? getItemForSelected(selected) : defaultItem}
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         <DropdownMenu.Label>{title}</DropdownMenu.Label>
 
-        {items.map((item) => (
-          <DropdownMenu.Item key={item.id} onSelect={() => setSelected(item.id)}>
+        {items.map((item, index) => (
+          <DropdownMenu.Item key={index} onSelect={() => setSelected(item.id)}>
             <DropdownMenu.ItemTitle>{item.title}</DropdownMenu.ItemTitle>
           </DropdownMenu.Item>
         ))}

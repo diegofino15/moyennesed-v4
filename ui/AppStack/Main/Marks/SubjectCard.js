@@ -8,14 +8,15 @@ import ColorsHandler from "../../../../util/ColorsHandler";
 
 
 // Embedded subject card
-function EmbeddedSubjectCard({ accountID, subject, mainSubject, getMark, navigation }) {
+function EmbeddedSubjectCard({ accountID, subject, getMark, navigation }) {
   const { light, dark } = ColorsHandler.getSubjectColors(subject.id)
   
   // Open subject page
   function openSubjectPage() {
     navigation.navigate("SubjectStack", {
       accountID,
-      subject: subject.subID ? mainSubject : subject,
+      periodID: subject.periodID,
+      subjectID: subject.id,
       subSubjectID: subject.subID,
     });
   }
@@ -108,7 +109,6 @@ function SubjectCard({ accountID, subject, getMark, navigation }) {
           key={index}
           accountID={accountID}
           subject={subSubject}
-          mainSubject={subject}
           getMark={getMark}
           navigation={navigation}
         />

@@ -16,12 +16,10 @@ function EmbeddedMarksPage({
   isConnecting,
   manualRefreshing,
   setManualRefreshing,
+  globalDisplayUpdater,
+  updateGlobalDisplay,
   navigation,
 }) {
-  // Update display
-  const [displayRefresher, _increment] = useState(0);
-  function updateDisplay() { _increment(displayRefresher + 1); }
-  
   // Select a student account to get marks from
   const [showMarksAccount, setShowMarksAccount] = useState({});
   useEffect(() => {
@@ -48,7 +46,7 @@ function EmbeddedMarksPage({
     setGotMarksForID({ ...gotMarksForIDRef.current, [accountID]: status == 1 });
     setErrorGettingMarksForID({ ...errorGettingMarksForIDRef.current, [accountID]: status != 1 });
     setGettingMarksForID({ ...gettingMarksForIDRef.current, [accountID]: false });
-    updateDisplay();
+    updateGlobalDisplay();
   }
   useEffect(() => {
     async function autoGetMarks() {
@@ -84,14 +82,14 @@ function EmbeddedMarksPage({
         gotMarks={gotMarksForID[showMarksAccount.id]}
         errorGettingMarks={errorGettingMarksForID[showMarksAccount.id]}
         
-        displayRefresher={displayRefresher}
+        globalDisplayUpdater={globalDisplayUpdater}
         navigation={navigation}
       />
       <SubjectsOverview
         accountID={showMarksAccount.id}
         selectedPeriod={selectedPeriod}
         
-        displayRefresher={displayRefresher}
+        globalDisplayUpdater={globalDisplayUpdater}
         navigation={navigation}
       />
     </View>

@@ -29,6 +29,7 @@ function ImbeddedInfoCard({ title, value, endIcon }) {
 
 // Mark card
 function MarkCard({ mark, openMarkDetails, outline }) {
+  if (!mark) { return; }
   return (
     <PressableScale style={{
       backgroundColor: DefaultTheme.colors.surface,

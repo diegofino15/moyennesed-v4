@@ -14,7 +14,7 @@ import MarkPage from './Main/Marks/MarkPage';
 const Stack = createNativeStackNavigator();
 
 // Main page stack
-function MainStack({ refreshLogin, isConnected, isConnecting }) {
+function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -26,15 +26,15 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
       >
         {(props) => <MainPage
           {...props}
-          refreshLogin={refreshLogin}
           isConnected={isConnected}
           isConnecting={isConnecting}
+          globalDisplayUpdater={globalDisplayUpdater}
+          updateGlobalDisplay={updateGlobalDisplay}
         />}
       </Stack.Screen>
 
       <Stack.Screen
         name="InformationPage"
-        component={InformationPage}
         options={{
           presentation: 'modal',
           headerShown: false,
@@ -43,11 +43,15 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
         initialParams={{
           lastDateUpdated: null,
         }}
-      />
+      >
+        {(props) => <InformationPage
+          {...props}
+          globalDisplayUpdater={globalDisplayUpdater}
+        />}
+      </Stack.Screen>
 
       <Stack.Screen
         name="SubjectStack"
-        component={SubjectStack}
         options={{
           presentation: 'modal',
           headerShown: false,
@@ -55,31 +59,40 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
         }}
         initialParams={{
           accountID: 0,
-          period: null,
-          subject: null,
+          periodID: null,
+          subjectID: null,
           subSubjectID: null,
           openMarkID: null,
         }}
-      />
+      >
+        {(props) => <SubjectStack
+          {...props}
+          globalDisplayUpdater={globalDisplayUpdater}
+        />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }
 
-function SubjectStack({ route }) {
-  const { accountID, subject, subSubjectID, openMarkID } = route.params;
+function SubjectStack({ globalDisplayUpdater, route }) {
+  const { accountID, periodID, subjectID, subSubjectID, openMarkID } = route.params;
   
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="SubjectPage"
-        component={SubjectPage}
         options={{
           presentation: 'modal',
           headerShown: false,
           animation: 'fade_from_bottom',
         }}
-        initialParams={{ accountID, subject, subSubjectID, openMarkID }}
-      />
+        initialParams={{ accountID, periodID, subjectID, subSubjectID, openMarkID }}
+      >
+        {(props) => <SubjectPage
+          {...props}
+          globalDisplayUpdater={globalDisplayUpdater}
+        />}
+      </Stack.Screen>
 
       <Stack.Screen
         name="MarkPage"
@@ -143,6 +156,11 @@ function AppStack({ cameFromAuthStack }) {
     setIsConnected(successful);
     setIsConnecting(false);
   }
+
+  // Update all displays when changing averages (ex: update opened subject
+  // page when marks are updated and a new mark appears)
+  const [globalDisplayUpdater, setGlobalDisplayUpdater] = useState(0);
+  function updateGlobalDisplay() { setGlobalDisplayUpdater(globalDisplayUpdater + 1); }
   
   return (
     <Stack.Navigator>
@@ -155,6 +173,8 @@ function AppStack({ cameFromAuthStack }) {
           refreshLogin={refreshLogin}
           isConnected={isConnected}
           isConnecting={isConnecting}
+          globalDisplayUpdater={globalDisplayUpdater}
+          updateGlobalDisplay={updateGlobalDisplay}
         />}
       </Stack.Screen>
 

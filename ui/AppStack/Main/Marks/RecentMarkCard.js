@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import useState from "react-usestateref";
 import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
@@ -34,7 +34,8 @@ function RecentMarkCard({ accountID, mark, getSubject, navigation }) {
   function openMarkDetails() {
     navigation.navigate("SubjectStack", {
       accountID,
-      subject: getSubject(),
+      periodID: mark.periodID,
+      subjectID: mark.subjectID,
       subSubjectID: mark.subSubjectID,
       openMarkID: mark.id,
     });

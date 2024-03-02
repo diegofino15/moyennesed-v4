@@ -1,7 +1,9 @@
+import { useState, useEffect } from "react";
 import { View, Text, Dimensions } from "react-native";
 import { AlertTriangleIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import LottieView from "lottie-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomModal from "../../../components/CustomModal";
 import CustomInformationCard from "../../../components/CustomInformationCard";
@@ -9,8 +11,20 @@ import { formatDate } from "../../../../util/Utils";
 
 
 // Information page
-function InformationPage({ navigation, route }) {
-  const { lastDateUpdated } = route.params;
+function InformationPage({ globalDisplayUpdater, navigation, route }) {
+  const { accountID } = route.params;
+  
+  // Get last date updated marks
+  const [lastDateUpdated, setLastDateUpdated] = useState(null);
+  useEffect(() => {
+    AsyncStorage.getItem("marks").then(async (data) => {
+      var cacheData = {};
+      if (data) { cacheData = JSON.parse(data); }
+      if (accountID in cacheData) {
+        setLastDateUpdated(cacheData[accountID].date);
+      }
+    });
+  }, [globalDisplayUpdater]);
 
   return (
     <CustomModal

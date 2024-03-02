@@ -13,7 +13,7 @@ import CustomChooser from "../../components/CustomChooser";
 
 
 // Main page
-function MainPage({ isConnected, isConnecting, route, navigation }) {
+function MainPage({ isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, route, navigation }) {
   // Connected main account (parent / student)
   const { newAccountID } = route.params; 
   const [currentAccount, setCurrentAccount] = useState({ "accountType": "E" });
@@ -97,6 +97,8 @@ function MainPage({ isConnected, isConnecting, route, navigation }) {
           isConnecting={isConnecting}
           manualRefreshing={manualRefreshing}
           setManualRefreshing={setManualRefreshing}
+          globalDisplayUpdater={globalDisplayUpdater}
+          updateGlobalDisplay={updateGlobalDisplay}
           navigation={navigation}
         />
       </SafeAreaView>
