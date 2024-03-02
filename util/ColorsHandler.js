@@ -59,6 +59,11 @@ class ColorsHandler {
     };
   }
 
+  static isSubjectCustom(accountID, subjectID) {
+    this.createIfMissing(accountID);
+    return this.customColors[accountID][subjectID] !== undefined;
+  }
+
   static resetSubjectColors() {
     this.currentIndex = 0;
     this.attribuatedSubjectColors = {};

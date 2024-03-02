@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
 import { Text, View, Dimensions } from "react-native";
-import { ChevronRightIcon, ChevronsUpDownIcon, GraduationCapIcon, PaletteIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
+import { ChevronRightIcon, ChevronsUpDownIcon, GraduationCapIcon, PaletteIcon, PenIcon, SquarePenIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -124,19 +124,29 @@ function SubjectPage({ globalDisplayUpdater, updateGlobalDisplay, route, navigat
             )}
 
             {/* Color picker */}
-            <PressableScale style={{
+            <View style={{
               position: 'absolute',
               top: -10,
               left: 10,
-              backgroundColor: dark,
-              borderRadius: 5,
-              padding: 5,
               flexDirection: 'row',
               alignItems: 'center',
-            }} onPress={() => setShowChangeColorModal(true)}>
-              <PaletteIcon size={20} color={'black'}/>
-              <Text style={[DefaultTheme.fonts.labelMedium, { color: 'black', marginHorizontal: 5 }]}>Couleur</Text>
-            </PressableScale>
+            }}>
+              <PressableScale style={{
+                backgroundColor: dark,
+                borderRadius: 5,
+                padding: 5,
+                flexDirection: 'row',
+                alignItems: 'center',
+              }} onPress={() => setShowChangeColorModal(true)}>
+                <PaletteIcon size={20} color={'black'}/>
+                <Text style={[DefaultTheme.fonts.labelMedium, { color: 'black', marginHorizontal: 5 }]}>Couleur</Text>
+              </PressableScale>
+              {ColorsHandler.isSubjectCustom(accountID, subjectID) && (
+                <SquarePenIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{
+                  marginLeft: 5,
+                }}/>
+              )}
+            </View>
           </View>
 
           {/* Actual page */}
