@@ -1,21 +1,23 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
 import { Text, View, Dimensions } from "react-native";
-import { ChevronRightIcon, ChevronsUpDownIcon, GraduationCapIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
+import { ChevronRightIcon, ChevronsUpDownIcon, GraduationCapIcon, PaletteIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import MarkCard from "./MarkCard";
-import CustomModal from "../../../components/CustomModal";
-import CustomSection from "../../../components/CustomSection";
-import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
-import CustomChooser from "../../../components/CustomChooser";
-import ColorsHandler from "../../../../util/ColorsHandler";
-import { formatAverage } from "../../../../util/Utils";
+import SubjectColorPicker from "./SubjectColorPicker";
+import CustomSection from "../../../../components/CustomSection";
+import CustomSimpleInformationCard from "../../../../components/CustomSimpleInformationCard";
+import CustomChooser from "../../../../components/CustomChooser";
+import CustomModal from "../../../../components/CustomModal";
+import ColorsHandler from "../../../../../util/ColorsHandler";
+import { formatAverage } from "../../../../../util/Utils";
+import { PressableScale } from "react-native-pressable-scale";
 
 
 // Subject page
-function SubjectPage({ globalDisplayUpdater, route, navigation }) {
+function SubjectPage({ globalDisplayUpdater, updateGlobalDisplay, route, navigation }) {
   const { accountID, periodID, subjectID, subSubjectID, openMarkID } = route.params;
   
   // Used for sub subjects
@@ -48,10 +50,18 @@ function SubjectPage({ globalDisplayUpdater, route, navigation }) {
   }
 
   // Auto-open mark page if selected
-  useEffect(() => { if (openMarkID && Object.keys(marks ?? {}).length > 0) { setTimeout(() => openMarkDetails(openMarkID), 100) } }, [marks]);
+  const [hasRedirected, setHasRedirected] = useState(false);
+  useEffect(() => {
+    if (hasRedirected) { return; }
+    if (openMarkID && Object.keys(marks ?? {}).length > 0) {
+      setTimeout(() => openMarkDetails(openMarkID), 100);
+      setHasRedirected(true);
+    }
+  }, [marks]);
 
   // Get subject colors
   const { light, dark } = ColorsHandler.getSubjectColors(accountID, subjectID);
+  const [showChangeColorModal, setShowChangeColorModal] = useState(false);
 
   // Changeable coefficient
   const [coefficient, setCoefficient] = useState(null);
@@ -79,37 +89,55 @@ function SubjectPage({ globalDisplayUpdater, route, navigation }) {
       style={{ paddingHorizontal: 0 }}
       children={(
         <View>
-          {/* Average */}
-          <View style={{
-            alignSelf: 'center',
-            alignItems: 'center',
-            marginVertical: 20,
-          }}>
-            <Text style={[DefaultTheme.fonts.headlineLarge, {
-              fontSize: 45,
-            }]}>{formatAverage(shownSubject?.average)}</Text>
-            <Text style={[DefaultTheme.fonts.labelLarge, {
-              top: -5,
-            }]}>MOYENNE DE LA {shownSubject.subID ? "SOUS-" : ""}MATIÈRE</Text>
-          </View>
-
-          {/* Class average */}
-          {shownSubject?.classAverage && (
+          {/* Top portion */}
+          <View>
+            {/* Average */}
             <View style={{
+              alignSelf: 'center',
+              alignItems: 'center',
+              marginVertical: 20,
+            }}>
+              <Text style={[DefaultTheme.fonts.headlineLarge, {
+                fontSize: 45,
+              }]}>{formatAverage(shownSubject?.average)}</Text>
+              <Text style={[DefaultTheme.fonts.labelLarge, {
+                top: -5,
+              }]}>MOYENNE DE LA {shownSubject.subID ? "SOUS-" : ""}MATIÈRE</Text>
+            </View>
+
+            {/* Class average */}
+            {shownSubject?.classAverage && (
+              <View style={{
+                position: 'absolute',
+                top: -10,
+                right: 10,
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+                borderRadius: 5,
+                backgroundColor: dark,
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+                <Users2Icon size={20} color={'black'}/>
+                <Text style={[DefaultTheme.fonts.headlineMedium, { color: 'black', fontSize: 17 }]}> : {formatAverage(shownSubject?.classAverage)}</Text>
+              </View>
+            )}
+
+            {/* Color picker */}
+            <PressableScale style={{
               position: 'absolute',
               top: -10,
-              right: 10,
-              paddingHorizontal: 10,
-              paddingVertical: 5,
-              borderRadius: 5,
+              left: 10,
               backgroundColor: dark,
+              borderRadius: 5,
+              padding: 5,
               flexDirection: 'row',
               alignItems: 'center',
-            }}>
-              <Users2Icon size={20} color={'black'}/>
-              <Text style={[DefaultTheme.fonts.headlineMedium, { color: 'black', fontSize: 17 }]}> : {formatAverage(shownSubject?.classAverage)}</Text>
-            </View>
-          )}
+            }} onPress={() => setShowChangeColorModal(true)}>
+              <PaletteIcon size={20} color={'black'}/>
+              <Text style={[DefaultTheme.fonts.labelMedium, { color: 'black', marginHorizontal: 5 }]}>Couleur</Text>
+            </PressableScale>
+          </View>
 
           {/* Actual page */}
           <View style={{
@@ -174,6 +202,21 @@ function SubjectPage({ globalDisplayUpdater, route, navigation }) {
               />
             ))}
           </View>
+        </View>
+      )}
+      childrenOutsideScrollView={(
+        <View>
+          {/* Color picker modal */}
+          {showChangeColorModal && (
+            <SubjectColorPicker
+              accountID={accountID}
+              subjectID={subjectID}
+              visible={showChangeColorModal}
+              exitModal={() => setShowChangeColorModal(false)}
+              initialValue={dark}
+              updateGlobalDisplay={updateGlobalDisplay}
+            />
+          )}
         </View>
       )}
     />

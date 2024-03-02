@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MainPage from './Main/MainPage';
-import SubjectPage from './Main/Marks/SubjectPage';
+import SubjectPage from './Main/Marks/SubjectPage/SubjectPage';
 import InformationPage from './Main/Marks/InformationPage';
 import SettingsPage from './Settings/SettingsPage';
 import ProfilePage from './Settings/Profile/ProfilePage';
@@ -69,13 +69,14 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         {(props) => <SubjectStack
           {...props}
           globalDisplayUpdater={globalDisplayUpdater}
+          updateGlobalDisplay={updateGlobalDisplay}
         />}
       </Stack.Screen>
     </Stack.Navigator>
   );
 }
 
-function SubjectStack({ globalDisplayUpdater, route }) {
+function SubjectStack({ globalDisplayUpdater, updateGlobalDisplay, route }) {
   const { accountID, periodID, subjectID, subSubjectID, openMarkID } = route.params;
   
   return (
@@ -92,6 +93,7 @@ function SubjectStack({ globalDisplayUpdater, route }) {
         {(props) => <SubjectPage
           {...props}
           globalDisplayUpdater={globalDisplayUpdater}
+          updateGlobalDisplay={updateGlobalDisplay}
         />}
       </Stack.Screen>
 

@@ -2,7 +2,6 @@ import { Text, View } from "react-native";
 import { XIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 
 
 // Imbedded info card

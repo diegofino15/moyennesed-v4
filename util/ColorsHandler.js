@@ -35,6 +35,12 @@ class ColorsHandler {
     this.save();
   }
 
+  static removeSubjectColor(accountID, subjectID) {
+    this.createIfMissing(accountID);
+    delete this.customColors[accountID][subjectID];
+    this.save();
+  }
+
   static getSubjectColors(accountID, subjectID) {
     this.createIfMissing(accountID);
     if (this.customColors[accountID][subjectID]) {
