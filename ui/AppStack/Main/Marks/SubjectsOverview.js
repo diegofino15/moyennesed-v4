@@ -73,7 +73,7 @@ function SubjectsOverview({
 
       {/* Other subjects */}
       <View style={{ marginTop: 30 }}>
-        {Object.keys(periods[selectedPeriod]?.subjectGroups ?? {}).length > 0 && (
+        {Object.keys(periods[selectedPeriod]?.subjectGroups ?? {}).length > 0 && periods[selectedPeriod]?.subjectsNotInSubjectGroup.length > 0 && (
           <View style={{ position: 'absolute', height: '100%' }}>
             <Text style={[DefaultTheme.fonts.labelLarge, { fontFamily: 'Text-Medium' }]}>AUTRES MATIÈRES</Text>
             <View style={{
