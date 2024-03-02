@@ -103,7 +103,7 @@ function MarksOverview({
         
         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 3 }}>
           <Users2Icon size={15} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
-          <Text style={DefaultTheme.fonts.labelMedium}>: {formatAverage(periods[selectedPeriod]?.classAverage)}</Text>
+          <Text style={[DefaultTheme.fonts.labelMedium, { fontFamily: "Numbers-Regular" }]}>: {formatAverage(periods[selectedPeriod]?.classAverage)}</Text>
         </View>
       </View>
 
