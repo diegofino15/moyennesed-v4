@@ -28,7 +28,7 @@ function InfoText({ subjectTitle, subSubjectTitle, date }) {
 
 // Recent mark card
 function RecentMarkCard({ accountID, mark, getSubject, navigation }) {
-  const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
+  const { light, dark } = ColorsHandler.getSubjectColors(accountID, mark.subjectID);
   
   // Open mark details
   function openMarkDetails() {

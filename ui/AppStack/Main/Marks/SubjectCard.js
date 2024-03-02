@@ -9,7 +9,7 @@ import ColorsHandler from "../../../../util/ColorsHandler";
 
 // Embedded subject card
 function EmbeddedSubjectCard({ accountID, subject, getMark, navigation }) {
-  const { light, dark } = ColorsHandler.getSubjectColors(subject.id)
+  const { light, dark } = ColorsHandler.getSubjectColors(accountID, subject.id)
   
   // Open subject page
   function openSubjectPage() {

@@ -26,6 +26,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
       >
         {(props) => <MainPage
           {...props}
+          refreshLogin={refreshLogin}
           isConnected={isConnected}
           isConnecting={isConnecting}
           globalDisplayUpdater={globalDisplayUpdater}

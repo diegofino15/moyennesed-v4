@@ -313,7 +313,7 @@ class AppData {
       };
     }
     function createSubject(id, subID, subjectGroupID, periodID, title, teachers, defaultCoefficient) {
-      ColorsHandler.registerSubjectColor(id);
+      ColorsHandler.registerSubjectColor(accountID, id);
       return {
         "id": id,                                   // String
         "subID": subID,                             // String
@@ -578,6 +578,9 @@ class AppData {
       "date": new Date(),
     };
     await AsyncStorage.setItem("marks", JSON.stringify(cacheData));
+
+    // Save colors
+    await ColorsHandler.save();
 
     // Calculate averages
     await this.refreshAverages(accountID);

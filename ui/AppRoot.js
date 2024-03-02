@@ -9,6 +9,7 @@ import AppStack from "./AppStack/AppStack";
 import { AppContextProvider } from "../util/AppContext";
 import { useFonts, initTheme } from "../util/Styles";
 import AdsHandler from "../util/AdsHandler";
+import ColorsHandler from "../util/ColorsHandler";
 import AppData from "../core/AppData";
 
 
@@ -43,6 +44,8 @@ function AppRoot() {
         await AppData.refreshLogin();
         setCameFromAuthStack(true);
       }
+
+      await ColorsHandler.load();
 
       await AdsHandler.setupAdmob({ checkForConsent: true });
       setIsLoaded(true);

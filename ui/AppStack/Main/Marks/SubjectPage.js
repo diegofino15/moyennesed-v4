@@ -51,7 +51,7 @@ function SubjectPage({ globalDisplayUpdater, route, navigation }) {
   useEffect(() => { if (openMarkID && Object.keys(marks ?? {}).length > 0) { setTimeout(() => openMarkDetails(openMarkID), 100) } }, [marks]);
 
   // Get subject colors
-  const { light, dark } = ColorsHandler.getSubjectColors(subjectID);
+  const { light, dark } = ColorsHandler.getSubjectColors(accountID, subjectID);
 
   // Changeable coefficient
   const [coefficient, setCoefficient] = useState(null);
