@@ -16,10 +16,12 @@ function SubjectColorPicker({ accountID, subjectID, visible, exitModal, initialV
   function onSelectColor({ hex }) { setColor(hex); }
 
   function validate() {
-    ColorsHandler.setSubjectColor(accountID, subjectID, lightenColor(color, 40), color);
-    updateGlobalDisplay();
+    if (color != initialValue) {
+      ColorsHandler.setSubjectColor(accountID, subjectID, lightenColor(color, 40), color);
+      updateGlobalDisplay();
+      HapticsHandler.vibrate("light");
+    }
     exitModal();
-    HapticsHandler.vibrate("light");
   }
   function reset() {
     ColorsHandler.removeSubjectColor(accountID, subjectID);
