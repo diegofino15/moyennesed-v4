@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import useState from "react-usestateref";
-import { Text, View, Dimensions } from "react-native";
-import { ChevronRightIcon, ChevronsUpDownIcon, GraduationCapIcon, PaletteIcon, TrashIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
+import { Text, View, Dimensions, ScrollView } from "react-native";
+import { ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon, ChevronsUpDownIcon, DraftingCompassIcon, GraduationCapIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -15,6 +15,7 @@ import ColorsHandler from "../../../../../util/ColorsHandler";
 import { formatAverage } from "../../../../../util/Utils";
 import { PressableScale } from "react-native-pressable-scale";
 import HapticsHandler from "../../../../../util/HapticsHandler";
+import CustomEvolutionChart from "../../../../components/CustomEvolutionChart";
 
 
 // Subject page
@@ -49,8 +50,6 @@ function SubjectPage({ globalDisplayUpdater, updateGlobalDisplay, route, navigat
       mark: marks[markID],
     });
   }
-
-  // Auto-open mark page if selected
   const [hasRedirected, setHasRedirected] = useState(false);
   useEffect(() => {
     if (hasRedirected) { return; }
@@ -68,6 +67,17 @@ function SubjectPage({ globalDisplayUpdater, updateGlobalDisplay, route, navigat
     updateGlobalDisplay();
     HapticsHandler.vibrate("light");
   }
+
+  // Show evolution
+  const scrollViewRef = useRef(null);
+  const [showEvolution, setShowEvolution] = useState(false);
+  useEffect(() => {
+    if (showEvolution) {
+      scrollViewRef.current?.scrollTo({x: Dimensions.get('window').width, animated: true});
+    } else {
+      scrollViewRef.current?.scrollTo({x: 0, animated: true});
+    }
+  }, [showEvolution]);
 
   // Changeable coefficient
   const [coefficient, setCoefficient] = useState(null);
@@ -100,37 +110,37 @@ function SubjectPage({ globalDisplayUpdater, updateGlobalDisplay, route, navigat
         <View>
           {/* Top portion */}
           <View>
-            {/* Average */}
-            <View style={{
-              alignSelf: 'center',
-              alignItems: 'center',
-              marginVertical: 20,
-            }}>
-              <Text style={[DefaultTheme.fonts.headlineLarge, {
-                fontSize: 45,
-              }]}>{formatAverage(shownSubject?.average)}</Text>
-              <Text style={[DefaultTheme.fonts.labelLarge, {
-                top: -5,
-              }]}>MOYENNE DE LA {shownSubject.subID ? "SOUS-" : ""}MATIÈRE</Text>
-            </View>
-
-            {/* Class average */}
-            {shownSubject?.classAverage && (
+            {/* Average & Evolution */}
+            <ScrollView
+              ref={scrollViewRef}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              scrollEnabled={false}
+              style={{
+                marginTop: 30,
+                height: 100,
+              }}
+            >
               <View style={{
-                position: 'absolute',
-                top: -10,
-                right: 10,
-                paddingHorizontal: 10,
-                paddingVertical: 5,
-                borderRadius: 5,
-                backgroundColor: dark,
-                flexDirection: 'row',
                 alignItems: 'center',
+                marginBottom: 20,
+                width: Dimensions.get('window').width,
               }}>
-                <Users2Icon size={20} color={'black'}/>
-                <Text style={[DefaultTheme.fonts.headlineMedium, { color: 'black', fontSize: 17 }]}> : {formatAverage(shownSubject?.classAverage)}</Text>
+                <Text style={[DefaultTheme.fonts.headlineLarge, {
+                  fontSize: 45,
+                }]}>{formatAverage(shownSubject?.average)}</Text>
+                <Text style={[DefaultTheme.fonts.labelLarge, {
+                  top: -5,
+                }]}>MOYENNE DE LA {shownSubject.subID ? "SOUS-" : ""}MATIÈRE</Text>
               </View>
-            )}
+
+              <CustomEvolutionChart
+                listOfValues={shownSubject.averageHistory}
+                color={light}
+                activeColor={dark}
+                height={100}
+              />
+            </ScrollView>
 
             {/* Color picker */}
             <View style={{
@@ -163,13 +173,51 @@ function SubjectPage({ globalDisplayUpdater, updateGlobalDisplay, route, navigat
                 </PressableScale>
               )}
             </View>
+
+            {/* Class average */}
+            {shownSubject?.classAverage && (
+              <View style={{
+                position: 'absolute',
+                top: -10,
+                right: 10,
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+                borderRadius: 5,
+                backgroundColor: dark,
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+                <Users2Icon size={20} color={'black'}/>
+                <Text style={[DefaultTheme.fonts.headlineMedium, { color: 'black', fontSize: 17 }]}> : {formatAverage(shownSubject?.classAverage)}</Text>
+              </View>
+            )}
           </View>
+
+          {/* Switch average & evolution */}
+          {shownSubject.averageHistory?.length > 1 && (
+            <PressableScale style={{
+              position: 'absolute',
+              alignSelf: 'center',
+              top: 130,
+              zIndex: 10,
+              backgroundColor: light,
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingHorizontal: 15,
+              paddingVertical: 3,
+              borderRadius: 5,
+            }} onPress={() => setShowEvolution(!showEvolution)}>
+              {showEvolution ? <DraftingCompassIcon size={20} color={'black'}/> : <TrendingUpIcon size={20} color={'black'}/>}
+              <Text style={[DefaultTheme.fonts.labelMedium, { color: 'black', marginLeft: 5 }]}>{showEvolution ? "Moyenne" : "Evolution"}</Text>
+            </PressableScale>
+          )}
 
           {/* Actual page */}
           <View style={{
             marginTop: 10,
             backgroundColor: DefaultTheme.colors.backdrop,
             padding: 20,
+            paddingTop: 25,
             borderWidth: 2,
             borderColor: DefaultTheme.colors.surfaceOutline,
             borderRadius: 20,
@@ -217,12 +265,6 @@ function SubjectPage({ globalDisplayUpdater, updateGlobalDisplay, route, navigat
               />
             ))}
 
-            {/* TEMP */}
-            {shownSubject.averageHistory && <CustomSection title={"Évolution"}/>}
-            {shownSubject.averageHistory?.map((average, index) => (
-              <Text key={index} style={DefaultTheme.fonts.labelLarge}>{average}</Text>
-            ))}
-            
             {/* Marks */}
             {marks && <CustomSection title={"Notes"}/>}
             {marks && shownSubject?.sortedMarks?.map((markID) => (

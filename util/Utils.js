@@ -55,6 +55,10 @@ function formatDate2(givenDate) {
   const date = new Date(givenDate);
   return `${daysNames[date.getDay()]} ${date.getDate()} ${monthsNames[date.getMonth()]}`;
 }
+function formatDate3(givenDate) {
+  const date = new Date(givenDate);
+  return `${date.getDate()} ${monthsNames[date.getMonth()]}`;
+}
 
 function formatAverage(average, decimals=true) {
   if (!average) { return "--"; }
@@ -73,4 +77,4 @@ function getLatestDate(date1, date2) {
   return date1;
 }
 
-export { openLink, wait, capitalizeWords, formatDate, formatDate2, formatAverage, formatMark, getLatestDate };
+export { openLink, wait, capitalizeWords, formatDate, formatDate2, formatDate3, formatAverage, formatMark, getLatestDate };

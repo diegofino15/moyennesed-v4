@@ -309,7 +309,7 @@ class AppData {
         "title": title.toUpperCase(),               // String
         
         "isEffective": true,                        // Boolean
-        "coefficient": defaultCoefficient,          // Float
+        "defaultCoefficient": defaultCoefficient,   // Float
         "subjects": [],                             // List<ID>
 
         "averageHistory": [],                       // List<Float>
@@ -561,7 +561,7 @@ class AppData {
       periods[periodID].sortedMarks.push(id);
 
       // Calculate average history
-      await this.refreshAverages(accountID, periods[periodID]);
+      await this.refreshAverages(accountID, periods[periodID], mark.date);
     }
 
     // Reverse mark lists
@@ -640,28 +640,28 @@ class AppData {
     Object.values(isSinglePeriod ? {[periods.id]: periods} : periods).forEach(period => {
       // Set missing mark data
       Object.values(period.marks).forEach(mark => {
-        if (!mark.coefficient) { mark.coefficient = mark.defaultCoefficient; }
-        if (!mark.isEffective) { mark.isEffective = mark.defaultIsEffective; }
+        if (isNaN(mark.coefficient)) { mark.coefficient = mark.defaultCoefficient; }
+        if (mark.isEffective == undefined) { mark.isEffective = mark.defaultIsEffective; }
       });
 
       // Set missing subject data
       Object.values(period.subjects).forEach(subject => {
-        if (!subject.coefficient) { subject.coefficient = subject.defaultCoefficient; }
-        if (!subject.isEffective) { subject.isEffective = subject.defaultIsEffective; }
+        if (isNaN(subject.coefficient)) { subject.coefficient = subject.defaultCoefficient; }
+        if (subject.isEffective == undefined) { subject.isEffective = subject.defaultIsEffective; }
         Object.values(subject.subSubjects).forEach(subSubject => {
-          if (!subSubject.coefficient) { subSubject.coefficient = subSubject.defaultCoefficient; }
-          if (!subSubject.isEffective) { subSubject.isEffective = subSubject.defaultIsEffective; }
+          if (isNaN(subSubject.coefficient)) { subSubject.coefficient = subSubject.defaultCoefficient; }
+          if (subSubject.isEffective == undefined) { subSubject.isEffective = subSubject.defaultIsEffective; }
         });
       });
     });
   }
   // Calculate all averages
-  static async refreshAverages(accountID, givenPeriod=null) {
+  static async refreshAverages(accountID, givenPeriod=null, averageDate=null) {
     // Preferences
     const countMarksWithOnlyCompetences = await this.getPreference("countMarksWithOnlyCompetences");
 
     // Calculates the straight average for any given subject
-    function _calculateSubjectAverage(subject, getMark) {
+    function _calculateSubjectAverage(subject, getMark, averageDate) {
       let sumOfMarks = 0;
       let coefOfMarks = 0;
       let sumOfClassMarks = 0;
@@ -700,7 +700,10 @@ class AppData {
         subject.average = sumOfMarks / coefOfMarks;
         subject.hasAverage = true;
 
-        if (subject.averageHistory[subject.averageHistory.length - 1] != subject.average) { subject.averageHistory.push(subject.average); }
+        if (subject.averageHistory[subject.averageHistory.length - 1]?.value != subject.average) { subject.averageHistory.push({
+          "value": subject.average,
+          "date": averageDate,
+        }); }
       }
       if (coefOfClassMarks) {
         subject.classAverage = sumOfClassMarks / coefOfClassMarks;
@@ -709,13 +712,13 @@ class AppData {
     }
 
     // Calculates the average of subjects that can contain subSubjects
-    function calculateAllSubjectAverages(subject, getMark) {
+    function calculateAllSubjectAverages(subject, getMark, averageDate) {
       let sumOfSubSubjects = 0;
       let coefOfSubSubjects = 0;
       let sumOfClassSubSubjects = 0;
       let coefOfClassSubSubjects = 0;
       Object.values(subject.subSubjects).forEach(subSubject => {
-        _calculateSubjectAverage(subSubject, getMark);
+        _calculateSubjectAverage(subSubject, getMark, averageDate);
         if (subSubject.isEffective) {
           if (subSubject.hasAverage) {
             sumOfSubSubjects += subSubject.average * subSubject.coefficient;
@@ -730,13 +733,16 @@ class AppData {
 
       // To not count twice marks in subject containing sub subjects
       if (!coefOfSubSubjects && !coefOfClassSubSubjects) {
-        _calculateSubjectAverage(subject, getMark);
+        _calculateSubjectAverage(subject, getMark, averageDate);
       } else {
         if (coefOfSubSubjects) {
           subject.average = sumOfSubSubjects / coefOfSubSubjects;
           subject.hasAverage = true;
 
-          if (subject.averageHistory[subject.averageHistory.length - 1] != subject.average) { subject.averageHistory.push(subject.average); }
+          if (subject.averageHistory[subject.averageHistory.length - 1]?.value != subject.average) { subject.averageHistory.push({
+            "value": subject.average,
+            "date": averageDate,
+          }); }
         }
         if (coefOfClassSubSubjects) {
           subject.classAverage = sumOfClassSubSubjects / coefOfClassSubSubjects;
@@ -746,20 +752,20 @@ class AppData {
     }
 
     // Calculates the average of subjectGroups
-    function calculateAllSubjectGroupsAverages(subjectGroup, getSubject, getMark) {
+    function calculateAllSubjectGroupsAverages(subjectGroup, getSubject, getMark, averageDate) {
       let sumOfSubjectAverages = 0
       let coefOfSubjectAverages = 0;
       let sumOfClassSubjectAverages = 0
       let coefOfClassSubjectAverages = 0;
       subjectGroup.subjects.forEach(subjectID => {
         const subject = getSubject(subjectID);
-        calculateAllSubjectAverages(subject, getMark);
+        calculateAllSubjectAverages(subject, getMark, averageDate);
         
         if (subject.isEffective) {
           if (subject.hasAverage) {
             sumOfSubjectAverages += subject.average * subject.coefficient;
             coefOfSubjectAverages += subject.coefficient;
-          } else if (!subjectGroup.defaultCoefficient && !subjectGroup.coefficientWasChanged) { subjectGroup.coefficient -= subject.coefficient; }
+          }
           if (subject.hasClassAverage) {
             sumOfClassSubjectAverages += subject.classAverage * subject.coefficient;
             coefOfClassSubjectAverages += subject.coefficient;
@@ -771,7 +777,13 @@ class AppData {
         subjectGroup.average = sumOfSubjectAverages / coefOfSubjectAverages;
         subjectGroup.hasAverage = true;
 
-        if (subjectGroup.averageHistory[subjectGroup.averageHistory.length - 1] != subjectGroup.average) { subjectGroup.averageHistory.push(subjectGroup.average); }
+        if (subjectGroup.averageHistory[subjectGroup.averageHistory.length - 1]?.value != subjectGroup.average) { subjectGroup.averageHistory.push({
+          "value": subjectGroup.average,
+          "date": averageDate,
+        }); }
+
+        // Set coefficient if not existing
+        if (!subjectGroup.defaultCoefficient) { subjectGroup.coefficient = coefOfSubjectAverages; }
       }
       if (coefOfClassSubjectAverages) {
         subjectGroup.classAverage = sumOfClassSubjectAverages / coefOfClassSubjectAverages;
@@ -780,14 +792,14 @@ class AppData {
     }
     
     // Calculates the average of periods
-    function calculatePeriodAverage(period) {
+    function calculatePeriodAverage(period, averageDate) {
       // Calculate subject groups averages
       let sumOfSubjectGroupsAverages = 0;
       let coefOfSubjectGroupsAverages = 0;
       let sumOfClassSubjectGroupsAverages = 0;
       let coefOfClassSubjectGroupsAverages = 0;
       Object.values(period.subjectGroups).forEach(subjectGroup => {
-        calculateAllSubjectGroupsAverages(subjectGroup, (subjectID) => period.subjects[subjectID], (markID) => period.marks[markID]);
+        calculateAllSubjectGroupsAverages(subjectGroup, (subjectID) => period.subjects[subjectID], (markID) => period.marks[markID], averageDate);
 
         if (subjectGroup.isEffective) {
           if (subjectGroup.hasAverage) {
@@ -804,7 +816,7 @@ class AppData {
       // Calculate averages of remaining subjects
       period.subjectsNotInSubjectGroup.forEach(subjectID => {
         const subject = period.subjects[subjectID];
-        calculateAllSubjectAverages(subject, (markID) => period.marks[markID]);
+        calculateAllSubjectAverages(subject, (markID) => period.marks[markID], averageDate);
         if (subject.isEffective) {
           if (subject.hasAverage) {
             sumOfSubjectGroupsAverages += subject.average * subject.coefficient;
@@ -822,7 +834,10 @@ class AppData {
         period.average = sumOfSubjectGroupsAverages / coefOfSubjectGroupsAverages;
         period.hasAverage = true;
 
-        if (period.averageHistory[period.averageHistory.length - 1] != period.average) { period.averageHistory.push(period.average); }
+        if (period.averageHistory[period.averageHistory.length - 1]?.value != period.average) { period.averageHistory.push({
+          "value": period.average,
+          "date": averageDate,
+        }); }
       }
       if (coefOfClassSubjectGroupsAverages) {
         period.classAverage = sumOfClassSubjectGroupsAverages / coefOfClassSubjectGroupsAverages;
@@ -838,7 +853,7 @@ class AppData {
       this.applyMissingData(givenPeriod, true);
       
       // Calculate averages
-      calculatePeriodAverage(givenPeriod);
+      calculatePeriodAverage(givenPeriod, averageDate);
     } else {
       var cacheData = {};
       const data = await AsyncStorage.getItem("marks");
