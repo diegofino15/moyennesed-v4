@@ -304,11 +304,10 @@ class AppData {
         "id": id,                                   // String
         "periodID": periodID,                       // String
 
-        "defaultTitle": title.toUpperCase(),        // String
+        "title": title.toUpperCase(),               // String
         
         "isEffective": true,                        // Boolean
-        "defaultCoefficient": defaultCoefficient,   // Float
-        "coefficientWasChanged": false,             // Boolean
+        "coefficient": defaultCoefficient,          // Float
         "subjects": [],                             // List<ID>
       };
     }
@@ -322,12 +321,11 @@ class AppData {
 
         "subSubjects": {},                          // Map<ID, Subject>
 
-        "defaultTitle": capitalizeWords(title),     // String
+        "title": capitalizeWords(title),            // String
         "teachers": teachers,                       // List<String>
 
-        "isEffective": true,                        // Boolean
+        "defaultIsEffective": true,                 // Boolean
         "defaultCoefficient": defaultCoefficient,   // Float
-        "coefficientWasChanged": false,             // Boolean
         "marks": [],                                // List<ID>
         "sortedMarks": [],                          // List<ID>
       };
@@ -496,12 +494,11 @@ class AppData {
         "subSubjectID": subSubjectID,
 
         "date": markDate,
-        "defaultTitle": markTitle,
-        "isEffective": isMarkEffective,
+        "title": markTitle,
+        "defaultIsEffective": isMarkEffective,
         "hasValue": markHasValue,
 
         "defaultCoefficient": markCoefficient,
-        "coefficientWasChanged": false,
 
         "competences": markCompetences,
 
@@ -592,97 +589,59 @@ class AppData {
     console.log("Applying missing data...");
     
     Object.values(periods).forEach(period => {
-      // Set missing mark coefficients
+      // Set missing mark data
       Object.values(period.marks).forEach(mark => {
         if (!mark.coefficient) { mark.coefficient = mark.defaultCoefficient; }
-        if (!mark.title) { mark.title = mark.defaultTitle; }
+        if (!mark.isEffective) { mark.isEffective = mark.defaultIsEffective; }
       });
 
-      // Set missing subject coefficients
+      // Set missing subject data
       Object.values(period.subjects).forEach(subject => {
         if (!subject.coefficient) { subject.coefficient = subject.defaultCoefficient; }
-        if (!subject.title) { subject.title = subject.defaultTitle; }
+        if (!subject.isEffective) { subject.isEffective = subject.defaultIsEffective; }
         Object.values(subject.subSubjects).forEach(subSubject => {
           if (!subSubject.coefficient) { subSubject.coefficient = subSubject.defaultCoefficient; }
-          if (!subSubject.title) { subSubject.title = subSubject.defaultTitle; }
+          if (!subSubject.isEffective) { subSubject.isEffective = subSubject.defaultIsEffective; }
         });
-      });
-
-      // Set missing subjectGroup coefficients
-      Object.values(period.subjectGroups).forEach(subjectGroup => {
-        if (!subjectGroup.coefficient) {
-          if (subjectGroup.defaultCoefficient) { subjectGroup.coefficient = subjectGroup.defaultCoefficient; }
-          else {
-            let sumOfSubjectCoefficients = 0
-            subjectGroup.subjects.forEach(subjectID => {
-              let subject = period.subjects[subjectID];
-              if (subject.isEffective) { sumOfSubjectCoefficients += subject.coefficient; }
-            });
-            subjectGroup.coefficient = sumOfSubjectCoefficients;
-          }
-        }
-        if (!subjectGroup.title) { subjectGroup.title = subjectGroup.defaultTitle; }
       });
     });
   }
   // Set custom data
   static async applyCustomData(accountID, periods) {
     console.log("Applying custom data...");
-    
-    const cacheCustomData = await AsyncStorage.getItem("customData");
-    if (cacheCustomData) {
-      const customData = JSON.parse(cacheCustomData);
-      if (accountID in customData) {
-        // Change mark data (per period)
-        for (const mark of (customData[accountID].marks ?? [])) {
-          let correspondingMark = periods[mark.periodID].marks[mark.id];
-          if (correspondingMark) {
-            if (mark.coefficient && (mark.coefficient != correspondingMark.coefficient)) { correspondingMark.coefficientWasChanged = true; }
-            Object.keys(mark).forEach(key => {
-              correspondingMark[key] = mark[key];
-            });
-          }
-        }
 
-        // Change data (for every period)
-        for (const subSubject of (customData[accountID].subSubjects ?? [])) {
-          Object.keys(periods).forEach(periodID => {
-            let correspondingSubject = periods[periodID].subjects[subSubject.id];
-            if (correspondingSubject) {
-              let correspondingSubSubject = correspondingSubject.subSubjects[subSubject.subID];
-              if (correspondingSubSubject) {
-                if (subSubject.coefficient && (subSubject.coefficient != correspondingSubSubject.coefficient)) { correspondingSubSubject.coefficientWasChanged = true; }
-                Object.keys(subSubject).forEach(key => {
-                  correspondingSubSubject[key] = subSubject[key];
-                });
-              }
-            }
+    const customData = await this.getAccountCustomData(accountID);
+    if (!customData) { return; }
+
+    // Marks (period specific)
+    Object.keys(customData.marks ?? {}).forEach(periodID => {
+      Object.keys(customData.marks[periodID] ?? {}).forEach(markID => {
+        let correspondingMark = periods[periodID].marks[markID];
+        if (correspondingMark) {
+          if (customData.marks[periodID][markID].coefficient && (customData.marks[periodID][markID].coefficient != correspondingMark.defaultCoefficient)) { correspondingMark.coefficientWasChanged = true; }
+          Object.keys(customData.marks[periodID][markID]).forEach(key => {
+            correspondingMark[key] = customData.marks[periodID][markID][key];
           });
         }
-        for (const subject of (customData[accountID].subjects ?? [])) {
-          Object.keys(periods).forEach(periodID => {
-            let correspondingSubject = periods[periodID].subjects[subject.id];
-            if (correspondingSubject) {
-              if (subject.coefficient && (subject.coefficient != correspondingSubject.coefficient)) { correspondingSubject.coefficientWasChanged = true; }
-              Object.keys(subject).forEach(key => {
-                correspondingSubject[key] = subject[key];
-              });
-            }
+      });
+    });
+
+    // Subjects (not period specific)
+    Object.keys(customData.subjects ?? {}).forEach(fullSubjectID => {
+      Object.keys(periods).forEach(periodID => {
+        let subjectID = fullSubjectID.split("/")[0]
+        let subSubjectID = fullSubjectID.split("/")[1]
+        let correspondingSubject = periods[periodID].subjects[subjectID];
+        if (subSubjectID) { correspondingSubject = correspondingSubject.subSubjects[subSubjectID]; }
+
+        if (correspondingSubject) {
+          if (customData.subjects[fullSubjectID].coefficient && (customData.subjects[fullSubjectID].coefficient != correspondingSubject.defaultCoefficient)) { correspondingSubject.coefficientWasChanged = true; }
+          Object.keys(customData.subjects[fullSubjectID]).forEach(key => {
+            correspondingSubject[key] = customData.subjects[fullSubjectID][key];
           });
         }
-        for (const subjectGroup of (customData[accountID].subjectGroups ?? [])) {
-          Object.keys(periods).forEach(periodID => {
-            let correspondingSubjectGroup = periods[periodID].subjectGroups[subjectGroup.id];
-            if (correspondingSubjectGroup) {
-              if (subjectGroup.coefficient && (subjectGroup.coefficient != correspondingSubjectGroup.coefficient)) { correspondingSubjectGroup.coefficientWasChanged = true; }
-              Object.keys(subjectGroup).forEach(key => {
-                correspondingSubjectGroup[key] = subjectGroup[key];
-              });
-            }
-          });
-        }
-      }
-    }
+      });
+    });
   }
   // Calculate all averages
   static async refreshAverages(accountID) {
@@ -878,33 +837,65 @@ class AppData {
 
 
   // Custom data //
-  // Can change : title, coefficient, isEffective
-  static async getAllCustomData(accountID) {
+  static async setAllCustomData(data) {
+    await AsyncStorage.setItem("customData", JSON.stringify(data));
+  }
+  static async getAllCustomData() {
     const data = await AsyncStorage.getItem("customData");
-    if (data) { return JSON.parse(data)[accountID]; }
+    if (data) { return JSON.parse(data); }
     return {};
   }
-  static async setCustomData(accountID, dataType, data) {
-    const customData = await this.getAllCustomData(accountID);
-    if (!customData[dataType]) { customData[dataType] = []; }
-    customData[dataType].push(data);
-    await AsyncStorage.setItem("customData", JSON.stringify(customData));
+  // Account specific data
+  static async setAccountCustomData(accountID, data) {
+    const customData = await this.getAllCustomData();
+    customData[accountID] = data;
+    await this.setAllCustomData(customData);
+  }
+  static async getAccountCustomData(accountID) {
+    const customData = await this.getAllCustomData();
+    if (accountID in customData) { return customData[accountID]; }
+    return {};
+  }
+  // Direct functions
+  static async setCustomData(accountID, dataType, itemID, property, value, periodID=null) {
+    const customData = await this.getAccountCustomData(accountID);
+    if (!customData[dataType]) { customData[dataType] = {}; }
+    if (periodID) {
+      if (!customData[dataType][periodID]) { customData[dataType][periodID] = {}; }
+      if (!customData[dataType][periodID][itemID]) { customData[dataType][periodID][itemID] = {}; }
+      customData[dataType][periodID][itemID][property] = value;
+    } else {
+      if (!customData[dataType][itemID]) { customData[dataType][itemID] = {}; }
+      customData[dataType][itemID][property] = value;
+    }
+    await this.setAccountCustomData(accountID, customData);
+  }
+  static async removeCustomData(accountID, dataType, itemID) {
+    const customData = await this.getAccountCustomData(accountID);
+    if (dataType in customData && itemID in customData[dataType]) {
+      delete customData[dataType][itemID];
+    }
+    await this.setAccountCustomData(accountID, customData);
   }
   static async resetCustomData(accountID) {
-    const customData = await this.getAllCustomData(accountID);
+    const customData = await this.getAllCustomData();
     delete customData[accountID];
-    await AsyncStorage.setItem("customData", JSON.stringify(customData));
+    await this.setAllCustomData(customData);
   }
 
-
   // Preferences //
+  static async setAllPreferences(preferences) {
+    await AsyncStorage.setItem("preferences", JSON.stringify(preferences));
+  }
   static async getAllPreferences() {
     const data = await AsyncStorage.getItem("preferences");
     if (data) { return JSON.parse(data); }
     return {};
   }
-  static async setAllPreferences(preferences) {
-    await AsyncStorage.setItem("preferences", JSON.stringify(preferences));
+  static async setPreference(key, value) {
+    const preferences = await this.getAllPreferences();
+    preferences[key] = value;
+    await this.setAllPreferences(preferences);
   }
   static async getPreference(key) {
     const preferences = await this.getAllPreferences();
@@ -914,11 +905,6 @@ class AppData {
       await this.setAllPreferences(preferences);
     }
     return preferences[key];
-  }
-  static async setPreference(key, value) {
-    const preferences = await this.getAllPreferences();
-    preferences[key] = value;
-    await this.setAllPreferences(preferences);
   }
 
   // Erase all data //
