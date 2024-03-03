@@ -40,7 +40,7 @@ function SubjectsOverview({
               flexDirection: "row",
               justifyContent: "space-between",
             }}>
-              <Text style={[DefaultTheme.fonts.labelLarge, { fontFamily: 'Text-Medium' }]}>{subjectGroup.coefficient}</Text>
+              <Text style={[DefaultTheme.fonts.labelLarge, { fontFamily: 'Text-Medium' }]}>{subjectGroup.title}</Text>
               <View style={{
                 flexDirection: 'row',
                 alignItems: 'flex-end',
