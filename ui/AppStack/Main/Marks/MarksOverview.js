@@ -60,21 +60,21 @@ function MarksOverview({
       }}>
         {/* Loading status */}
         <PressableScale style={{
-          backgroundColor: gotMarks ? DefaultTheme.colors.successLight : isLoading ? DefaultTheme.colors.primaryLight : DefaultTheme.colors.errorLight,
+          backgroundColor: isLoading ? DefaultTheme.colors.primaryLight : gotMarks ? DefaultTheme.colors.successLight : DefaultTheme.colors.errorLight,
           borderWidth: 2,
-          borderColor: gotMarks ? DefaultTheme.colors.success : isLoading ? DefaultTheme.colors.primary : DefaultTheme.colors.error,
+          borderColor: isLoading ? DefaultTheme.colors.primary : gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error,
           borderRadius: 5,
           flexDirection: 'row',
           alignItems: 'center',
-        }} onPress={() => { if (gotMarks || errorGettingMarks) { navigation.navigate("InformationPage", { accountID }); } }}>
+        }} onPress={() => { if (!isLoading) { navigation.navigate("InformationPage", { accountID }); } }}>
           <Text style={[
             DefaultTheme.fonts.labelMedium, {
-              color: gotMarks ? DefaultTheme.colors.success : isLoading ? DefaultTheme.colors.primary : DefaultTheme.colors.error,
+              color: isLoading ? DefaultTheme.colors.primary : gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error,
               marginVertical: 2,
               marginHorizontal: 5,
               height: 22,
-          }]}>{gotMarks ? "À jour" : isLoading ? "Chargement..." : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
-          {(gotMarks || errorGettingMarks) && <HelpCircleIcon size={20} color={gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error} style={{ marginRight: 5 }}/>}
+          }]}>{isLoading ? "Chargement..." : gotMarks ? "À jour" : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
+          {(!isLoading) && <HelpCircleIcon size={20} color={gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error} style={{ marginRight: 5 }}/>}
         </PressableScale>
 
         {/* Period chooser */}

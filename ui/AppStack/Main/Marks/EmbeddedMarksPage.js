@@ -12,6 +12,7 @@ import AppData from "../../../../core/AppData";
 // Embedded mark page
 function EmbeddedMarksPage({
   mainAccount,
+  refreshLogin,
   isConnected,
   isConnecting,
   manualRefreshing,
@@ -61,7 +62,16 @@ function EmbeddedMarksPage({
         HapticsHandler.vibrate("light");
       }
     }
+    async function reloginAndGetMarks() {
+      const reloginSuccessful = await refreshLogin();
+      if (reloginSuccessful) { autoGetMarks(); }
+      else {
+        setManualRefreshing(false);
+        HapticsHandler.vibrate("light");
+      }
+    }
     if (isConnected && showMarksAccount.id) { autoGetMarks(); }
+    else if (showMarksAccount.id && !isConnecting && manualRefreshing) { reloginAndGetMarks(); }
   }, [isConnected, showMarksAccount.id, manualRefreshing]);  
 
   // Selected period

@@ -158,6 +158,7 @@ function AppStack({ cameFromAuthStack }) {
     const successful = await AppData.refreshLogin();
     setIsConnected(successful);
     setIsConnecting(false);
+    return successful;
   }
 
   // Update all displays when changing averages (ex: update opened subject

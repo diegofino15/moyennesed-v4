@@ -13,7 +13,7 @@ import CustomChooser from "../../components/CustomChooser";
 
 
 // Main page
-function MainPage({ isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, route, navigation }) {
+function MainPage({ refreshLogin, isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, route, navigation }) {
   // Connected main account (parent / student)
   const { newAccountID } = route.params; 
   const [currentAccount, setCurrentAccount] = useState({ "accountType": "E" });
@@ -94,6 +94,7 @@ function MainPage({ isConnected, isConnecting, globalDisplayUpdater, updateGloba
         {/* Marks overview */}
         <EmbeddedMarksPage
           mainAccount={currentAccount}
+          refreshLogin={refreshLogin}
           isConnected={isConnected}
           isConnecting={isConnecting}
           manualRefreshing={manualRefreshing}
