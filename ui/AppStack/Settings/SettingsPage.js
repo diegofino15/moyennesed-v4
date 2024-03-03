@@ -24,6 +24,7 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
     <CustomModal
       title="Paramètres"
       goBackFunction={() => navigation.pop()}
+      onlyShowBackButtonOnAndroid
       children={(
         <View>
           {/* Login status */}

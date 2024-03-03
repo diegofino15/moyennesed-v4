@@ -12,6 +12,7 @@ function ChildChooser({ mainAccount, showMarksAccount, setShowMarksAccount }) {
   return (
     <View style={{
       marginBottom: 20,
+      marginHorizontal: 20,
     }}>
       <CustomSeparator style={{ marginBottom: 10 }}/>
       

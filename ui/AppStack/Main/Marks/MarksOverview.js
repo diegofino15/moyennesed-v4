@@ -51,6 +51,7 @@ function MarksOverview({
       backgroundColor: DefaultTheme.colors.surface,
       borderRadius: 20,
       padding: 20,
+      marginHorizontal: 20,
     }}>
       <View style={{
         flexDirection: 'row',

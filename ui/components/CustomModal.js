@@ -15,6 +15,7 @@ function CustomModal({
   titleStyle,
   headerStyle,
   goBackButtonStyle,
+  onlyShowBackButtonOnAndroid=false,
   isBackButtonInScrollView=false,
   showScrollView=true,
   extraHeight=0,
@@ -59,7 +60,7 @@ function CustomModal({
         {childrenOutsideScrollView}
 
         {/* Back button */}
-        {goBackFunction && !isBackButtonInScrollView && <PressableScale style={{
+        {goBackFunction && !isBackButtonInScrollView && (Platform.OS == "android" || !onlyShowBackButtonOnAndroid) && <PressableScale style={{
           position: 'absolute',
           left: 12,
           top: 12,

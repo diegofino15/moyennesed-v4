@@ -56,6 +56,7 @@ function LoginPage({ navigation }) {
     <CustomModal
       title="Se connecter"
       goBackFunction={() => navigation.pop()}
+      onlyShowBackButtonOnAndroid
       children={(
         <View>
           <Text style={[DefaultTheme.fonts.labelMedium, { marginBottom: 30 }]}>Vous pouvez vous connecter en tant qu'élève ou en tant que parent.</Text>

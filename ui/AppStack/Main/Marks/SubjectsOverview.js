@@ -33,7 +33,7 @@ function SubjectsOverview({
       {periods[selectedPeriod]?.sortedSubjectGroups?.map(subjectGroupID => {
         const subjectGroup = periods[selectedPeriod].subjectGroups[subjectGroupID];
         return (
-          <View key={subjectGroup.id} style={{ marginTop: 30 }}>
+          <View key={subjectGroup.id} style={{ marginTop: 30, marginHorizontal: 20 }}>
             <View style={{
               paddingRight: 15,
               borderRadius: 10,
@@ -72,7 +72,7 @@ function SubjectsOverview({
       )})}
 
       {/* Other subjects */}
-      <View style={{ marginTop: 30 }}>
+      <View style={{ marginTop: 30, marginHorizontal: 20 }}>
         {Object.keys(periods[selectedPeriod]?.subjectGroups ?? {}).length > 0 && periods[selectedPeriod]?.subjectsNotInSubjectGroup.length > 0 && (
           <View style={{ position: 'absolute', height: '100%' }}>
             <Text style={[DefaultTheme.fonts.labelLarge, { fontFamily: 'Text-Medium' }]}>AUTRES MATIÈRES</Text>
@@ -88,7 +88,7 @@ function SubjectsOverview({
         )}
 
         <View style={{
-          marginTop: Object.keys(periods[selectedPeriod]?.subjectGroups ?? {}).length > 0 ? 25 : 0
+          marginTop: Object.keys(periods[selectedPeriod]?.subjectGroups ?? {}).length > 0 ? 25 : 0,
         }}>
           {Object.values(periods[selectedPeriod]?.subjectsNotInSubjectGroup ?? {}).map(subjectID => {
             return <SubjectCard

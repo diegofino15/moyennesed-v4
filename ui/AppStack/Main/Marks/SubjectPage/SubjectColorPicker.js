@@ -23,7 +23,6 @@ function SubjectColorPicker({ accountID, subjectID, visible, exitModal, initialV
   }
   function reset() {
     ColorsHandler.removeSubjectColor(accountID, subjectID);
-    setColor(ColorsHandler.getSubjectColors(accountID, subjectID)["dark"]);
     updateGlobalDisplay();
     exitModal();
     HapticsHandler.vibrate("light");
@@ -87,7 +86,7 @@ function SubjectColorPicker({ accountID, subjectID, visible, exitModal, initialV
           <PressableScale style={{
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: DefaultTheme.colors.primaryLight,
+            backgroundColor: DefaultTheme.colors.primary,
             borderWidth: 2,
             borderColor: DefaultTheme.colors.primary,
             width: Dimensions.get('window').width - 90,

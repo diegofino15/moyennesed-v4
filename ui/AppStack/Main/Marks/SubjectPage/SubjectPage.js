@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
-import { Text, View, Dimensions } from "react-native";
-import { ChevronRightIcon, ChevronsUpDownIcon, GraduationCapIcon, PaletteIcon, PenIcon, SquarePenIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
+import { Text, View, Dimensions, Platform } from "react-native";
+import { ChevronRightIcon, ChevronsUpDownIcon, GraduationCapIcon, PaletteIcon, PenIcon, SquarePenIcon, TrashIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -14,6 +14,7 @@ import CustomModal from "../../../../components/CustomModal";
 import ColorsHandler from "../../../../../util/ColorsHandler";
 import { formatAverage } from "../../../../../util/Utils";
 import { PressableScale } from "react-native-pressable-scale";
+import HapticsHandler from "../../../../../core/HapticsHandler";
 
 
 // Subject page
@@ -62,6 +63,11 @@ function SubjectPage({ globalDisplayUpdater, updateGlobalDisplay, route, navigat
   // Get subject colors
   const { light, dark } = ColorsHandler.getSubjectColors(accountID, subjectID);
   const [showChangeColorModal, setShowChangeColorModal] = useState(false);
+  function resetColor() {
+    ColorsHandler.resetSubjectColors(accountID, subjectID);
+    updateGlobalDisplay();
+    HapticsHandler.vibrate("light");
+  }
 
   // Changeable coefficient
   const [coefficient, setCoefficient] = useState(null);
@@ -76,6 +82,9 @@ function SubjectPage({ globalDisplayUpdater, updateGlobalDisplay, route, navigat
   return (
     <CustomModal
       title={!shownSubject.subID && shownSubject.title}
+      goBackFunction={() => navigation.pop()}
+      onlyShowBackButtonOnAndroid
+      goBackButtonStyle={{ opacity: 0.6 }}
       titleObject={shownSubject.subID && (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={[DefaultTheme.fonts.titleSmall, { color: 'black' }]}>{mainSubject.title}</Text>
@@ -142,9 +151,16 @@ function SubjectPage({ globalDisplayUpdater, updateGlobalDisplay, route, navigat
                 <Text style={[DefaultTheme.fonts.labelMedium, { color: 'black', marginHorizontal: 5 }]}>Couleur</Text>
               </PressableScale>
               {ColorsHandler.isSubjectCustom(accountID, subjectID) && (
-                <SquarePenIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{
+                <PressableScale style={{
                   marginLeft: 5,
-                }}/>
+                  backgroundColor: DefaultTheme.colors.errorLight,
+                  borderWidth: 2,
+                  borderColor: DefaultTheme.colors.error,
+                  padding: 3,
+                  borderRadius: 5,
+                }} onPress={resetColor}>
+                  <TrashIcon size={20} color={DefaultTheme.colors.error}/>
+                </PressableScale>
               )}
             </View>
           </View>

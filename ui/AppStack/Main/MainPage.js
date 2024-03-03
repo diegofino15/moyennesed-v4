@@ -47,8 +47,8 @@ function MainPage({ isConnected, isConnecting, globalDisplayUpdater, updateGloba
       style={{
         height: '100%',
         backgroundColor: DefaultTheme.colors.background,
-        paddingHorizontal: 20,
         marginTop: Platform.select({ ios: 0, android: 20 }),
+        // paddingHorizontal: 20,
       }}
       refreshControl={
         <RefreshControl refreshing={manualRefreshing} onRefresh={() => {
@@ -64,6 +64,7 @@ function MainPage({ isConnected, isConnecting, globalDisplayUpdater, updateGloba
           alignItems: 'center',
           justifyContent: 'space-between',
           marginBottom: 20,
+          marginHorizontal: 20,
         }}>
           <View style={{ flexDirection: 'column', width: Dimensions.get('window').width - 120 }}>
             <Text style={[DefaultTheme.fonts.titleLarge, { fontSize: 22, height: 30 }]} numberOfLines={1}>Bonjour {currentAccount.firstName} !</Text>
