@@ -45,7 +45,7 @@ class AppData {
         console.log("API request successful");
         switch (response.data.code) {
           case 200:
-            await this.saveConnectedAccounts(response.data.data, response.data.token);
+            await this._saveConnectedAccounts(response.data.data, response.data.token);
             status = 1;
             if (response.data.data.accounts.length != 1) {
               let alreadySavedPreference = await AsyncStorage.getItem("selectedAccount");
@@ -82,7 +82,7 @@ class AppData {
     return status == 1;
   }
   // Save all data from ÉcoleDirecte to cache
-  static async saveConnectedAccounts(loginData, token) {
+  static async _saveConnectedAccounts(loginData, token) {
     var connectedAccounts = {};
 
     // Loop trough connected accounts
@@ -158,7 +158,7 @@ class AppData {
   // Util functions //
 
   // One for most users, needed for ones with more than one account connected
-  static async getSelectedAccount() {
+  static async _getSelectedAccount() {
     var selectedAccount = await AsyncStorage.getItem("selectedAccount");
     if (selectedAccount) { return selectedAccount; }
     var accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
@@ -170,7 +170,7 @@ class AppData {
   // Get the main account
   static async getMainAccount() {
     const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
-    const selectedAccount = await this.getSelectedAccount();
+    const selectedAccount = await this._getSelectedAccount();
     return accounts && selectedAccount ? accounts[selectedAccount] : null;
   }
   // Get specific account, used for children on parent accounts
@@ -189,7 +189,7 @@ class AppData {
     }
   }
   // Get main account of any account, used to get login tokens from children accounts
-  static async getMainAccountOfAnyAccount(accountID) {
+  static async _getMainAccountOfAnyAccount(accountID) {
     const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
 
     // For student accounts
@@ -213,7 +213,7 @@ class AppData {
   // Get marks
   static async getMarks(accountID) {
     // Get login token
-    const mainAccount = await this.getMainAccountOfAnyAccount(accountID);
+    const mainAccount = await this._getMainAccountOfAnyAccount(accountID);
     const token = mainAccount.connectionToken;
 
     console.log(`Getting marks for account ${accountID}...`);
@@ -232,7 +232,7 @@ class AppData {
         console.log("API request successful");
         switch (response.data.code) {
           case 200:
-            await this.updateToken(accountID, response.data.token);
+            await this._updateToken(accountID, response.data.token);
             status = await this.saveMarks(accountID, response.data.data);
             console.log(`Got marks for account ${accountID} ! (status ${status})`);
             break;
@@ -258,7 +258,7 @@ class AppData {
     return status;
   }
   // Update login token
-  static async updateToken(accountID, newToken) {
+  static async _updateToken(accountID, newToken) {
     const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
 
     // For student accounts
@@ -619,8 +619,6 @@ class AppData {
     // Subjects (not period specific)
     Object.keys(customData.subjects ?? {}).forEach(fullSubjectID => {
       Object.keys(periods).forEach(periodID => {
-        if (isSinglePeriod && (periodID != periods.id)) { return; }
-
         let subjectID = fullSubjectID.split("/")[0]
         let subSubjectID = fullSubjectID.split("/")[1]
         let correspondingSubject = (isSinglePeriod ? periods : periods[periodID]).subjects[subjectID];
@@ -656,7 +654,7 @@ class AppData {
     });
   }
   // Calculate all averages
-  static async refreshAverages(accountID, givenPeriod=null, averageDate=null) {
+  static async refreshAverages(accountID, givenPeriod=null, averageDate=null, applyOtherData=true) {
     // Preferences
     const countMarksWithOnlyCompetences = await this.getPreference("countMarksWithOnlyCompetences");
 
@@ -846,11 +844,13 @@ class AppData {
     }
 
     if (givenPeriod) {
-      // Set custom data
-      await this.applyCustomData(accountID, givenPeriod, true);
+      if (applyOtherData) {
+        // Set custom data
+        await this.applyCustomData(accountID, givenPeriod, true);
 
-      // Set possibly missing data
-      this.applyMissingData(givenPeriod, true);
+        // Set possibly missing data
+        this.applyMissingData(givenPeriod, true);
+      }
       
       // Calculate averages
       calculatePeriodAverage(givenPeriod, averageDate);
@@ -873,6 +873,52 @@ class AppData {
       }
     }
   }
+  // Calculate the whole average history of a given period
+  static async recalculateAverageHistory(accountID) {
+    // Get given period
+    const data = await AsyncStorage.getItem("marks");
+    const cacheData = JSON.parse(data);
+
+    for (const givenPeriod of Object.values(cacheData[accountID]?.data)) {
+      // Reset average history and marks
+      givenPeriod.averageHistory = [];
+      Object.values(givenPeriod.subjectGroups).forEach(subjectGroup => {
+        subjectGroup.averageHistory = [];
+        subjectGroup.hasAverage = false;
+      });
+      Object.values(givenPeriod.subjects).forEach(subject => {
+        subject.averageHistory = [];
+        subject.marks = [];
+        subject.hasAverage = false;
+        Object.values(subject.subSubjects).forEach(subSubject => {
+          subSubject.averageHistory = [];
+          subSubject.marks = [];
+          subSubject.hasAverage = false;
+        });
+      });
+
+      await this.applyCustomData(accountID, givenPeriod, true);
+      this.applyMissingData(givenPeriod, true);
+
+      // Add the marks one by one
+      var listOfMarks = givenPeriod.sortedMarks.slice().reverse();
+      for (const markID of listOfMarks) {
+        // Add to corresponding subject
+        let mark = givenPeriod.marks[markID];
+        let subject = givenPeriod.subjects[mark.subjectID];
+        subject.marks.push(markID);
+        if (mark.subSubjectID) {
+          let subSubject = subject.subSubjects[mark.subSubjectID];
+          subSubject.marks.push(markID);
+        }
+
+        await this.refreshAverages(accountID, givenPeriod, givenPeriod.marks[markID].date, false);
+      }
+    }
+
+    // Save data
+    await AsyncStorage.setItem("marks", JSON.stringify(cacheData));
+  }
   // Helper function
   static async getLastTimeUpdatedMarks(accountID) {
     const marks = JSON.parse(await AsyncStorage.getItem("marks"));
@@ -883,22 +929,22 @@ class AppData {
 
 
   // Custom data //
-  static async setAllCustomData(data) {
+  static async _setAllCustomData(data) {
     await AsyncStorage.setItem("customData", JSON.stringify(data));
   }
-  static async getAllCustomData() {
+  static async _getAllCustomData() {
     const data = await AsyncStorage.getItem("customData");
     if (data) { return JSON.parse(data); }
     return {};
   }
   // Account specific data
-  static async setAccountCustomData(accountID, data) {
-    const customData = await this.getAllCustomData();
+  static async _setAccountCustomData(accountID, data) {
+    const customData = await this._getAllCustomData();
     customData[accountID] = data;
-    await this.setAllCustomData(customData);
+    await this._setAllCustomData(customData);
   }
   static async getAccountCustomData(accountID) {
-    const customData = await this.getAllCustomData();
+    const customData = await this._getAllCustomData();
     if (accountID in customData) { return customData[accountID]; }
     return {};
   }
@@ -914,41 +960,41 @@ class AppData {
       if (!customData[dataType][itemID]) { customData[dataType][itemID] = {}; }
       customData[dataType][itemID][property] = value;
     }
-    await this.setAccountCustomData(accountID, customData);
+    await this._setAccountCustomData(accountID, customData);
   }
   static async removeCustomData(accountID, dataType, itemID) {
     const customData = await this.getAccountCustomData(accountID);
     if (dataType in customData && itemID in customData[dataType]) {
       delete customData[dataType][itemID];
     }
-    await this.setAccountCustomData(accountID, customData);
+    await this._setAccountCustomData(accountID, customData);
   }
   static async resetCustomData(accountID) {
-    const customData = await this.getAllCustomData();
+    const customData = await this._getAllCustomData();
     delete customData[accountID];
-    await this.setAllCustomData(customData);
+    await this._setAllCustomData(customData);
   }
 
   // Preferences //
-  static async setAllPreferences(preferences) {
+  static async _setAllPreferences(preferences) {
     await AsyncStorage.setItem("preferences", JSON.stringify(preferences));
   }
-  static async getAllPreferences() {
+  static async _getAllPreferences() {
     const data = await AsyncStorage.getItem("preferences");
     if (data) { return JSON.parse(data); }
     return {};
   }
   static async setPreference(key, value) {
-    const preferences = await this.getAllPreferences();
+    const preferences = await this._getAllPreferences();
     preferences[key] = value;
-    await this.setAllPreferences(preferences);
+    await this._setAllPreferences(preferences);
   }
   static async getPreference(key) {
-    const preferences = await this.getAllPreferences();
+    const preferences = await this._getAllPreferences();
     if (key in preferences) { return preferences[key]; }
     else {
       preferences[key] = false; // Default value for all preferences
-      await this.setAllPreferences(preferences);
+      await this._setAllPreferences(preferences);
     }
     return preferences[key];
   }

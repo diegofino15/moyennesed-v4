@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import useState from "react-usestateref";
 import { Text, View, Dimensions, ScrollView } from "react-native";
-import { ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon, ChevronsUpDownIcon, DraftingCompassIcon, GraduationCapIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
+import { ChevronRightIcon, ChevronsUpDownIcon, DraftingCompassIcon, GraduationCapIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -16,6 +16,7 @@ import { formatAverage } from "../../../../../util/Utils";
 import { PressableScale } from "react-native-pressable-scale";
 import HapticsHandler from "../../../../../util/HapticsHandler";
 import CustomEvolutionChart from "../../../../components/CustomEvolutionChart";
+import AppData from "../../../../../core/AppData";
 
 
 // Subject page
@@ -88,6 +89,12 @@ function SubjectPage({ globalDisplayUpdater, updateGlobalDisplay, route, navigat
     const step = 0.5;
     setPossibleCoefficients([shownSubject.coefficient, ...[...Array(Math.floor(maxCoef/step) + 1).keys() ].map((i) => i * step)])
   }, [shownSubject]);
+
+  async function changeCoefficient(newCoefficient) {
+    await AppData.setCustomData(accountID, "subjects", `${shownSubject.id}/${shownSubject.subID ?? ""}`, "coefficient", newCoefficient);
+    await AppData.recalculateAverageHistory(accountID);
+    updateGlobalDisplay();
+  }
 
   return (
     <CustomModal
@@ -206,7 +213,10 @@ function SubjectPage({ globalDisplayUpdater, updateGlobalDisplay, route, navigat
               paddingHorizontal: 15,
               paddingVertical: 3,
               borderRadius: 5,
-            }} onPress={() => setShowEvolution(!showEvolution)}>
+            }} onPress={() => {
+              setShowEvolution(!showEvolution);
+              HapticsHandler.vibrate("light");
+            }}>
               {showEvolution ? <DraftingCompassIcon size={20} color={'black'}/> : <TrendingUpIcon size={20} color={'black'}/>}
               <Text style={[DefaultTheme.fonts.labelMedium, { color: 'black', marginLeft: 5 }]}>{showEvolution ? "Moyenne" : "Evolution"}</Text>
             </PressableScale>
@@ -234,7 +244,10 @@ function SubjectPage({ globalDisplayUpdater, updateGlobalDisplay, route, navigat
               rightIcon={(
                 <CustomChooser
                   selected={coefficient}
-                  setSelected={setCoefficient}
+                  setSelected={(value) => {
+                    // setCoefficient(value);
+                    changeCoefficient(value);
+                  }}
                   getItemForSelected={(selected) => (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <XIcon size={15} color={DefaultTheme.colors.onSurface}/>

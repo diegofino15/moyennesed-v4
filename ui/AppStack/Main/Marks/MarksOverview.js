@@ -1,7 +1,7 @@
 import { memo, useEffect } from "react";
 import { View, Text, FlatList } from "react-native";
 import { DefaultTheme } from "react-native-paper";
-import { HelpCircleIcon, ChevronsUpDownIcon, User2Icon, Users2Icon } from "lucide-react-native";
+import { HelpCircleIcon, ChevronsUpDownIcon, Users2Icon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
