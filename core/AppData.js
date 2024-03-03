@@ -297,6 +297,8 @@ class AppData {
         "subjectsNotInSubjectGroup": subjectsNotInSubjectGroup,   // List<ID>
         "marks": {},                                              // Map<ID, Mark>
         "sortedMarks": [],                                        // List<ID>
+
+        "averageHistory": [],                                     // List<Float>
       };
     }
     function createSubjectGroup(id, periodID, title, defaultCoefficient) {
@@ -309,6 +311,8 @@ class AppData {
         "isEffective": true,                        // Boolean
         "coefficient": defaultCoefficient,          // Float
         "subjects": [],                             // List<ID>
+
+        "averageHistory": [],                       // List<Float>
       };
     }
     function createSubject(id, subID, subjectGroupID, periodID, title, teachers, defaultCoefficient) {
@@ -328,6 +332,8 @@ class AppData {
         "defaultCoefficient": defaultCoefficient,   // Float
         "marks": [],                                // List<ID>
         "sortedMarks": [],                          // List<ID>
+
+        "averageHistory": [],                       // List<Float>
       };
     }
 
@@ -514,7 +520,7 @@ class AppData {
       sortedMarks.push(finalMark);
     }
     sortedMarks.sort((a, b) => a.date.getTime() - b.date.getTime());
-    sortedMarks.forEach(mark => {
+    for (const mark of sortedMarks) {
       const { id, subjectID, subSubjectID, periodID } = mark;
       
       // Add mark to corresponding Subject
@@ -553,7 +559,10 @@ class AppData {
       // Add mark to corresponding Period
       periods[periodID].marks[id] = mark;
       periods[periodID].sortedMarks.push(id);
-    })
+
+      // Calculate average history
+      await this.refreshAverages(accountID, periods[periodID]);
+    }
 
     // Reverse mark lists
     for (const periodID in periods) {
@@ -584,11 +593,51 @@ class AppData {
 
     return 1;
   }
+  // Set custom data
+  static async applyCustomData(accountID, periods, isSinglePeriod=false) {
+    const customData = await this.getAccountCustomData(accountID);
+    if (!customData) { return; }
+
+    // Marks (period specific)
+    function applyMarkCustomData(period, markID, customData) {
+      let correspondingMark = period.marks[markID];
+      if (correspondingMark) {
+        if (customData.marks[period.id][markID].coefficient && (customData.marks[period.id][markID].coefficient != correspondingMark.defaultCoefficient)) { correspondingMark.coefficientWasChanged = true; }
+        Object.keys(customData.marks[period.id][markID]).forEach(key => {
+          correspondingMark[key] = customData.marks[period.id][markID][key];
+        });
+      }
+    }
+
+    Object.keys(customData.marks ?? {}).forEach(periodID => {
+      if (isSinglePeriod && (periodID != periods.id)) { return; }
+      Object.keys(customData.marks[periodID] ?? {}).forEach(markID => {
+        applyMarkCustomData(isSinglePeriod ? periods : periods[periodID], markID, customData);
+      });
+    });
+
+    // Subjects (not period specific)
+    Object.keys(customData.subjects ?? {}).forEach(fullSubjectID => {
+      Object.keys(periods).forEach(periodID => {
+        if (isSinglePeriod && (periodID != periods.id)) { return; }
+
+        let subjectID = fullSubjectID.split("/")[0]
+        let subSubjectID = fullSubjectID.split("/")[1]
+        let correspondingSubject = (isSinglePeriod ? periods : periods[periodID]).subjects[subjectID];
+        if (subSubjectID) { correspondingSubject = correspondingSubject.subSubjects[subSubjectID]; }
+
+        if (correspondingSubject) {
+          if (customData.subjects[fullSubjectID].coefficient && (customData.subjects[fullSubjectID].coefficient != correspondingSubject.defaultCoefficient)) { correspondingSubject.coefficientWasChanged = true; }
+          Object.keys(customData.subjects[fullSubjectID]).forEach(key => {
+            correspondingSubject[key] = customData.subjects[fullSubjectID][key];
+          });
+        }
+      });
+    });
+  }
   // Set possibly missing data
-  static applyMissingData(periods) {
-    console.log("Applying missing data...");
-    
-    Object.values(periods).forEach(period => {
+  static applyMissingData(periods, isSinglePeriod=false) {
+    Object.values(isSinglePeriod ? {[periods.id]: periods} : periods).forEach(period => {
       // Set missing mark data
       Object.values(period.marks).forEach(mark => {
         if (!mark.coefficient) { mark.coefficient = mark.defaultCoefficient; }
@@ -606,45 +655,8 @@ class AppData {
       });
     });
   }
-  // Set custom data
-  static async applyCustomData(accountID, periods) {
-    console.log("Applying custom data...");
-
-    const customData = await this.getAccountCustomData(accountID);
-    if (!customData) { return; }
-
-    // Marks (period specific)
-    Object.keys(customData.marks ?? {}).forEach(periodID => {
-      Object.keys(customData.marks[periodID] ?? {}).forEach(markID => {
-        let correspondingMark = periods[periodID].marks[markID];
-        if (correspondingMark) {
-          if (customData.marks[periodID][markID].coefficient && (customData.marks[periodID][markID].coefficient != correspondingMark.defaultCoefficient)) { correspondingMark.coefficientWasChanged = true; }
-          Object.keys(customData.marks[periodID][markID]).forEach(key => {
-            correspondingMark[key] = customData.marks[periodID][markID][key];
-          });
-        }
-      });
-    });
-
-    // Subjects (not period specific)
-    Object.keys(customData.subjects ?? {}).forEach(fullSubjectID => {
-      Object.keys(periods).forEach(periodID => {
-        let subjectID = fullSubjectID.split("/")[0]
-        let subSubjectID = fullSubjectID.split("/")[1]
-        let correspondingSubject = periods[periodID].subjects[subjectID];
-        if (subSubjectID) { correspondingSubject = correspondingSubject.subSubjects[subSubjectID]; }
-
-        if (correspondingSubject) {
-          if (customData.subjects[fullSubjectID].coefficient && (customData.subjects[fullSubjectID].coefficient != correspondingSubject.defaultCoefficient)) { correspondingSubject.coefficientWasChanged = true; }
-          Object.keys(customData.subjects[fullSubjectID]).forEach(key => {
-            correspondingSubject[key] = customData.subjects[fullSubjectID][key];
-          });
-        }
-      });
-    });
-  }
   // Calculate all averages
-  static async refreshAverages(accountID) {
+  static async refreshAverages(accountID, givenPeriod=null) {
     // Preferences
     const countMarksWithOnlyCompetences = await this.getPreference("countMarksWithOnlyCompetences");
 
@@ -687,6 +699,8 @@ class AppData {
       if (coefOfMarks) {
         subject.average = sumOfMarks / coefOfMarks;
         subject.hasAverage = true;
+
+        if (subject.averageHistory[subject.averageHistory.length - 1] != subject.average) { subject.averageHistory.push(subject.average); }
       }
       if (coefOfClassMarks) {
         subject.classAverage = sumOfClassMarks / coefOfClassMarks;
@@ -721,6 +735,8 @@ class AppData {
         if (coefOfSubSubjects) {
           subject.average = sumOfSubSubjects / coefOfSubSubjects;
           subject.hasAverage = true;
+
+          if (subject.averageHistory[subject.averageHistory.length - 1] != subject.average) { subject.averageHistory.push(subject.average); }
         }
         if (coefOfClassSubSubjects) {
           subject.classAverage = sumOfClassSubSubjects / coefOfClassSubSubjects;
@@ -754,6 +770,8 @@ class AppData {
       if (coefOfSubjectAverages) {
         subjectGroup.average = sumOfSubjectAverages / coefOfSubjectAverages;
         subjectGroup.hasAverage = true;
+
+        if (subjectGroup.averageHistory[subjectGroup.averageHistory.length - 1] != subjectGroup.average) { subjectGroup.averageHistory.push(subjectGroup.average); }
       }
       if (coefOfClassSubjectAverages) {
         subjectGroup.classAverage = sumOfClassSubjectAverages / coefOfClassSubjectAverages;
@@ -803,6 +821,8 @@ class AppData {
       if (coefOfSubjectGroupsAverages) {
         period.average = sumOfSubjectGroupsAverages / coefOfSubjectGroupsAverages;
         period.hasAverage = true;
+
+        if (period.averageHistory[period.averageHistory.length - 1] != period.average) { period.averageHistory.push(period.average); }
       }
       if (coefOfClassSubjectGroupsAverages) {
         period.classAverage = sumOfClassSubjectGroupsAverages / coefOfClassSubjectGroupsAverages;
@@ -810,21 +830,32 @@ class AppData {
       }
     }
 
-    var cacheData = {};
-    const data = await AsyncStorage.getItem("marks");
-    if (data) { cacheData = JSON.parse(data); }
-    if (accountID in cacheData) {
+    if (givenPeriod) {
       // Set custom data
-      await this.applyCustomData(accountID, cacheData[accountID].data);
+      await this.applyCustomData(accountID, givenPeriod, true);
 
       // Set possibly missing data
-      this.applyMissingData(cacheData[accountID].data);
+      this.applyMissingData(givenPeriod, true);
       
       // Calculate averages
-      Object.values(cacheData[accountID].data).forEach(period => {
-        calculatePeriodAverage(period);
-      })
-      await AsyncStorage.setItem("marks", JSON.stringify(cacheData));
+      calculatePeriodAverage(givenPeriod);
+    } else {
+      var cacheData = {};
+      const data = await AsyncStorage.getItem("marks");
+      if (data) { cacheData = JSON.parse(data); }
+      if (accountID in cacheData) {
+        // Set custom data
+        await this.applyCustomData(accountID, cacheData[accountID].data);
+
+        // Set possibly missing data
+        this.applyMissingData(cacheData[accountID].data);
+        
+        // Calculate averages
+        Object.values(cacheData[accountID].data).forEach(period => {
+          calculatePeriodAverage(period);
+        })
+        await AsyncStorage.setItem("marks", JSON.stringify(cacheData));
+      }
     }
   }
   // Helper function

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
-import { Text, View, Dimensions, Platform } from "react-native";
-import { ChevronRightIcon, ChevronsUpDownIcon, GraduationCapIcon, PaletteIcon, PenIcon, SquarePenIcon, TrashIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
+import { Text, View, Dimensions } from "react-native";
+import { ChevronRightIcon, ChevronsUpDownIcon, GraduationCapIcon, PaletteIcon, TrashIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -215,6 +215,12 @@ function SubjectPage({ globalDisplayUpdater, updateGlobalDisplay, route, navigat
                 content={teacher}
                 style={{ marginBottom: 10 }}
               />
+            ))}
+
+            {/* TEMP */}
+            {shownSubject.averageHistory && <CustomSection title={"Évolution"}/>}
+            {shownSubject.averageHistory?.map((average, index) => (
+              <Text key={index} style={DefaultTheme.fonts.labelLarge}>{average}</Text>
             ))}
             
             {/* Marks */}
