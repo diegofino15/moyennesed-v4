@@ -91,15 +91,15 @@ function SubjectPage({ globalDisplayUpdater, updateGlobalDisplay, route, navigat
 
   return (
     <CustomModal
-      title={!shownSubject.subID && shownSubject.title}
+      title={!shownSubject.subID && (shownSubject.title ?? "---")}
       goBackFunction={() => navigation.pop()}
       onlyShowBackButtonOnAndroid
       goBackButtonStyle={{ opacity: 0.6 }}
       titleObject={shownSubject.subID && (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={[DefaultTheme.fonts.titleSmall, { color: 'black' }]}>{mainSubject.title}</Text>
+          <Text style={[DefaultTheme.fonts.titleSmall, { color: 'black' }]}>{mainSubject.title ?? "---"}</Text>
           <ChevronRightIcon size={25} color={'black'}/>
-          <Text style={[DefaultTheme.fonts.titleSmall, { color: 'black' }]}>{shownSubject.title}</Text>
+          <Text style={[DefaultTheme.fonts.titleSmall, { color: 'black' }]}>{shownSubject.title ?? "---"}</Text>
         </View>
       )}
       headerStyle={{ backgroundColor: dark }}
