@@ -10,7 +10,7 @@ import CustomInformationCard from "../components/CustomInformationCard";
 import { useAppContext } from "../../util/AppContext";
 import { openLink } from "../../util/Utils";
 import AppData from "../../core/AppData";
-import HapticsHandler from "../../core/HapticsHandler";
+import HapticsHandler from "../../util/HapticsHandler";
 
 
 // Login page

@@ -7,7 +7,7 @@ import ColorPicker, { Preview, Panel1, HueSlider } from 'reanimated-color-picker
 
 import CustomConfirmModal from '../../../../components/CustomConfirmModal';
 import ColorsHandler from '../../../../../util/ColorsHandler';
-import HapticsHandler from '../../../../../core/HapticsHandler';
+import HapticsHandler from '../../../../../util/HapticsHandler';
 
 
 // Subject color picker

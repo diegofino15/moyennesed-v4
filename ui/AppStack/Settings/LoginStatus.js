@@ -3,7 +3,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import { MoreHorizontalIcon, XIcon, RefreshCcwIcon, UserCheckIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import { useEffect, useState } from "react";
-import HapticsHandler from "../../../core/HapticsHandler";
+import HapticsHandler from "../../../util/HapticsHandler";
 
 
 // Login status

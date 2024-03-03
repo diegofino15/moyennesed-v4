@@ -5,7 +5,7 @@ import useState from "react-usestateref";
 import ChildChooser from "./ChildChooser";
 import MarksOverview from "./MarksOverview";
 import SubjectsOverview from "./SubjectsOverview";
-import HapticsHandler from "../../../../core/HapticsHandler";
+import HapticsHandler from "../../../../util/HapticsHandler";
 import AppData from "../../../../core/AppData";
 
 

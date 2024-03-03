@@ -7,7 +7,7 @@ import useState from "react-usestateref";
 import EmbeddedMarksPage from "./Marks/EmbeddedMarksPage";
 import WelcomeMessage from "./WelcomeMessage";
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
-import HapticsHandler from "../../../core/HapticsHandler";
+import HapticsHandler from "../../../util/HapticsHandler";
 import AppData from "../../../core/AppData";
 import CustomChooser from "../../components/CustomChooser";
 

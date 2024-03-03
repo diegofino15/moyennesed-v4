@@ -14,7 +14,7 @@ import CustomModal from "../../../../components/CustomModal";
 import ColorsHandler from "../../../../../util/ColorsHandler";
 import { formatAverage } from "../../../../../util/Utils";
 import { PressableScale } from "react-native-pressable-scale";
-import HapticsHandler from "../../../../../core/HapticsHandler";
+import HapticsHandler from "../../../../../util/HapticsHandler";
 
 
 // Subject page
