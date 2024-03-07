@@ -3,10 +3,11 @@ import { DefaultTheme } from "react-native-paper";
 import LineChart from 'react-native-simple-line-chart';
 
 import { formatAverage, formatDate3 } from "../../util/Utils";
+import { Users2Icon } from "lucide-react-native";
 
 
 // Custom evolution chart
-function CustomEvolutionChart({ listOfValues, color, activeColor, height }) {
+function CustomEvolutionChart({ listOfValues, showClassValues, color, lightColor, activeColor, height }) {
   return (
     <LineChart
       lines={[{
@@ -34,7 +35,8 @@ function CustomEvolutionChart({ listOfValues, color, activeColor, height }) {
         activePointComponent: (point) => (
           <View style={{
             backgroundColor: color,
-            padding: 10,
+            paddingHorizontal: 10,
+            paddingVertical: 5,
             borderRadius: 10,
           }}>
             <Text style={[DefaultTheme.fonts.headlineSmall, {
@@ -47,7 +49,47 @@ function CustomEvolutionChart({ listOfValues, color, activeColor, height }) {
             }]}>{point?.extraData?.formattedDate}</Text>
           </View>
         ),
-      }]}
+      }, showClassValues ? {
+        data: listOfValues?.map((average, index) => {
+          return {
+            x: index,
+            y: average.classValue,
+            extraData: {
+              formattedValue: formatAverage(average.classValue),
+            },
+          };
+        }),
+        lineColor: lightColor,
+        curve: 'linear',
+        lineWidth: 0.5,
+        trailingOpacity: 0.1,
+        endPointConfig: {
+          color: lightColor,
+          radius: 2,
+        },
+        activePointConfig: {
+          color: lightColor,
+          showVerticalLine: false,
+          radius: 2,
+        },
+        activePointComponent: (point) => (
+          <View style={{
+            backgroundColor: lightColor,
+            paddingHorizontal: 5,
+            paddingVertical: 3,
+            borderRadius: 5,
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginVertical: 5,
+          }}>
+            <Users2Icon size={15} color="black"/>
+            <Text style={[DefaultTheme.fonts.headlineSmall, {
+              color: 'black',
+              fontSize: 15,
+            }]}> : {point?.extraData?.formattedValue}</Text>
+          </View>
+        ),
+      } : { data: [{x: 0, y: listOfValues?.at(0)?.value ?? 0}] }]}
       height={height}
       width={Dimensions.get('window').width - 20}
     />

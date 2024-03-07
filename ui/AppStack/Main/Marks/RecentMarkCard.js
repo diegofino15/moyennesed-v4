@@ -7,6 +7,7 @@ import { DefaultTheme } from "react-native-paper";
 import ColorsHandler from "../../../../util/ColorsHandler";
 import { formatDate2 } from "../../../../util/Utils";
 import CustomChangingText from "../../../components/CustomChangingText";
+import CustomTag from "../../../components/CustomTag";
 
 
 // Date text
@@ -28,7 +29,7 @@ function InfoText({ subjectTitle, subSubjectTitle, date }) {
 
 // Recent mark card
 function RecentMarkCard({ accountID, mark, getSubject, navigation }) {
-  const { light, dark } = ColorsHandler.getSubjectColors(accountID, mark.subjectID);
+  const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
   
   // Open mark details
   function openMarkDetails() {
@@ -47,7 +48,9 @@ function RecentMarkCard({ accountID, mark, getSubject, navigation }) {
       width: 300,
       backgroundColor: DefaultTheme.colors.background,
       borderRadius: 10,
-      padding: 15,
+      padding: 13,
+      borderWidth: 2,
+      borderColor: DefaultTheme.colors.surfaceOutline,
       flexDirection: 'row',
       alignItems: 'center',
     }} onPress={openMarkDetails}>
@@ -88,6 +91,15 @@ function RecentMarkCard({ accountID, mark, getSubject, navigation }) {
         <Text style={DefaultTheme.fonts.bodyMedium} numberOfLines={2}>{mark.title}</Text>
         <InfoText subjectTitle={getSubject().title} subSubjectTitle={mark.subSubjectID ? getSubject().subSubjects[mark.subSubjectID].title : null} date={mark.date}/>
       </View>
+
+      {/* Is effective ? */}
+      {!mark.isEffective && (
+        <CustomTag
+          title={"Non significative"}
+          color={DefaultTheme.colors.error}
+          onBottom
+        />
+      )}
     </PressableScale>
   );
 }

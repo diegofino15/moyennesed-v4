@@ -8,7 +8,7 @@ import ColorsHandler from "../../../../util/ColorsHandler";
 // Mark page
 function MarkPage({ navigation, route }) {
   const { accountID, mark } = route.params;
-  const { light, dark } = ColorsHandler.getSubjectColors(accountID, mark.subjectID);
+  const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
   
   return (
     <CustomModal

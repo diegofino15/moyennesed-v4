@@ -1,74 +1,96 @@
-import { Text, View } from "react-native";
-import { XIcon } from "lucide-react-native";
+import { Dimensions, Text, View } from "react-native";
+import { ChevronRightIcon, Users2Icon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 
+import ColorsHandler from "../../../../../util/ColorsHandler";
+import CustomTag from "../../../../components/CustomTag";
+import { formatDate2, formatDate3, formatMark } from "../../../../../util/Utils";
 
-// Imbedded info card
-function ImbeddedInfoCard({ title, value, endIcon }) {
-  return (
-    <View style={{
-      marginVertical: 5,
-      paddingHorizontal: 10,
-      paddingVertical: 5,
-      backgroundColor: DefaultTheme.colors.backdrop,
-      borderRadius: 5,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    }}>
-      <Text style={DefaultTheme.fonts.labelMedium}>{title}</Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        {endIcon}
-        <Text style={[DefaultTheme.fonts.headlineSmall, { fontSize: 15, marginLeft: 5 }]}>{value}</Text>
-      </View>
-    </View>
-  );
-}
 
 // Mark card
-function MarkCard({ mark, openMarkDetails, outline }) {
+function MarkCard({ mark, subjectTitle, openMarkDetails, outline }) {
   if (!mark) { return; }
+
+  const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
+
   return (
     <PressableScale style={{
       backgroundColor: DefaultTheme.colors.surface,
       borderWidth: 2,
-      borderColor: outline ? DefaultTheme.colors.primary : DefaultTheme.colors.surfaceOutline,
+      borderColor: outline ? dark : DefaultTheme.colors.surfaceOutline,
       borderRadius: 10,
       marginVertical: 5,
+      marginTop: mark.isEffective ? 5 : 10,
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 10,
     }} onPress={openMarkDetails}>
+      {/* Mark value */}
       <View style={{
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        borderBottomWidth: 1,
-        borderColor: DefaultTheme.colors.surfaceOutline,
+        backgroundColor: light,
+        width: 60,
+        height: 60,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 10,
       }}>
-        <Text style={DefaultTheme.fonts.labelLarge}>{mark.title}</Text>
-        <Text style={DefaultTheme.fonts.headlineMedium}>{mark.valueStr}</Text>
-      </View>
-      <>
-        <View style={{
-          paddingHorizontal: 10,
-          paddingVertical: 5,
-        }}>
-          {/* Class values */}
-          {mark.classValue && (
-            <ImbeddedInfoCard
-              title={"Classe"}
-              value={mark.classValue}
-            />
-          )}
+        <Text style={[DefaultTheme.fonts.headlineMedium, { color: 'black' }]}>{mark.valueStr}</Text>
 
-          {/* Coefficient */}
-          <ImbeddedInfoCard
-            title={"Coeff."}
-            value={`${mark.coefficient}`.replace(".", ",")}
-            endIcon={<XIcon size={15} color={DefaultTheme.colors.onSurface}/>}
-          />
-        </View>
-      </>
+        {mark.valueOn != 20 && (
+          <View style={{
+            position: 'absolute',
+            right: -5,
+            bottom: -5,
+            paddingVertical: 2,
+            paddingHorizontal: 5,
+            borderRadius: 5,
+            backgroundColor: dark ?? 'black',
+            shadowOpacity: 0.5,
+            shadowOffset: { width: 0, height: 0 },
+          }}>
+            <Text style={[DefaultTheme.fonts.headlineSmall, { color: 'black', fontSize: 15 }]}>/{mark.valueOn}</Text>
+          </View>
+        )}
+      </View>
+
+      {/* Mark details */}
+      <View style={{
+        justifyContent: 'space-evenly',
+        width: Dimensions.get('window').width - 160,
+      }}>
+        <Text style={[DefaultTheme.fonts.bodyMedium, { alignItems: 'center' }]} numberOfLines={2}>
+          {subjectTitle && <Text style={DefaultTheme.fonts.labelMedium}>{subjectTitle} <ChevronRightIcon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/> </Text>}
+          {mark.title}
+        </Text>
+        
+        {mark.classValue ? (
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Users2Icon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/>
+              <Text style={[DefaultTheme.fonts.headlineSmall, {
+                fontSize: 15,
+                color: DefaultTheme.colors.onSurfaceDisabled,
+                fontFamily: "Numbers-Regular"
+              }]}> : {formatMark(mark, true)}</Text>
+            </View>
+            <Text style={DefaultTheme.fonts.labelMedium} numberOfLines={1}>-   {formatDate3(mark.date)}</Text>
+          </View>
+        ) : (
+          <Text style={DefaultTheme.fonts.labelMedium} numberOfLines={1}>{formatDate2(mark.date)}</Text>
+        )}
+      </View>
+
+      <ChevronRightIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
+
+      {/* Is effective ? */}
+      {!mark.isEffective && (
+        <CustomTag
+          title={"Non significative"}
+          color={DefaultTheme.colors.error}
+        />
+      )}
     </PressableScale>
   );
 }

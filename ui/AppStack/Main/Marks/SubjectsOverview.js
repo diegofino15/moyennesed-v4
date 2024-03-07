@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
+import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -34,12 +35,17 @@ function SubjectsOverview({
         const subjectGroup = periods[selectedPeriod].subjectGroups[subjectGroupID];
         return (
           <View key={subjectGroup.id} style={{ marginTop: 30, marginHorizontal: 20 }}>
-            <View style={{
-              paddingRight: 15,
+            <PressableScale style={{
+              paddingHorizontal: 13,
+              paddingVertical: 5,
+              backgroundColor: DefaultTheme.colors.surface,
+              borderWidth: 2,
+              borderColor: DefaultTheme.colors.surfaceOutline,
               borderRadius: 10,
               flexDirection: "row",
               justifyContent: "space-between",
-            }}>
+              marginVertical: 5,
+            }} onPress={() => navigation.navigate("SubjectGroupPage", { accountID, periodID: periods[selectedPeriod].id, subjectGroupID })}>
               <Text style={[DefaultTheme.fonts.labelLarge, { fontFamily: 'Text-Medium' }]}>{subjectGroup.title}</Text>
               <View style={{
                 flexDirection: 'row',
@@ -48,8 +54,8 @@ function SubjectsOverview({
                 <Text style={[DefaultTheme.fonts.headlineMedium, { color: DefaultTheme.colors.onSurfaceDisabled }]}>{formatAverage(subjectGroup.average)}</Text>
                 {subjectGroup.average && <Text style={[DefaultTheme.fonts.labelSmall, { color: DefaultTheme.colors.onSurfaceDisabled, fontFamily: "Numbers-Medium" }]}>/20</Text>}
               </View>
-            </View>
-
+            </PressableScale>
+            
             <View style={{
               position: 'absolute',
               left: -10,

@@ -66,9 +66,14 @@ function formatAverage(average, decimals=true) {
   return (Math.round(average * 100) / 100).toString().replace('.', ',');
 }
 
-function formatMark(mark) {
-  if (mark.valueOn == 20) { return mark.valueStr; }
-  return `${mark.valueStr}/${mark.valueOn}`;
+function formatMark(mark, isClass=false) {
+  if (!isClass) {
+    if (mark.valueOn == 20) { return mark.valueStr; }
+    return `${mark.valueStr}/${mark.valueOn}`;
+  } else {
+    if (mark.valueOn == 20) { return `${mark.classValue}`.replace(".", ","); }
+    return `${mark.classValue}/${mark.valueOn}`.replace(".", ",");
+  }
 }
 
 function getLatestDate(date1, date2) {

@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MainPage from './Main/MainPage';
+import MarkPage from './Main/Marks/MarkPage';
 import SubjectPage from './Main/Marks/SubjectPage/SubjectPage';
+import SubjectGroupPage from './Main/Marks/SubjectGroupPage';
 import InformationPage from './Main/Marks/InformationPage';
 import SettingsPage from './Settings/SettingsPage';
 import ProfilePage from './Settings/Profile/ProfilePage';
 import AppData from '../../core/AppData';
-import MarkPage from './Main/Marks/MarkPage';
 
 
 // Create stack for navigation
@@ -67,6 +68,26 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         }}
       >
         {(props) => <SubjectStack
+          {...props}
+          globalDisplayUpdater={globalDisplayUpdater}
+          updateGlobalDisplay={updateGlobalDisplay}
+        />}
+      </Stack.Screen>
+
+      <Stack.Screen
+        name="SubjectGroupPage"
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
+        initialParams={{
+          accountID: 0,
+          periodID: null,
+          subjectGroupID: null,
+        }}
+      >
+        {(props) => <SubjectGroupPage
           {...props}
           globalDisplayUpdater={globalDisplayUpdater}
           updateGlobalDisplay={updateGlobalDisplay}

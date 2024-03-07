@@ -22,46 +22,41 @@ class ColorsHandler {
   static attribuatedSubjectColors = {};
   static currentIndex = 0;
 
-  static registerSubjectColor(accountID, subjectID) {
-    this.createIfMissing(accountID);
-    if (this.attribuatedSubjectColors[accountID][subjectID]) { return; }
-    this.attribuatedSubjectColors[accountID][subjectID] = this.defaultColors[this.currentIndex];
+  static registerSubjectColor(subjectID) {
+    if (this.attribuatedSubjectColors[subjectID]) { return; }
+    this.attribuatedSubjectColors[subjectID] = this.defaultColors[this.currentIndex];
     this.currentIndex = (this.currentIndex + 1) % this.defaultColors.length;
   }
 
-  static setSubjectColor(accountID, subjectID, lightColor, darkColor) {
-    this.createIfMissing(accountID);
-    this.customColors[accountID][subjectID] = [darkColor, lightColor];
+  static setSubjectColor(subjectID, lightColor, darkColor) {
+    this.customColors[subjectID] = [darkColor, lightColor];
     this.save();
   }
 
-  static removeSubjectColor(accountID, subjectID) {
-    this.createIfMissing(accountID);
-    delete this.customColors[accountID][subjectID];
+  static removeSubjectColor(subjectID) {
+    delete this.customColors[subjectID];
     this.save();
   }
 
-  static getSubjectColors(accountID, subjectID) {
-    this.createIfMissing(accountID);
-    if (this.customColors[accountID][subjectID]) {
+  static getSubjectColors(subjectID) {
+    if (this.customColors[subjectID]) {
       return {
-        "light": this.customColors[accountID][subjectID][1],
-        "dark": this.customColors[accountID][subjectID][0],
+        "light": this.customColors[subjectID][1],
+        "dark": this.customColors[subjectID][0],
       };
     }
-    if (!this.attribuatedSubjectColors[accountID][subjectID]) {
-      this.registerSubjectColor(accountID, subjectID);
+    if (!this.attribuatedSubjectColors[subjectID]) {
+      this.registerSubjectColor(subjectID);
       this.save();
     }
     return {
-      "light": this.attribuatedSubjectColors[accountID][subjectID][1],
-      "dark": this.attribuatedSubjectColors[accountID][subjectID][0],
+      "light": this.attribuatedSubjectColors[subjectID][1],
+      "dark": this.attribuatedSubjectColors[subjectID][0],
     };
   }
 
-  static isSubjectCustom(accountID, subjectID) {
-    this.createIfMissing(accountID);
-    return this.customColors[accountID][subjectID] !== undefined;
+  static isSubjectCustom(subjectID) {
+    return this.customColors[subjectID] !== undefined;
   }
 
   static resetSubjectColors() {

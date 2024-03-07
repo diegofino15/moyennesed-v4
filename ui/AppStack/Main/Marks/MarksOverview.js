@@ -51,6 +51,7 @@ function MarksOverview({
       backgroundColor: DefaultTheme.colors.surface,
       borderRadius: 20,
       padding: 20,
+      paddingBottom: 10,
       marginHorizontal: 20,
     }}>
       <View style={{
@@ -125,6 +126,7 @@ function MarksOverview({
               navigation={navigation}
             />
           )}
+          style={{ paddingBottom: 10 }}
         />
       ) : (
         <View style={{
@@ -134,6 +136,7 @@ function MarksOverview({
           alignItems: 'center',
           justifyContent: 'center',
           height: 90,
+          marginBottom: 10,
         }}>
           <Text style={DefaultTheme.fonts.labelLarge}>Aucune note</Text>
         </View>

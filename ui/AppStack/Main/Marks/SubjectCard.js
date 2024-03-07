@@ -9,7 +9,7 @@ import ColorsHandler from "../../../../util/ColorsHandler";
 
 // Embedded subject card
 function EmbeddedSubjectCard({ accountID, subject, getMark, navigation }) {
-  const { light, dark } = ColorsHandler.getSubjectColors(accountID, subject.id)
+  const { light, dark } = ColorsHandler.getSubjectColors(subject.id)
   
   // Open subject page
   function openSubjectPage() {
@@ -66,7 +66,7 @@ function EmbeddedSubjectCard({ accountID, subject, getMark, navigation }) {
         {!Object.keys(subject.subSubjects).length && subject.marks.length ? (
           <View style={{
             borderRadius: 10,
-            paddingHorizontal: 10,
+            paddingHorizontal: 15,
             paddingVertical: 10,
           }}>
             <FlatList
