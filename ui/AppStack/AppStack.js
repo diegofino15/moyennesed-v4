@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainPage from './Main/MainPage';
 import MarkPage from './Main/Marks/SubjectPage/MarkPage';
 import SubjectPage from './Main/Marks/SubjectPage/SubjectPage';
-import SubjectGroupPage from './Main/Marks/SubjectGroupPage';
+import SubjectGroupPage from './Main/Marks/SubjectsOverview/SubjectGroupPage';
 import MarksInformationPage from './Main/Marks/MarksOverview/MarksInformationPage';
 import HomeworkInformationPage from './Main/Marks/Homework/HomeworkInformationPage';
 import SettingsPage from './Settings/SettingsPage';

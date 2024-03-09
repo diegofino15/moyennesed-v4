@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CustomModal from "../../../components/CustomModal";
-import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
+import CustomModal from "../../../../components/CustomModal";
+import CustomEvolutionChart from "../../../../components/CustomEvolutionChart";
 
 
 // Subject group page
