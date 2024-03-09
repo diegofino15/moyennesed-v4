@@ -15,6 +15,7 @@ import RecentMarkCard from "./RecentMarkCard";
 function MarksOverview({
   accountID,
   selectedPeriod, setSelectedPeriod,
+  setLatestCurrentPeriod,
 
   isLoading,
   gotMarks,
@@ -41,6 +42,7 @@ function MarksOverview({
           })
           if (shownPeriod == Object.keys(periodsRef.current).length) { shownPeriod -= 1; }
           setSelectedPeriod(Object.keys(periodsRef.current)[shownPeriod]);
+          setLatestCurrentPeriod(Object.keys(periodsRef.current)[shownPeriod]);
         }
       } else { setPeriods({}); }
     });
@@ -67,14 +69,14 @@ function MarksOverview({
           borderRadius: 5,
           flexDirection: 'row',
           alignItems: 'center',
-        }} onPress={() => { if (!isLoading) { navigation.navigate("InformationPage", { accountID }); } }}>
+        }} onPress={() => { if (!isLoading) { navigation.navigate("MarksInformationPage", { accountID }); } }}>
           <Text style={[
             DefaultTheme.fonts.labelMedium, {
               color: isLoading ? DefaultTheme.colors.primary : gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error,
               marginVertical: 2,
               marginHorizontal: 5,
               height: 22,
-          }]}>{isLoading ? "Chargement..." : gotMarks ? "À jour" : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
+          }]}>{isLoading ? "Chargement..." : gotMarks ? "Notes à jour" : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
           {(!isLoading) && <HelpCircleIcon size={20} color={gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error} style={{ marginRight: 5 }}/>}
         </PressableScale>
 

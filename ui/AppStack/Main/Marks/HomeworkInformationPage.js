@@ -3,27 +3,21 @@ import { View, Text, Dimensions } from "react-native";
 import { AlertTriangleIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import LottieView from "lottie-react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomModal from "../../../components/CustomModal";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import { formatDate } from "../../../../util/Utils";
+import AppData from "../../../../core/AppData";
 
 
 // Information page
-function InformationPage({ globalDisplayUpdater, navigation, route }) {
+function HomeworkInformationPage({ globalDisplayUpdater, navigation, route }) {
   const { accountID } = route.params;
   
   // Get last date updated marks
   const [lastDateUpdated, setLastDateUpdated] = useState(null);
   useEffect(() => {
-    AsyncStorage.getItem("marks").then(async (data) => {
-      var cacheData = {};
-      if (data) { cacheData = JSON.parse(data); }
-      if (accountID in cacheData) {
-        setLastDateUpdated(cacheData[accountID].date);
-      }
-    });
+    AppData.getLastTimeUpdatedHomework(accountID).then(setLastDateUpdated);
   }, [globalDisplayUpdater]);
 
   return (
@@ -72,4 +66,4 @@ function InformationPage({ globalDisplayUpdater, navigation, route }) {
   );
 }
 
-export default InformationPage;
+export default HomeworkInformationPage;

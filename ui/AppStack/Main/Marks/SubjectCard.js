@@ -1,14 +1,15 @@
 import { Dimensions, FlatList, Text, View } from "react-native";
-import { CornerDownRightIcon } from "lucide-react-native";
+import { AlertTriangleIcon, CornerDownRightIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 
+import CustomTag from "../../../components/CustomTag";
 import { formatAverage, formatMark } from "../../../../util/Utils";
 import ColorsHandler from "../../../../util/ColorsHandler";
 
 
 // Embedded subject card
-function EmbeddedSubjectCard({ accountID, subject, getMark, navigation }) {
+function EmbeddedSubjectCard({ accountID, subject, getMark, hasTest, navigation }) {
   const { light, dark } = ColorsHandler.getSubjectColors(subject.id)
   
   // Open subject page
@@ -87,19 +88,31 @@ function EmbeddedSubjectCard({ accountID, subject, getMark, navigation }) {
             />
           </View>
         ) : null}
+
+        {/* Has test */}
+        {hasTest && (
+          <CustomTag
+            title={"Alerte contrôle"}
+            icon={<AlertTriangleIcon size={15} color={'white'}/>}
+            color={DefaultTheme.colors.error}
+            offset={15}
+            shadow
+          />
+        )}
       </PressableScale>
     </View>
   );
 }
 
 // Main subject card
-function SubjectCard({ accountID, subject, getMark, navigation }) {
+function SubjectCard({ accountID, subject, getMark, hasTest, navigation }) {
   return (
-    <View>
+    <View style={{ marginTop: hasTest ? 10 : 0 }}>
       <EmbeddedSubjectCard
         accountID={accountID}
         subject={subject}
         getMark={getMark}
+        hasTest={hasTest}
         navigation={navigation}
       />
 

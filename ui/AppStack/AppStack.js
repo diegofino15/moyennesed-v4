@@ -5,7 +5,8 @@ import MainPage from './Main/MainPage';
 import MarkPage from './Main/Marks/MarkPage';
 import SubjectPage from './Main/Marks/SubjectPage/SubjectPage';
 import SubjectGroupPage from './Main/Marks/SubjectGroupPage';
-import InformationPage from './Main/Marks/InformationPage';
+import MarksInformationPage from './Main/Marks/MarksInformationPage';
+import HomeworkInformationPage from './Main/Marks/HomeworkInformationPage';
 import SettingsPage from './Settings/SettingsPage';
 import ProfilePage from './Settings/Profile/ProfilePage';
 import AppData from '../../core/AppData';
@@ -36,7 +37,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
       </Stack.Screen>
 
       <Stack.Screen
-        name="InformationPage"
+        name="MarksInformationPage"
         options={{
           presentation: 'modal',
           headerShown: false,
@@ -46,7 +47,24 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
           lastDateUpdated: null,
         }}
       >
-        {(props) => <InformationPage
+        {(props) => <MarksInformationPage
+          {...props}
+          globalDisplayUpdater={globalDisplayUpdater}
+        />}
+      </Stack.Screen>
+
+      <Stack.Screen
+        name="HomeworkInformationPage"
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
+        initialParams={{
+          lastDateUpdated: null,
+        }}
+      >
+        {(props) => <HomeworkInformationPage
           {...props}
           globalDisplayUpdater={globalDisplayUpdater}
         />}

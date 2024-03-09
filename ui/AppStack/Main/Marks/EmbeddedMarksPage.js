@@ -7,6 +7,7 @@ import MarksOverview from "./MarksOverview";
 import SubjectsOverview from "./SubjectsOverview";
 import HapticsHandler from "../../../../util/HapticsHandler";
 import AppData from "../../../../core/AppData";
+import HomeworkStatus from "./HomeworkStatus";
 
 
 // Embedded mark page
@@ -37,26 +38,41 @@ function EmbeddedMarksPage({
     setup();
   }, [mainAccount.id]);
 
-  // Auto-get marks
+  // Marks
   const [gotMarksForID, setGotMarksForID, gotMarksForIDRef] = useState({});
   const [gettingMarksForID, setGettingMarksForID, gettingMarksForIDRef] = useState({});
   const [errorGettingMarksForID, setErrorGettingMarksForID, errorGettingMarksForIDRef] = useState({});
-  async function getMarksForID(accountID) {
+
+  // Homework
+  const [gotHomeworkForID, setGotHomeworkForID, gotHomeworkForIDRef] = useState({});
+  const [gettingHomeworkForID, setGettingHomeworkForID, gettingHomeworkForIDRef] = useState({});
+  const [errorGettingHomeworkForID, setErrorGettingHomeworkForID, errorGettingHomeworkForIDRef] = useState({});
+  
+  async function getMarksAndHomework(accountID) {
+    // Get marks
     setGettingMarksForID({ ...gettingMarksForIDRef.current, [accountID]: true });
     const status = await AppData.getMarks(accountID);
     setGotMarksForID({ ...gotMarksForIDRef.current, [accountID]: status == 1 });
     setErrorGettingMarksForID({ ...errorGettingMarksForIDRef.current, [accountID]: status != 1 });
     setGettingMarksForID({ ...gettingMarksForIDRef.current, [accountID]: false });
     updateGlobalDisplay();
+
+    // Get homework
+    setGettingHomeworkForID({ ...gettingHomeworkForIDRef.current, [accountID]: true });
+    const status2 = await AppData.getAllHomework(accountID);
+    setGotHomeworkForID({ ...gotHomeworkForIDRef.current, [accountID]: status2 == 1 });
+    setErrorGettingHomeworkForID({ ...errorGettingHomeworkForIDRef.current, [accountID]: status2 != 1 });
+    setGettingHomeworkForID({ ...gettingHomeworkForIDRef.current, [accountID]: false });
+    updateGlobalDisplay();
   }
   useEffect(() => {
     async function autoGetMarks() {
       // Check if not already got marks or is getting marks
-      if (gettingMarksForIDRef.current[showMarksAccount.id]) { return; }
+      if (gettingMarksForIDRef.current[showMarksAccount.id] || gettingHomeworkForIDRef.current[showMarksAccount.id]) { return; }
       if (gotMarksForIDRef.current[showMarksAccount.id] && !manualRefreshing) { return; }
 
       // Get marks
-      await getMarksForID(showMarksAccount.id);
+      await getMarksAndHomework(showMarksAccount.id);
       if (manualRefreshing) {
         setManualRefreshing(false);
         HapticsHandler.vibrate("light");
@@ -76,6 +92,7 @@ function EmbeddedMarksPage({
 
   // Selected period
   const [selectedPeriod, setSelectedPeriod] = useState(null);
+  const [latestCurrentPeriod, setLatestCurrentPeriod] = useState(null);
   
   return (
     <View>
@@ -87,6 +104,7 @@ function EmbeddedMarksPage({
       <MarksOverview
         accountID={showMarksAccount.id}
         selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod}
+        setLatestCurrentPeriod={setLatestCurrentPeriod}
         
         isLoading={isConnecting || gettingMarksForID[showMarksAccount.id]}
         gotMarks={gotMarksForID[showMarksAccount.id]}
@@ -95,10 +113,18 @@ function EmbeddedMarksPage({
         globalDisplayUpdater={globalDisplayUpdater}
         navigation={navigation}
       />
+      <HomeworkStatus
+        accountID={showMarksAccount.id}
+        gotHomework={gotHomeworkForID[showMarksAccount.id]}
+        isGettingHomework={gettingHomeworkForID[showMarksAccount.id]}
+        errorGettingHomework={errorGettingHomeworkForID[showMarksAccount.id]}
+        navigation={navigation}
+      />
       <SubjectsOverview
         accountID={showMarksAccount.id}
         selectedPeriod={selectedPeriod}
-        
+        latestCurrentPeriod={latestCurrentPeriod}
+        gotHomework={gotHomeworkForID[showMarksAccount.id]}
         globalDisplayUpdater={globalDisplayUpdater}
         navigation={navigation}
       />

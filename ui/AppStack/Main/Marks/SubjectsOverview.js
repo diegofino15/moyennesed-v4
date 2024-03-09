@@ -6,13 +6,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import SubjectCard from "./SubjectCard";
 import { formatAverage } from "../../../../util/Utils";
+import AppData from "../../../../core/AppData";
 
 
 // Subjects overview
 function SubjectsOverview({
   accountID,
   selectedPeriod,
-
+  latestCurrentPeriod,
+  gotHomework,
   globalDisplayUpdater,
   navigation,
 }) {
@@ -27,6 +29,12 @@ function SubjectsOverview({
       } else { setPeriods({}); }
     });
   }, [accountID, globalDisplayUpdater]);
+
+  // Get if subject has test
+  const [subjectHasTest, setSubjectHasTest] = useState({});
+  useEffect(() => {
+    AppData.getSubjectHasTest(accountID).then(setSubjectHasTest);
+  }, [accountID, gotHomework]);
   
   return (
     <View>
@@ -34,7 +42,7 @@ function SubjectsOverview({
       {periods[selectedPeriod]?.sortedSubjectGroups?.map(subjectGroupID => {
         const subjectGroup = periods[selectedPeriod].subjectGroups[subjectGroupID];
         return (
-          <View key={subjectGroup.id} style={{ marginTop: 30, marginHorizontal: 20 }}>
+          <View key={subjectGroup.id} style={{ marginVertical: 15, marginHorizontal: 20 }}>
             <PressableScale style={{
               paddingHorizontal: 13,
               paddingVertical: 5,
@@ -71,6 +79,7 @@ function SubjectsOverview({
                 accountID={accountID}
                 subject={periods[selectedPeriod].subjects[subjectID]}
                 getMark={(markID) => periods[selectedPeriod].marks[markID]}
+                hasTest={subjectHasTest[subjectID] && latestCurrentPeriod && periods[selectedPeriod].id == latestCurrentPeriod}
                 navigation={navigation}
               />;
             })}
@@ -102,6 +111,7 @@ function SubjectsOverview({
               accountID={accountID}
               subject={periods[selectedPeriod].subjects[subjectID]}
               getMark={(markID) => periods[selectedPeriod].marks[markID]}
+              hasTest={subjectHasTest[subjectID] && latestCurrentPeriod && periods[selectedPeriod].id == latestCurrentPeriod}
               navigation={navigation}
             />;
           })}

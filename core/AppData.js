@@ -4,7 +4,8 @@ import axios from "axios";
 import { capitalizeWords, getLatestDate } from "../util/Utils";
 import ColorsHandler from "../util/ColorsHandler";
 
-// This class contains the data used inside cache troughout the app
+
+// This class contains all the functions used for logic and cache handling in the app
 class AppData {
   // Base URLs
   static API_URL = "https://api.ecoledirecte.com";
@@ -242,58 +243,15 @@ class AppData {
 
   // Get marks
   static async getMarks(accountID) {
-    // Get login token
-    const mainAccount = await this._getMainAccountOfAnyAccount(accountID);
-    const token = mainAccount.connectionToken;
-
-    console.log(`Getting marks for account ${accountID}...`);
-    var response = await axios
-      .post(
-        `${this.USED_URL}/v3/eleves/${accountID}/notes.awp?verbe=get&v=4`,
-        'data={"anneeScolaire": ""}',
-        { headers: { "Content-Type": "text/plain", "X-Token": token } },
-      )
-      .catch((error) => {
-        console.warn(`An error occured while getting marks : ${error}`);
-      });
-    response ??= { status: 500 };
-
-    var status = 0; // 1 = success | 0 = outdated token, re-login failed | -1 = error
-    switch (response.status) {
-      case 200:
-        console.log("API request successful");
-        switch (response.data.code) {
-          case 200:
-            await this._updateToken(accountID, response.data.token);
-            status = await this.saveMarks(accountID, response.data.data);
-            console.log(
-              `Got marks for account ${accountID} ! (status ${status})`,
-            );
-            break;
-          case 520: // Outdated token
-            console.log("Outdated token, reconnecting...");
-            const reloginSuccessful = await this.refreshLogin();
-            if (reloginSuccessful) {
-              return await this.getMarks(accountID);
-            }
-            status = 0;
-            break;
-          default:
-            console.warn(
-              `API responded with unknown code ${response.data.code}`,
-            );
-            console.warn(response.data);
-            status = -1;
-            break;
-        }
-        break;
-      default:
-        console.warn("API request failed");
-        status = -1;
-        break;
-    }
-
-    return status;
+    return this.parseEcoleDirecte(
+      "marks",
+      accountID,
+      `${this.USED_URL}/v3/eleves/${accountID}/notes.awp`,
+      'data={"anneeScolaire": ""}',
+      async (data) => {
+        return await this.saveMarks(accountID, data);
+      }
+    );
   }
   // Update login token
   static async _updateToken(accountID, newToken) {
@@ -1193,6 +1151,170 @@ class AppData {
     await this._setAllCustomData(customData);
   }
 
+  // Homework functions //
+  static async getAllHomework(accountID) {
+    return this.parseEcoleDirecte(
+      "homework",
+      accountID,
+      `${this.USED_URL}/v3/Eleves/${accountID}/cahierdetexte.awp`,
+      'data={}',
+      async (data) => {
+        return await this.saveHomework(accountID, data);
+      }
+    );
+  }
+  static async saveHomework(accountID, homework) {
+    var abstractHomework = {
+      homeworks: {},
+      subjectsWithTests: {},
+    };
+
+    Object.keys(homework).forEach(day => {
+      homework[day].forEach(homework => {
+        let finalHomework = {
+          id: homework.idDevoir,
+          subjectID: homework.codeMatiere,
+          done: homework.effectue,
+          day,
+          dateGiven: new Date(homework.donneLe),
+          isTest: homework.interrogation,
+        };
+
+        if (finalHomework.isTest) {
+          if (!abstractHomework.subjectsWithTests[finalHomework.subjectID]) { abstractHomework.subjectsWithTests[finalHomework.subjectID] = []; }
+          abstractHomework.subjectsWithTests[finalHomework.subjectID].push(finalHomework.id);
+        }
+        
+        abstractHomework.homeworks[finalHomework.id] = finalHomework;
+      });
+    });
+
+    // Save data
+    var cacheData = {};
+    const data = await AsyncStorage.getItem("homework");
+    if (data) {
+      cacheData = JSON.parse(data);
+    }
+    cacheData[accountID] = {
+      data: abstractHomework,
+      date: new Date(),
+    };
+    await AsyncStorage.setItem("homework", JSON.stringify(cacheData));
+
+    return 1;
+  }
+  static async getSpecificHomework(accountID, homeworkID, forceRefresh=false) {
+    // Check if already got
+    if (!forceRefresh) {
+      let data = await AsyncStorage.getItem("specificHomework");
+      if (data) {
+        const specificCacheData = JSON.parse(data);
+        if (accountID in specificCacheData && homeworkID in specificCacheData[accountID]) {
+          return specificCacheData[accountID][homeworkID];
+        }
+      }
+    }
+    
+    // Else, get data
+    const data = await AsyncStorage.getItem("homework");
+    const cacheData = JSON.parse(data);
+    if (!accountID in cacheData) { return; }
+
+    const abstractHomework = cacheData[accountID].data.homeworks[homeworkID];
+    if (!abstractHomework) { return; }
+
+    // Get login token
+    const mainAccount = await this._getMainAccountOfAnyAccount(accountID);
+    const token = mainAccount.connectionToken;
+
+    console.log(`Getting specific homework for account ${accountID}...`);
+    var response = await axios
+      .post(
+        `${this.USED_URL}/v3/Eleves/${accountID}/cahierdetexte/${abstractHomework.day}.awp?verbe=get&v=4`,
+        'data={}',
+        { headers: { "Content-Type": "text/plain", "X-Token": token } },
+      )
+      .catch((error) => {
+        console.warn(`An error occured while getting specific homework : ${error}`);
+      });
+    response ??= { status: 500 };
+
+    var status = 0; // 1 = success | 0 = outdated token, re-login failed | -1 = error
+    switch (response.status) {
+      case 200:
+        console.log("API request successful");
+        switch (response.data.code) {
+          case 200:
+            await this._updateToken(accountID, response.data.token);
+            status = await this.saveSpecificHomework(accountID, response.data.data);
+            console.log(
+              `Got specific homework for account ${accountID} ! (status ${status})`,
+            );
+            break;
+          case 520: // Outdated token
+            console.log("Outdated token, reconnecting...");
+            const reloginSuccessful = await this.refreshLogin();
+            if (reloginSuccessful) {
+              return await this.getSpecificHomework(accountID, homeworkID);
+            }
+            status = 0;
+            break;
+          default:
+            console.warn(
+              `API responded with unknown code ${response.data.code}`,
+            );
+            console.warn(response.data);
+            status = -1;
+            break;
+        }
+        break;
+      default:
+        console.warn("API request failed");
+        status = -1;
+        break;
+    }
+
+    return status;
+  }
+  static async saveSpecificHomework(accountID, homework) {
+    var specificCacheData = {};
+    const data = await AsyncStorage.getItem("specificHomework");
+    if (data) {
+      specificCacheData = JSON.parse(data);
+    }
+    specificCacheData[accountID] ??= {};
+
+    homework.matieres?.forEach(specificHomework => {
+      specificCacheData[accountID][specificHomework.id] = {
+        id: specificHomework.id,
+        subjectID: specificHomework.codeMatiere,
+        givenBy: specificHomework.nomProf,
+        todo: specificHomework.aFaire,
+      };
+    });
+
+    await AsyncStorage.setItem("specificHomework", JSON.stringify(specificCacheData));
+    
+    return 1;
+  }
+  static async getLastTimeUpdatedHomework(accountID) {
+    const data = await AsyncStorage.getItem("homework");
+    const cacheData = JSON.parse(data);
+    if (accountID in cacheData) {
+      return cacheData[accountID].date;
+    }
+  }
+  static async getSubjectHasTest(accountID) {
+    const data = await AsyncStorage.getItem("homework");
+    if (data) {
+      const cacheData = JSON.parse(data);
+      if (accountID in cacheData) {
+        return cacheData[accountID].data.subjectsWithTests;
+      }
+    }
+    return {};
+  }
+
   // Preferences //
   static async _setAllPreferences(preferences) {
     await AsyncStorage.setItem("preferences", JSON.stringify(preferences));
@@ -1218,6 +1340,58 @@ class AppData {
       await this._setAllPreferences(preferences);
     }
     return preferences[key];
+  }
+
+  // Network utils //
+  static async parseEcoleDirecte(title, accountID, url, payload, successCallback) {
+    // Get login token
+    const mainAccount = await this._getMainAccountOfAnyAccount(accountID);
+    const token = mainAccount.connectionToken;
+    
+    console.log(`Getting ${title} for account ${accountID}...`);
+    var response = await axios
+      .post(
+        `${url}?verbe=get&v=4`,
+        payload,
+        { headers: { "Content-Type": "text/plain", "X-Token": token } },
+      )
+      .catch((error) => {
+        console.warn(`An error occured while getting ${title} : ${error}`);
+      });
+    response ??= { status: 500 };
+
+    var status = 0; // 1 = success | 0 = outdated token, re-login failed | -1 = error
+    switch (response.status) {
+      case 200:
+        console.log("API request successful");
+        switch (response.data.code) {
+          case 200:
+            await this._updateToken(accountID, response.data.token);
+            status = await successCallback(response.data.data);
+            console.log(`Got ${title} for account ${accountID} ! (status ${status})`);
+            break;
+          case 520: // Outdated token
+            console.log("Outdated token, reconnecting...");
+            const reloginSuccessful = await this.refreshLogin();
+            if (reloginSuccessful) {
+              return await this.parseEcoleDirecte(title, accountID, url, payload, successCallback);
+            }
+            status = 0;
+            break;
+          default:
+            console.warn(`API responded with unknown code ${response.data.code}`);
+            console.warn(response.data);
+            status = -1;
+            break;
+        }
+        break;
+      default:
+        console.warn("API request failed");
+        status = -1;
+        break;
+    }
+
+    return status;
   }
 
   // Erase all data //
