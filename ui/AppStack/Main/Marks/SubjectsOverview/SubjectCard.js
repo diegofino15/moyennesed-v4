@@ -9,7 +9,7 @@ import ColorsHandler from "../../../../../util/ColorsHandler";
 
 
 // Embedded subject card
-function EmbeddedSubjectCard({ accountID, subject, getMark, hasTest, navigation }) {
+function EmbeddedSubjectCard({ accountID, subject, getMark, hasExam, navigation }) {
   const { light, dark } = ColorsHandler.getSubjectColors(subject.id)
   
   // Open subject page
@@ -89,13 +89,13 @@ function EmbeddedSubjectCard({ accountID, subject, getMark, hasTest, navigation 
           </View>
         ) : null}
 
-        {/* Has test */}
-        {hasTest && (
+        {/* Has exam */}
+        {hasExam && (
           <CustomTag
             title={"Alerte contrôle"}
             icon={<AlertTriangleIcon size={15} color={'white'}/>}
             color={DefaultTheme.colors.error}
-            secondaryTag={hasTest.length > 1 && <Text style={[DefaultTheme.fonts.labelMedium, { color: 'white' }]}>{hasTest.length}</Text>}
+            secondaryTag={hasExam.length > 1 && <Text style={[DefaultTheme.fonts.labelMedium, { color: 'white' }]}>{hasExam.length}</Text>}
             offset={15}
             shadow
           />
@@ -106,14 +106,14 @@ function EmbeddedSubjectCard({ accountID, subject, getMark, hasTest, navigation 
 }
 
 // Main subject card
-function SubjectCard({ accountID, subject, getMark, hasTest, navigation }) {
+function SubjectCard({ accountID, subject, getMark, hasExam, navigation }) {
   return (
-    <View style={{ marginTop: hasTest ? 10 : 0 }}>
+    <View style={{ marginTop: hasExam ? 10 : 0 }}>
       <EmbeddedSubjectCard
         accountID={accountID}
         subject={subject}
         getMark={getMark}
-        hasTest={hasTest}
+        hasExam={hasExam}
         navigation={navigation}
       />
 

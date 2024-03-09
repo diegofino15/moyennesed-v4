@@ -8,13 +8,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Homework status
 function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettingHomework, navigation }) {
-  const [totalTests, setTotalTests] = useState(0);
+  const [totalExams, setTotalExams] = useState(0);
   useEffect(() => {
     AsyncStorage.getItem("homework").then(data => {
       if (!data) { return; }
       const cacheData = JSON.parse(data);
       if (accountID in cacheData) {
-        setTotalTests(cacheData[accountID].data.totalTests);
+        setTotalExams(cacheData[accountID].data.totalExams);
       }
     });
   }, [accountID, gotHomework]);
@@ -31,7 +31,7 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
       paddingHorizontal: 15,
       borderRadius: 10,
     }}>
-      <Text style={DefaultTheme.fonts.bodyMedium}>{totalTests ? totalTests : "Aucun"} contrôle{totalTests > 1 && "s"} à venir</Text>
+      <Text style={DefaultTheme.fonts.bodyMedium}>{totalExams ? totalExams : "Aucun"} contrôle{totalExams > 1 && "s"} à venir</Text>
 
       {/* Loading status */}
       <PressableScale style={{

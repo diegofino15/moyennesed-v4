@@ -30,10 +30,10 @@ function SubjectsOverview({
     });
   }, [accountID, globalDisplayUpdater]);
 
-  // Get if subject has test
-  const [subjectHasTest, setSubjectHasTest] = useState({});
+  // Get if subject has exam
+  const [subjectHasExam, setSubjectHasExam] = useState({});
   useEffect(() => {
-    AppData.getSubjectHasTest(accountID).then(setSubjectHasTest);
+    AppData.getSubjectHasExam(accountID).then(setSubjectHasExam);
   }, [accountID, gotHomework]);
   
   return (
@@ -79,7 +79,7 @@ function SubjectsOverview({
                 accountID={accountID}
                 subject={periods[selectedPeriod].subjects[subjectID]}
                 getMark={(markID) => periods[selectedPeriod].marks[markID]}
-                hasTest={periods[selectedPeriod].id == latestCurrentPeriod ? subjectHasTest[subjectID] : undefined}
+                hasExam={periods[selectedPeriod].id == latestCurrentPeriod ? subjectHasExam[subjectID] : undefined}
                 navigation={navigation}
               />;
             })}
@@ -111,7 +111,7 @@ function SubjectsOverview({
               accountID={accountID}
               subject={periods[selectedPeriod].subjects[subjectID]}
               getMark={(markID) => periods[selectedPeriod].marks[markID]}
-              hasTest={periods[selectedPeriod].id == latestCurrentPeriod ? subjectHasTest[subjectID] : undefined}
+              hasExam={periods[selectedPeriod].id == latestCurrentPeriod ? subjectHasExam[subjectID] : undefined}
               navigation={navigation}
             />;
           })}

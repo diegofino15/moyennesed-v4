@@ -1166,8 +1166,8 @@ class AppData {
   static async saveHomework(accountID, homework) {
     var abstractHomework = {
       homeworks: {},
-      subjectsWithTests: {},
-      totalTests: 0,
+      subjectsWithExams: {},
+      totalExams: 0,
     };
 
     Object.keys(homework).forEach(day => {
@@ -1178,13 +1178,13 @@ class AppData {
           done: homework.effectue,
           day,
           dateGiven: new Date(homework.donneLe),
-          isTest: homework.interrogation,
+          isExam: homework.interrogation,
         };
 
-        if (finalHomework.isTest) {
-          if (!abstractHomework.subjectsWithTests[finalHomework.subjectID]) { abstractHomework.subjectsWithTests[finalHomework.subjectID] = []; }
-          abstractHomework.subjectsWithTests[finalHomework.subjectID].push(finalHomework.id);
-          abstractHomework.totalTests++;
+        if (finalHomework.isExam) {
+          if (!abstractHomework.subjectsWithExams[finalHomework.subjectID]) { abstractHomework.subjectsWithExams[finalHomework.subjectID] = []; }
+          abstractHomework.subjectsWithExams[finalHomework.subjectID].push(finalHomework.id);
+          abstractHomework.totalExams++;
         }
         
         abstractHomework.homeworks[finalHomework.id] = finalHomework;
@@ -1306,12 +1306,12 @@ class AppData {
       return cacheData[accountID].date;
     }
   }
-  static async getSubjectHasTest(accountID) {
+  static async getSubjectHasExam(accountID) {
     const data = await AsyncStorage.getItem("homework");
     if (data) {
       const cacheData = JSON.parse(data);
       if (accountID in cacheData) {
-        return cacheData[accountID].data.subjectsWithTests;
+        return cacheData[accountID].data.subjectsWithExams;
       }
     }
     return {};
