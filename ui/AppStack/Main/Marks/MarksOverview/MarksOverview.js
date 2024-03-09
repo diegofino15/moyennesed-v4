@@ -6,8 +6,8 @@ import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
-import CustomChooser from "../../../components/CustomChooser";
-import { formatAverage } from "../../../../util/Utils";
+import CustomChooser from "../../../../components/CustomChooser";
+import { formatAverage } from "../../../../../util/Utils";
 import RecentMarkCard from "./RecentMarkCard";
 
 
@@ -76,7 +76,7 @@ function MarksOverview({
               marginVertical: 2,
               marginHorizontal: 5,
               height: 22,
-          }]}>{isLoading ? "Chargement..." : gotMarks ? "Notes à jour" : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
+          }]}>{isLoading ? "Chargement..." : gotMarks ? "À jour" : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
           {(!isLoading) && <HelpCircleIcon size={20} color={gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error} style={{ marginRight: 5 }}/>}
         </PressableScale>
 

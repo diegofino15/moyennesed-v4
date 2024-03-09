@@ -1167,6 +1167,7 @@ class AppData {
     var abstractHomework = {
       homeworks: {},
       subjectsWithTests: {},
+      totalTests: 0,
     };
 
     Object.keys(homework).forEach(day => {
@@ -1183,6 +1184,7 @@ class AppData {
         if (finalHomework.isTest) {
           if (!abstractHomework.subjectsWithTests[finalHomework.subjectID]) { abstractHomework.subjectsWithTests[finalHomework.subjectID] = []; }
           abstractHomework.subjectsWithTests[finalHomework.subjectID].push(finalHomework.id);
+          abstractHomework.totalTests++;
         }
         
         abstractHomework.homeworks[finalHomework.id] = finalHomework;
@@ -1396,6 +1398,7 @@ class AppData {
 
   // Erase all data //
   static async eraseData() {
+    ColorsHandler.resetSubjectColors();
     await AsyncStorage.clear();
   }
   static async resetPreferences() {

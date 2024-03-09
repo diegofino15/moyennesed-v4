@@ -3,9 +3,9 @@ import { AlertTriangleIcon, CornerDownRightIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 
-import CustomTag from "../../../components/CustomTag";
-import { formatAverage, formatMark } from "../../../../util/Utils";
-import ColorsHandler from "../../../../util/ColorsHandler";
+import CustomTag from "../../../../components/CustomTag";
+import { formatAverage, formatMark } from "../../../../../util/Utils";
+import ColorsHandler from "../../../../../util/ColorsHandler";
 
 
 // Embedded subject card
@@ -95,6 +95,7 @@ function EmbeddedSubjectCard({ accountID, subject, getMark, hasTest, navigation 
             title={"Alerte contrôle"}
             icon={<AlertTriangleIcon size={15} color={'white'}/>}
             color={DefaultTheme.colors.error}
+            secondaryTag={hasTest.length > 1 && <Text style={[DefaultTheme.fonts.labelMedium, { color: 'white' }]}>{hasTest.length}</Text>}
             offset={15}
             shadow
           />

@@ -5,8 +5,8 @@ import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import SubjectCard from "./SubjectCard";
-import { formatAverage } from "../../../../util/Utils";
-import AppData from "../../../../core/AppData";
+import { formatAverage } from "../../../../../util/Utils";
+import AppData from "../../../../../core/AppData";
 
 
 // Subjects overview
@@ -79,7 +79,7 @@ function SubjectsOverview({
                 accountID={accountID}
                 subject={periods[selectedPeriod].subjects[subjectID]}
                 getMark={(markID) => periods[selectedPeriod].marks[markID]}
-                hasTest={subjectHasTest[subjectID] && latestCurrentPeriod && periods[selectedPeriod].id == latestCurrentPeriod}
+                hasTest={periods[selectedPeriod].id == latestCurrentPeriod ? subjectHasTest[subjectID] : undefined}
                 navigation={navigation}
               />;
             })}
@@ -87,7 +87,7 @@ function SubjectsOverview({
       )})}
 
       {/* Other subjects */}
-      <View style={{ marginTop: 30, marginHorizontal: 20 }}>
+      <View style={{ marginTop: 15, marginHorizontal: 20 }}>
         {Object.keys(periods[selectedPeriod]?.subjectGroups ?? {}).length > 0 && periods[selectedPeriod]?.subjectsNotInSubjectGroup.length > 0 && (
           <View style={{ position: 'absolute', height: '100%' }}>
             <Text style={[DefaultTheme.fonts.labelLarge, { fontFamily: 'Text-Medium' }]}>AUTRES MATIÈRES</Text>
@@ -111,7 +111,7 @@ function SubjectsOverview({
               accountID={accountID}
               subject={periods[selectedPeriod].subjects[subjectID]}
               getMark={(markID) => periods[selectedPeriod].marks[markID]}
-              hasTest={subjectHasTest[subjectID] && latestCurrentPeriod && periods[selectedPeriod].id == latestCurrentPeriod}
+              hasTest={periods[selectedPeriod].id == latestCurrentPeriod ? subjectHasTest[subjectID] : undefined}
               navigation={navigation}
             />;
           })}

@@ -4,7 +4,7 @@ import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
-import EmbeddedMarksPage from "./Marks/EmbeddedMarksPage";
+import EmbeddedMarksPage from "./EmbeddedMarksPage";
 import WelcomeMessage from "./WelcomeMessage";
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import HapticsHandler from "../../../util/HapticsHandler";

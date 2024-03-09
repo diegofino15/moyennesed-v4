@@ -4,10 +4,10 @@ import { AlertTriangleIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import LottieView from "lottie-react-native";
 
-import CustomModal from "../../../components/CustomModal";
-import CustomInformationCard from "../../../components/CustomInformationCard";
-import { formatDate } from "../../../../util/Utils";
-import AppData from "../../../../core/AppData";
+import CustomModal from "../../../../components/CustomModal";
+import CustomInformationCard from "../../../../components/CustomInformationCard";
+import { formatDate } from "../../../../../util/Utils";
+import AppData from "../../../../../core/AppData";
 
 
 // Information page
@@ -33,7 +33,7 @@ function MarksInformationPage({ globalDisplayUpdater, navigation, route }) {
           }}>
             <LottieView
               autoPlay
-              source={require('../../../../assets/lottie/about-marks.json')}
+              source={require('../../../../../assets/lottie/about-marks.json')}
               style={{
                 width: '90%',
                 height: Dimensions.get('window').width * 0.9,
@@ -55,9 +55,10 @@ function MarksInformationPage({ globalDisplayUpdater, navigation, route }) {
               icon={<AlertTriangleIcon size={20} color={DefaultTheme.colors.error}/>}
               style={{ marginBottom: 20 }}
             />
+            <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>L'app récupère vos notes et calcule la moyenne pondérée par matière, puis la moyenne générale.</Text>
             <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>Dépendant de votre établissement, il est possible que les coefficients de chaque note et chaque matière ne soient pas exacts.</Text>
             <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>Vous pouvez modifier manuellement les coefficients des notes et des matières pour améliorer la précision des moyennes.</Text>
-            <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 30 }]}>La moyenne est mise à jour en temps réel, mais elle peut être différente de celle finale affichée sur votre bulletin.</Text>
+            <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 30 }]}>Elles sont mises à jour en temps réel.</Text>
             <Text style={[DefaultTheme.fonts.labelMedium, { fontFamily: 'Text-Italic' }]}>Dernière mise à jour : {formatDate(lastDateUpdated)}</Text>
           </View>
         </View>

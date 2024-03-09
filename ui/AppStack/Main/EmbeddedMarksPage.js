@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { View } from "react-native";
 import useState from "react-usestateref";
 
-import ChildChooser from "./ChildChooser";
-import MarksOverview from "./MarksOverview";
-import SubjectsOverview from "./SubjectsOverview";
-import HapticsHandler from "../../../../util/HapticsHandler";
-import AppData from "../../../../core/AppData";
-import HomeworkStatus from "./HomeworkStatus";
+import ChildChooser from "./Marks/ChildChooser";
+import MarksOverview from "./Marks/MarksOverview/MarksOverview";
+import SubjectsOverview from "./Marks/SubjectsOverview/SubjectsOverview";
+import HapticsHandler from "../../../util/HapticsHandler";
+import AppData from "../../../core/AppData";
+import HomeworkStatus from "./Marks/Homework/HomeworkStatus";
 
 
 // Embedded mark page
@@ -48,31 +48,36 @@ function EmbeddedMarksPage({
   const [gettingHomeworkForID, setGettingHomeworkForID, gettingHomeworkForIDRef] = useState({});
   const [errorGettingHomeworkForID, setErrorGettingHomeworkForID, errorGettingHomeworkForIDRef] = useState({});
   
-  async function getMarksAndHomework(accountID) {
-    // Get marks
+  async function getMarks(accountID, manualRefreshing) {
+    if (gotMarksForIDRef.current[accountID] && !manualRefreshing) { return; }
+    
     setGettingMarksForID({ ...gettingMarksForIDRef.current, [accountID]: true });
     const status = await AppData.getMarks(accountID);
     setGotMarksForID({ ...gotMarksForIDRef.current, [accountID]: status == 1 });
     setErrorGettingMarksForID({ ...errorGettingMarksForIDRef.current, [accountID]: status != 1 });
     setGettingMarksForID({ ...gettingMarksForIDRef.current, [accountID]: false });
     updateGlobalDisplay();
-
-    // Get homework
+  }
+  async function getHomework(accountID, manualRefreshing) {
+    if (gotHomeworkForIDRef.current[accountID] && !manualRefreshing) { return; }
+    
     setGettingHomeworkForID({ ...gettingHomeworkForIDRef.current, [accountID]: true });
-    const status2 = await AppData.getAllHomework(accountID);
-    setGotHomeworkForID({ ...gotHomeworkForIDRef.current, [accountID]: status2 == 1 });
-    setErrorGettingHomeworkForID({ ...errorGettingHomeworkForIDRef.current, [accountID]: status2 != 1 });
+    const status = await AppData.getAllHomework(accountID);
+    setGotHomeworkForID({ ...gotHomeworkForIDRef.current, [accountID]: status == 1 });
+    setErrorGettingHomeworkForID({ ...errorGettingHomeworkForIDRef.current, [accountID]: status != 1 });
     setGettingHomeworkForID({ ...gettingHomeworkForIDRef.current, [accountID]: false });
-    updateGlobalDisplay();
   }
   useEffect(() => {
     async function autoGetMarks() {
       // Check if not already got marks or is getting marks
       if (gettingMarksForIDRef.current[showMarksAccount.id] || gettingHomeworkForIDRef.current[showMarksAccount.id]) { return; }
-      if (gotMarksForIDRef.current[showMarksAccount.id] && !manualRefreshing) { return; }
 
-      // Get marks
-      await getMarksAndHomework(showMarksAccount.id);
+      // Get marks & homework
+      await Promise.all([
+        getMarks(showMarksAccount.id, manualRefreshing),
+        getHomework(showMarksAccount.id, manualRefreshing),
+      ]);
+      updateGlobalDisplay();
       if (manualRefreshing) {
         setManualRefreshing(false);
         HapticsHandler.vibrate("light");
@@ -116,7 +121,7 @@ function EmbeddedMarksPage({
       <HomeworkStatus
         accountID={showMarksAccount.id}
         gotHomework={gotHomeworkForID[showMarksAccount.id]}
-        isGettingHomework={gettingHomeworkForID[showMarksAccount.id]}
+        isGettingHomework={isConnecting || gettingHomeworkForID[showMarksAccount.id]}
         errorGettingHomework={errorGettingHomeworkForID[showMarksAccount.id]}
         navigation={navigation}
       />

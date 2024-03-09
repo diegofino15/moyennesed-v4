@@ -1,8 +1,8 @@
 import { View, Text } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 
-import CustomModal from "../../../components/CustomModal";
-import ColorsHandler from "../../../../util/ColorsHandler";
+import CustomModal from "../../../../components/CustomModal";
+import ColorsHandler from "../../../../../util/ColorsHandler";
 
 
 // Mark page
