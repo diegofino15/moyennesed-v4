@@ -12,6 +12,7 @@ import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import CustomTextArea from "../../components/CustomTextArea";
 import CustomLink from "../../components/CustomLink";
 import AppData from "../../../core/AppData";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 // Settings page
@@ -43,6 +44,13 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
           {/* Coefficients */}
           <CustomSection title={"Coefficients"}/>
           {/* TODO */}
+
+          <CustomLink
+            title={"Effacer le cache"}
+            onPress={() => {
+              AsyncStorage.removeItem("specific-homework");
+            }}
+          />
 
 
           {/* About */}

@@ -1,5 +1,5 @@
 import { Dimensions, FlatList, Text, View } from "react-native";
-import { AlertTriangleIcon, CornerDownRightIcon } from "lucide-react-native";
+import { AlertOctagonIcon, CornerDownRightIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 
@@ -9,7 +9,13 @@ import ColorsHandler from "../../../../../util/ColorsHandler";
 
 
 // Embedded subject card
-function EmbeddedSubjectCard({ accountID, subject, getMark, hasExam, navigation }) {
+function EmbeddedSubjectCard({
+  accountID,
+  subject,
+  getMark,
+  hasExam,
+  navigation,
+}) {
   const { light, dark } = ColorsHandler.getSubjectColors(subject.id)
   
   // Open subject page
@@ -20,6 +26,16 @@ function EmbeddedSubjectCard({ accountID, subject, getMark, hasExam, navigation 
       subjectID: subject.id,
       subSubjectID: subject.subID,
     });
+  }
+
+  // Open exam page
+  function openExamPage() {
+    navigation.navigate("ExamPage", {
+      accountID,
+      periodID: subject.periodID,
+      subjectID: subject.id,
+      examIDs: hasExam,
+    })
   }
 
   return (
@@ -93,9 +109,10 @@ function EmbeddedSubjectCard({ accountID, subject, getMark, hasExam, navigation 
         {hasExam && (
           <CustomTag
             title={"Alerte contrôle"}
-            icon={<AlertTriangleIcon size={15} color={'white'}/>}
+            icon={<AlertOctagonIcon size={15} color={'white'}/>}
             color={DefaultTheme.colors.error}
             secondaryTag={hasExam.length > 1 && <Text style={[DefaultTheme.fonts.labelMedium, { color: 'white' }]}>{hasExam.length}</Text>}
+            onPress={openExamPage}
             offset={15}
             shadow
           />
@@ -106,7 +123,13 @@ function EmbeddedSubjectCard({ accountID, subject, getMark, hasExam, navigation 
 }
 
 // Main subject card
-function SubjectCard({ accountID, subject, getMark, hasExam, navigation }) {
+function SubjectCard({
+  accountID,
+  subject,
+  getMark,
+  hasExam,
+  navigation,
+}) {
   return (
     <View style={{ marginTop: hasExam ? 10 : 0 }}>
       <EmbeddedSubjectCard

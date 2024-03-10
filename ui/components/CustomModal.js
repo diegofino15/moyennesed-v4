@@ -15,6 +15,9 @@ function CustomModal({
   titleStyle,
   headerStyle,
   goBackButtonStyle,
+  rightIcon,
+  rightIconOnPress,
+  rightIconStyle,
   onlyShowBackButtonOnAndroid=false,
   isBackButtonInScrollView=false,
   showScrollView=true,
@@ -72,6 +75,21 @@ function CustomModal({
           ...goBackButtonStyle,
         }} onPress={goBackFunction}>
           <ChevronLeftIcon size={30} color={DefaultTheme.colors.onSurface}/>
+        </PressableScale>}
+
+        {/* Right icon */}
+        {rightIcon && <PressableScale style={{
+          position: 'absolute',
+          right: 12,
+          top: 12,
+          borderWidth: 2,
+          borderColor: DefaultTheme.colors.surfaceOutline,
+          backgroundColor: DefaultTheme.colors.surface,
+          padding: 5,
+          borderRadius: 10,
+          ...rightIconStyle,
+        }} onPress={rightIconOnPress}>
+          {rightIcon}
         </PressableScale>}
       </View>
     </View>

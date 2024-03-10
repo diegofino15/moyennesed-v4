@@ -3,12 +3,13 @@ import { DefaultTheme } from "react-native-paper";
 
 
 // Settings section
-function CustomSection({ title, marginTop=20, textAreaStyle }) {
+function CustomSection({ title, rightIcon, marginTop=20, textAreaStyle={}, alignOn="center", textStyle={}, lineStyle={}, viewStyle={} }) {
   return (
     <View style={{
       marginTop: marginTop,
       marginBottom: 10,
       height: 20,
+      ...viewStyle,
     }}>
       <View style={{
         top: 10,
@@ -16,17 +17,28 @@ function CustomSection({ title, marginTop=20, textAreaStyle }) {
         height: 2,
         borderRadius: 1,
         backgroundColor: DefaultTheme.colors.surfaceOutline,
+        ...lineStyle,
       }}/>
       <View style={{
         position: 'absolute',
-        alignSelf: 'center',
+        alignSelf: alignOn,
         backgroundColor: DefaultTheme.colors.backdrop,
         height: 20,
         paddingHorizontal: 10,
         ...textAreaStyle,
       }}>
-        <Text style={DefaultTheme.fonts.labelMedium}>{title}</Text>
+        <Text style={[DefaultTheme.fonts.labelMedium, textStyle]}>{title}</Text>
       </View>
+      {rightIcon && (
+        <View style={{
+          position: 'absolute',
+          right: 0,
+          backgroundColor: DefaultTheme.colors.backdrop,
+          paddingLeft: 10,
+        }}>
+          {rightIcon}
+        </View>
+      )}
     </View>
   );
 }

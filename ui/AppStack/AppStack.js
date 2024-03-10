@@ -6,6 +6,7 @@ import MarkPage from './Main/Marks/SubjectPage/MarkPage';
 import SubjectPage from './Main/Marks/SubjectPage/SubjectPage';
 import SubjectGroupPage from './Main/Marks/SubjectsOverview/SubjectGroupPage';
 import MarksInformationPage from './Main/Marks/MarksOverview/MarksInformationPage';
+import ExamPage from './Main/Marks/Homework/ExamPage';
 import HomeworkInformationPage from './Main/Marks/Homework/HomeworkInformationPage';
 import SettingsPage from './Settings/SettingsPage';
 import ProfilePage from './Settings/Profile/ProfilePage';
@@ -65,6 +66,26 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         }}
       >
         {(props) => <HomeworkInformationPage
+          {...props}
+          globalDisplayUpdater={globalDisplayUpdater}
+        />}
+      </Stack.Screen>
+      
+      <Stack.Screen
+        name="ExamPage"
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
+        initialParams={{
+          accountID: 0,
+          periodID: null,
+          subjectID: null,
+          examIDs: [],
+        }}
+      >
+        {(props) => <ExamPage
           {...props}
           globalDisplayUpdater={globalDisplayUpdater}
         />}

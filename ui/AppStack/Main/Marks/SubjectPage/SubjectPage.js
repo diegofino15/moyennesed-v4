@@ -61,7 +61,7 @@ function SubjectPage({
   useEffect(() => {
     if (hasRedirected) { return; }
     if (openMarkID && Object.keys(marks ?? {}).length > 0) {
-      setTimeout(() => openMarkDetails(openMarkID), 100);
+      openMarkDetails(openMarkID);
       setHasRedirected(true);
     }
   }, [marks]);
@@ -113,7 +113,7 @@ function SubjectPage({
       onlyShowBackButtonOnAndroid
       goBackButtonStyle={{ opacity: 0.6 }}
       titleObject={shownSubject.subID && (
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={{ flexDirection: "row", alignItems: "center", maxWidth: '100%', overflow: 'hidden' }}>
           <Text style={[DefaultTheme.fonts.titleSmall, { color: "black" }]}>{mainSubject.title ?? "---"}</Text>
           <ChevronRightIcon size={25} color={"black"} />
           <Text style={[DefaultTheme.fonts.titleSmall, { color: "black" }]}>{shownSubject.title ?? "---"}</Text>

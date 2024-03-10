@@ -82,4 +82,9 @@ function getLatestDate(date1, date2) {
   return date1;
 }
 
-export { openLink, wait, capitalizeWords, formatDate, formatDate2, formatDate3, formatAverage, formatMark, getLatestDate };
+function asyncExpectedResult(func, onFinish, expectedResult) {
+  expectedResult();
+  func().then(onFinish);
+}
+
+export { openLink, wait, capitalizeWords, formatDate, formatDate2, formatDate3, formatAverage, formatMark, getLatestDate, asyncExpectedResult };

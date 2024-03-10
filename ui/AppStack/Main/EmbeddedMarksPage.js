@@ -39,33 +39,34 @@ function EmbeddedMarksPage({
   }, [mainAccount.id]);
 
   // Marks
-  const [gotMarksForID, setGotMarksForID, gotMarksForIDRef] = useState({});
+  const [gotMarksForID, _setGotMarksForID, gotMarksForIDRef] = useState({});
   const [gettingMarksForID, setGettingMarksForID, gettingMarksForIDRef] = useState({});
-  const [errorGettingMarksForID, setErrorGettingMarksForID, errorGettingMarksForIDRef] = useState({});
+  const [errorGettingMarksForID, _setErrorGettingMarksForID, errorGettingMarksForIDRef] = useState({});
 
   // Homework
-  const [gotHomeworkForID, setGotHomeworkForID, gotHomeworkForIDRef] = useState({});
+  const [gotHomeworkForID, _setGotHomeworkForID, gotHomeworkForIDRef] = useState({});
   const [gettingHomeworkForID, setGettingHomeworkForID, gettingHomeworkForIDRef] = useState({});
-  const [errorGettingHomeworkForID, setErrorGettingHomeworkForID, errorGettingHomeworkForIDRef] = useState({});
+  const [errorGettingHomeworkForID, _setErrorGettingHomeworkForID, errorGettingHomeworkForIDRef] = useState({});
   
   async function getMarks(accountID, manualRefreshing) {
     if (gotMarksForIDRef.current[accountID] && !manualRefreshing) { return; }
     
-    setGettingMarksForID({ ...gettingMarksForIDRef.current, [accountID]: true });
+    setGettingMarksForID({...gettingMarksForIDRef.current, [accountID]: true});
     const status = await AppData.getMarks(accountID);
-    setGotMarksForID({ ...gotMarksForIDRef.current, [accountID]: status == 1 });
-    setErrorGettingMarksForID({ ...errorGettingMarksForIDRef.current, [accountID]: status != 1 });
+    gotMarksForIDRef.current[accountID] = status == 1;
+    errorGettingMarksForIDRef.current[accountID] = status != 1;
     setGettingMarksForID({ ...gettingMarksForIDRef.current, [accountID]: false });
+
     updateGlobalDisplay();
   }
   async function getHomework(accountID, manualRefreshing) {
     if (gotHomeworkForIDRef.current[accountID] && !manualRefreshing) { return; }
     
-    setGettingHomeworkForID({ ...gettingHomeworkForIDRef.current, [accountID]: true });
+    setGettingHomeworkForID({...gettingHomeworkForIDRef.current, [accountID]: true});
     const status = await AppData.getAllHomework(accountID);
-    setGotHomeworkForID({ ...gotHomeworkForIDRef.current, [accountID]: status == 1 });
-    setErrorGettingHomeworkForID({ ...errorGettingHomeworkForIDRef.current, [accountID]: status != 1 });
-    setGettingHomeworkForID({ ...gettingHomeworkForIDRef.current, [accountID]: false });
+    gotHomeworkForIDRef.current[accountID] = status == 1;
+    errorGettingHomeworkForIDRef.current[accountID] = status != 1;
+    setGettingHomeworkForID({...gettingHomeworkForIDRef.current, [accountID]: false});
   }
   useEffect(() => {
     async function autoGetMarks() {
@@ -118,13 +119,15 @@ function EmbeddedMarksPage({
         globalDisplayUpdater={globalDisplayUpdater}
         navigation={navigation}
       />
-      <HomeworkStatus
-        accountID={showMarksAccount.id}
-        gotHomework={gotHomeworkForID[showMarksAccount.id]}
-        isGettingHomework={isConnecting || gettingHomeworkForID[showMarksAccount.id]}
-        errorGettingHomework={errorGettingHomeworkForID[showMarksAccount.id]}
-        navigation={navigation}
-      />
+      {latestCurrentPeriod == selectedPeriod && (
+        <HomeworkStatus
+          accountID={showMarksAccount.id}
+          gotHomework={gotHomeworkForID[showMarksAccount.id]}
+          isGettingHomework={isConnecting || gettingHomeworkForID[showMarksAccount.id]}
+          errorGettingHomework={errorGettingHomeworkForID[showMarksAccount.id]}
+          navigation={navigation}
+        />
+      )}
       <SubjectsOverview
         accountID={showMarksAccount.id}
         selectedPeriod={selectedPeriod}

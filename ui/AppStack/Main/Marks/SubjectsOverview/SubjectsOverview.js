@@ -79,7 +79,7 @@ function SubjectsOverview({
                 accountID={accountID}
                 subject={periods[selectedPeriod].subjects[subjectID]}
                 getMark={(markID) => periods[selectedPeriod].marks[markID]}
-                hasExam={periods[selectedPeriod].id == latestCurrentPeriod ? subjectHasExam[subjectID] : undefined}
+                hasExam={selectedPeriod == latestCurrentPeriod ? subjectHasExam[subjectID] : undefined}
                 navigation={navigation}
               />;
             })}
@@ -111,7 +111,7 @@ function SubjectsOverview({
               accountID={accountID}
               subject={periods[selectedPeriod].subjects[subjectID]}
               getMark={(markID) => periods[selectedPeriod].marks[markID]}
-              hasExam={periods[selectedPeriod].id == latestCurrentPeriod ? subjectHasExam[subjectID] : undefined}
+              hasExam={selectedPeriod == latestCurrentPeriod ? subjectHasExam[subjectID] : undefined}
               navigation={navigation}
             />;
           })}

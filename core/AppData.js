@@ -732,7 +732,7 @@ class AppData {
     );
   }
   // Calculate all averages
-  static async refreshAverages(
+  static async _refreshAverages(
     accountID,
     givenPeriod = null,
     averageDate = null,
@@ -1065,7 +1065,7 @@ class AppData {
           subSubject.marks.push(markID);
         }
 
-        await this.refreshAverages(
+        await this._refreshAverages(
           accountID,
           givenPeriod,
           givenPeriod.marks[markID].date,
@@ -1163,29 +1163,33 @@ class AppData {
       }
     );
   }
-  static async saveHomework(accountID, homework) {
+  static async saveHomework(accountID, homeworks) {
     var abstractHomework = {
       homeworks: {},
+      days: {},
       subjectsWithExams: {},
       totalExams: 0,
     };
 
-    Object.keys(homework).forEach(day => {
-      homework[day].forEach(homework => {
+    Object.keys(homeworks).forEach(day => {
+      homeworks[day].forEach(homework => {
         let finalHomework = {
           id: homework.idDevoir,
           subjectID: homework.codeMatiere,
           done: homework.effectue,
-          day,
+          dateFor: day,
           dateGiven: new Date(homework.donneLe),
           isExam: homework.interrogation,
         };
 
         if (finalHomework.isExam) {
-          if (!abstractHomework.subjectsWithExams[finalHomework.subjectID]) { abstractHomework.subjectsWithExams[finalHomework.subjectID] = []; }
+          abstractHomework.subjectsWithExams[finalHomework.subjectID] ??= [];
           abstractHomework.subjectsWithExams[finalHomework.subjectID].push(finalHomework.id);
           abstractHomework.totalExams++;
         }
+      
+        abstractHomework.days[day] ??= [];
+        abstractHomework.days[day].push(finalHomework.id);
         
         abstractHomework.homeworks[finalHomework.id] = finalHomework;
       });
@@ -1205,98 +1209,66 @@ class AppData {
 
     return 1;
   }
-  static async getSpecificHomework(accountID, homeworkID, forceRefresh=false) {
-    // Check if already got
+  static async getSpecificHomeworkForDay(accountID, day, forceRefresh=false, forceCache=false) {
     if (!forceRefresh) {
-      let data = await AsyncStorage.getItem("specificHomework");
+      const data = await AsyncStorage.getItem("specific-homework");
       if (data) {
-        const specificCacheData = JSON.parse(data);
-        if (accountID in specificCacheData && homeworkID in specificCacheData[accountID]) {
-          return specificCacheData[accountID][homeworkID];
+        const cacheData = JSON.parse(data);
+        if (accountID in cacheData && day in cacheData[accountID].data.days) {
+          const listOfSpecificHomeworks = cacheData[accountID].data.days[day].map(homeworkID => cacheData[accountID].data.homeworks[homeworkID]);
+          let specificHomeworks = {};
+          listOfSpecificHomeworks.forEach(homework => {
+            specificHomeworks[homework.id] = homework;
+          });
+          
+          return {
+            status: 1,
+            data: specificHomeworks,
+            date: cacheData[accountID].date,
+          };
         }
       }
+      if (forceCache) { return { status: 0 }; }
     }
+
+    const status = await this.parseEcoleDirecte(
+      "specific homework",
+      accountID,
+      `${this.USED_URL}/v3/Eleves/${accountID}/cahierdetexte/${day}.awp`,
+      'data={}',
+      async (data) => {
+        return await this.saveSpecificHomeworkForDay(accountID, data);
+      }
+    );
     
-    // Else, get data
-    const data = await AsyncStorage.getItem("homework");
-    const cacheData = JSON.parse(data);
-    if (!accountID in cacheData) { return; }
-
-    const abstractHomework = cacheData[accountID].data.homeworks[homeworkID];
-    if (!abstractHomework) { return; }
-
-    // Get login token
-    const mainAccount = await this._getMainAccountOfAnyAccount(accountID);
-    const token = mainAccount.connectionToken;
-
-    console.log(`Getting specific homework for account ${accountID}...`);
-    var response = await axios
-      .post(
-        `${this.USED_URL}/v3/Eleves/${accountID}/cahierdetexte/${abstractHomework.day}.awp?verbe=get&v=4`,
-        'data={}',
-        { headers: { "Content-Type": "text/plain", "X-Token": token } },
-      )
-      .catch((error) => {
-        console.warn(`An error occured while getting specific homework : ${error}`);
-      });
-    response ??= { status: 500 };
-
-    var status = 0; // 1 = success | 0 = outdated token, re-login failed | -1 = error
-    switch (response.status) {
-      case 200:
-        console.log("API request successful");
-        switch (response.data.code) {
-          case 200:
-            await this._updateToken(accountID, response.data.token);
-            status = await this.saveSpecificHomework(accountID, response.data.data);
-            console.log(
-              `Got specific homework for account ${accountID} ! (status ${status})`,
-            );
-            break;
-          case 520: // Outdated token
-            console.log("Outdated token, reconnecting...");
-            const reloginSuccessful = await this.refreshLogin();
-            if (reloginSuccessful) {
-              return await this.getSpecificHomework(accountID, homeworkID);
-            }
-            status = 0;
-            break;
-          default:
-            console.warn(
-              `API responded with unknown code ${response.data.code}`,
-            );
-            console.warn(response.data);
-            status = -1;
-            break;
-        }
-        break;
-      default:
-        console.warn("API request failed");
-        status = -1;
-        break;
-    }
-
-    return status;
+    if (status == 1) { return await this.getSpecificHomeworkForDay(accountID, day); }
+    else { return { status: -1 }; }
   }
-  static async saveSpecificHomework(accountID, homework) {
-    var specificCacheData = {};
-    const data = await AsyncStorage.getItem("specificHomework");
-    if (data) {
-      specificCacheData = JSON.parse(data);
-    }
-    specificCacheData[accountID] ??= {};
+  static async saveSpecificHomeworkForDay(accountID, homeworks) {
+    const day = homeworks.date;
 
-    homework.matieres?.forEach(specificHomework => {
-      specificCacheData[accountID][specificHomework.id] = {
-        id: specificHomework.id,
-        subjectID: specificHomework.codeMatiere,
-        givenBy: specificHomework.nomProf,
-        todo: specificHomework.aFaire,
+    var cacheData = {};
+    const data = await AsyncStorage.getItem("specific-homework");
+    if (data) { cacheData = JSON.parse(data); }
+    cacheData[accountID] ??= { data: {
+      homeworks: {},
+      days: {},
+    } };
+    cacheData[accountID].date = new Date();
+
+    homeworks.matieres?.forEach(homework => {
+      const finalHomework = {
+        id: homework.id,
+        givenBy: homework.nomProf,
+        todo: homework.aFaire.contenu,
+        sessionContent: homework.aFaire.contenuDeSeance.contenu,
       };
+      cacheData[accountID].data.homeworks[homework.id] = finalHomework;
+      cacheData[accountID].data.days[day] ??= [];
+      cacheData[accountID].data.days[day].push(homework.id);
     });
 
-    await AsyncStorage.setItem("specificHomework", JSON.stringify(specificCacheData));
-    
+    await AsyncStorage.setItem("specific-homework", JSON.stringify(cacheData));
     return 1;
   }
   static async getLastTimeUpdatedHomework(accountID) {
@@ -1315,6 +1287,26 @@ class AppData {
       }
     }
     return {};
+  }
+  static async markHomeworkAsDone(accountID, homeworkID, done) {
+    const status = await this.parseEcoleDirecte(
+      "mark homework as done",
+      accountID,
+      `https://api.ecoledirecte.com/v3/Eleves/${accountID}/cahierdetexte.awp`,
+      `data=${JSON.stringify({
+        idDevoirsEffectues: done ? [homeworkID] : [],
+        idDevoirsNonEffectues: done ? [] : [homeworkID],
+      })}`,
+      async (data) => {
+        const cacheData = JSON.parse(await AsyncStorage.getItem("homework"));
+        cacheData[accountID].data.homeworks[homeworkID].done = done;
+        await AsyncStorage.setItem("homework", JSON.stringify(cacheData));
+        return 1;
+      },
+      "put",
+    );
+
+    return (status == 1) ? done : !done;
   }
 
   // Preferences //
@@ -1345,7 +1337,7 @@ class AppData {
   }
 
   // Network utils //
-  static async parseEcoleDirecte(title, accountID, url, payload, successCallback) {
+  static async parseEcoleDirecte(title, accountID, url, payload, successCallback, verbe="get") {
     // Get login token
     const mainAccount = await this._getMainAccountOfAnyAccount(accountID);
     const token = mainAccount.connectionToken;
@@ -1353,7 +1345,7 @@ class AppData {
     console.log(`Getting ${title} for account ${accountID}...`);
     var response = await axios
       .post(
-        `${url}?verbe=get&v=4`,
+        `${url}?verbe=${verbe}&v=4`,
         payload,
         { headers: { "Content-Type": "text/plain", "X-Token": token } },
       )
@@ -1369,7 +1361,7 @@ class AppData {
         switch (response.data.code) {
           case 200:
             await this._updateToken(accountID, response.data.token);
-            status = await successCallback(response.data.data);
+            status = await successCallback(response.data?.data);
             console.log(`Got ${title} for account ${accountID} ! (status ${status})`);
             break;
           case 520: // Outdated token

@@ -48,11 +48,11 @@ function MainPage({ refreshLogin, isConnected, isConnecting, globalDisplayUpdate
         height: '100%',
         backgroundColor: DefaultTheme.colors.background,
         marginTop: Platform.select({ ios: 0, android: 20 }),
-        // paddingHorizontal: 20,
       }}
       refreshControl={
         <RefreshControl refreshing={manualRefreshing} onRefresh={() => {
           setManualRefreshing(true);
+          AsyncStorage.removeItem("specific-homework");
           HapticsHandler.vibrate("light");
         }} tintColor={DefaultTheme.colors.onBackground}/>
       }

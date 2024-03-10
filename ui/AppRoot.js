@@ -47,10 +47,10 @@ function AppRoot() {
 
       await ColorsHandler.load();
 
-      await AdsHandler.setupAdmob({ checkForConsent: true });
+      AdsHandler.setupAdmob({ checkForConsent: true });
       setIsLoaded(true);
     } else {
-      await AdsHandler.setupAdmob({ checkForConsent: false });
+      AdsHandler.setupAdmob({ checkForConsent: false });
       setIsLoaded(true);
     }
   }
