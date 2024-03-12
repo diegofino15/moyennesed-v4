@@ -1,10 +1,12 @@
+import { useState } from "react";
 import { Dimensions, Text, View } from "react-native";
-import { ChevronRightIcon, Users2Icon } from "lucide-react-native";
+import { ChevronRightIcon, Users2Icon, WeightIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 
-import ColorsHandler from "../../../../../util/ColorsHandler";
 import CustomTag from "../../../../components/CustomTag";
+import CustomChangingText from "../../../../components/CustomChangingText";
+import ColorsHandler from "../../../../../util/ColorsHandler";
 import { formatDate2, formatDate3, formatMark } from "../../../../../util/Utils";
 
 
@@ -13,6 +15,9 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline }) {
   if (!mark) { return; }
 
   const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
+
+  // Alternate class value / coefficient
+  const [showCoefficient, setShowCoefficient] = useState(false);
 
   return (
     <PressableScale style={{

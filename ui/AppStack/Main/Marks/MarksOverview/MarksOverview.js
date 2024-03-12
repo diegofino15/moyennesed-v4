@@ -69,15 +69,16 @@ function MarksOverview({
           borderRadius: 5,
           flexDirection: 'row',
           alignItems: 'center',
+          paddingVertical: 2,
+          paddingHorizontal: 5
         }} onPress={() => { if (!isLoading) { navigation.navigate("MarksInformationPage", { accountID }); } }}>
           <Text style={[
             DefaultTheme.fonts.labelMedium, {
               color: isLoading ? DefaultTheme.colors.primary : gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error,
-              marginVertical: 2,
-              marginHorizontal: 5,
+              marginRight: 5,
               height: 22,
           }]}>{isLoading ? "Chargement..." : gotMarks ? "À jour" : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
-          {(!isLoading) && <HelpCircleIcon size={20} color={gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error} style={{ marginRight: 5 }}/>}
+          {(!isLoading) && <HelpCircleIcon size={20} color={gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error}/>}
         </PressableScale>
 
         {/* Period chooser */}

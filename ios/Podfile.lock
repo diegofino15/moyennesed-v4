@@ -1180,6 +1180,10 @@ PODS:
     - ExpoModulesCore
   - RNCAsyncStorage (1.21.0):
     - React-Core
+  - RNFileViewer (2.1.5):
+    - React-Core
+  - RNFS (2.20.0):
+    - React-Core
   - RNGestureHandler (2.14.1):
     - glog
     - RCT-Folly (= 2022.05.16.00)
@@ -1285,6 +1289,8 @@ DEPENDENCIES:
   - ReactNativeIosContextMenu (from `../node_modules/react-native-ios-context-menu`)
   - ReactNativeIosUtilities (from `../node_modules/react-native-ios-utilities`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - RNFileViewer (from `../node_modules/react-native-file-viewer`)
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNGoogleMobileAds (from `../node_modules/react-native-google-mobile-ads`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
@@ -1449,6 +1455,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-ios-utilities"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNFileViewer:
+    :path: "../node_modules/react-native-file-viewer"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleMobileAds:
@@ -1545,6 +1555,8 @@ SPEC CHECKSUMS:
   ReactNativeIosContextMenu: 5b5d390c21779291e2f5492ed412a2d1ccb7c85b
   ReactNativeIosUtilities: 6b8ba94768909b87b5f6e5b3fa7249afae320947
   RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
+  RNFileViewer: ce7ca3ac370e18554d35d6355cffd7c30437c592
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: 28bdf9a766c081e603120f79e925b72817c751c6
   RNGoogleMobileAds: 1d60f6e86dbe392fdc4bd064c0af299e136627ad
   RNPermissions: acd9803f5db197a3046ebc21f28993b51a78cc22

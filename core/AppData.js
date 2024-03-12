@@ -1,6 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
+var Buffer = require('buffer/').Buffer;
+import { htmlToText } from "html-to-text";
+import RNFS from "react-native-fs";
+
 import { capitalizeWords, getLatestDate } from "../util/Utils";
 import ColorsHandler from "../util/ColorsHandler";
 
@@ -1176,6 +1180,7 @@ class AppData {
         let finalHomework = {
           id: homework.idDevoir,
           subjectID: homework.codeMatiere,
+          subjectTitle: capitalizeWords(homework.matiere),
           done: homework.effectue,
           dateFor: day,
           dateGiven: new Date(homework.donneLe),
@@ -1214,18 +1219,21 @@ class AppData {
       const data = await AsyncStorage.getItem("specific-homework");
       if (data) {
         const cacheData = JSON.parse(data);
-        if (accountID in cacheData && day in cacheData[accountID].data.days) {
-          const listOfSpecificHomeworks = cacheData[accountID].data.days[day].map(homeworkID => cacheData[accountID].data.homeworks[homeworkID]);
-          let specificHomeworks = {};
-          listOfSpecificHomeworks.forEach(homework => {
-            specificHomeworks[homework.id] = homework;
-          });
-          
-          return {
-            status: 1,
-            data: specificHomeworks,
-            date: cacheData[accountID].date,
-          };
+        if (accountID in cacheData && day in cacheData[accountID].days) {          
+          // Check if homework more than 12 hours old
+          if (new Date() - new Date(cacheData[accountID].days[day].date) < 12 * 60 * 60 * 1000 || forceCache) {
+            const listOfSpecificHomeworks = cacheData[accountID].days[day].homeworkIDs.map(homeworkID => cacheData[accountID].homeworks[homeworkID]);
+            let specificHomeworks = {};
+            listOfSpecificHomeworks.forEach(homework => {
+              specificHomeworks[homework.id] = homework;
+            });
+            
+            return {
+              status: 1,
+              data: specificHomeworks,
+              date: cacheData[accountID].days[day].date,
+            };
+          }
         }
       }
       if (forceCache) { return { status: 0 }; }
@@ -1250,22 +1258,30 @@ class AppData {
     var cacheData = {};
     const data = await AsyncStorage.getItem("specific-homework");
     if (data) { cacheData = JSON.parse(data); }
-    cacheData[accountID] ??= { data: {
+    cacheData[accountID] ??= {
       homeworks: {},
       days: {},
-    } };
-    cacheData[accountID].date = new Date();
+    };
 
     homeworks.matieres?.forEach(homework => {
       const finalHomework = {
         id: homework.id,
         givenBy: homework.nomProf,
-        todo: homework.aFaire.contenu,
-        sessionContent: homework.aFaire.contenuDeSeance.contenu,
+        todo: this.parseHtmlData(homework.aFaire.contenu),
+        sessionContent: this.parseHtmlData(homework.aFaire.contenuDeSeance.contenu),
+        files: homework.aFaire.documents.map(document => {
+          return {
+            id: document.id,
+            title: document.libelle,
+            size: document.taille,
+            fileType: document.type,
+          };
+        }),
       };
-      cacheData[accountID].data.homeworks[homework.id] = finalHomework;
-      cacheData[accountID].data.days[day] ??= [];
-      cacheData[accountID].data.days[day].push(homework.id);
+      cacheData[accountID].homeworks[homework.id] = finalHomework;
+      cacheData[accountID].days[day] ??= { homeworkIDs: [] };
+      cacheData[accountID].days[day].homeworkIDs.push(homework.id);
+      cacheData[accountID].days[day].date = new Date();
     });
 
     await AsyncStorage.setItem("specific-homework", JSON.stringify(cacheData));
@@ -1307,6 +1323,30 @@ class AppData {
     );
 
     return (status == 1) ? done : !done;
+  }
+  static parseHtmlData(data) {
+    let binaryData = Buffer.from(data, 'base64').toString('binary');
+    let utf8Data = decodeURIComponent(escape(binaryData));
+    return htmlToText(utf8Data);
+  }
+  static async downloadHomeworkFile(accountID, file) {
+    // Get login token
+    const mainAccount = await this._getMainAccountOfAnyAccount(accountID);
+    const token = mainAccount.connectionToken;
+
+    console.log(`Downloading ${file.title}...`);
+
+    const url = `https://api.ecoledirecte.com/v3/telechargement.awp?verbe=get&fichierId=${file.id}&leTypeDeFichier=${file.fileType}&v=4`;
+    const localFile = `${RNFS.DocumentDirectoryPath}/${file.title}`;
+
+    return {
+      promise: RNFS.downloadFile({
+        fromUrl: url,
+        toFile: localFile,
+        headers: { "X-Token": token },
+      }).promise,
+      localFile,
+    };
   }
 
   // Preferences //

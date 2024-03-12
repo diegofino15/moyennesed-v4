@@ -32,8 +32,7 @@ function EmbeddedSubjectCard({
   function openExamPage() {
     navigation.navigate("ExamPage", {
       accountID,
-      periodID: subject.periodID,
-      subjectID: subject.id,
+      subjectTitle: subject.title,
       examIDs: hasExam,
     })
   }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { HelpCircleIcon } from "lucide-react-native";
+import { ArrowRightIcon, HelpCircleIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -22,21 +22,20 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
   return (
     <View style={{
       marginHorizontal: 20,
-      marginTop: 20,
-      backgroundColor: DefaultTheme.colors.surface,
-      paddingVertical: 10,
-      paddingHorizontal: 15,
-      paddingRight: 10,
-      borderRadius: 10,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
     }}>
+      {/* Middle bar */}
       <View style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}>
-        <Text style={DefaultTheme.fonts.bodyLarge}>{totalExams ? totalExams : "Aucun"} contrôle{totalExams > 1 && "s"} à venir</Text>
-
-        {/* Loading status */}
+        position: 'absolute',
+        width: '100%',
+        height: 3,
+        backgroundColor: DefaultTheme.colors.surfaceOutline,
+      }}/>
+      
+      {/* Loading status */}
+      <View style={{ backgroundColor: DefaultTheme.colors.background, paddingRight: 10 }}>
         <PressableScale style={{
           backgroundColor: isGettingHomework ? DefaultTheme.colors.primaryLight : gotHomework ? DefaultTheme.colors.successLight : DefaultTheme.colors.errorLight,
           borderWidth: 2,
@@ -44,15 +43,35 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
           borderRadius: 5,
           flexDirection: 'row',
           alignItems: 'center',
+          paddingVertical: 2,
+          paddingHorizontal: 5,
         }} onPress={() => { if (!isGettingHomework) { navigation.navigate("HomeworkInformationPage", { accountID }); } }}>
           <Text style={[
             DefaultTheme.fonts.labelMedium, {
               color: isGettingHomework ? DefaultTheme.colors.primary : gotHomework ? DefaultTheme.colors.success : DefaultTheme.colors.error,
-              marginVertical: 2,
-              marginHorizontal: 5,
-              height: 22,
+              marginRight: 5,
           }]}>{isGettingHomework ? "Chargement..." : gotHomework ? "À jour" : errorGettingHomework ? "Erreur" : "Pas à jour"}</Text>
-          {(!isGettingHomework) && <HelpCircleIcon size={20} color={gotHomework ? DefaultTheme.colors.success : DefaultTheme.colors.error} style={{ marginRight: 5 }}/>}
+          {(!isGettingHomework) && <HelpCircleIcon size={20} color={gotHomework ? DefaultTheme.colors.success : DefaultTheme.colors.error}/>}
+        </PressableScale>
+      </View>
+
+      {/* Homework */}
+      <View style={{ backgroundColor: DefaultTheme.colors.background, paddingLeft: 5 }}>
+        <PressableScale style={{
+          backgroundColor: DefaultTheme.colors.surface,
+          borderWidth: 2,
+          borderColor: DefaultTheme.colors.surfaceOutline,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          borderRadius: 5,
+          marginLeft: 5,
+          paddingVertical: 5,
+          paddingLeft: 10,
+          paddingRight: 5,
+        }} onPress={() => { navigation.navigate("HomeworksPage", { accountID }); }}>
+          <Text style={[DefaultTheme.fonts.labelMedium, { marginRight: 5 }]}>Prochains devoirs</Text>
+          <ArrowRightIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
         </PressableScale>
       </View>
     </View>

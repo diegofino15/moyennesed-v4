@@ -8,6 +8,8 @@ import SubjectsOverview from "./Marks/SubjectsOverview/SubjectsOverview";
 import HapticsHandler from "../../../util/HapticsHandler";
 import AppData from "../../../core/AppData";
 import HomeworkStatus from "./Marks/Homework/HomeworkStatus";
+import CustomSection from "../../components/CustomSection";
+import { DefaultTheme } from "react-native-paper";
 
 
 // Embedded mark page
@@ -120,14 +122,29 @@ function EmbeddedMarksPage({
         navigation={navigation}
       />
       {latestCurrentPeriod == selectedPeriod && (
-        <HomeworkStatus
-          accountID={showMarksAccount.id}
-          gotHomework={gotHomeworkForID[showMarksAccount.id]}
-          isGettingHomework={isConnecting || gettingHomeworkForID[showMarksAccount.id]}
-          errorGettingHomework={errorGettingHomeworkForID[showMarksAccount.id]}
-          navigation={navigation}
-        />
+        <View>
+          <CustomSection
+            title={"Devoirs & Contrôles"}
+            viewStyle={{ marginHorizontal: 20 }}
+            marginTop={10}
+            textAreaStyle={{ backgroundColor: DefaultTheme.colors.background }}
+          />
+          <HomeworkStatus
+            accountID={showMarksAccount.id}
+            gotHomework={gotHomeworkForID[showMarksAccount.id]}
+            isGettingHomework={isConnecting || gettingHomeworkForID[showMarksAccount.id]}
+            errorGettingHomework={errorGettingHomeworkForID[showMarksAccount.id]}
+            navigation={navigation}
+          />
+        </View>
       )}
+
+      <CustomSection
+        title={"Matières"}
+        viewStyle={{ marginHorizontal: 20, top: 15 }}
+        marginTop={10}
+        textAreaStyle={{ backgroundColor: DefaultTheme.colors.background }}
+      />
       <SubjectsOverview
         accountID={showMarksAccount.id}
         selectedPeriod={selectedPeriod}
