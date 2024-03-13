@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import AppRoot from "./ui/AppRoot";
 
+
 // Keep SplashScreen
 SplashScreen.preventAutoHideAsync();
 
