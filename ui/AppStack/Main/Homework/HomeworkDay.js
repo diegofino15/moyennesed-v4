@@ -6,9 +6,9 @@ import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 
 import HomeworkCard from "./HomeworkCard";
-import CustomSection from "../../../../components/CustomSection";
-import { formatDate, formatDate2 } from "../../../../../util/Utils";
-import AppData from "../../../../../core/AppData";
+import CustomSection from "../../../components/CustomSection";
+import { formatDate, formatDate2 } from "../../../../util/Utils";
+import AppData from "../../../../core/AppData";
 
 
 // Homework day
@@ -79,6 +79,7 @@ function HomeworkDay({ accountID, day, exams, loadAtDisplay }) {
           abstractHomework={exam}
           specificHomework={specificHomeworks[exam.id] ?? {}}
           loadSpecificHomework={loadSpecificHomework}
+          isAlreadyLoading={gettingSpecificHomeworks}
         />
       ))}
 

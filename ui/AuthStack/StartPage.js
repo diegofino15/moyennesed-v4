@@ -53,7 +53,7 @@ function StartPage({ navigation }) {
           
           {/* Login button */}
           <CustomButton
-            title={<Text style={DefaultTheme.fonts.bodyLarge}>Se connecter avec ÉcoleDirecte</Text>}
+            title={<Text style={[DefaultTheme.fonts.bodyLarge, { height: 25 }]}>Se connecter avec ÉcoleDirecte</Text>}
             onPress={() => navigation.navigate("LoginPage")}
           />
 

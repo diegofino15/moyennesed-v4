@@ -1,7 +1,8 @@
-import { View, ScrollView, Text, Platform } from "react-native";
+import { View, ScrollView, Text, Platform, Dimensions } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 import { ChevronLeftIcon } from "lucide-react-native";
+import Constants from "expo-constants";
 
 
 // Custom modal
@@ -41,6 +42,7 @@ function CustomModal({
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
+          // height: 70,
           ...headerStyle,
         }}>
           <View style={{ height: 45 }}/>
@@ -52,12 +54,12 @@ function CustomModal({
           <ScrollView style={{
             backgroundColor: DefaultTheme.colors.backdrop,
             width: '100%',
-            height: '100%',
+            height: Dimensions.get('window').height - Constants.statusBarHeight - (title || titleObject ? 70 : 0),
             padding: 20,
             ...style,
           }} showsVerticalScrollIndicator={false}>
             {children}
-            <View style={{ height: extraHeight }}/> 
+            <View style={{ height: 50 }}/> 
           </ScrollView>
         ) : {...children}}
         {childrenOutsideScrollView}

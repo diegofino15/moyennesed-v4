@@ -6,11 +6,11 @@ import { ActivityIndicator } from 'react-native';
 import { AlertTriangleIcon, RefreshCcwIcon } from "lucide-react-native";
 
 import HomeworkDay from "./HomeworkDay";
-import CustomInformationCard from "../../../../components/CustomInformationCard";
-import CustomModal from "../../../../components/CustomModal";
-import AppData from "../../../../../core/AppData";
-import HapticsHandler from "../../../../../util/HapticsHandler";
-import CustomSeparator from "../../../../components/CustomSeparator";
+import CustomInformationCard from "../../../components/CustomInformationCard";
+import CustomModal from "../../../components/CustomModal";
+import AppData from "../../../../core/AppData";
+import HapticsHandler from "../../../../util/HapticsHandler";
+import CustomSeparator from "../../../components/CustomSeparator";
 
 
 // Exam page

@@ -5,7 +5,7 @@ import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import HomeworkDay from "./HomeworkDay";
-import CustomModal from "../../../../components/CustomModal";
+import CustomModal from "../../../components/CustomModal";
 
 // Exam page
 function ExamPage({ globalDisplayUpdater, navigation, route }) {

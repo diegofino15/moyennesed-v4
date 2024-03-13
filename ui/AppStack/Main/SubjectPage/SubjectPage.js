@@ -9,15 +9,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import MarkCard from "./MarkCard";
 import CoefficientPicker from "./CoefficientPicker";
 import SubjectColorPicker from "./SubjectColorPicker";
-import CustomSection from "../../../../components/CustomSection";
-import CustomEvolutionChart from "../../../../components/CustomEvolutionChart";
-import CustomAnimatedIndicator from "../../../../components/CustomAnimatedIndicator";
-import CustomSimpleInformationCard from "../../../../components/CustomSimpleInformationCard";
-import CustomModal from "../../../../components/CustomModal";
-import ColorsHandler from "../../../../../util/ColorsHandler";
-import { formatAverage } from "../../../../../util/Utils";
-import HapticsHandler from "../../../../../util/HapticsHandler";
-import AppData from "../../../../../core/AppData";
+import CustomSection from "../../../components/CustomSection";
+import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
+import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
+import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
+import CustomModal from "../../../components/CustomModal";
+import ColorsHandler from "../../../../util/ColorsHandler";
+import { formatAverage } from "../../../../util/Utils";
+import HapticsHandler from "../../../../util/HapticsHandler";
+import AppData from "../../../../core/AppData";
 
 
 // Subject page
@@ -122,11 +122,11 @@ function SubjectPage({
       headerStyle={{ backgroundColor: dark }}
       titleStyle={{ color: "black" }}
       extraHeight={200}
-      style={{ paddingHorizontal: 0 }}
+      style={{ padding: 0 }}
       children={
         <View>
           {/* Top portion */}
-          <View>
+          <View style={{ paddingTop: 20 }}>
             {/* Average & Evolution */}
             <ScrollView
               ref={scrollViewRef}
@@ -164,7 +164,7 @@ function SubjectPage({
             {/* Color picker */}
             <View style={{
               position: "absolute",
-              top: -10,
+              top: 10,
               left: 10,
               flexDirection: "row",
               alignItems: "center",
@@ -179,7 +179,8 @@ function SubjectPage({
                 <PaletteIcon size={20} color={"black"}/>
                 <Text style={[DefaultTheme.fonts.labelMedium, {
                   color: "black",
-                  marginHorizontal: 5
+                  marginHorizontal: 5,
+                  height: 22,
                 }]}>Couleur</Text>
               </PressableScale>
               {ColorsHandler.isSubjectCustom(subjectID) && (
@@ -199,7 +200,7 @@ function SubjectPage({
             {shownSubject?.classAverage && (
               <View style={{
                 position: "absolute",
-                top: -10,
+                top: 10,
                 right: 10,
                 flexDirection: "row",
                 alignItems: "center",
@@ -232,10 +233,12 @@ function SubjectPage({
                   flexDirection: "row",
                   alignItems: "center",
                 }}>
-                  <Users2Icon size={20} color={"black"} />
+                  <Users2Icon size={20} color={"black"}/>
                   <Text style={[DefaultTheme.fonts.headlineMedium, {
                     color: "black",
-                    fontSize: 17
+                    fontSize: 17,
+                    height: 22,
+                    top: 1,
                   }]}> : {formatAverage(shownSubject?.classAverage)}</Text>
                 </PressableScale>
               </View>
@@ -247,7 +250,7 @@ function SubjectPage({
             <PressableScale style={{
               position: "absolute",
               alignSelf: "center",
-              top: 130,
+              top: 150,
               zIndex: 10,
               backgroundColor: light,
               flexDirection: "row",

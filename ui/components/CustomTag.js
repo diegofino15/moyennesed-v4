@@ -42,6 +42,7 @@ function CustomTag({ icon, title, color, onPress, secondaryTag, onBottom=false, 
         <Text style={[DefaultTheme.fonts.labelMedium, {
           color: 'white',
           marginLeft: icon ? 5 : 0,
+          height: 22,
         }]}>{title}</Text>
       </PressableScale>
     </View>

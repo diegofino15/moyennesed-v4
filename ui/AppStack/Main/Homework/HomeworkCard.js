@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, Dimensions, ActivityIndicator } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
@@ -6,10 +6,10 @@ import { CheckCircleIcon, ChevronDownIcon, ChevronUpIcon, CircleIcon, DownloadIc
 import Animated, { useAnimatedStyle, withTiming } from "react-native-reanimated";
 import FileViewer from "react-native-file-viewer";
 
-import CustomSeparator from "../../../../components/CustomSeparator";
-import { formatDate2, asyncExpectedResult } from "../../../../../util/Utils";
-import AppData from "../../../../../core/AppData";
-import ColorsHandler from "../../../../../util/ColorsHandler";
+import CustomSeparator from "../../../components/CustomSeparator";
+import { formatDate2, asyncExpectedResult } from "../../../../util/Utils";
+import AppData from "../../../../core/AppData";
+import ColorsHandler from "../../../../util/ColorsHandler";
 
 
 // Attachment
@@ -57,6 +57,7 @@ function HomeworkCard({
   abstractHomework,
   specificHomework,
   loadSpecificHomework,
+  isAlreadyLoading,
 }) {
   // Get subject
   const { light, dark } = ColorsHandler.getSubjectColors(abstractHomework.subjectID);
@@ -72,6 +73,14 @@ function HomeworkCard({
   }
 
   // Is expanded
+  const [wantsToOpen, setWantsToOpen] = useState(false);
+  useEffect(() => {
+    if (!isAlreadyLoading && specificHomework.todo && wantsToOpen) {
+      setWantsToOpen(false);
+      setIsExpanded(true);
+    }
+  }, [isAlreadyLoading]);
+
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   function toggleExpand() {
@@ -79,11 +88,14 @@ function HomeworkCard({
     
     if (specificHomework.todo) { setIsExpanded(true); }
     else {
-      setIsLoading(true);
-      loadSpecificHomework().then(() => {
-        setIsExpanded(true);
-        setIsLoading(false);
-      });
+      if (isAlreadyLoading) { setWantsToOpen(true); }
+      else {
+        setIsLoading(true);
+        loadSpecificHomework().then(() => {
+          setIsExpanded(true);
+          setIsLoading(false);
+        });
+      }
     }
   }
 

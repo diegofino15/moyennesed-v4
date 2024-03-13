@@ -6,8 +6,8 @@ import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
-import CustomChooser from "../../../../components/CustomChooser";
-import { formatAverage } from "../../../../../util/Utils";
+import CustomChooser from "../../../components/CustomChooser";
+import { formatAverage } from "../../../../util/Utils";
 import RecentMarkCard from "./RecentMarkCard";
 
 

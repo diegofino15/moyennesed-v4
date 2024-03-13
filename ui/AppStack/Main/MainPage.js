@@ -47,7 +47,7 @@ function MainPage({ refreshLogin, isConnected, isConnecting, globalDisplayUpdate
       style={{
         height: '100%',
         backgroundColor: DefaultTheme.colors.background,
-        marginTop: Platform.select({ ios: 0, android: 20 }),
+        paddingTop: Platform.select({ ios: 0, android: 20 }),
       }}
       refreshControl={
         <RefreshControl refreshing={manualRefreshing} onRefresh={() => {

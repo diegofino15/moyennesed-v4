@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MainPage from './Main/MainPage';
-import MarkPage from './Main/Marks/SubjectPage/MarkPage';
-import SubjectPage from './Main/Marks/SubjectPage/SubjectPage';
-import SubjectGroupPage from './Main/Marks/SubjectsOverview/SubjectGroupPage';
-import MarksInformationPage from './Main/Marks/MarksOverview/MarksInformationPage';
-import HomeworksPage from './Main/Marks/Homework/HomeworksPage';
-import ExamPage from './Main/Marks/Homework/ExamPage';
-import HomeworkInformationPage from './Main/Marks/Homework/HomeworkInformationPage';
+import MarkPage from './Main/SubjectPage/MarkPage';
+import SubjectPage from './Main/SubjectPage/SubjectPage';
+import SubjectGroupPage from './Main/SubjectsOverview/SubjectGroupPage';
+import MarksInformationPage from './Main/MarksOverview/MarksInformationPage';
+import HomeworksPage from './Main/Homework/HomeworksPage';
+import ExamPage from './Main/Homework/ExamPage';
+import HomeworkInformationPage from './Main/Homework/HomeworkInformationPage';
 import SettingsPage from './Settings/SettingsPage';
 import ProfilePage from './Settings/Profile/ProfilePage';
 import AppData from '../../core/AppData';
@@ -227,7 +227,7 @@ function AppStack({ cameFromAuthStack }) {
   const [isConnecting, setIsConnecting] = useState(false);
 
   // Auto-login
-  useEffect(() => { if (!cameFromAuthStack) { refreshLogin(); } }, []);
+  useEffect(() => { if (!isConnected) { refreshLogin(); } }, []);
   async function refreshLogin() {
     console.log("Refreshing login...");
     

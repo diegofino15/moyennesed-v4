@@ -40,8 +40,8 @@ function CustomSectionButton({
           justifyContent: 'space-evenly',
           width: Dimensions.get('window').width - (icon ? 190 : 110),
         }}>
-          <Text style={DefaultTheme.fonts.titleSmall} numberOfLines={1}>{title}</Text>
-          <Text style={DefaultTheme.fonts.labelMedium} numberOfLines={1}>{description}</Text>
+          <Text style={[DefaultTheme.fonts.titleSmall, { height: 30 }]} numberOfLines={1}>{title}</Text>
+          <Text style={[DefaultTheme.fonts.labelMedium, { height: 22 }]} numberOfLines={1}>{description}</Text>
         </View>
         {endIcon ? endIcon : <ArrowRightIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled} style={{
           position: 'absolute',

@@ -3,9 +3,9 @@ import { AlertOctagonIcon, CornerDownRightIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 
-import CustomTag from "../../../../components/CustomTag";
-import { formatAverage, formatMark } from "../../../../../util/Utils";
-import ColorsHandler from "../../../../../util/ColorsHandler";
+import CustomTag from "../../../components/CustomTag";
+import { formatAverage, formatMark } from "../../../../util/Utils";
+import ColorsHandler from "../../../../util/ColorsHandler";
 
 
 // Embedded subject card
@@ -68,6 +68,7 @@ function EmbeddedSubjectCard({
           <Text style={[DefaultTheme.fonts.bodyLarge, {
             color: 'black',
             width: Dimensions.get('window').width - (subject.subID ? 195 : 150),
+            height: 25,
           }]} numberOfLines={1}>{subject.title}</Text>
           
           <View style={{

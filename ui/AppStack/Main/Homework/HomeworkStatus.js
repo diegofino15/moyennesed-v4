@@ -50,6 +50,7 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
             DefaultTheme.fonts.labelMedium, {
               color: isGettingHomework ? DefaultTheme.colors.primary : gotHomework ? DefaultTheme.colors.success : DefaultTheme.colors.error,
               marginRight: 5,
+              height: 22,
           }]}>{isGettingHomework ? "Chargement..." : gotHomework ? "À jour" : errorGettingHomework ? "Erreur" : "Pas à jour"}</Text>
           {(!isGettingHomework) && <HelpCircleIcon size={20} color={gotHomework ? DefaultTheme.colors.success : DefaultTheme.colors.error}/>}
         </PressableScale>
@@ -70,7 +71,7 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
           paddingLeft: 10,
           paddingRight: 5,
         }} onPress={() => { navigation.navigate("HomeworksPage", { accountID }); }}>
-          <Text style={[DefaultTheme.fonts.labelMedium, { marginRight: 5 }]}>Prochains devoirs</Text>
+          <Text style={[DefaultTheme.fonts.labelMedium, { marginRight: 5, height: 22 }]}>Prochains devoirs</Text>
           <ArrowRightIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
         </PressableScale>
       </View>

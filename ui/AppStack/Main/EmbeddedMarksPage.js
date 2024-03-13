@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import { View } from "react-native";
 import useState from "react-usestateref";
+import { DefaultTheme } from "react-native-paper";
 
-import ChildChooser from "./Marks/ChildChooser";
-import MarksOverview from "./Marks/MarksOverview/MarksOverview";
-import SubjectsOverview from "./Marks/SubjectsOverview/SubjectsOverview";
+import ChildChooser from "./ChildChooser";
+import MarksOverview from "./MarksOverview/MarksOverview";
+import SubjectsOverview from "./SubjectsOverview/SubjectsOverview";
 import HapticsHandler from "../../../util/HapticsHandler";
 import AppData from "../../../core/AppData";
-import HomeworkStatus from "./Marks/Homework/HomeworkStatus";
+import HomeworkStatus from "./Homework/HomeworkStatus";
 import CustomSection from "../../components/CustomSection";
-import { DefaultTheme } from "react-native-paper";
 
 
 // Embedded mark page

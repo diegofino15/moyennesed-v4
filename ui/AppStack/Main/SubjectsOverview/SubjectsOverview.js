@@ -5,8 +5,8 @@ import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import SubjectCard from "./SubjectCard";
-import { formatAverage } from "../../../../../util/Utils";
-import AppData from "../../../../../core/AppData";
+import { formatAverage } from "../../../../util/Utils";
+import AppData from "../../../../core/AppData";
 
 
 // Subjects overview
@@ -51,10 +51,11 @@ function SubjectsOverview({
               borderColor: DefaultTheme.colors.surfaceOutline,
               borderRadius: 10,
               flexDirection: "row",
+              alignItems: "center",
               justifyContent: "space-between",
               marginVertical: 5,
             }} onPress={() => navigation.navigate("SubjectGroupPage", { accountID, periodID: periods[selectedPeriod].id, subjectGroupID })}>
-              <Text style={[DefaultTheme.fonts.labelLarge, { fontFamily: 'Text-Medium' }]}>{subjectGroup.title}</Text>
+              <Text style={[DefaultTheme.fonts.labelLarge, { fontFamily: 'Text-Medium', height: 25 }]}>{subjectGroup.title}</Text>
               <View style={{
                 flexDirection: 'row',
                 alignItems: 'flex-end',
@@ -87,7 +88,7 @@ function SubjectsOverview({
       )})}
 
       {/* Other subjects */}
-      <View style={{ marginTop: 15, marginHorizontal: 20 }}>
+      <View style={{ marginTop: 15, marginBottom: 20, marginHorizontal: 20 }}>
         {Object.keys(periods[selectedPeriod]?.subjectGroups ?? {}).length > 0 && periods[selectedPeriod]?.subjectsNotInSubjectGroup.length > 0 && (
           <View style={{ position: 'absolute', height: '100%' }}>
             <Text style={[DefaultTheme.fonts.labelLarge, { fontFamily: 'Text-Medium' }]}>AUTRES MATIÈRES</Text>
