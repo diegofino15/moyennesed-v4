@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import useState from "react-usestateref";
-import { Text, View, Dimensions, ScrollView } from "react-native";
+import { Text, View, Dimensions, ScrollView, Platform } from "react-native";
 import { ChevronRightIcon, ChevronsUpDownIcon, DraftingCompassIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
@@ -239,7 +239,7 @@ function SubjectPage({
                     color: "black",
                     fontSize: 17,
                     height: 22,
-                    top: 1,
+                    top: Platform.select({ ios: 1, android: -2 }),
                   }]}> : {formatAverage(shownSubject?.classAverage)}</Text>
                 </PressableScale>
               </View>
@@ -270,7 +270,8 @@ function SubjectPage({
               )}
               <Text style={[DefaultTheme.fonts.labelMedium, {
                 color: "black",
-                marginLeft: 5
+                marginLeft: 5,
+                height: 22,
               }]}>{showEvolution ? "Moyenne" : "Evolution"}</Text>
             </PressableScale>
           )}

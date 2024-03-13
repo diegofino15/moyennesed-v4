@@ -87,6 +87,7 @@ function EmbeddedSubjectCard({
             <FlatList
               horizontal
               scrollEnabled={false}
+              showsHorizontalScrollIndicator={false}
               data={subject.sortedMarks}
               renderItem={({ item }) => {
                 const mark = getMark(item);

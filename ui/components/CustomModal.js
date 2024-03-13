@@ -25,23 +25,25 @@ function CustomModal({
 }) {
   return (
     <View style={{
-      backgroundColor: title ? DefaultTheme.colors.surface : DefaultTheme.colors.backdrop,
-      ...headerStyle,
+      backgroundColor: DefaultTheme.colors.backdrop,
+      height: '100%',
     }}>
       <View style={{
         marginTop: Platform.select({ ios: 0, android: 20 }),
+        backgroundColor: DefaultTheme.colors.backdrop,
       }}>
         {/* Header */}
         {(title || titleObject) && <View style={{
           backgroundColor: DefaultTheme.colors.surface,
           borderBottomWidth: 2,
           borderColor: DefaultTheme.colors.surfaceOutline,
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
           padding: 10,
           paddingTop: 12,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          // height: 70,
           ...headerStyle,
         }}>
           <View style={{ height: 45 }}/>

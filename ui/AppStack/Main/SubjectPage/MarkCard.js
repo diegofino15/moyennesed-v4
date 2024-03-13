@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Dimensions, Text, View } from "react-native";
 import { ChevronRightIcon, Users2Icon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
@@ -13,10 +12,8 @@ import { formatDate2, formatDate3, formatMark } from "../../../../util/Utils";
 function MarkCard({ mark, subjectTitle, openMarkDetails, outline }) {
   if (!mark) { return; }
 
+  // Get subject colors
   const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
-
-  // Alternate class value / coefficient
-  const [showCoefficient, setShowCoefficient] = useState(false);
 
   return (
     <PressableScale style={{

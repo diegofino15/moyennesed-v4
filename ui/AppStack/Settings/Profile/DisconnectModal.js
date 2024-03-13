@@ -27,7 +27,7 @@ function DisconnectModal({ isDisconnecting, setIsDisconnecting, disconnect }) {
         </View>),
         (<CustomButton
           key={3}
-          title={<Text style={[DefaultTheme.fonts.bodyLarge, { color: 'white', height: 23 }]}>Se déconnecter</Text>}
+          title={<Text style={[DefaultTheme.fonts.bodyLarge, { color: 'white', height: 25 }]}>Se déconnecter</Text>}
           onPress={disconnect}
           rightIcon={<ChevronRightIcon size={30} color={'white'}/>}
           style={{
