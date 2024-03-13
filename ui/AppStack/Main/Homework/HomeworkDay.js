@@ -12,7 +12,7 @@ import AppData from "../../../../core/AppData";
 
 
 // Homework day
-function HomeworkDay({ accountID, day, exams, loadAtDisplay }) {
+function HomeworkDay({ accountID, day, exams, loadAtDisplay, openAllAtDisplay }) {
   const [manualRefreshing, setManualRefreshing] = useState(false);
 
   const [gettingSpecificHomeworks, setGettingSpecificHomeworks] = useState(false);
@@ -80,6 +80,7 @@ function HomeworkDay({ accountID, day, exams, loadAtDisplay }) {
           specificHomework={specificHomeworks[exam.id] ?? {}}
           loadSpecificHomework={loadSpecificHomework}
           isAlreadyLoading={gettingSpecificHomeworks}
+          openAtDisplay={openAllAtDisplay}
         />
       ))}
 

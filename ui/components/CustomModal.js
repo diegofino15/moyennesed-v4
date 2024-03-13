@@ -22,7 +22,6 @@ function CustomModal({
   onlyShowBackButtonOnAndroid=false,
   isBackButtonInScrollView=false,
   showScrollView=true,
-  extraHeight=0,
 }) {
   return (
     <View style={{
@@ -59,7 +58,7 @@ function CustomModal({
             ...style,
           }} showsVerticalScrollIndicator={false}>
             {children}
-            <View style={{ height: 50 }}/> 
+            <View style={{ height: 100 }}/> 
           </ScrollView>
         ) : {...children}}
         {childrenOutsideScrollView}

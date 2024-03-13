@@ -27,11 +27,11 @@ function SubjectPage({
   route,
   navigation,
 }) {
-  const { accountID, periodID, subjectID, subSubjectID, openMarkID } = route.params;
+  const { accountID, periodID, subjectID, subSubjectID, openMarkID, cacheSubject } = route.params;
 
-  // Used for sub subjects
+  // Refresh the shown subject in case of marks refresh
   const [mainSubject, setMainSubject] = useState({}); // Only used for subSubjects
-  const [shownSubject, setShownSubject, shownSubjectRef] = useState({});
+  const [shownSubject, setShownSubject, shownSubjectRef] = useState(cacheSubject);
   const [marks, setMarks] = useState(null);
   useEffect(() => {
     AsyncStorage.getItem("marks").then(async (data) => {

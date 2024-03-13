@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
-import { View } from "react-native";
+import { View, Dimensions } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import HomeworkDay from "./HomeworkDay";
 import CustomModal from "../../../components/CustomModal";
+import CustomSeparator from "../../../components/CustomSeparator";
 
 // Exam page
 function ExamPage({ globalDisplayUpdater, navigation, route }) {
@@ -41,19 +42,29 @@ function ExamPage({ globalDisplayUpdater, navigation, route }) {
       title={`Contrôles - ${subjectTitle}`}
       goBackFunction={() => navigation.pop()}
       onlyShowBackButtonOnAndroid
-      extraHeight={200}
       goBackButtonStyle={{ opacity: 0.6 }}
       headerStyle={{ backgroundColor: DefaultTheme.colors.error }}
       children={(
         <View>
-          {Object.keys(abstractHomeworks).map(day => (
-            <HomeworkDay
-              key={day}
-              accountID={accountID}
-              day={day}
-              exams={abstractHomeworks[day]}
-              loadAtDisplay={true}
-            />
+          {Object.keys(abstractHomeworks).map((day, index) => (
+            <View key={day}>
+              <HomeworkDay
+                accountID={accountID}
+                day={day}
+                exams={abstractHomeworks[day]}
+                loadAtDisplay={true}
+                openAllAtDisplay={true}
+              />
+              {index < Object.keys(abstractHomeworks).length - 1 && (
+                <CustomSeparator style={{
+                  backgroundColor: DefaultTheme.colors.surfaceOutline,
+                  left: -10,
+                  width: Dimensions.get('window').width - 20,
+                  marginTop: 50,
+                  marginBottom: 50,
+                }}/>
+              )}
+            </View>
           ))}
         </View>
       )}

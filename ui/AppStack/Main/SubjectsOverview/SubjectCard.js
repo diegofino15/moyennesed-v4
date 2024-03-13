@@ -25,6 +25,7 @@ function EmbeddedSubjectCard({
       periodID: subject.periodID,
       subjectID: subject.id,
       subSubjectID: subject.subID,
+      cacheSubject: subject,
     });
   }
 

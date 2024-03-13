@@ -122,6 +122,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
           subjectID: null,
           subSubjectID: null,
           openMarkID: null,
+          cacheSubject: {},
         }}
       >
         {(props) => <SubjectStack
@@ -155,7 +156,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
 }
 
 function SubjectStack({ globalDisplayUpdater, updateGlobalDisplay, route }) {
-  const { accountID, periodID, subjectID, subSubjectID, openMarkID } = route.params;
+  const { accountID, periodID, subjectID, subSubjectID, openMarkID, cacheSubject } = route.params;
   
   return (
     <Stack.Navigator>
@@ -166,7 +167,7 @@ function SubjectStack({ globalDisplayUpdater, updateGlobalDisplay, route }) {
           headerShown: false,
           animation: 'fade_from_bottom',
         }}
-        initialParams={{ accountID, periodID, subjectID, subSubjectID, openMarkID }}
+        initialParams={{ accountID, periodID, subjectID, subSubjectID, openMarkID, cacheSubject }}
       >
         {(props) => <SubjectPage
           {...props}

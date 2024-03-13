@@ -58,6 +58,7 @@ function HomeworkCard({
   specificHomework,
   loadSpecificHomework,
   isAlreadyLoading,
+  openAtDisplay,
 }) {
   // Get subject
   const { light, dark } = ColorsHandler.getSubjectColors(abstractHomework.subjectID);
@@ -73,7 +74,7 @@ function HomeworkCard({
   }
 
   // Is expanded
-  const [wantsToOpen, setWantsToOpen] = useState(false);
+  const [wantsToOpen, setWantsToOpen] = useState(openAtDisplay);
   useEffect(() => {
     if (!isAlreadyLoading && specificHomework.todo && wantsToOpen) {
       setWantsToOpen(false);
