@@ -1,11 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import RNFS from "react-native-fs";
 import axios from "axios";
 
-var Buffer = require('buffer/').Buffer;
-import { htmlToText } from "html-to-text";
-import RNFS from "react-native-fs";
-
-import { capitalizeWords, getLatestDate } from "../util/Utils";
+import { capitalizeWords, getLatestDate, parseHtmlData } from "../util/Utils";
 import ColorsHandler from "../util/ColorsHandler";
 
 
@@ -1267,8 +1264,8 @@ class AppData {
       const finalHomework = {
         id: homework.id,
         givenBy: homework.nomProf,
-        todo: this.parseHtmlData(homework.aFaire.contenu),
-        sessionContent: this.parseHtmlData(homework.aFaire.contenuDeSeance.contenu),
+        todo: parseHtmlData(homework.aFaire.contenu),
+        sessionContent: parseHtmlData(homework.aFaire.contenuDeSeance.contenu),
         files: homework.aFaire.documents.map(document => {
           return {
             id: document.id,
@@ -1323,11 +1320,6 @@ class AppData {
     );
 
     return (status == 1) ? done : !done;
-  }
-  static parseHtmlData(data) {
-    let binaryData = Buffer.from(data, 'base64').toString('binary');
-    let utf8Data = decodeURIComponent(escape(binaryData));
-    return htmlToText(utf8Data);
   }
   static async downloadHomeworkFile(accountID, file) {
     // Get login token

@@ -1,4 +1,6 @@
 import { Linking, Alert } from "react-native";
+import { htmlToText } from "html-to-text";
+var Buffer = require('buffer/').Buffer;
 
 
 async function openLink(link) {
@@ -87,4 +89,10 @@ function asyncExpectedResult(func, onFinish, expectedResult) {
   func().then(onFinish);
 }
 
-export { openLink, wait, capitalizeWords, formatDate, formatDate2, formatDate3, formatAverage, formatMark, getLatestDate, asyncExpectedResult };
+function parseHtmlData(data) {
+  let binaryData = Buffer.from(data, 'base64').toString('binary');
+  let utf8Data = decodeURIComponent(escape(binaryData));
+  return htmlToText(utf8Data);
+}
+
+export { openLink, wait, capitalizeWords, formatDate, formatDate2, formatDate3, formatAverage, formatMark, getLatestDate, asyncExpectedResult, parseHtmlData };
