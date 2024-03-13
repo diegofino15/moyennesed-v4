@@ -27,7 +27,7 @@ function SubjectPage({
   route,
   navigation,
 }) {
-  const { accountID, periodID, subjectID, subSubjectID, openMarkID, cacheSubject } = route.params;
+  const { accountID, cacheSubject, cacheMark } = route.params;
 
   // Refresh the shown subject in case of marks refresh
   const [mainSubject, setMainSubject] = useState({}); // Only used for subSubjects
@@ -38,39 +38,40 @@ function SubjectPage({
       var cacheData = {};
       if (data) { cacheData = JSON.parse(data); }
       if (accountID in cacheData) {
-        if (subSubjectID) {
-          setShownSubject(cacheData[accountID].data[periodID].subjects[subjectID].subSubjects[subSubjectID]);
-          setMainSubject(cacheData[accountID].data[periodID].subjects[subjectID]);
-        } else { setShownSubject(cacheData[accountID].data[periodID].subjects[subjectID]); }
+        if (shownSubject.subID) {
+          setShownSubject(cacheData[accountID].data[shownSubject.periodID].subjects[shownSubject.id].subSubjects[shownSubject.subID]);
+          setMainSubject(cacheData[accountID].data[shownSubject.periodID].subjects[shownSubject.id]);
+        } else { setShownSubject(cacheData[accountID].data[shownSubject.periodID].subjects[shownSubject.id]); }
 
         let tempMarks = {};
-        for (let markID of shownSubjectRef.current.sortedMarks) { tempMarks[markID] = cacheData[accountID].data[periodID].marks[markID]; }
+        for (let markID of shownSubjectRef.current.sortedMarks) { tempMarks[markID] = cacheData[accountID].data[shownSubject.periodID].marks[markID]; }
         setMarks(tempMarks);
       }
     });
   }, [globalDisplayUpdater]);
 
   // Open mark details
-  function openMarkDetails(markID) {
+  function openMarkDetails(mark) {
     navigation.navigate("MarkPage", {
       accountID,
-      mark: marks[markID],
+      cacheMark: mark,
     });
   }
+  // Auto-open mark details (on recent mark click)
   const [hasRedirected, setHasRedirected] = useState(false);
   useEffect(() => {
     if (hasRedirected) { return; }
-    if (openMarkID && Object.keys(marks ?? {}).length > 0) {
-      openMarkDetails(openMarkID);
+    if (cacheMark) {
+      openMarkDetails(cacheMark);
       setHasRedirected(true);
     }
   }, [marks]);
 
   // Get subject colors
-  const { light, dark } = ColorsHandler.getSubjectColors(subjectID);
+  const { light, dark } = ColorsHandler.getSubjectColors(shownSubject.id);
   const [showChangeColorModal, setShowChangeColorModal] = useState(false);
   function resetColor() {
-    ColorsHandler.resetSubjectColors(subjectID);
+    ColorsHandler.resetSubjectColors(shownSubject.id);
     updateGlobalDisplay();
     HapticsHandler.vibrate("light");
   }
@@ -183,7 +184,7 @@ function SubjectPage({
                   height: 22,
                 }]}>Couleur</Text>
               </PressableScale>
-              {ColorsHandler.isSubjectCustom(subjectID) && (
+              {ColorsHandler.isSubjectCustom(shownSubject.id) && (
                 <PressableScale style={{
                   marginLeft: 5,
                   borderWidth: 2,
@@ -341,8 +342,8 @@ function SubjectPage({
                     Object.keys(shownSubject.subSubjects).length > 0 &&
                     shownSubject.subSubjects[marks[markID].subSubjectID].title
                   }
-                  openMarkDetails={() => openMarkDetails(markID)}
-                  outline={markID == openMarkID}
+                  openMarkDetails={() => openMarkDetails(marks[markID])}
+                  outline={markID == cacheMark?.id}
                 />
               ))}
           </View>
@@ -353,7 +354,7 @@ function SubjectPage({
           {/* Color picker modal */}
           {showChangeColorModal && (
             <SubjectColorPicker
-              subjectID={subjectID}
+              subjectID={shownSubject.id}
               visible={showChangeColorModal}
               exitModal={() => setShowChangeColorModal(false)}
               initialValue={dark}

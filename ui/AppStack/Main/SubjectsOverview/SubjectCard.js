@@ -22,9 +22,6 @@ function EmbeddedSubjectCard({
   function openSubjectPage() {
     navigation.navigate("SubjectStack", {
       accountID,
-      periodID: subject.periodID,
-      subjectID: subject.id,
-      subSubjectID: subject.subID,
       cacheSubject: subject,
     });
   }

@@ -38,6 +38,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         />}
       </Stack.Screen>
 
+      {/* Info pages */}
       <Stack.Screen
         name="MarksInformationPage"
         options={{
@@ -54,7 +55,6 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
           globalDisplayUpdater={globalDisplayUpdater}
         />}
       </Stack.Screen>
-
       <Stack.Screen
         name="HomeworkInformationPage"
         options={{
@@ -72,6 +72,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         />}
       </Stack.Screen>
 
+      {/* Homeworks */}
       <Stack.Screen
         name="HomeworksPage"
         options={{
@@ -90,6 +91,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         />}
       </Stack.Screen>
       
+      {/* Exams */}
       <Stack.Screen
         name="ExamPage"
         options={{
@@ -109,6 +111,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         />}
       </Stack.Screen>
 
+      {/* Subjects */}
       <Stack.Screen
         name="SubjectStack"
         options={{
@@ -118,11 +121,8 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         }}
         initialParams={{
           accountID: 0,
-          periodID: null,
-          subjectID: null,
-          subSubjectID: null,
-          openMarkID: null,
           cacheSubject: {},
+          cacheMark: null,
         }}
       >
         {(props) => <SubjectStack
@@ -132,6 +132,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         />}
       </Stack.Screen>
 
+      {/* SubjectGroups */}
       <Stack.Screen
         name="SubjectGroupPage"
         options={{
@@ -141,8 +142,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         }}
         initialParams={{
           accountID: 0,
-          periodID: null,
-          subjectGroupID: null,
+          cacheSubjectGroup: {},
         }}
       >
         {(props) => <SubjectGroupPage
@@ -156,7 +156,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
 }
 
 function SubjectStack({ globalDisplayUpdater, updateGlobalDisplay, route }) {
-  const { accountID, periodID, subjectID, subSubjectID, openMarkID, cacheSubject } = route.params;
+  const { accountID, cacheSubject, cacheMark } = route.params;
   
   return (
     <Stack.Navigator>
@@ -167,7 +167,7 @@ function SubjectStack({ globalDisplayUpdater, updateGlobalDisplay, route }) {
           headerShown: false,
           animation: 'fade_from_bottom',
         }}
-        initialParams={{ accountID, periodID, subjectID, subSubjectID, openMarkID, cacheSubject }}
+        initialParams={{ accountID, cacheSubject, cacheMark }}
       >
         {(props) => <SubjectPage
           {...props}
@@ -178,13 +178,18 @@ function SubjectStack({ globalDisplayUpdater, updateGlobalDisplay, route }) {
 
       <Stack.Screen
         name="MarkPage"
-        component={MarkPage}
         options={{
           headerShown: false,
           animation: 'slide_from_right',
         }}
-        initialParams={{ accountID, mark: null }}
-      />
+        initialParams={{ accountID, cacheMark }}
+      >
+        {(props) => <MarkPage
+          {...props}
+          globalDisplayUpdater={globalDisplayUpdater}
+          updateGlobalDisplay={updateGlobalDisplay}
+        />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }

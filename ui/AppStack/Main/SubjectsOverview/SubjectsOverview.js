@@ -54,7 +54,7 @@ function SubjectsOverview({
               alignItems: "center",
               justifyContent: "space-between",
               marginVertical: 5,
-            }} onPress={() => navigation.navigate("SubjectGroupPage", { accountID, periodID: periods[selectedPeriod].id, subjectGroupID })}>
+            }} onPress={() => navigation.navigate("SubjectGroupPage", { accountID, cacheSubjectGroup: subjectGroup })}>
               <Text style={[DefaultTheme.fonts.labelLarge, { fontFamily: 'Text-Medium', height: 25 }]}>{subjectGroup.title}</Text>
               <View style={{
                 flexDirection: 'row',

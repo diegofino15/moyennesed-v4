@@ -35,10 +35,8 @@ function RecentMarkCard({ accountID, mark, getSubject, navigation }) {
   function openMarkDetails() {
     navigation.navigate("SubjectStack", {
       accountID,
-      periodID: mark.periodID,
-      subjectID: mark.subjectID,
-      subSubjectID: mark.subSubjectID,
-      openMarkID: mark.id,
+      cacheSubject: mark.subSubjectID ? getSubject().subSubjects[mark.subSubjectID] : getSubject(),
+      cacheMark: mark,
     });
   }
 
