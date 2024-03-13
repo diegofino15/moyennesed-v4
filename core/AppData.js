@@ -1308,7 +1308,7 @@ class AppData {
     const status = await this.parseEcoleDirecte(
       "mark homework as done",
       accountID,
-      `https://api.ecoledirecte.com/v3/Eleves/${accountID}/cahierdetexte.awp`,
+      `${this.USED_URL}/v3/Eleves/${accountID}/cahierdetexte.awp`,
       `data=${JSON.stringify({
         idDevoirsEffectues: done ? [homeworkID] : [],
         idDevoirsNonEffectues: done ? [] : [homeworkID],
@@ -1336,7 +1336,7 @@ class AppData {
 
     console.log(`Downloading ${file.title}...`);
 
-    const url = `https://api.ecoledirecte.com/v3/telechargement.awp?verbe=get&fichierId=${file.id}&leTypeDeFichier=${file.fileType}&v=4`;
+    const url = `${this.USED_URL}/v3/telechargement.awp?verbe=get&fichierId=${file.id}&leTypeDeFichier=${file.fileType}&v=4`;
     const localFile = `${RNFS.DocumentDirectoryPath}/${file.title}`;
 
     return {
