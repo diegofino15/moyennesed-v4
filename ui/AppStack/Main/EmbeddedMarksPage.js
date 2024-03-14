@@ -112,7 +112,7 @@ function EmbeddedMarksPage({
       <MarksOverview
         accountID={showMarksAccount.id}
         selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod}
-        setLatestCurrentPeriod={setLatestCurrentPeriod}
+        latestCurrentPeriod={latestCurrentPeriod} setLatestCurrentPeriod={setLatestCurrentPeriod}
         
         isLoading={isConnecting || gettingMarksForID[showMarksAccount.id]}
         gotMarks={gotMarksForID[showMarksAccount.id]}

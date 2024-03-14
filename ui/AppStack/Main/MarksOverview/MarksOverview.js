@@ -15,7 +15,7 @@ import RecentMarkCard from "./RecentMarkCard";
 function MarksOverview({
   accountID,
   selectedPeriod, setSelectedPeriod,
-  setLatestCurrentPeriod,
+  latestCurrentPeriod, setLatestCurrentPeriod,
 
   isLoading,
   gotMarks,
@@ -35,14 +35,13 @@ function MarksOverview({
         setPeriods(cacheData[accountID].data);
 
         // Choose period that isn't finished
-        if (!selectedPeriod || !periodsRef.current[selectedPeriod]) {
-          let shownPeriod = 0;
-          Object.values(periodsRef.current).forEach(period => {
-            if (period.isFinished) { shownPeriod += 1; }
-          })
-          if (shownPeriod == Object.keys(periodsRef.current).length) { shownPeriod -= 1; }
-          setSelectedPeriod(Object.keys(periodsRef.current)[shownPeriod]);
-          setLatestCurrentPeriod(Object.keys(periodsRef.current)[shownPeriod]);
+        let shownPeriod = 0;
+        Object.values(periodsRef.current).forEach(period => { if (period.isFinished) { shownPeriod += 1; } })
+        if (shownPeriod == Object.keys(periodsRef.current).length) { shownPeriod -= 1; }
+        let newSelectedPeriod = Object.keys(periodsRef.current)[shownPeriod];
+        if (latestCurrentPeriod != newSelectedPeriod) {
+          setSelectedPeriod(newSelectedPeriod);
+          setLatestCurrentPeriod(newSelectedPeriod);
         }
       } else { setPeriods({}); }
     });

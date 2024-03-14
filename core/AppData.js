@@ -1264,16 +1264,16 @@ class AppData {
       const finalHomework = {
         id: homework.id,
         givenBy: homework.nomProf,
-        todo: parseHtmlData(homework.aFaire.contenu),
-        sessionContent: parseHtmlData(homework.aFaire.contenuDeSeance.contenu),
-        files: homework.aFaire.documents.map(document => {
+        todo: parseHtmlData(homework.aFaire?.contenu),
+        sessionContent: parseHtmlData(homework.aFaire?.contenuDeSeance?.contenu),
+        files: homework.aFaire?.documents?.map(document => {
           return {
             id: document.id,
             title: document.libelle,
             size: document.taille,
             fileType: document.type,
           };
-        }),
+        }) ?? [],
       };
       cacheData[accountID].homeworks[homework.id] = finalHomework;
       cacheData[accountID].days[day] ??= { homeworkIDs: [] };

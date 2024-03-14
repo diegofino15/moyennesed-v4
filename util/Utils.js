@@ -90,6 +90,7 @@ function asyncExpectedResult(func, onFinish, expectedResult) {
 }
 
 function parseHtmlData(data) {
+  if (!data) { return ""; }
   let binaryData = Buffer.from(data, 'base64').toString('binary');
   let utf8Data = decodeURIComponent(escape(binaryData));
   return htmlToText(utf8Data);
