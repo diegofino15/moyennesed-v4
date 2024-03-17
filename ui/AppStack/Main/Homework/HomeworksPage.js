@@ -52,50 +52,7 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
     <View style={{
       backgroundColor: DefaultTheme.colors.backdrop,
     }}>
-      <BlurView style={{
-        width: Dimensions.get('window').width,
-        padding: 20,
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        height: Constants.statusBarHeight + 50,
-        zIndex: 1,
-      }} tint="light" intensity={50}>
-        <Text style={[DefaultTheme.fonts.titleSmall, { height: 26 }]}>Prochains devoirs</Text>
-
-        {/* Go back button */}
-        <PressableScale style={{
-          position: 'absolute',
-          left: 22.5,
-          bottom: 10,
-          borderWidth: 2,
-          borderColor: DefaultTheme.colors.surfaceOutline,
-          backgroundColor: DefaultTheme.colors.surface,
-          padding: 5,
-          borderRadius: 10,
-        }} onPress={() => navigation.pop()}>
-          <ChevronLeftIcon size={30} color={DefaultTheme.colors.onSurface}/>
-        </PressableScale>
-
-        {/* Refresh button */}
-        <PressableScale style={{
-          position: 'absolute',
-          right: 22.5,
-          bottom: 10,
-          borderWidth: 2,
-          borderColor: DefaultTheme.colors.surfaceOutline,
-          backgroundColor: DefaultTheme.colors.surface,
-          padding: 5,
-          borderRadius: 10,
-        }} onPress={refreshNextExams}>
-          {refreshing || isConnecting ? (
-            <ActivityIndicator size={30} color={DefaultTheme.colors.onSurface}/>
-          ) : !isConnected ? (
-            <AlertTriangleIcon size={25} color={DefaultTheme.colors.error}/>
-          ) : (
-            <RefreshCcwIcon size={25} color={DefaultTheme.colors.onSurface} style={{ margin: 2.5 }}/>
-          )}
-        </PressableScale>
-      </BlurView>
+      <View style={{ height: Constants.statusBarHeight + 50 }}/>
       
       {/* Homeworks */}
       <ScrollView style={{
@@ -140,6 +97,53 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
           </View>
         ))}
       </ScrollView>
+
+      {/* Header */}
+      <BlurView style={{
+        position: 'absolute',
+        width: Dimensions.get('window').width,
+        padding: 20,
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        height: Constants.statusBarHeight + 50,
+        zIndex: 1,
+      }} tint="light" intensity={50}>
+        <Text style={[DefaultTheme.fonts.titleSmall, { height: 26 }]}>Prochains devoirs</Text>
+
+        {/* Go back button */}
+        <PressableScale style={{
+          position: 'absolute',
+          left: 22.5,
+          bottom: 10,
+          borderWidth: 2,
+          borderColor: DefaultTheme.colors.surfaceOutline,
+          backgroundColor: DefaultTheme.colors.surface,
+          padding: 5,
+          borderRadius: 10,
+        }} onPress={() => navigation.pop()}>
+          <ChevronLeftIcon size={30} color={DefaultTheme.colors.onSurface}/>
+        </PressableScale>
+
+        {/* Refresh button */}
+        <PressableScale style={{
+          position: 'absolute',
+          right: 22.5,
+          bottom: 10,
+          borderWidth: 2,
+          borderColor: DefaultTheme.colors.surfaceOutline,
+          backgroundColor: DefaultTheme.colors.surface,
+          padding: 5,
+          borderRadius: 10,
+        }} onPress={refreshNextExams}>
+          {refreshing || isConnecting ? (
+            <ActivityIndicator size={30} color={DefaultTheme.colors.onSurface}/>
+          ) : !isConnected ? (
+            <AlertTriangleIcon size={25} color={DefaultTheme.colors.error}/>
+          ) : (
+            <RefreshCcwIcon size={25} color={DefaultTheme.colors.onSurface} style={{ margin: 2.5 }}/>
+          )}
+        </PressableScale>
+      </BlurView>
     </View>
   );
 }
