@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Text, ActivityIndicator, View, Dimensions, ScrollView, RefreshControl } from "react-native";
+import { Text, ActivityIndicator, View, Dimensions, ScrollView, RefreshControl, Platform } from "react-native";
 import { AlertTriangleIcon, RefreshCcwIcon, ChevronLeftIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
@@ -60,7 +60,7 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
         height: Constants.statusBarHeight + 50,
         zIndex: 1,
       }} tint="light" intensity={50}>
-        <Text style={DefaultTheme.fonts.titleSmall}>Prochains devoirs</Text>
+        <Text style={[DefaultTheme.fonts.titleSmall, { height: 26 }]}>Prochains devoirs</Text>
 
         {/* Go back button */}
         <PressableScale style={{
@@ -101,7 +101,7 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
       <ScrollView style={{
         backgroundColor: DefaultTheme.colors.backdrop,
         padding: 20,
-        height: Dimensions.get('window').height - Constants.statusBarHeight - 150,
+        height: Dimensions.get('window').height - Constants.statusBarHeight - 50,
         overflow: 'visible',
         zIndex: 0,
       }} refreshControl={(
@@ -129,80 +129,18 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
               exams={abstractHomeworks[day]}
               canLoad={isConnected && !isConnecting}
             />
-            {index != Object.keys(abstractHomeworks).length - 1 && (
+            {index != Object.keys(abstractHomeworks).length - 1 ? (
               <CustomSeparator style={{
                 backgroundColor: DefaultTheme.colors.surfaceOutline,
                 left: -10,
                 width: Dimensions.get('window').width - 20,
                 marginVertical: 30,
               }}/>
-            )}
+            ) : <View style={{ height: 100 }}/>}
           </View>
         ))}
       </ScrollView>
-
-      <View style={{ backgroundColor: DefaultTheme.colors.backdrop, height: 100, zIndex: -1 }}/>
     </View>
-    
-    /*
-    <CustomModal
-      title={"Prochains devoirs"}
-      goBackFunction={() => navigation.pop()}
-      onlyShowBackButtonOnAndroid
-      rightIconOnPress={refreshNextExams}
-      rightIcon={refreshing ? (
-        <ActivityIndicator size={30} color={DefaultTheme.colors.onSurfaceDisabled}/>
-      ) : (
-        <RefreshCcwIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled} style={{ margin: 2.5 }}/>
-      )}
-      goBackButtonStyle={{ opacity: 0.6 }}
-      showScrollView={false}
-      children={(
-        <View style={{ backgroundColor: DefaultTheme.colors.backdrop, width: '100%', height: '100%' }}>
-          {errorGettingHomework && (
-            <CustomInformationCard
-              icon={<AlertTriangleIcon size={25} color={DefaultTheme.colors.error}/>}
-              title={"Une erreur s'est produite"}
-              description={"Impossible de récupérer les devoirs, vérifiez votre connexion internet."}
-              error
-              style={{ margin: 20 }}
-            />
-          )}
-          
-          {Object.keys(abstractHomeworks).length > 0 ? (
-            <FlatList
-              style={{ padding: 20 }}
-              showsVerticalScrollIndicator={false}
-              data={Object.keys(abstractHomeworks)}
-              renderItem={({ item, index }) => (
-                <View style={{
-                  marginBottom: index == Object.keys(abstractHomeworks).length - 1 ? 300 : 0,
-                }}>
-                  <HomeworkDay
-                    key={item}
-                    accountID={accountID}
-                    day={item}
-                    exams={abstractHomeworks[item]}
-                  />
-                </View>
-              )}
-              ItemSeparatorComponent={(
-                <CustomSeparator style={{
-                  backgroundColor: DefaultTheme.colors.surfaceOutline,
-                  left: -10,
-                  width: Dimensions.get('window').width - 20,
-                  marginTop: 50,
-                  marginBottom: 50,
-                }}/>
-              )}
-            />
-          ) : (
-            <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'center', marginTop: '50%' }]}>Aucun devoir pour le moment.</Text>
-          )}
-        </View>
-      )}
-    />
-    */
   );
 }
 

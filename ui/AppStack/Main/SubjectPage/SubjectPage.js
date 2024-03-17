@@ -123,9 +123,9 @@ function SubjectPage({
       headerStyle={{ backgroundColor: dark }}
       titleStyle={{ color: "black" }}
       extraHeight={200}
-      style={{ padding: 0 }}
+      style={{ paddingVertical: 0 }}
       children={
-        <View>
+        <View style={{ backgroundColor: DefaultTheme.colors.backdrop }}>
           {/* Top portion */}
           <View style={{ paddingTop: 20 }}>
             {/* Average & Evolution */}
@@ -143,6 +143,7 @@ function SubjectPage({
                 alignItems: "center",
                 marginBottom: 20,
                 width: Dimensions.get("window").width,
+                left: -20,
               }}>
                 <Text style={[DefaultTheme.fonts.headlineLarge, {
                   fontSize: 45,
@@ -166,7 +167,7 @@ function SubjectPage({
             <View style={{
               position: "absolute",
               top: 10,
-              left: 10,
+              left: -10,
               flexDirection: "row",
               alignItems: "center",
             }}>
@@ -202,7 +203,7 @@ function SubjectPage({
               <View style={{
                 position: "absolute",
                 top: 10,
-                right: 10,
+                right: -10,
                 flexDirection: "row",
                 alignItems: "center",
               }}>
@@ -289,7 +290,7 @@ function SubjectPage({
             borderBottomRightRadius: 0,
             borderBottomWidth: 0,
             width: Dimensions.get("window").width + 4,
-            left: -2,
+            left: -22,
           }}>
             {/* Coefficient */}
             <CustomSimpleInformationCard

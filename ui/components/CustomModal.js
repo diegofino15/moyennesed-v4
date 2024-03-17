@@ -3,6 +3,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 import { ChevronLeftIcon } from "lucide-react-native";
 import Constants from "expo-constants";
+import { BlurView } from "expo-blur";
 
 
 // Custom modal
@@ -13,6 +14,7 @@ function CustomModal({
   children,
   childrenOutsideScrollView,
   style,
+  horizontalPadding=20,
   titleStyle,
   headerStyle,
   goBackButtonStyle,
@@ -27,14 +29,17 @@ function CustomModal({
     <View style={{
       backgroundColor: DefaultTheme.colors.backdrop,
       height: '100%',
+      overflow: 'hidden',
     }}>
       <View style={{
-        marginTop: Platform.select({ ios: 0, android: 20 }),
+        marginTop: Platform.select({ ios: 0, android: Constants.statusBarHeight }),
         backgroundColor: DefaultTheme.colors.backdrop,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        ...headerStyle,
       }}>
         {/* Header */}
-        {(title || titleObject) && <View style={{
-          backgroundColor: DefaultTheme.colors.surface,
+        {(title || titleObject) && <BlurView style={{
           borderBottomWidth: 2,
           borderColor: DefaultTheme.colors.surfaceOutline,
           borderTopLeftRadius: 10,
@@ -44,11 +49,13 @@ function CustomModal({
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          ...headerStyle,
-        }}>
+          zIndex: 1,
+          overflow: 'hidden',
+          ...(Platform.select({ ios: {}, android: headerStyle }))
+        }} tint="light" intensity={Platform.select({ ios: 50, android: 0 })}>
           <View style={{ height: 45 }}/>
           {titleObject ? titleObject : <Text style={[DefaultTheme.fonts.titleSmall, { height: 30, ...titleStyle }]}>{title}</Text>}
-        </View>}
+        </BlurView>}
 
         {/* Main view */}
         {showScrollView ? (
@@ -56,10 +63,14 @@ function CustomModal({
             backgroundColor: DefaultTheme.colors.backdrop,
             width: '100%',
             height: Dimensions.get('window').height - Constants.statusBarHeight - (title || titleObject ? 70 : 0),
-            padding: 20,
+            paddingVertical: 20,
+            overflow: Platform.select({ ios: 'visible', android: 'hidden' }),
+            zIndex: 0,
             ...style,
           }} showsVerticalScrollIndicator={false}>
-            {children}
+            <View style={{ paddingHorizontal: horizontalPadding, backgroundColor: DefaultTheme.colors.backdrop }}>
+              {children}
+            </View>
             <View style={{ height: 100 }}/> 
           </ScrollView>
         ) : {...children}}
@@ -75,6 +86,7 @@ function CustomModal({
           backgroundColor: DefaultTheme.colors.surface,
           padding: 5,
           borderRadius: 10,
+          zIndex: 1,
           ...goBackButtonStyle,
         }} onPress={goBackFunction}>
           <ChevronLeftIcon size={30} color={DefaultTheme.colors.onSurface}/>
@@ -90,6 +102,7 @@ function CustomModal({
           backgroundColor: DefaultTheme.colors.surface,
           padding: 5,
           borderRadius: 10,
+          zIndex: 1,
           ...rightIconStyle,
         }} onPress={rightIconOnPress}>
           {rightIcon}

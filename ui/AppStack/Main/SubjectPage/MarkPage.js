@@ -34,7 +34,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
       goBackButtonStyle={{ opacity: 0.6 }}
       title={"Détails de la note"}
       children={(
-        <View>
+        <View style={{ backgroundColor: DefaultTheme.colors.backdrop }}>
           <Text style={DefaultTheme.fonts.labelLarge}>{mark.title}</Text>
         </View>
       )}

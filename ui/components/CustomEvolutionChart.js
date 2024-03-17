@@ -91,7 +91,7 @@ function CustomEvolutionChart({ listOfValues, showClassValues, color, lightColor
         ),
       } : { data: [{x: 0, y: listOfValues?.at(0)?.value ?? 0}] }]}
       height={height}
-      width={Dimensions.get('window').width - 20}
+      width={Dimensions.get('window').width - 30}
     />
   );
 }

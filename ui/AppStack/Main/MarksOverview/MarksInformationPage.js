@@ -23,7 +23,8 @@ function MarksInformationPage({ globalDisplayUpdater, navigation, route }) {
   return (
     <CustomModal
       goBackFunction={() => navigation.pop()}
-      style={{ padding: 0 }}
+      style={{ paddingVertical: 0 }}
+      horizontalPadding={0}
       children={(
         <View>
           {/* Animation and title */}

@@ -45,7 +45,7 @@ function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, navigation,
       goBackButtonStyle={{ opacity: 0.6 }}
       headerStyle={{ backgroundColor: DefaultTheme.colors.error }}
       children={(
-        <View>
+        <View style={{ backgroundColor: DefaultTheme.colors.backdrop }}>
           {Object.keys(abstractHomeworks).map((day, index) => (
             <View key={day}>
               <HomeworkDay
