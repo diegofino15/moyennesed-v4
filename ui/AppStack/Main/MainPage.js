@@ -52,7 +52,7 @@ function MainPage({ refreshLogin, isConnected, isConnecting, globalDisplayUpdate
       refreshControl={
         <RefreshControl refreshing={manualRefreshing} onRefresh={() => {
           setManualRefreshing(true);
-          AsyncStorage.removeItem("specific-homework");
+          AppData.eraseCacheData();
           HapticsHandler.vibrate("light");
         }} tintColor={DefaultTheme.colors.onBackground}/>
       }

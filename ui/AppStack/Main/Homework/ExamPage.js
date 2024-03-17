@@ -52,16 +52,15 @@ function ExamPage({ globalDisplayUpdater, navigation, route }) {
                 accountID={accountID}
                 day={day}
                 exams={abstractHomeworks[day]}
-                loadAtDisplay={true}
-                openAllAtDisplay={true}
+                loadAtDisplay
+                openAllAtDisplay
               />
               {index < Object.keys(abstractHomeworks).length - 1 && (
                 <CustomSeparator style={{
                   backgroundColor: DefaultTheme.colors.surfaceOutline,
                   left: -10,
                   width: Dimensions.get('window').width - 20,
-                  marginTop: 50,
-                  marginBottom: 50,
+                  marginVertical: 30,
                 }}/>
               )}
             </View>

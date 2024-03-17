@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { View, Text, Dimensions, ActivityIndicator } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
-import { CheckCircleIcon, ChevronDownIcon, ChevronUpIcon, CircleIcon, DownloadIcon, FileIcon } from "lucide-react-native";
+import { CheckCircleIcon, ChevronDownIcon, ChevronUpIcon, CircleIcon, DownloadIcon, ExternalLinkIcon, FileIcon } from "lucide-react-native";
 import Animated, { useAnimatedStyle, withTiming } from "react-native-reanimated";
 import FileViewer from "react-native-file-viewer";
+import RNFS from "react-native-fs";
 
 import CustomSeparator from "../../../components/CustomSeparator";
 import { formatDate2, asyncExpectedResult } from "../../../../util/Utils";
@@ -15,7 +16,6 @@ import ColorsHandler from "../../../../util/ColorsHandler";
 // Attachment
 function Attachment({ accountID, file }) {
   const [isDownloading, setIsDownloading] = useState(false);
-  
   async function openAttachment(file) {
     setIsDownloading(true);
     const { promise, localFile } = await AppData.downloadHomeworkFile(accountID, file);
@@ -24,6 +24,11 @@ function Attachment({ accountID, file }) {
       setIsDownloading(false);
     });
   }
+
+  const [fileExists, setFileExists] = useState(false);
+  useEffect(() => {
+    RNFS.exists(`${RNFS.DocumentDirectoryPath}/${file.title}`).then(setFileExists);
+  }, [isDownloading]);
   
   return (
     <PressableScale key={file.id} style={{
@@ -39,9 +44,13 @@ function Attachment({ accountID, file }) {
     }} onPress={() => openAttachment(file)}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <FileIcon size={20} color={DefaultTheme.colors.surfaceOutline} style={{ marginRight: 5 }}/>
-        <Text style={DefaultTheme.fonts.bodyMedium}>{file.title}</Text>
+        <Text style={[DefaultTheme.fonts.bodyMedium, {
+          width: Dimensions.get('window').width - 140,
+        }]}>{file.title}</Text>
       </View>
-      {isDownloading ? (
+      {fileExists ? (
+        <ExternalLinkIcon size={20} color={DefaultTheme.colors.onSurface}/>
+      ) : isDownloading ? (
         <ActivityIndicator size={20} color={DefaultTheme.colors.onSurface}/>
       ) : (
         <DownloadIcon size={20} color={DefaultTheme.colors.onSurface}/>
@@ -119,7 +128,27 @@ function HomeworkCard({
     <View style={{
       marginVertical: 5,
     }}>
+      {abstractHomework.isExam && (
+        <View style={{
+          fontFamily: "Text-Italic",
+          paddingHorizontal: 10,
+          marginLeft: 10,
+          borderWidth: 2,
+          borderBottomWidth: 0,
+          borderColor: DefaultTheme.colors.error,
+          position: 'absolute',
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
+          height: 30,
+        }}>
+          <Text style={[DefaultTheme.fonts.bodyMedium, {
+            color: DefaultTheme.colors.error,
+          }]}>CONTRÔLE</Text>
+        </View>
+      )}
+      
       <View style={{
+        marginTop: abstractHomework.isExam ? 23 : 0,
         flexDirection: 'row',
         alignItems: 'stretch',
         justifyContent: 'space-between',

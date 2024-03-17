@@ -12,7 +12,7 @@ import AppData from "../../../../core/AppData";
 
 
 // Homework day
-function HomeworkDay({ accountID, day, exams, loadAtDisplay, openAllAtDisplay }) {
+function HomeworkDay({ accountID, day, exams, loadAtDisplay=false, openAllAtDisplay=false }) {
   const [manualRefreshing, setManualRefreshing] = useState(false);
 
   const [gettingSpecificHomeworks, setGettingSpecificHomeworks] = useState(false);
@@ -66,7 +66,7 @@ function HomeworkDay({ accountID, day, exams, loadAtDisplay, openAllAtDisplay })
             )}
           </PressableScale>
         )}
-        marginTop={0}
+        marginTop={10}
         textAreaStyle={{ left: 0 }}
         viewStyle={{ marginRight: 12.5, marginBottom: 5 }}
         textStyle={DefaultTheme.fonts.labelLarge}

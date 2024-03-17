@@ -28,7 +28,7 @@ function InfoText({ subjectTitle, subSubjectTitle, date }) {
 
 
 // Recent mark card
-function RecentMarkCard({ accountID, mark, getSubject, navigation }) {
+function RecentMarkCard({ accountID, mark, getSubject, showNewLabel=false, navigation }) {
   const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
   
   // Open mark details
@@ -51,6 +51,7 @@ function RecentMarkCard({ accountID, mark, getSubject, navigation }) {
       borderColor: DefaultTheme.colors.surfaceOutline,
       flexDirection: 'row',
       alignItems: 'center',
+      marginTop: 7.5,
     }} onPress={openMarkDetails}>
       {/* Mark value */}
       <View style={{
@@ -96,6 +97,14 @@ function RecentMarkCard({ accountID, mark, getSubject, navigation }) {
           title={"Non significative"}
           color={DefaultTheme.colors.error}
           onBottom
+        />
+      )}
+
+      {/* Is new ? */}
+      {showNewLabel && (
+        <CustomTag
+          title={"NOUVEAU"}
+          color={DefaultTheme.colors.error}
         />
       )}
     </PressableScale>

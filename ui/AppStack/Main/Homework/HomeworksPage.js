@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { Text, FlatList, View, Dimensions } from "react-native";
+import { Text, ActivityIndicator, View, Dimensions, ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DefaultTheme } from "react-native-paper";
-import { ActivityIndicator } from 'react-native';
-import { AlertTriangleIcon, RefreshCcwIcon } from "lucide-react-native";
+import { AlertTriangleIcon, RefreshCcwIcon, ChevronLeftIcon } from "lucide-react-native";
+import { BlurView } from "expo-blur";
+import { PressableScale } from "react-native-pressable-scale";
+import Constants from "expo-constants";
 
 import HomeworkDay from "./HomeworkDay";
 import CustomInformationCard from "../../../components/CustomInformationCard";
@@ -46,6 +48,93 @@ function HomeworksPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, 
   }
 
   return (
+    <View style={{
+      backgroundColor: DefaultTheme.colors.backdrop,
+    }}>
+      <BlurView style={{
+        width: Dimensions.get('window').width,
+        padding: 15,
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        height: Constants.statusBarHeight + 50,
+        zIndex: 1,
+      }} tint="light" intensity={50}>
+        <Text style={DefaultTheme.fonts.titleSmall}>Prochains devoirs</Text>
+
+        {/* Go back button */}
+        <PressableScale style={{
+          position: 'absolute',
+          left: 22.5,
+          bottom: 10,
+          borderWidth: 2,
+          borderColor: DefaultTheme.colors.surfaceOutline,
+          backgroundColor: DefaultTheme.colors.surface,
+          padding: 5,
+          borderRadius: 10,
+        }} onPress={() => navigation.pop()}>
+          <ChevronLeftIcon size={30} color={DefaultTheme.colors.onSurface}/>
+        </PressableScale>
+
+        {/* Refresh button */}
+        <PressableScale style={{
+          position: 'absolute',
+          right: 22.5,
+          bottom: 10,
+          borderWidth: 2,
+          borderColor: DefaultTheme.colors.surfaceOutline,
+          backgroundColor: DefaultTheme.colors.surface,
+          padding: 5,
+          borderRadius: 10,
+        }} onPress={refreshNextExams}>
+          {refreshing ? (
+            <ActivityIndicator size={30} color={DefaultTheme.colors.onSurface}/>
+          ) : (
+            <RefreshCcwIcon size={25} color={DefaultTheme.colors.onSurface} style={{ margin: 2.5 }}/>
+          )}
+        </PressableScale>
+      </BlurView>
+      
+      {/* Homeworks */}
+      <ScrollView style={{
+        backgroundColor: DefaultTheme.colors.backdrop,
+        padding: 20,
+        height: Dimensions.get('window').height - Constants.statusBarHeight - 150,
+        overflow: 'visible',
+        zIndex: 0,
+      }}>
+        {errorGettingHomework && (
+          <CustomInformationCard
+            icon={<AlertTriangleIcon size={25} color={DefaultTheme.colors.error}/>}
+            title={"Une erreur s'est produite"}
+            description={"Impossible de récupérer les devoirs, vérifiez votre connexion internet."}
+            error
+            style={{ marginBottom: 30 }}
+          />
+        )}
+
+        {Object.keys(abstractHomeworks).map((day, index) => (
+          <View key={day}>
+            <HomeworkDay
+              accountID={accountID}
+              day={day}
+              exams={abstractHomeworks[day]}
+            />
+            {index != Object.keys(abstractHomeworks).length - 1 && (
+              <CustomSeparator style={{
+                backgroundColor: DefaultTheme.colors.surfaceOutline,
+                left: -10,
+                width: Dimensions.get('window').width - 20,
+                marginVertical: 30,
+              }}/>
+            )}
+          </View>
+        ))}
+      </ScrollView>
+
+      <View style={{ backgroundColor: DefaultTheme.colors.backdrop, height: 100, zIndex: -1 }}/>
+    </View>
+    
+    /*
     <CustomModal
       title={"Prochains devoirs"}
       goBackFunction={() => navigation.pop()}
@@ -103,6 +192,7 @@ function HomeworksPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, 
         </View>
       )}
     />
+    */
   );
 }
 

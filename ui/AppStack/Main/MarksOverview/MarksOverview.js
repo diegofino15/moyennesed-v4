@@ -24,6 +24,9 @@ function MarksOverview({
   globalDisplayUpdater,
   navigation,
 }) {
+  // List of marks present at first display, used to show new marks
+  const [firstDisplayMarks, setFirstDisplayMarks, firstDisplayMarksRef] = useState([]);
+
   // Get periods of student and choose which to display
   const [periods, setPeriods, periodsRef] = useState({});
   useEffect(() => {
@@ -42,6 +45,11 @@ function MarksOverview({
         if (latestCurrentPeriod != newSelectedPeriod) {
           setSelectedPeriod(newSelectedPeriod);
           setLatestCurrentPeriod(newSelectedPeriod);
+        }
+
+        // Save first display marks
+        if (firstDisplayMarksRef.current.length == 0) {
+          setFirstDisplayMarks(Object.keys(Object.values(periodsRef.current)[shownPeriod].marks));
         }
       } else { setPeriods({}); }
     });
@@ -111,8 +119,8 @@ function MarksOverview({
         </View>
       </View>
 
-      {/* Last marks */}
-      <Text style={[DefaultTheme.fonts.bodyLarge, { marginBottom: 5 }]}>Dernières notes</Text>
+      {/* Lastest marks */}
+      <Text style={[DefaultTheme.fonts.bodyLarge, { marginBottom: 0 }]}>Dernières notes</Text>
       {Object.keys(periods[selectedPeriod]?.marks || {}).length > 0 ? (
         <FlatList
           horizontal
@@ -120,14 +128,16 @@ function MarksOverview({
           showsHorizontalScrollIndicator={false}
           ItemSeparatorComponent={<View style={{ width: 10 }}/>}
           data={periods[selectedPeriod]?.sortedMarks.slice(0, 15)}
-          renderItem={({ item }) => (
+          renderItem={({ item }) => {
+            return (
             <RecentMarkCard
               accountID={accountID}
               mark={periods[selectedPeriod].marks[item]}
               getSubject={() => periods[selectedPeriod].subjects[periods[selectedPeriod].marks[item].subjectID]}
+              showNewLabel={selectedPeriod == latestCurrentPeriod && !firstDisplayMarks.includes(`${item}`)}
               navigation={navigation}
             />
-          )}
+          )}}
           style={{ paddingBottom: 10 }}
         />
       ) : (

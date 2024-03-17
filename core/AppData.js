@@ -1322,6 +1322,16 @@ class AppData {
     return (status == 1) ? done : !done;
   }
   static async downloadHomeworkFile(accountID, file) {
+    // Check if file already exists
+    const localFile = `${RNFS.DocumentDirectoryPath}/${file.title}`;
+    if (await RNFS.exists(localFile)) {
+      console.log(`File ${file.title} already exists, skipping...`);
+      return {
+        promise: Promise.resolve(),
+        localFile,
+      };
+    }
+    
     // Get login token
     const mainAccount = await this._getMainAccountOfAnyAccount(accountID);
     const token = mainAccount.connectionToken;
@@ -1329,7 +1339,6 @@ class AppData {
     console.log(`Downloading ${file.title}...`);
 
     const url = `${this.USED_URL}/v3/telechargement.awp?verbe=get&fichierId=${file.id}&leTypeDeFichier=${file.fileType}&v=4`;
-    const localFile = `${RNFS.DocumentDirectoryPath}/${file.title}`;
 
     return {
       promise: RNFS.downloadFile({
@@ -1427,6 +1436,18 @@ class AppData {
   }
   static async resetPreferences() {
     await AsyncStorage.multiRemove(["preferences", "customData"]);
+  }
+  static async eraseCacheData() {
+    await AsyncStorage.multiRemove([
+      "specific-homework",
+    ]);
+    RNFS.readDir(RNFS.DocumentDirectoryPath).then(files => {
+      files.forEach(file => {
+        if (file.isFile()) {
+          RNFS.unlink(file.path);
+        }
+      });
+    });
   }
 }
 

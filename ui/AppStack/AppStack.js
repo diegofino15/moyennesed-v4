@@ -76,9 +76,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
       <Stack.Screen
         name="HomeworksPage"
         options={{
-          presentation: 'modal',
           headerShown: false,
-          animation: 'fade_from_bottom',
         }}
         initialParams={{
           accountID: 0,

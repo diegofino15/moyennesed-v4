@@ -4,7 +4,7 @@ import { PressableScale } from "react-native-pressable-scale";
 
 
 // Custom tag (used on mark cards)
-function CustomTag({ icon, title, color, onPress, secondaryTag, onBottom=false, offset=10, shadow=false }) {
+function CustomTag({ icon, title, color, onPress, secondaryTag, onBottom=false, offset=10, shadow=false, style }) {
   return (
     <View style={{
       position: 'absolute',
@@ -29,14 +29,15 @@ function CustomTag({ icon, title, color, onPress, secondaryTag, onBottom=false, 
       )}
 
       <PressableScale onPress={onPress} style={{
-        paddingHorizontal: 10,
-        paddingVertical: 3,
+        paddingHorizontal: 5,
+        paddingVertical: 2,
         backgroundColor: color,
         borderRadius: 5,
         flexDirection: 'row',
         alignItems: 'center',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: shadow ? 0.5 : 0,
+        ...style,
       }}>
         {icon}
         <Text style={[DefaultTheme.fonts.labelMedium, {

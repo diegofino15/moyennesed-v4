@@ -114,6 +114,7 @@ function EmbeddedSubjectCard({
             onPress={openExamPage}
             offset={15}
             shadow
+            style={{ paddingHorizontal: 10, paddingVertical: 3 }}
           />
         )}
       </PressableScale>
