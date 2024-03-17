@@ -75,15 +75,15 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
       {/* Homeworks */}
       <Stack.Screen
         name="HomeworksPage"
-        options={{
-          headerShown: false,
-        }}
+        options={{ headerShown: false }}
         initialParams={{
           accountID: 0,
         }}
       >
         {(props) => <HomeworksPage
           {...props}
+          isConnected={isConnected}
+          isConnecting={isConnecting}
           globalDisplayUpdater={globalDisplayUpdater}
           updateGlobalDisplay={updateGlobalDisplay}
         />}
@@ -105,6 +105,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
       >
         {(props) => <ExamPage
           {...props}
+          isConnected={isConnected}
           globalDisplayUpdater={globalDisplayUpdater}
         />}
       </Stack.Screen>

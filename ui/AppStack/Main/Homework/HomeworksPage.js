@@ -1,26 +1,25 @@
 import { useState, useEffect } from "react";
-import { Text, ActivityIndicator, View, Dimensions, ScrollView } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { DefaultTheme } from "react-native-paper";
+import { Text, ActivityIndicator, View, Dimensions, ScrollView, RefreshControl } from "react-native";
 import { AlertTriangleIcon, RefreshCcwIcon, ChevronLeftIcon } from "lucide-react-native";
-import { BlurView } from "expo-blur";
 import { PressableScale } from "react-native-pressable-scale";
+import { DefaultTheme } from "react-native-paper";
+import { BlurView } from "expo-blur";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
 
 import HomeworkDay from "./HomeworkDay";
-import CustomInformationCard from "../../../components/CustomInformationCard";
-import CustomModal from "../../../components/CustomModal";
-import AppData from "../../../../core/AppData";
-import HapticsHandler from "../../../../util/HapticsHandler";
 import CustomSeparator from "../../../components/CustomSeparator";
+import CustomInformationCard from "../../../components/CustomInformationCard";
+import HapticsHandler from "../../../../util/HapticsHandler";
+import AppData from "../../../../core/AppData";
 
 
 // Exam page
-function HomeworksPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
+function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
   const { accountID } = route.params;
 
   // Get abstract exams (waiting for them to load)
-  const [abstractHomeworks, setAbstractExams] = useState({});
+  const [abstractHomeworks, setAbstractHomeworks] = useState({});
   useEffect(() => {
     AsyncStorage.getItem("homework").then(data => {
       var cacheData = {};
@@ -30,7 +29,7 @@ function HomeworksPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, 
         Object.keys(cacheData[accountID].data.days).map(day => {
           newAbstractExams[day] = cacheData[accountID].data.days[day].map(examID => cacheData[accountID].data.homeworks[examID]);
         });
-        setAbstractExams(newAbstractExams);
+        setAbstractHomeworks(newAbstractExams);
       }
     });
   }, [globalDisplayUpdater]);
@@ -39,6 +38,8 @@ function HomeworksPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, 
   const [refreshing, setRefreshing] = useState(false);
   const [errorGettingHomework, setErrorGettingHomework] = useState(false);
   async function refreshNextExams() {
+    if (!isConnected) { return; }
+    
     HapticsHandler.vibrate("light");
     setRefreshing(true);
     setErrorGettingHomework((await AppData.getAllHomework(accountID)) != 1);
@@ -53,7 +54,7 @@ function HomeworksPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, 
     }}>
       <BlurView style={{
         width: Dimensions.get('window').width,
-        padding: 15,
+        padding: 20,
         alignItems: 'center',
         justifyContent: 'flex-end',
         height: Constants.statusBarHeight + 50,
@@ -86,8 +87,10 @@ function HomeworksPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, 
           padding: 5,
           borderRadius: 10,
         }} onPress={refreshNextExams}>
-          {refreshing ? (
+          {refreshing || isConnecting ? (
             <ActivityIndicator size={30} color={DefaultTheme.colors.onSurface}/>
+          ) : !isConnected ? (
+            <AlertTriangleIcon size={25} color={DefaultTheme.colors.error}/>
           ) : (
             <RefreshCcwIcon size={25} color={DefaultTheme.colors.onSurface} style={{ margin: 2.5 }}/>
           )}
@@ -101,7 +104,13 @@ function HomeworksPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, 
         height: Dimensions.get('window').height - Constants.statusBarHeight - 150,
         overflow: 'visible',
         zIndex: 0,
-      }}>
+      }} refreshControl={(
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={refreshNextExams}
+          tintColor={DefaultTheme.colors.onBackground}
+        />
+      )} showsVerticalScrollIndicator={false}>
         {errorGettingHomework && (
           <CustomInformationCard
             icon={<AlertTriangleIcon size={25} color={DefaultTheme.colors.error}/>}
@@ -118,6 +127,7 @@ function HomeworksPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, 
               accountID={accountID}
               day={day}
               exams={abstractHomeworks[day]}
+              canLoad={isConnected && !isConnecting}
             />
             {index != Object.keys(abstractHomeworks).length - 1 && (
               <CustomSeparator style={{

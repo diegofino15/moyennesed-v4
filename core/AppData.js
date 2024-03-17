@@ -1439,7 +1439,7 @@ class AppData {
   }
   static async eraseCacheData() {
     await AsyncStorage.multiRemove([
-      "specific-homework",
+      // Put here temporary files
     ]);
     RNFS.readDir(RNFS.DocumentDirectoryPath).then(files => {
       files.forEach(file => {

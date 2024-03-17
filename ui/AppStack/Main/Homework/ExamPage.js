@@ -9,7 +9,7 @@ import CustomModal from "../../../components/CustomModal";
 import CustomSeparator from "../../../components/CustomSeparator";
 
 // Exam page
-function ExamPage({ globalDisplayUpdater, navigation, route }) {
+function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, navigation, route }) {
   const {
     accountID,
     subjectTitle,
@@ -54,8 +54,9 @@ function ExamPage({ globalDisplayUpdater, navigation, route }) {
                 exams={abstractHomeworks[day]}
                 loadAtDisplay
                 openAllAtDisplay
+                canLoad={isConnected && !isConnecting}
               />
-              {index < Object.keys(abstractHomeworks).length - 1 && (
+              {index != Object.keys(abstractHomeworks).length - 1 && (
                 <CustomSeparator style={{
                   backgroundColor: DefaultTheme.colors.surfaceOutline,
                   left: -10,

@@ -12,7 +12,7 @@ import AppData from "../../../../core/AppData";
 
 
 // Homework day
-function HomeworkDay({ accountID, day, exams, loadAtDisplay=false, openAllAtDisplay=false }) {
+function HomeworkDay({ accountID, day, exams, loadAtDisplay=false, openAllAtDisplay=false, canLoad=true }) {
   const [manualRefreshing, setManualRefreshing] = useState(false);
 
   const [gettingSpecificHomeworks, setGettingSpecificHomeworks] = useState(false);
@@ -23,6 +23,8 @@ function HomeworkDay({ accountID, day, exams, loadAtDisplay=false, openAllAtDisp
   const [lastTimeUpdated, setLastTimeUpdated] = useState(null);
 
   async function loadSpecificHomework(forceCache=false) {
+    if (!canLoad) { return; }
+    
     setErrorGettingSpecificHomeworks(false);
     setGettingSpecificHomeworks(true);
     const { status, data, date } = await AppData.getSpecificHomeworkForDay(accountID, day, manualRefreshing, forceCache);
@@ -47,7 +49,7 @@ function HomeworkDay({ accountID, day, exams, loadAtDisplay=false, openAllAtDisp
       if (manualRefreshing) { setManualRefreshing(false); }
     }
     getSpecificHomeworks();
-  }, [manualRefreshing]);
+  }, [manualRefreshing, canLoad]);
   
   return (
     <View>
