@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, Dimensions, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 import { CheckCircleIcon, ChevronDownIcon, ChevronUpIcon, CircleIcon, DownloadIcon, ExternalLinkIcon, FileIcon } from "lucide-react-native";
@@ -8,13 +8,14 @@ import FileViewer from "react-native-file-viewer";
 import RNFS from "react-native-fs";
 
 import CustomSeparator from "../../../components/CustomSeparator";
+import CustomChooser from "../../../components/CustomChooser";
 import { formatDate2, asyncExpectedResult } from "../../../../util/Utils";
-import AppData from "../../../../core/AppData";
 import ColorsHandler from "../../../../util/ColorsHandler";
+import AppData from "../../../../core/AppData";
 
 
 // Attachment
-function Attachment({ accountID, file }) {
+function Attachment({ accountID, file, windowWidth }) {
   const [isDownloading, setIsDownloading] = useState(false);
   async function openAttachment(file) {
     setIsDownloading(true);
@@ -31,31 +32,46 @@ function Attachment({ accountID, file }) {
   }, [isDownloading]);
   
   return (
-    <PressableScale key={file.id} style={{
-      marginVertical: 5,
-      padding: 5,
-      borderWidth: 2,
-      borderColor: DefaultTheme.colors.surfaceOutline,
-      backgroundColor: DefaultTheme.colors.backdrop,
-      borderRadius: 5,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    }} onPress={() => openAttachment(file)}>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <FileIcon size={20} color={DefaultTheme.colors.surfaceOutline} style={{ marginRight: 5 }}/>
-        <Text style={[DefaultTheme.fonts.bodyMedium, {
-          width: Dimensions.get('window').width - 140,
-        }]}>{file.title}</Text>
-      </View>
-      {fileExists ? (
-        <ExternalLinkIcon size={20} color={DefaultTheme.colors.onSurface}/>
-      ) : isDownloading ? (
-        <ActivityIndicator size={20} color={DefaultTheme.colors.onSurface}/>
-      ) : (
-        <DownloadIcon size={20} color={DefaultTheme.colors.onSurface}/>
+    <CustomChooser
+      defaultItem={(
+        <PressableScale key={file.id} style={{
+          marginVertical: 5,
+          padding: 5,
+          borderWidth: 2,
+          borderColor: DefaultTheme.colors.surfaceOutline,
+          backgroundColor: DefaultTheme.colors.backdrop,
+          borderRadius: 5,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }} onPress={() => openAttachment(file)} onLongPress={fileExists ? () => {} : undefined}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <FileIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
+            <Text style={[DefaultTheme.fonts.bodyMedium, {
+              width: windowWidth - 140,
+              height: 22,
+            }]}>{file.title}</Text>
+          </View>
+          {fileExists ? (
+            <ExternalLinkIcon size={20} color={DefaultTheme.colors.onSurface}/>
+          ) : isDownloading ? (
+            <ActivityIndicator size={20} color={DefaultTheme.colors.onSurface}/>
+          ) : (
+            <DownloadIcon size={20} color={DefaultTheme.colors.onSurface}/>
+          )}
+        </PressableScale>
       )}
-    </PressableScale>
+      items={fileExists ? [{
+        title: "Supprimer le document",
+        key: 0,
+        destructive: true,
+      }] : []}
+      setSelected={() => {
+        RNFS.unlink(`${RNFS.DocumentDirectoryPath}/${file.title}`);
+        setFileExists(false);
+      }}
+      longPress
+    />
   );
 }
 
@@ -68,6 +84,7 @@ function HomeworkCard({
   loadSpecificHomework,
   isAlreadyLoading,
   openAtDisplay,
+  windowWidth,
 }) {
   // Get subject
   const { light, dark } = ColorsHandler.getSubjectColors(abstractHomework.subjectID);
@@ -161,11 +178,11 @@ function HomeworkCard({
           alignItems: 'center',
           justifyContent: 'space-between',
           flexDirection: 'row',
-          width: Dimensions.get('window').width - 93,
+          width: windowWidth - 93,
         }} onPress={toggleExpand}>
           <Text style={[DefaultTheme.fonts.bodyLarge, {
             color: 'black',
-            width: Dimensions.get('window').width - 160,
+            width: windowWidth - 160,
           }]} numberOfLines={1}>{abstractHomework.subjectTitle}</Text>
           <View style={{ padding: 10 }}>
             {isExpanded ? (
@@ -213,7 +230,7 @@ function HomeworkCard({
               <CustomSeparator style={{ backgroundColor: DefaultTheme.colors.surfaceOutline, marginVertical: 10 }}/>
               <Text style={DefaultTheme.fonts.labelLarge}>Pièces jointes</Text>
               {specificHomework.files.map(file => (
-                <Attachment key={file.id} accountID={accountID} file={file}/>
+                <Attachment key={file.id} accountID={accountID} file={file} windowWidth={windowWidth}/>
               ))}
             </View>
           )}

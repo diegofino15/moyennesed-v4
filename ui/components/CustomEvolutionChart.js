@@ -1,13 +1,13 @@
-import { Text, View, Dimensions } from "react-native";
+import { Text, View } from "react-native";
 import { DefaultTheme } from "react-native-paper";
+import { Users2Icon } from "lucide-react-native";
 import LineChart from 'react-native-simple-line-chart';
 
 import { formatAverage, formatDate3 } from "../../util/Utils";
-import { Users2Icon } from "lucide-react-native";
 
 
 // Custom evolution chart
-function CustomEvolutionChart({ listOfValues, showClassValues, color, lightColor, activeColor, height }) {
+function CustomEvolutionChart({ listOfValues, showClassValues, color, lightColor, activeColor, height, windowWidth }) {
   return (
     <LineChart
       lines={[{
@@ -91,7 +91,7 @@ function CustomEvolutionChart({ listOfValues, showClassValues, color, lightColor
         ),
       } : { data: [{x: 0, y: listOfValues?.at(0)?.value ?? 0}] }]}
       height={height}
-      width={Dimensions.get('window').width - 30}
+      width={windowWidth}
     />
   );
 }

@@ -1,5 +1,5 @@
 import { memo, useEffect } from "react";
-import { View, Text, Platform } from "react-native";
+import { View, Text, Platform, Dimensions } from "react-native";
 import { HandHelpingIcon, ScaleIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import useState from "react-usestateref";
@@ -21,16 +21,19 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
   const [currentAccount, setCurrentAccount] = useState({});
   useEffect(() => { AppData.getMainAccount().then(account => { setCurrentAccount(account); }); }, []);
 
+  const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
+
   return (
     <CustomModal
       title="Paramètres"
       goBackFunction={() => navigation.pop()}
       onlyShowBackButtonOnAndroid
+      setWidth={setWindowWidth}
       children={(
         <View>
           {/* Login status */}
           <CustomSection title={"Compte"} marginTop={0}/>
-          <LoginStatus isConnected={isConnected} isConnecting={isConnecting} refreshLogin={refreshLogin} style={{ marginBottom: 10 }}/>
+          <LoginStatus isConnected={isConnected} isConnecting={isConnecting} refreshLogin={refreshLogin} style={{ marginBottom: 10 }} windowWidth={windowWidth}/>
           
           {/* Profile */}
           <CustomSectionButton

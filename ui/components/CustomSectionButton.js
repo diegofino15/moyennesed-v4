@@ -18,6 +18,7 @@ function CustomSectionButton({
     <View style={{
       flexDirection: 'row',
       alignItems: 'center',
+      width: '100%',
       ...wrapperStyle,
     }}>
       {icon}
@@ -30,7 +31,6 @@ function CustomSectionButton({
         paddingVertical: 10,
         flexDirection: 'row',
         alignItems: 'center',
-        width: Dimensions.get('window').width - (icon ? 120 : 40),
         height: 70,
         marginLeft: icon ? 10 : 0,
         ...style,
@@ -38,7 +38,8 @@ function CustomSectionButton({
         <View style={{
           flexDirection: 'column',
           justifyContent: 'space-evenly',
-          width: Dimensions.get('window').width - (icon ? 190 : 110),
+          width: '100%',
+          marginRight: icon ? -70 : 0,
         }}>
           <Text style={[DefaultTheme.fonts.titleSmall, { height: 30 }]} numberOfLines={1}>{title}</Text>
           <Text style={[DefaultTheme.fonts.labelMedium, { height: 22 }]} numberOfLines={1}>{description}</Text>

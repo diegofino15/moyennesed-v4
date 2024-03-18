@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, Platform } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -36,6 +36,8 @@ function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, navigation,
       }
     });
   }, [globalDisplayUpdater]);
+
+  const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
  
   return (
     <CustomModal
@@ -44,6 +46,7 @@ function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, navigation,
       onlyShowBackButtonOnAndroid
       goBackButtonStyle={{ opacity: 0.6 }}
       headerStyle={{ backgroundColor: DefaultTheme.colors.error }}
+      setWidth={setWindowWidth}
       children={(
         <View style={{ backgroundColor: DefaultTheme.colors.backdrop }}>
           {Object.keys(abstractHomeworks).map((day, index) => (
@@ -55,12 +58,13 @@ function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, navigation,
                 loadAtDisplay
                 openAllAtDisplay
                 canLoad={isConnected && !isConnecting}
+                windowWidth={windowWidth}
               />
               {index != Object.keys(abstractHomeworks).length - 1 && (
                 <CustomSeparator style={{
                   backgroundColor: DefaultTheme.colors.surfaceOutline,
                   left: -10,
-                  width: Dimensions.get('window').width - 20,
+                  width: windowWidth - 20,
                   marginVertical: 30,
                 }}/>
               )}

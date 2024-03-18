@@ -85,6 +85,7 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
               day={day}
               exams={abstractHomeworks[day]}
               canLoad={isConnected && !isConnecting}
+              windowWidth={Dimensions.get('window').width}
             />
             {index != Object.keys(abstractHomeworks).length - 1 ? (
               <CustomSeparator style={{

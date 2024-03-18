@@ -20,7 +20,7 @@ function CustomInformationCard({
       borderWidth: 2,
       borderColor: error ? DefaultTheme.colors.error : DefaultTheme.colors.surfaceOutline,
       padding: 10,
-      width: Dimensions.get('window').width - 40,
+      width: '100%',
       flexDirection: 'column',
       ...style,
     }}>

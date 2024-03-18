@@ -1,5 +1,5 @@
 import { Dimensions, FlatList, Text, View } from "react-native";
-import { AlertOctagonIcon, CornerDownRightIcon } from "lucide-react-native";
+import { AlertOctagonIcon, CornerDownRightIcon, MegaphoneOffIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 
@@ -36,7 +36,10 @@ function EmbeddedSubjectCard({
   }
 
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+    <View style={{
+      flexDirection: 'row',
+      alignItems: 'center',
+    }}>
       {subject.subID && (
         <CornerDownRightIcon
           size={40}
@@ -63,11 +66,16 @@ function EmbeddedSubjectCard({
           shadowOpacity: 0.5,
           shadowOffset: { width: 0, height: 0 },
         }}>
-          <Text style={[DefaultTheme.fonts.bodyLarge, {
-            color: 'black',
-            width: Dimensions.get('window').width - (subject.subID ? 195 : 150),
-            height: 25,
-          }]} numberOfLines={1}>{subject.title}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            {!subject.isEffective && (
+              <MegaphoneOffIcon size={20} color={'black'} style={{ marginRight: 5 }}/>
+            )}
+            <Text style={[DefaultTheme.fonts.bodyLarge, {
+              color: 'black',
+              width: Dimensions.get('window').width - (subject.subID ? 195 : 150) - (subject.isEffective ? 0 : 25),
+              height: 25,
+            }]} numberOfLines={1}>{subject.title}</Text>
+          </View>
           
           <View style={{
             flexDirection: 'row',

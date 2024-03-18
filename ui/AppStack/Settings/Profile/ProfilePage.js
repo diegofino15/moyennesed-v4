@@ -54,12 +54,15 @@ function ProfilePage({ route, navigation }) {
     HapticsHandler.vibrate("light");
   }
 
+  const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
+
   return (
     <CustomModal
       title="Profil"
       goBackFunction={() => navigation.pop()}
       style={{ padding: 0 }}
       showScrollView={false}
+      setWidth={setWindowWidth}
       children={(
         <View style={{
           backgroundColor: DefaultTheme.colors.backdrop,
@@ -70,7 +73,7 @@ function ProfilePage({ route, navigation }) {
             position: 'absolute',
             overflow: 'hidden',
           }}>
-            <CustomProfilePhoto accountID={currentAccount.id} size={Dimensions.get('window').width} style={{ height: 280, top: -50 }}/>
+            <CustomProfilePhoto accountID={currentAccount.id} size={windowWidth} style={{ height: 280, top: -50 }}/>
             <BlurView intensity={Platform.select({ ios: currentAccount.photoURL ? 50 : 30, android: 100 })} tint="dark" style={{ width: '100%', height: 230, position: 'absolute', }}/>
           </View>
           
@@ -116,7 +119,7 @@ function ProfilePage({ route, navigation }) {
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
                 borderBottomWidth: 0,
-                width: Dimensions.get('window').width + 4,
+                width: windowWidth + 4,
                 left: -2,
               }}>
                 {/* Informations */}

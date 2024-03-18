@@ -12,7 +12,7 @@ import AppData from "../../../../core/AppData";
 
 
 // Homework day
-function HomeworkDay({ accountID, day, exams, loadAtDisplay=false, openAllAtDisplay=false, canLoad=true }) {
+function HomeworkDay({ accountID, day, exams, loadAtDisplay=false, openAllAtDisplay=false, canLoad=true, windowWidth }) {
   const [manualRefreshing, setManualRefreshing] = useState(false);
 
   const [gettingSpecificHomeworks, setGettingSpecificHomeworks] = useState(false);
@@ -83,6 +83,7 @@ function HomeworkDay({ accountID, day, exams, loadAtDisplay=false, openAllAtDisp
           loadSpecificHomework={loadSpecificHomework}
           isAlreadyLoading={gettingSpecificHomeworks}
           openAtDisplay={openAllAtDisplay}
+          windowWidth={windowWidth}
         />
       ))}
 

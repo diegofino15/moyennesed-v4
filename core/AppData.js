@@ -1036,6 +1036,7 @@ class AppData {
     for (const givenPeriod of Object.values(cacheData[accountID]?.data)) {
       // Reset average history and marks
       givenPeriod.averageHistory = [];
+      givenPeriod.average = undefined;
       Object.values(givenPeriod.subjectGroups).forEach((subjectGroup) => {
         subjectGroup.averageHistory = [];
         subjectGroup.hasAverage = false;

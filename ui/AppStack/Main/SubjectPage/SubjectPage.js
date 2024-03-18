@@ -1,7 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import useState from "react-usestateref";
-import { Text, View, Dimensions, ScrollView, Platform } from "react-native";
-import { ChevronRightIcon, ChevronsUpDownIcon, DraftingCompassIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
+import { Text, View, Dimensions, ScrollView, Platform, Switch } from "react-native";
+import { ChevronRightIcon, ChevronsUpDownIcon, DraftingCompassIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneIcon, MegaphoneOffIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -15,7 +15,7 @@ import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import CustomModal from "../../../components/CustomModal";
 import ColorsHandler from "../../../../util/ColorsHandler";
-import { formatAverage } from "../../../../util/Utils";
+import { asyncExpectedResult, formatAverage } from "../../../../util/Utils";
 import HapticsHandler from "../../../../util/HapticsHandler";
 import AppData from "../../../../core/AppData";
 
@@ -81,7 +81,7 @@ function SubjectPage({
   const [showEvolution, setShowEvolution] = useState(false);
   useEffect(() => {
     if (showEvolution) {
-      scrollViewRef.current?.scrollTo({x: Dimensions.get('window').width, animated: true});
+      scrollViewRef.current?.scrollTo({x: windowWidth, animated: true});
     } else {
       scrollViewRef.current?.scrollTo({ x: 0, animated: true });
     }
@@ -104,8 +104,12 @@ function SubjectPage({
   }
   const [isCoefficientModalVisible, setIsCoefficientModalVisible] = useState(false);
 
+  // Is subject effective
+  const [isEffective, setIsEffective] = useState(shownSubject.isEffective ?? true);
+
   // Chart
   const [showClassValueOnChart, setShowClassValueOnChart] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
 
   return (
     <CustomModal
@@ -124,6 +128,7 @@ function SubjectPage({
       titleStyle={{ color: "black" }}
       extraHeight={200}
       style={{ paddingVertical: 0 }}
+      setWidth={(value) => setWindowWidth(value)}
       children={
         <View style={{ backgroundColor: DefaultTheme.colors.backdrop }}>
           {/* Top portion */}
@@ -142,8 +147,7 @@ function SubjectPage({
               <View style={{
                 alignItems: "center",
                 marginBottom: 20,
-                width: Dimensions.get("window").width,
-                left: -20,
+                width: windowWidth - 40,
               }}>
                 <Text style={[DefaultTheme.fonts.headlineLarge, {
                   fontSize: 45,
@@ -153,14 +157,19 @@ function SubjectPage({
                 </Text>
               </View>
 
-              <CustomEvolutionChart
-                listOfValues={shownSubject.averageHistory}
-                showClassValues={shownSubject.hasClassAverage && showClassValueOnChart}
-                color={light}
-                lightColor={dark}
-                activeColor={dark}
-                height={100}
-              />
+              {windowWidth ? (
+                <View style={{ left: 10 }}>
+                  <CustomEvolutionChart
+                    listOfValues={shownSubject.averageHistory}
+                    showClassValues={shownSubject.hasClassAverage && showClassValueOnChart}
+                    color={light}
+                    lightColor={dark}
+                    activeColor={dark}
+                    height={100}
+                    windowWidth={windowWidth - 40}
+                  />
+                </View>
+              ) : null}
             </ScrollView>
 
             {/* Color picker */}
@@ -289,7 +298,7 @@ function SubjectPage({
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
             borderBottomWidth: 0,
-            width: Dimensions.get("window").width + 4,
+            width: windowWidth + 4,
             left: -22,
           }}>
             {/* Coefficient */}
@@ -320,6 +329,36 @@ function SubjectPage({
               />
             )}
 
+            {/* Is effective */}
+            <CustomSimpleInformationCard
+              icon={isEffective ? (
+                <MegaphoneIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
+              ) : (
+                <MegaphoneOffIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
+              )}
+              content={isEffective ? "Significative" : "Non significative"}
+              rightIcon={(
+                <Switch
+                  value={isEffective}
+                  onValueChange={() => asyncExpectedResult(
+                    async () => {
+                      await AppData.setCustomData(
+                        accountID,
+                        "subjects",
+                        `${shownSubject.id}/${shownSubject.subID ?? ""}`,
+                        "isEffective",
+                        !shownSubject.isEffective,
+                      );
+                      await AppData.recalculateAverageHistory(accountID);
+                    },
+                    () => updateGlobalDisplay(),
+                    () => setIsEffective(!shownSubject.isEffective),
+                  )}
+                />
+              )}
+              style={{ marginTop: 5 }}
+            />
+
             {/* Teachers */}
             {shownSubject.teachers && (
               <CustomSection title={`Professeur.e${shownSubject.teachers.length > 1 ? "s" : ""}`}/>
@@ -346,6 +385,7 @@ function SubjectPage({
                   }
                   openMarkDetails={() => openMarkDetails(marks[markID])}
                   outline={markID == cacheMark?.id}
+                  windowWidth={windowWidth}
                 />
               ))}
           </View>

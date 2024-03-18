@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { View, ScrollView, Text, Platform, Dimensions } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
@@ -24,19 +25,37 @@ function CustomModal({
   onlyShowBackButtonOnAndroid=false,
   isBackButtonInScrollView=false,
   showScrollView=true,
+  setWidth=()=>{},
+  setHeight=()=>{},
 }) {
+  const [windowHeight, setWindowHeight] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(0);
+  const onLayout = (event) => {
+    const layoutWidth = event.nativeEvent.layout.width;
+    const changingWidthCheck = !Platform.isPad || layoutWidth != Dimensions.get('window').width;
+    if (layoutWidth > 0 && layoutWidth != windowWidth && changingWidthCheck) {
+      setWindowWidth(layoutWidth);
+      setWidth(layoutWidth);
+    }
+
+    const layoutHeight = event.nativeEvent.layout.height;
+    if (layoutHeight > 0 && layoutHeight != windowHeight && layoutHeight != Dimensions.get('window').height) {
+      setWindowHeight(layoutHeight);
+      setHeight(layoutHeight);
+    }
+  }
+
   return (
     <View style={{
       backgroundColor: DefaultTheme.colors.backdrop,
       height: '100%',
       overflow: 'hidden',
-    }}>
+    }} onLayout={onLayout}>
       <View style={{
         marginTop: Platform.select({ ios: 0, android: Constants.statusBarHeight }),
         backgroundColor: DefaultTheme.colors.backdrop,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        ...headerStyle,
       }}>
         {/* Header space */}
         {(title || titleObject) && <View style={{
@@ -45,6 +64,7 @@ function CustomModal({
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
           height: 67,
+          ...headerStyle,
         }}/>}
 
         {/* Main view */}
@@ -52,7 +72,7 @@ function CustomModal({
           <ScrollView style={{
             backgroundColor: DefaultTheme.colors.backdrop,
             width: '100%',
-            height: Dimensions.get('window').height - Constants.statusBarHeight - (title || titleObject ? 70 : 0),
+            height: windowHeight - (title || titleObject ? 70 : 0),
             paddingVertical: 20,
             overflow: Platform.select({ ios: 'visible', android: 'hidden' }),
             zIndex: 0,
@@ -61,29 +81,41 @@ function CustomModal({
             <View style={{ paddingHorizontal: horizontalPadding, backgroundColor: DefaultTheme.colors.backdrop }}>
               {children}
             </View>
-            <View style={{ height: 100 }}/> 
+            <View style={{ height: Platform.isPad ? 0 : 50 }}/> 
           </ScrollView>
         ) : {...children}}
         {childrenOutsideScrollView}
 
         {/* Blurred header (here because it doesn't update on older iPhones if put higher) */}
-        {(title || titleObject) && <BlurView style={{
-          position: 'absolute',
-          borderTopLeftRadius: 10,
-          borderTopRightRadius: 10,
-          width: Dimensions.get('window').width,
-          padding: 10,
-          paddingTop: 12,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1,
-          overflow: 'hidden',
-          ...(Platform.select({ ios: {}, android: headerStyle }))
-        }} tint="light" intensity={Platform.select({ ios: 50, android: 0 })}>
-          <View style={{ height: 45 }}/>
-          {titleObject ? titleObject : <Text style={[DefaultTheme.fonts.titleSmall, { height: 30, ...titleStyle }]}>{title}</Text>}
-        </BlurView>}
+        {(title || titleObject) && (
+          <View style={{
+            position: 'absolute',
+            width: '100%',
+          }}>
+          <View style={{
+            position: 'absolute',
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+            width: '100%',
+            height: 67,
+            opacity: 0.2,
+            ...headerStyle,
+          }}/>
+          <BlurView style={{
+            padding: 10,
+            paddingTop: 12,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1,
+            overflow: 'hidden',
+            ...(Platform.select({ ios: {}, android: headerStyle }))
+          }} tint="light" intensity={Platform.select({ ios: 50, android: 0 })}>
+            <View style={{ height: 45 }}/>
+            {titleObject ? titleObject : <Text style={[DefaultTheme.fonts.titleSmall, { height: 30, ...titleStyle }]}>{title}</Text>}
+          </BlurView>
+          </View>
+        )}
 
         {/* Back button */}
         {goBackFunction && !isBackButtonInScrollView && (Platform.OS == "android" || !onlyShowBackButtonOnAndroid) && <PressableScale style={{

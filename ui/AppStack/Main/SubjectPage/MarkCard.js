@@ -9,7 +9,7 @@ import { formatDate2, formatDate3, formatMark } from "../../../../util/Utils";
 
 
 // Mark card
-function MarkCard({ mark, subjectTitle, openMarkDetails, outline }) {
+function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth }) {
   if (!mark) { return; }
 
   // Get subject colors
@@ -59,7 +59,7 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline }) {
       {/* Mark details */}
       <View style={{
         justifyContent: 'space-evenly',
-        width: Dimensions.get('window').width - 160,
+        width: windowWidth - 160,
       }}>
         <Text style={[DefaultTheme.fonts.bodyMedium, { alignItems: 'center' }]} numberOfLines={2}>
           {subjectTitle && <Text style={DefaultTheme.fonts.labelMedium}>{subjectTitle} <ChevronRightIcon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/> </Text>}

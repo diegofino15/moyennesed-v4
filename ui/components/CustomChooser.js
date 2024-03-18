@@ -8,7 +8,7 @@ function CustomChooser({
   getItemForSelected,
   selected,
   setSelected,
-  items,
+  items=[],
   longPress=false,
 }) {
   return (
@@ -20,7 +20,8 @@ function CustomChooser({
         <DropdownMenu.Label>{title}</DropdownMenu.Label>
 
         {items.map((item, index) => (
-          <DropdownMenu.Item key={index} onSelect={() => setSelected(item.id)}>
+          <DropdownMenu.Item key={index} onSelect={() => setSelected(item.id)} destructive={item.destructive} >
+            {item.destructive && <DropdownMenu.ItemIcon ios={{ name: 'trash' }} androidIconName='ic_delete'/>}
             <DropdownMenu.ItemTitle>{item.title}</DropdownMenu.ItemTitle>
           </DropdownMenu.Item>
         ))}

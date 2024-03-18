@@ -1,13 +1,14 @@
-import { View, Text, ActivityIndicator, Dimensions } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { MoreHorizontalIcon, XIcon, RefreshCcwIcon, UserCheckIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import { useEffect, useState } from "react";
+
 import HapticsHandler from "../../../util/HapticsHandler";
 
 
 // Login status
-function LoginStatus({ isConnected, isConnecting, refreshLogin, style }) {
+function LoginStatus({ isConnected, isConnecting, refreshLogin, style, windowWidth }) {
   const [color, setColor] = useState(DefaultTheme.colors.primary);
   const [lightColor, setLightColor] = useState(DefaultTheme.colors.primaryLight);
   useEffect(() => {
@@ -28,7 +29,7 @@ function LoginStatus({ isConnected, isConnecting, refreshLogin, style }) {
         borderColor: color,
         borderRadius: 10,
         marginRight: 5,
-        width: Dimensions.get('window').width - 82.5,
+        width: windowWidth - 82.5,
         height: 37.5,
       }}>
         <View style={{
