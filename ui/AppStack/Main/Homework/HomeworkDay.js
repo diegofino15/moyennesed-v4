@@ -96,12 +96,6 @@ function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAt
           windowWidth={windowWidth}
         />
       ))}
-
-      {Object.keys(homeworks).length == 0 && (
-        <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: "center", marginTop: "50%" }]}>Aucun devoir pour ce jour</Text>
-      )}
-
-      <Text style={[DefaultTheme.fonts.labelMedium, { fontFamily: "Text-Italic", marginLeft: 10 }]}>{lastTimeUpdated ? `Dernière mise à jour : ${formatDate(lastTimeUpdated)}` : ""}</Text>
     </View>
   );
 }

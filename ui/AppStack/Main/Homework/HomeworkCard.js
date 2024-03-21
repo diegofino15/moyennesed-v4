@@ -195,6 +195,7 @@ function HomeworkCard({
           </View>
         </PressableScale>
 
+        {/* Toggle done */}
         <PressableScale style={{
           padding: 10,
         }} onPress={toggleDone}>
