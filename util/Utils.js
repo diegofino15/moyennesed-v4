@@ -57,8 +57,8 @@ function formatDate2(givenDate) {
   const date = new Date(givenDate);
   return `${daysNames[date.getDay()]} ${date.getDate()} ${monthsNames[date.getMonth()]}`;
 }
-function formatDate3(givenDate) {
-  const date = new Date(givenDate);
+function formatDate3(givenDate, date) {
+  date ??= new Date(givenDate);
   return `${date.getDate()} ${monthsNames[date.getMonth()]}`;
 }
 

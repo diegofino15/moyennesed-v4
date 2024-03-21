@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
-import { CheckCircleIcon, ChevronDownIcon, ChevronUpIcon, CircleIcon, DownloadIcon, ExternalLinkIcon, FileIcon } from "lucide-react-native";
+import { CheckCircleIcon, CheckIcon, ChevronDownIcon, ChevronUpIcon, CircleIcon, DownloadIcon, ExternalLinkIcon, FileIcon } from "lucide-react-native";
 import Animated, { useAnimatedStyle, withTiming } from "react-native-reanimated";
 import FileViewer from "react-native-file-viewer";
 import RNFS from "react-native-fs";
@@ -196,14 +196,16 @@ function HomeworkCard({
         </PressableScale>
 
         <PressableScale style={{
-          padding: 8,
-          borderWidth: 2,
-          borderColor: abstractHomework.isExam ? DefaultTheme.colors.error : DefaultTheme.colors.surfaceOutline,
-          backgroundColor: abstractHomework.isExam ? DefaultTheme.colors.errorLight : null,
-          borderRadius: 10,
+          padding: 10,
         }} onPress={toggleDone}>
           {isDone ? (
-            <CheckCircleIcon size={28} color={abstractHomework.isExam ? DefaultTheme.colors.error : light}/>
+            <View style={{
+              padding: 5,
+              borderRadius: 15,
+              backgroundColor: abstractHomework.isExam ? DefaultTheme.colors.error : light,
+            }}>
+              <CheckIcon size={18} color={'black'}/>
+            </View>
           ) : (
             <CircleIcon size={28} color={abstractHomework.isExam ? DefaultTheme.colors.error : light}/>
           )}

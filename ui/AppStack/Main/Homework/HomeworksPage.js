@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Text, ActivityIndicator, View, Dimensions, ScrollView, RefreshControl, Platform } from "react-native";
+import { Text, ActivityIndicator, View, Dimensions, RefreshControl, Platform, SectionList } from "react-native";
 import { AlertTriangleIcon, RefreshCcwIcon, ChevronLeftIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
@@ -12,8 +12,6 @@ import CustomSeparator from "../../../components/CustomSeparator";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import HapticsHandler from "../../../../util/HapticsHandler";
 import AppData from "../../../../core/AppData";
-import { formatDate2, formatDate3 } from "../../../../util/Utils";
-import CustomSection from "../../../components/CustomSection";
 
 
 // Exam page
@@ -27,11 +25,11 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
       var cacheData = {};
       if (data) { cacheData = JSON.parse(data); }
       if (accountID in cacheData) {
-        let newAbstractExams = cacheData[accountID].data;
+        let newAbstractHomeworks = cacheData[accountID].data;
         Object.keys(cacheData[accountID].data.days).map(day => {
-          newAbstractExams.days[day] = cacheData[accountID].data.days[day].map(examID => cacheData[accountID].data.homeworks[examID]);
+          newAbstractHomeworks.days[day] = cacheData[accountID].data.days[day].map(examID => cacheData[accountID].data.homeworks[examID]);
         });
-        setAbstractHomeworks(newAbstractExams);
+        setAbstractHomeworks(newAbstractHomeworks);
       }
     });
   }, [globalDisplayUpdater]);
@@ -57,79 +55,59 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
       <View style={{ height: Constants.statusBarHeight + 50 }}/>
       
       {/* Homeworks */}
-      <ScrollView style={{
-        backgroundColor: DefaultTheme.colors.backdrop,
-        padding: 20,
-        height: Dimensions.get('window').height - Constants.statusBarHeight - 50,
-        overflow: 'visible',
-        zIndex: 0,
-      }} refreshControl={(
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={refreshNextExams}
-          tintColor={DefaultTheme.colors.onBackground}
-        />
-      )} showsVerticalScrollIndicator={false}>
-        {errorGettingHomework && (
-          <CustomInformationCard
-            icon={<AlertTriangleIcon size={25} color={DefaultTheme.colors.error}/>}
-            title={"Une erreur s'est produite"}
-            description={"Impossible de récupérer les devoirs, vérifiez votre connexion internet."}
-            error
-            style={{ marginBottom: 30 }}
+      <SectionList
+        sections={Object.values(abstractHomeworks.weeks ?? {})}
+        refreshing={refreshing}
+        refreshControl={(
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={refreshNextExams}
+            tintColor={DefaultTheme.colors.onBackground}
           />
         )}
-
-        {Object.keys(abstractHomeworks?.weeks ?? {}).map(week => {
-          let startOfWeek = week.split("/")[0];
-          let endOfWeek = week.split("/")[1];
-          return (
-            <View key={week}>
-              <PressableScale style={{
-                paddingHorizontal: 15,
-                paddingVertical: 5,
-                borderRadius: 10,
-                borderWidth: 2,
-                borderColor: DefaultTheme.colors.surfaceOutline,
-                marginBottom: 30,
-                alignSelf: 'center',
-              }}>
-                <Text style={DefaultTheme.fonts.bodyLarge}>{`Semaine ${formatDate3(startOfWeek)}  -  ${formatDate3(endOfWeek)}`}</Text>
-              </PressableScale>
-
-              {abstractHomeworks.weeks[week].map(day => (
-                <View key={day} style={{
-                  marginBottom: 50,
-                }}>
-                  <HomeworkDay
-                    accountID={accountID}
-                    day={day}
-                    homeworks={abstractHomeworks.days[day]}
-                    canLoad={isConnected && !isConnecting}
-                    windowWidth={Dimensions.get('window').width}
-                  />
-                </View>
-              ))}
-            </View>
-          );
-        })}
-
-        {/* {Object.keys(abstractHomeworks).map(day => (
-          <View key={day} style={{
-            marginBottom: 50,
-          }}>
+        style={{
+          backgroundColor: DefaultTheme.colors.backdrop,
+          padding: 20,
+          height: Dimensions.get('window').height - Constants.statusBarHeight - 50,
+          overflow: 'visible',
+          zIndex: 0,
+        }}
+        renderItem={({ item }) => (
+          <View style={{ marginBottom: 50 }}>
             <HomeworkDay
               accountID={accountID}
-              day={day}
-              homeworks={abstractHomeworks[day]}
+              day={item}
+              homeworks={abstractHomeworks.days[item]}
               canLoad={isConnected && !isConnecting}
               windowWidth={Dimensions.get('window').width}
             />
           </View>
-        ))} */}
-
-        <View style={{ height: 50 }}/>
-      </ScrollView>
+        )}
+        renderSectionHeader={({ section: { title } }) => (
+          <BlurView style={{
+            paddingHorizontal: 15,
+            paddingVertical: 5,
+            borderRadius: 10,
+            overflow: 'hidden',
+            backgroundColor: Platform.select({ android: DefaultTheme.colors.backdrop }),
+            marginBottom: 30,
+            alignSelf: 'center',
+          }} tint="dark" intensity={50}>
+            <Text style={DefaultTheme.fonts.bodyLarge}>{title}</Text>
+          </BlurView>
+        )}
+        renderSectionFooter={() => (
+          <CustomSeparator style={{
+            left: -20,
+            width: Dimensions.get('window').width,
+            backgroundColor: DefaultTheme.colors.surfaceOutline,
+            marginBottom: 15,
+          }}/>
+        )}
+        ListFooterComponent={() => (
+          <View style={{ height: 100 }}/>
+        )}
+      />
 
       {/* Header */}
       <BlurView style={{

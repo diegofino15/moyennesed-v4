@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import RNFS from "react-native-fs";
 import axios from "axios";
 
-import { capitalizeWords, formatDate, formatDate2, getLatestDate, parseHtmlData } from "../util/Utils";
+import { capitalizeWords, formatDate3, getLatestDate, parseHtmlData } from "../util/Utils";
 import ColorsHandler from "../util/ColorsHandler";
 
 
@@ -1200,9 +1200,13 @@ class AppData {
         let startOfWeek = new Date(dateObj.setDate(dateObj.getDate() - dateObj.getDay() + 1));
         let endOfWeek = new Date(dateObj.setDate(dateObj.getDate() - dateObj.getDay() + 7));
         let key = `${startOfWeek.getFullYear()}-${startOfWeek.getMonth() + 1}-${startOfWeek.getDate()}/${endOfWeek.getFullYear()}-${endOfWeek.getMonth() + 1}-${endOfWeek.getDate()}`;
-        abstractHomework.weeks[key] ??= [];
-        if (!abstractHomework.weeks[key].includes(day)) { 
-          abstractHomework.weeks[key].push(day);
+        abstractHomework.weeks[key] ??= {
+          "id": key,
+          "title": `Semaine ${formatDate3(key.split("/")[0])}  -  ${formatDate3(key.split("/")[1])}`,
+          "data": [],
+        };
+        if (!abstractHomework.weeks[key].data.includes(day)) { 
+          abstractHomework.weeks[key].data.push(day);
         }
         
         abstractHomework.homeworks[finalHomework.id] = finalHomework;

@@ -7,7 +7,7 @@ import { PressableScale } from "react-native-pressable-scale";
 
 import HomeworkCard from "./HomeworkCard";
 import CustomSection from "../../../components/CustomSection";
-import { formatDate, formatDate2 } from "../../../../util/Utils";
+import { formatDate, formatDate2, formatDate3 } from "../../../../util/Utils";
 import AppData from "../../../../core/AppData";
 
 
@@ -53,27 +53,6 @@ function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAt
   
   return (
     <View>
-      {/* <CustomSection
-        title={formatDate2(day).toUpperCase()}
-        rightIcon={(
-          <PressableScale onPress={() => { if (!gettingSpecificHomeworks) { setManualRefreshing(true); } }}>
-            {gettingSpecificHomeworks || manualRefreshing ? (
-              <ActivityIndicator size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
-            ) : errorGettingSpecificHomeworks ? (
-              <AlertTriangleIcon size={25} color={DefaultTheme.colors.error}/>
-            ) : waitingToLoad ? (
-              <DownloadIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
-            ) : (
-              <RefreshCcwIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
-            )}
-          </PressableScale>
-        )}
-        marginTop={10}
-        textAreaStyle={{ left: 0 }}
-        viewStyle={{ marginRight: 12.5, marginBottom: 5 }}
-        textStyle={DefaultTheme.fonts.labelLarge}
-      /> */}
-
       <View style={{
         flexDirection: 'row',
         alignItems: 'center',
@@ -87,7 +66,9 @@ function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAt
           backgroundColor: DefaultTheme.colors.primary,
           left: -20,
         }}>
-          <Text style={[DefaultTheme.fonts.labelLarge, { color: DefaultTheme.colors.onPrimary }]}>{formatDate2(day).toUpperCase()}</Text>
+          <Text style={[DefaultTheme.fonts.labelLarge, { color: DefaultTheme.colors.onPrimary }]}>{
+            formatDate3(day) == formatDate3(null, new Date()) ? "Aujourd'hui" : formatDate2(day)
+          }</Text>
         </View>
         
         <PressableScale style={{
