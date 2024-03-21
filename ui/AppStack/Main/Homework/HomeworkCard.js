@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, Dimensions } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
-import { CheckCircleIcon, CheckIcon, ChevronDownIcon, ChevronUpIcon, CircleIcon, DownloadIcon, ExternalLinkIcon, FileIcon } from "lucide-react-native";
+import { CalendarIcon, CheckIcon, ChevronDownIcon, ChevronUpIcon, CircleIcon, DownloadIcon, ExternalLinkIcon, FileIcon, GraduationCapIcon } from "lucide-react-native";
 import Animated, { useAnimatedStyle, withTiming } from "react-native-reanimated";
 import FileViewer from "react-native-file-viewer";
 import RNFS from "react-native-fs";
 
 import CustomSeparator from "../../../components/CustomSeparator";
 import CustomChooser from "../../../components/CustomChooser";
+import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import { formatDate2, asyncExpectedResult } from "../../../../util/Utils";
 import ColorsHandler from "../../../../util/ColorsHandler";
+import HapticsHandler from "../../../../util/HapticsHandler";
 import AppData from "../../../../core/AppData";
 
 
@@ -92,6 +94,7 @@ function HomeworkCard({
   // Change homework done status
   const [isDone, setIsDone] = useState(abstractHomework.done);
   function toggleDone() {
+    HapticsHandler.vibrate("light");
     asyncExpectedResult(
       async () => await AppData.markHomeworkAsDone(accountID, abstractHomework.id, !isDone),
       (done) => setIsDone(done),
@@ -167,7 +170,7 @@ function HomeworkCard({
       <View style={{
         marginTop: abstractHomework.isExam ? 23 : 0,
         flexDirection: 'row',
-        alignItems: 'stretch',
+        alignItems: 'center',
         justifyContent: 'space-between',
       }}>
         <PressableScale style={{
@@ -182,8 +185,9 @@ function HomeworkCard({
         }} onPress={toggleExpand}>
           <Text style={[DefaultTheme.fonts.bodyLarge, {
             color: 'black',
-            width: windowWidth - 160,
+            width: Dimensions.get('window').width - 160,
           }]} numberOfLines={1}>{abstractHomework.subjectTitle}</Text>
+
           <View style={{ padding: 10 }}>
             {isExpanded ? (
               <ChevronUpIcon size={25} color={'black'}/>
@@ -239,7 +243,32 @@ function HomeworkCard({
           )}
 
           {/* Professor name */}
-          <Text style={[DefaultTheme.fonts.labelMedium, { fontFamily: "Text-Italic", marginTop: 20 }]}>{specificHomework?.givenBy}   |   {formatDate2(abstractHomework.dateGiven)}</Text>
+          <View style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            borderWidth: 2,
+            borderColor: DefaultTheme.colors.surfaceOutline,
+            borderRadius: 5,
+            paddingHorizontal: 5,
+            paddingVertical: 2,
+            marginTop: 20,
+          }}>
+            <GraduationCapIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
+            <Text style={DefaultTheme.fonts.labelMedium}>{specificHomework.givenBy}</Text>
+          </View>
+          <View style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            borderWidth: 2,
+            borderColor: DefaultTheme.colors.surfaceOutline,
+            borderRadius: 5,
+            paddingHorizontal: 5,
+            paddingVertical: 2,
+            marginVertical: 5,
+          }}>
+            <CalendarIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
+            <Text style={DefaultTheme.fonts.labelMedium}>Donné le {formatDate2(abstractHomework.dateGiven)}</Text>
+          </View>
         </View>
       </Animated.View>
     </View>
