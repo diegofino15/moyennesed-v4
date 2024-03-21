@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import useState from "react-usestateref";
 import { Text, View, Dimensions, ScrollView, Platform, Switch } from "react-native";
-import { ChevronRightIcon, ChevronsUpDownIcon, DraftingCompassIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneIcon, MegaphoneOffIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
+import { AlertTriangleIcon, ChevronRightIcon, ChevronsUpDownIcon, CircleEllipsisIcon, DraftingCompassIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneIcon, MegaphoneOffIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as DropdownMenu from 'zeego/dropdown-menu'
 
 import MarkCard from "./MarkCard";
 import CoefficientPicker from "./CoefficientPicker";
@@ -14,6 +15,7 @@ import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import CustomModal from "../../../components/CustomModal";
+import CustomInformationCard from "../../../components/CustomInformationCard";
 import ColorsHandler from "../../../../util/ColorsHandler";
 import { asyncExpectedResult, formatAverage } from "../../../../util/Utils";
 import HapticsHandler from "../../../../util/HapticsHandler";
@@ -106,6 +108,22 @@ function SubjectPage({
 
   // Is subject effective
   const [isEffective, setIsEffective] = useState(shownSubject.isEffective ?? true);
+  function toggleIsEffective() {
+    asyncExpectedResult(
+      async () => {
+        await AppData.setCustomData(
+          accountID,
+          "subjects",
+          `${shownSubject.id}/${shownSubject.subID ?? ""}`,
+          "isEffective",
+          !shownSubject.isEffective,
+        );
+        await AppData.recalculateAverageHistory(accountID);
+      },
+      () => updateGlobalDisplay(),
+      () => setIsEffective(!shownSubject.isEffective),
+    )
+  }
 
   // Chart
   const [showClassValueOnChart, setShowClassValueOnChart] = useState(false);
@@ -113,22 +131,50 @@ function SubjectPage({
 
   return (
     <CustomModal
-      title={!shownSubject.subID && (shownSubject.title ?? "---")}
+      titleStyle={{ color: "black" }}
       goBackFunction={() => navigation.pop()}
-      onlyShowBackButtonOnAndroid
       goBackButtonStyle={{ opacity: 0.6 }}
-      titleObject={shownSubject.subID && (
+      onlyShowBackButtonOnAndroid
+      titleObject={(
         <View style={{ flexDirection: "row", alignItems: "center", maxWidth: '100%', overflow: 'hidden' }}>
-          <Text style={[DefaultTheme.fonts.titleSmall, { color: "black" }]}>{mainSubject.title ?? "---"}</Text>
-          <ChevronRightIcon size={25} color={"black"} />
+          {!isEffective && <MegaphoneOffIcon size={25} color={'black'} style={{ marginRight: 5 }}/>}
+          {shownSubject.subID && <Text style={[DefaultTheme.fonts.titleSmall, { color: "black" }]}>{mainSubject.title ?? "---"}</Text>}
+          {shownSubject.subID && <ChevronRightIcon size={25} color={"black"}/>}
           <Text style={[DefaultTheme.fonts.titleSmall, { color: "black" }]}>{shownSubject.title ?? "---"}</Text>
         </View>
       )}
+      rightIcon={(
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger>
+            <CircleEllipsisIcon size={30} color={'black'}/>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+            <DropdownMenu.Label>Plus d'infos</DropdownMenu.Label>
+
+            <DropdownMenu.Item key={0}>
+              <DropdownMenu.ItemTitle>{shownSubject.id}</DropdownMenu.ItemTitle>
+              <DropdownMenu.ItemSubtitle>Code matière</DropdownMenu.ItemSubtitle>
+            </DropdownMenu.Item>
+            {shownSubject.subID && (
+              <DropdownMenu.Item key={1}>
+                <DropdownMenu.ItemTitle>{shownSubject.subID}</DropdownMenu.ItemTitle>
+                <DropdownMenu.ItemSubtitle>Code sous matière</DropdownMenu.ItemSubtitle>
+              </DropdownMenu.Item>
+            )}
+
+            <DropdownMenu.Item key={2} destructive={isEffective} onSelect={toggleIsEffective}>
+              <DropdownMenu.ItemIcon ios={{
+                name: isEffective ? 'trash' : 'plus',
+              }} androidIconName='ic_delete'/> 
+              <DropdownMenu.ItemTitle>{isEffective ? "Désactiver cette matière" : "Activer cette matière"}</DropdownMenu.ItemTitle>
+            </DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      )}
+      rightIconStyle={{ backgroundColor: undefined, borderWidth: 0, padding: 7 }}
       headerStyle={{ backgroundColor: dark }}
-      titleStyle={{ color: "black" }}
-      extraHeight={200}
       style={{ paddingVertical: 0 }}
-      setWidth={(value) => setWindowWidth(value)}
+      setWidth={setWindowWidth}
       children={
         <View style={{ backgroundColor: DefaultTheme.colors.backdrop }}>
           {/* Top portion */}
@@ -330,34 +376,16 @@ function SubjectPage({
             )}
 
             {/* Is effective */}
-            <CustomSimpleInformationCard
-              icon={isEffective ? (
-                <MegaphoneIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
-              ) : (
-                <MegaphoneOffIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
-              )}
-              content={isEffective ? "Significative" : "Non significative"}
-              rightIcon={(
-                <Switch
-                  value={isEffective}
-                  onValueChange={() => asyncExpectedResult(
-                    async () => {
-                      await AppData.setCustomData(
-                        accountID,
-                        "subjects",
-                        `${shownSubject.id}/${shownSubject.subID ?? ""}`,
-                        "isEffective",
-                        !shownSubject.isEffective,
-                      );
-                      await AppData.recalculateAverageHistory(accountID);
-                    },
-                    () => updateGlobalDisplay(),
-                    () => setIsEffective(!shownSubject.isEffective),
-                  )}
-                />
-              )}
-              style={{ marginTop: 5 }}
-            />
+            {!isEffective && (
+              <CustomInformationCard
+                title={"Activer cette matière"}
+                description={"Cette matière est désactivée, elle ne compte pas dans la moyenne générale."}
+                icon={<AlertTriangleIcon size={20} color={DefaultTheme.colors.error}/>}
+                onPress={toggleIsEffective}
+                error
+                style={{ marginTop: 5 }}
+              />
+            )}
 
             {/* Teachers */}
             {shownSubject.teachers && (

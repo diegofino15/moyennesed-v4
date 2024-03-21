@@ -17,7 +17,7 @@ function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, navigation,
   } = route.params;
 
   // Get abstract exams (waiting for them to load)
-  const [abstractHomeworks, setAbstractExams] = useState({});
+  const [abstractExams, setAbstractExams] = useState({});
   useEffect(() => {
     AsyncStorage.getItem("homework").then(data => {
       var cacheData = {};
@@ -49,27 +49,23 @@ function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, navigation,
       setWidth={setWindowWidth}
       children={(
         <View style={{ backgroundColor: DefaultTheme.colors.backdrop }}>
-          {Object.keys(abstractHomeworks).map((day, index) => (
-            <View key={day}>
+          {Object.keys(abstractExams).map(day => (
+            <View key={day} style={{
+              marginBottom: 50,
+            }}>
               <HomeworkDay
                 accountID={accountID}
                 day={day}
-                exams={abstractHomeworks[day]}
+                homeworks={abstractExams[day]}
                 loadAtDisplay
                 openAllAtDisplay
                 canLoad={isConnected && !isConnecting}
                 windowWidth={windowWidth}
               />
-              {index != Object.keys(abstractHomeworks).length - 1 && (
-                <CustomSeparator style={{
-                  backgroundColor: DefaultTheme.colors.surfaceOutline,
-                  left: -10,
-                  width: windowWidth - 20,
-                  marginVertical: 30,
-                }}/>
-              )}
             </View>
           ))}
+          
+          <View style={{ height: 50 }}/> 
         </View>
       )}
     />

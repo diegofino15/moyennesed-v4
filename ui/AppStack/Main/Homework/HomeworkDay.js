@@ -12,7 +12,7 @@ import AppData from "../../../../core/AppData";
 
 
 // Homework day
-function HomeworkDay({ accountID, day, exams, loadAtDisplay=false, openAllAtDisplay=false, canLoad=true, windowWidth }) {
+function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAtDisplay=false, canLoad=true, windowWidth }) {
   const [manualRefreshing, setManualRefreshing] = useState(false);
 
   const [gettingSpecificHomeworks, setGettingSpecificHomeworks] = useState(false);
@@ -43,7 +43,7 @@ function HomeworkDay({ accountID, day, exams, loadAtDisplay=false, openAllAtDisp
 
   useEffect(() => {
     async function getSpecificHomeworks() {
-      if (specificHomeworks[Object.keys(exams)[0]] && !manualRefreshing) { return; }
+      if (specificHomeworks[Object.keys(homeworks)[0]] && !manualRefreshing) { return; }
 
       await loadSpecificHomework(!loadAtDisplay);
       if (manualRefreshing) { setManualRefreshing(false); }
@@ -53,7 +53,7 @@ function HomeworkDay({ accountID, day, exams, loadAtDisplay=false, openAllAtDisp
   
   return (
     <View>
-      <CustomSection
+      {/* <CustomSection
         title={formatDate2(day).toUpperCase()}
         rightIcon={(
           <PressableScale onPress={() => { if (!gettingSpecificHomeworks) { setManualRefreshing(true); } }}>
@@ -72,9 +72,38 @@ function HomeworkDay({ accountID, day, exams, loadAtDisplay=false, openAllAtDisp
         textAreaStyle={{ left: 0 }}
         viewStyle={{ marginRight: 12.5, marginBottom: 5 }}
         textStyle={DefaultTheme.fonts.labelLarge}
-      />
+      /> */}
 
-      {Object.values(exams).map(exam => (
+      <View style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 20,
+      }}>
+        <View style={{
+          paddingHorizontal: 15,
+          paddingVertical: 5,
+          borderTopRightRadius: 10,
+          borderBottomRightRadius: 10,
+          backgroundColor: DefaultTheme.colors.primary,
+          left: -20,
+        }}>
+          <Text style={[DefaultTheme.fonts.labelLarge, { color: DefaultTheme.colors.onPrimary }]}>{formatDate2(day).toUpperCase()}</Text>
+        </View>
+        
+        <PressableScale style={{
+          left: -10,
+        }} onPress={() => { if (!gettingSpecificHomeworks) { setManualRefreshing(true); } }}>
+          {gettingSpecificHomeworks || manualRefreshing ? (
+            <ActivityIndicator size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
+          ) : errorGettingSpecificHomeworks ? (
+            <AlertTriangleIcon size={25} color={DefaultTheme.colors.error}/>
+          ) : !waitingToLoad && (
+            <RefreshCcwIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
+          )}
+        </PressableScale>
+      </View>
+
+      {Object.values(homeworks).map(exam => (
         <HomeworkCard
           key={exam.id}
           accountID={accountID}
@@ -87,7 +116,7 @@ function HomeworkDay({ accountID, day, exams, loadAtDisplay=false, openAllAtDisp
         />
       ))}
 
-      {Object.keys(exams).length == 0 && (
+      {Object.keys(homeworks).length == 0 && (
         <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: "center", marginTop: "50%" }]}>Aucun devoir pour ce jour</Text>
       )}
 

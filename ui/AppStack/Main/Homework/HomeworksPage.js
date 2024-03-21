@@ -12,29 +12,31 @@ import CustomSeparator from "../../../components/CustomSeparator";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import HapticsHandler from "../../../../util/HapticsHandler";
 import AppData from "../../../../core/AppData";
+import { formatDate2, formatDate3 } from "../../../../util/Utils";
+import CustomSection from "../../../components/CustomSection";
 
 
 // Exam page
 function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
   const { accountID } = route.params;
 
-  // Get abstract exams (waiting for them to load)
+  // Get abstract homeworks (waiting for them to load)
   const [abstractHomeworks, setAbstractHomeworks] = useState({});
   useEffect(() => {
     AsyncStorage.getItem("homework").then(data => {
       var cacheData = {};
       if (data) { cacheData = JSON.parse(data); }
       if (accountID in cacheData) {
-        let newAbstractExams = {};
+        let newAbstractExams = cacheData[accountID].data;
         Object.keys(cacheData[accountID].data.days).map(day => {
-          newAbstractExams[day] = cacheData[accountID].data.days[day].map(examID => cacheData[accountID].data.homeworks[examID]);
+          newAbstractExams.days[day] = cacheData[accountID].data.days[day].map(examID => cacheData[accountID].data.homeworks[examID]);
         });
         setAbstractHomeworks(newAbstractExams);
       }
     });
   }, [globalDisplayUpdater]);
 
-  // Refresh next exams
+  // Refresh next homeworks
   const [refreshing, setRefreshing] = useState(false);
   const [errorGettingHomework, setErrorGettingHomework] = useState(false);
   async function refreshNextExams() {
@@ -78,25 +80,55 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
           />
         )}
 
-        {Object.keys(abstractHomeworks).map((day, index) => (
-          <View key={day}>
+        {Object.keys(abstractHomeworks?.weeks ?? {}).map(week => {
+          let startOfWeek = week.split("/")[0];
+          let endOfWeek = week.split("/")[1];
+          return (
+            <View key={week}>
+              <PressableScale style={{
+                paddingHorizontal: 15,
+                paddingVertical: 5,
+                borderRadius: 10,
+                borderWidth: 2,
+                borderColor: DefaultTheme.colors.surfaceOutline,
+                marginBottom: 30,
+                alignSelf: 'center',
+              }}>
+                <Text style={DefaultTheme.fonts.bodyLarge}>{`Semaine ${formatDate3(startOfWeek)}  -  ${formatDate3(endOfWeek)}`}</Text>
+              </PressableScale>
+
+              {abstractHomeworks.weeks[week].map(day => (
+                <View key={day} style={{
+                  marginBottom: 50,
+                }}>
+                  <HomeworkDay
+                    accountID={accountID}
+                    day={day}
+                    homeworks={abstractHomeworks.days[day]}
+                    canLoad={isConnected && !isConnecting}
+                    windowWidth={Dimensions.get('window').width}
+                  />
+                </View>
+              ))}
+            </View>
+          );
+        })}
+
+        {/* {Object.keys(abstractHomeworks).map(day => (
+          <View key={day} style={{
+            marginBottom: 50,
+          }}>
             <HomeworkDay
               accountID={accountID}
               day={day}
-              exams={abstractHomeworks[day]}
+              homeworks={abstractHomeworks[day]}
               canLoad={isConnected && !isConnecting}
               windowWidth={Dimensions.get('window').width}
             />
-            {index != Object.keys(abstractHomeworks).length - 1 ? (
-              <CustomSeparator style={{
-                backgroundColor: DefaultTheme.colors.surfaceOutline,
-                left: -10,
-                width: Dimensions.get('window').width - 20,
-                marginVertical: 30,
-              }}/>
-            ) : <View style={{ height: 100 }}/>}
           </View>
-        ))}
+        ))} */}
+
+        <View style={{ height: 50 }}/>
       </ScrollView>
 
       {/* Header */}
@@ -109,7 +141,7 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
         height: Constants.statusBarHeight + 50,
         zIndex: 1,
       }} tint="light" intensity={50}>
-        <Text style={[DefaultTheme.fonts.titleSmall, { height: 26 }]}>Prochains devoirs</Text>
+        <Text style={[DefaultTheme.fonts.titleSmall, { height: 26 }]}>Travail à faire</Text>
 
         {/* Go back button */}
         <PressableScale style={{

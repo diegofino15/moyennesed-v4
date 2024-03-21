@@ -48,9 +48,9 @@ function Attachment({ accountID, file, windowWidth }) {
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <FileIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
             <Text style={[DefaultTheme.fonts.bodyMedium, {
-              width: windowWidth - 140,
+              width: windowWidth - 150,
               height: 22,
-            }]}>{file.title}</Text>
+            }]} numberOfLines={1}>{file.title}</Text>
           </View>
           {fileExists ? (
             <ExternalLinkIcon size={20} color={DefaultTheme.colors.onSurface}/>
