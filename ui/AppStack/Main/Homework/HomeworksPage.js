@@ -105,7 +105,13 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
           }}/>
         )}
         ListFooterComponent={() => (
-          <View style={{ height: 100 }}/>
+          <View style={{
+            left: -20,
+            width: Dimensions.get('window').width,
+            height: 100,
+            top: -20,
+            backgroundColor: DefaultTheme.colors.backdrop,
+          }}/>
         )}
       />
 
