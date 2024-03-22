@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
-import { ActivityIndicator, Text, View } from "react-native";
-import { AlertTriangleIcon, DownloadIcon, RefreshCcwIcon } from "lucide-react-native";
+import { ActivityIndicator, Dimensions, Text, View } from "react-native";
+import { AlertTriangleIcon, RefreshCcwIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 
 import HomeworkCard from "./HomeworkCard";
-import CustomSection from "../../../components/CustomSection";
-import { formatDate, formatDate2, formatDate3 } from "../../../../util/Utils";
+import { formatDate2, formatDate3 } from "../../../../util/Utils";
 import AppData from "../../../../core/AppData";
 
 
@@ -20,7 +19,6 @@ function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAt
   const [waitingToLoad, setWaitingToLoad] = useState(false);
 
   const [specificHomeworks, setSpecificHomeworks] = useState({});
-  const [lastTimeUpdated, setLastTimeUpdated] = useState(null);
 
   async function loadSpecificHomework(forceCache=false) {
     if (!canLoad) { return; }
@@ -30,7 +28,6 @@ function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAt
     const { status, data, date } = await AppData.getSpecificHomeworkForDay(accountID, day, manualRefreshing, forceCache);
     if (status == 1) {
       setSpecificHomeworks(data);
-      setLastTimeUpdated(date);
       setWaitingToLoad(false);
     } else if (status == 0) {
       setWaitingToLoad(true);
@@ -50,30 +47,38 @@ function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAt
     }
     getSpecificHomeworks();
   }, [manualRefreshing, canLoad]);
-  
+
   return (
-    <View>
+    <View style={{
+      paddingHorizontal: 10,
+      paddingTop: 10,
+      paddingBottom: 0,
+      left: -10,
+      width: Dimensions.get('window').width - 20,
+      backgroundColor: DefaultTheme.colors.surface,
+      borderRadius: 10,
+    }}>
       <View style={{
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 20,
+        justifyContent: 'space-between',
+        paddingRight: 12.5,
+        marginBottom: 10,
       }}>
         <View style={{
           paddingHorizontal: 15,
           paddingVertical: 5,
           borderTopRightRadius: 10,
           borderBottomRightRadius: 10,
-          backgroundColor: DefaultTheme.colors.primary,
-          left: -20,
+          backgroundColor: DefaultTheme.colors.primaryLight,
+          left: -10,
         }}>
-          <Text style={[DefaultTheme.fonts.labelLarge, { color: DefaultTheme.colors.onPrimary }]}>{
+          <Text style={[DefaultTheme.fonts.labelLarge, { color: DefaultTheme.colors.primary }]}>{
             formatDate3(day) == formatDate3(null, new Date()) ? "Aujourd'hui" : formatDate2(day)
           }</Text>
         </View>
         
-        <PressableScale style={{
-          left: -10,
-        }} onPress={() => { if (!gettingSpecificHomeworks) { setManualRefreshing(true); } }}>
+        <PressableScale onPress={() => { if (!gettingSpecificHomeworks) { setManualRefreshing(true); } }}>
           {gettingSpecificHomeworks || manualRefreshing ? (
             <ActivityIndicator size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
           ) : errorGettingSpecificHomeworks ? (

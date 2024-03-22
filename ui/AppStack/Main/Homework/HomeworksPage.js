@@ -56,6 +56,8 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
       
       {/* Homeworks */}
       <SectionList
+        showsVerticalScrollIndicator={false}
+        initialNumToRender={1}
         sections={Object.values(abstractHomeworks.weeks ?? {})}
         refreshing={refreshing}
         refreshControl={(
@@ -90,7 +92,8 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
             borderRadius: 10,
             overflow: 'hidden',
             backgroundColor: Platform.select({ android: DefaultTheme.colors.backdrop }),
-            marginBottom: 30,
+            marginVertical: 15,
+            top: -15,
             alignSelf: 'center',
           }} tint="dark" intensity={50}>
             <Text style={DefaultTheme.fonts.bodyLarge}>{title}</Text>

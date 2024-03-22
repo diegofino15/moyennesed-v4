@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import useState from "react-usestateref";
 import { View, Text, ActivityIndicator, Dimensions } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
@@ -9,7 +10,6 @@ import RNFS from "react-native-fs";
 
 import CustomSeparator from "../../../components/CustomSeparator";
 import CustomChooser from "../../../components/CustomChooser";
-import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import { formatDate2, asyncExpectedResult } from "../../../../util/Utils";
 import ColorsHandler from "../../../../util/ColorsHandler";
 import HapticsHandler from "../../../../util/HapticsHandler";
@@ -74,6 +74,25 @@ function Attachment({ accountID, file, windowWidth }) {
       }}
       longPress
     />
+  );
+}
+
+// Little info card
+function LittleInfoCard({ title, icon, style }) {
+  return (
+    <View style={{
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderWidth: 2,
+      borderColor: DefaultTheme.colors.surfaceOutline,
+      borderRadius: 5,
+      paddingHorizontal: 5,
+      paddingVertical: 2,
+      ...style,
+    }}>
+      {icon}
+      <Text style={DefaultTheme.fonts.labelMedium}>{title}</Text>
+    </View>
   );
 }
 
@@ -219,14 +238,13 @@ function HomeworkCard({
 
       <Animated.View style={[animatedStyle, {
         overflow: 'hidden',
-        backgroundColor: DefaultTheme.colors.surface,
         borderRadius: 10,
         marginTop: 5,
       }]}>
         <View style={{
-          paddingVertical: 10,
-          paddingHorizontal: 15,
           position: 'absolute',
+          padding: 10,
+          width: Dimensions.get('window').width - 40,
         }} onLayout={onLayout}>
           {/* What to do */}
           <Text style={DefaultTheme.fonts.bodyMedium}>{specificHomework?.todo}</Text>
@@ -243,32 +261,16 @@ function HomeworkCard({
           )}
 
           {/* Professor name */}
-          <View style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            borderWidth: 2,
-            borderColor: DefaultTheme.colors.surfaceOutline,
-            borderRadius: 5,
-            paddingHorizontal: 5,
-            paddingVertical: 2,
-            marginTop: 20,
-          }}>
-            <GraduationCapIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
-            <Text style={DefaultTheme.fonts.labelMedium}>{specificHomework.givenBy}</Text>
-          </View>
-          <View style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            borderWidth: 2,
-            borderColor: DefaultTheme.colors.surfaceOutline,
-            borderRadius: 5,
-            paddingHorizontal: 5,
-            paddingVertical: 2,
-            marginVertical: 5,
-          }}>
-            <CalendarIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
-            <Text style={DefaultTheme.fonts.labelMedium}>Donné le {formatDate2(abstractHomework.dateGiven)}</Text>
-          </View>
+          <LittleInfoCard
+            title={specificHomework.givenBy}
+            icon={<GraduationCapIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>}
+            style={{ marginTop: 20 }}
+          />
+          <LittleInfoCard
+            title={`Donné le ${formatDate2(abstractHomework.dateGiven)}`}
+            icon={<CalendarIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>}
+            style={{ marginVertical: 5 }}
+          />
         </View>
       </Animated.View>
     </View>
