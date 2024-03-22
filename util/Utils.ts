@@ -3,7 +3,7 @@ import { htmlToText } from "html-to-text";
 var Buffer = require('buffer/').Buffer;
 
 
-async function openLink(link) {
+async function openLink(link: string) {
   let supported = await Linking.canOpenURL(link);
   if (supported) {
     await Linking.openURL(link);
@@ -12,19 +12,19 @@ async function openLink(link) {
   }
 }
 
-async function wait(ms) {
+async function wait(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function capitalizeWords(phrase) {
+function capitalizeWords(phrase: string): string {
   return phrase.split(" ").map(word => word.charAt(0).toUpperCase() + word.toLowerCase().slice(1)).join(" ");
 }
 
-function formatDate(date) {
+function formatDate(date: string): string {
   if (!date) { return "--"; }
-  const previousDate = new Date(date);
+  const previousDate: Date = new Date(date);
 
-  if ((Date.now() - previousDate) < 43200000) {
+  if ((Date.now() - previousDate.valueOf()) < 12 * 60 * 60 * 1000) {
     return previousDate.toLocaleString("fr-FR", { timeZone: "Europe/Paris", hour: "2-digit", minute: "2-digit" }).replace(":", "h");
   }
   return previousDate.toLocaleString("fr-FR", { timeZone: "Europe/Paris", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }).replace(":", "h");
@@ -53,22 +53,22 @@ const monthsNames = [
   "Novembre",
   "Décembre",
 ];
-function formatDate2(givenDate) {
+function formatDate2(givenDate: string): string {
   const date = new Date(givenDate);
   return `${daysNames[date.getDay()]} ${date.getDate()} ${monthsNames[date.getMonth()]}`;
 }
-function formatDate3(givenDate, date) {
+function formatDate3(givenDate: string | null, date: null | Date): string {
   date ??= new Date(givenDate);
   return `${date.getDate()} ${monthsNames[date.getMonth()]}`;
 }
 
-function formatAverage(average, decimals=true) {
+function formatAverage(average: number, decimals: boolean =true): string {
   if (!average) { return "--"; }
   if (decimals) { return average.toFixed(2).replace('.', ','); }
   return (Math.round(average * 100) / 100).toString().replace('.', ',');
 }
 
-function formatMark(mark, isClass=false) {
+function formatMark(mark: { valueStr: string, classValue: number, valueOn: number }, isClass: boolean =false): string {
   if (!isClass) {
     if (mark.valueOn == 20) { return mark.valueStr; }
     return `${mark.valueStr}/${mark.valueOn}`;
@@ -78,18 +78,17 @@ function formatMark(mark, isClass=false) {
   }
 }
 
-function getLatestDate(date1, date2) {
-  // Compare two date objects and return the latest
+function getLatestDate(date1: Date, date2: Date): Date {
   if (date1 > date2) { return date1; }
   return date1;
 }
 
-function asyncExpectedResult(func, onFinish, expectedResult) {
+function asyncExpectedResult(func: any, onFinish: any, expectedResult: any) {
   expectedResult();
   func().then(onFinish);
 }
 
-function parseHtmlData(data) {
+function parseHtmlData(data: any): string {
   if (!data) { return ""; }
   let binaryData = Buffer.from(data, 'base64').toString('binary');
   let utf8Data = decodeURIComponent(escape(binaryData));
