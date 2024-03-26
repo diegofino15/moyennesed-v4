@@ -247,10 +247,7 @@ function AppStack({ cameFromAuthStack }) {
   // Update all displays when changing averages (ex: update opened subject
   // page when marks are updated and a new mark appears)
   const [globalDisplayUpdater, setGlobalDisplayUpdater] = useState(0);
-  function updateGlobalDisplay() {
-    setGlobalDisplayUpdater(globalDisplayUpdater + 1);
-    console.log("Was called ->");
-  }
+  function updateGlobalDisplay() { setGlobalDisplayUpdater(globalDisplayUpdater + 1); }
   
   return (
     <Stack.Navigator>
