@@ -6,7 +6,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import HomeworkDay from "./HomeworkDay";
 import CustomModal from "../../../components/CustomModal";
-import CustomSeparator from "../../../components/CustomSeparator";
 
 // Exam page
 function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, navigation, route }) {

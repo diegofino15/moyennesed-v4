@@ -73,7 +73,7 @@ function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAt
           left: -10,
         }}>
           <Text style={[DefaultTheme.fonts.labelLarge, { color: DefaultTheme.colors.primary, height: 25 }]}>{
-            formatDate3(day) == formatDate3(null, new Date()) ? "Aujourd'hui" : formatDate2(day)
+            formatDate2(day, true)
           }</Text>
         </View>
         

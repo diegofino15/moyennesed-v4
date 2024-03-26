@@ -1215,7 +1215,7 @@ class AppData {
 
     // Sort upcoming exams by date
     abstractHomework.upcomingExams.sort((a, b) => {
-      return abstractHomework.homeworks[a].dateGiven - abstractHomework.homeworks[b].dateGiven;
+      return new Date(abstractHomework.homeworks[a].dateFor) - new Date(abstractHomework.homeworks[b].dateFor);
     });
 
     // Save data

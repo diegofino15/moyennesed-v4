@@ -4,17 +4,18 @@ import { PressableScale } from "react-native-pressable-scale";
 import { ArrowRightIcon, HelpCircleIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import NextExamCard from "./NextExamCard";
 
 
 // Homework status
 function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettingHomework, navigation }) {
-  const [totalExams, setTotalExams] = useState(0);
+  const [upcomingExams, setUpcomingExams] = useState([]);
   useEffect(() => {
     AsyncStorage.getItem("homework").then(data => {
       if (!data) { return; }
       const cacheData = JSON.parse(data);
       if (accountID in cacheData) {
-        setTotalExams(cacheData[accountID].data.upcomingExams.length);
+        setUpcomingExams(cacheData[accountID].data.upcomingExams);
       }
     });
   }, [accountID, gotHomework]);
@@ -22,20 +23,16 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
   return (
     <View style={{
       marginHorizontal: 20,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
+      backgroundColor: DefaultTheme.colors.surface,
+      borderRadius: 10,
+      padding: 10,
     }}>
-      {/* Middle bar */}
       <View style={{
-        position: 'absolute',
-        width: '100%',
-        height: 3,
-        backgroundColor: DefaultTheme.colors.surfaceOutline,
-      }}/>
-      
-      {/* Loading status */}
-      <View style={{ backgroundColor: DefaultTheme.colors.background, paddingRight: 10 }}>
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}>
+        {/* Loading status */}
         <PressableScale style={{
           backgroundColor: isGettingHomework ? DefaultTheme.colors.primaryLight : gotHomework ? DefaultTheme.colors.successLight : DefaultTheme.colors.errorLight,
           borderWidth: 2,
@@ -45,6 +42,7 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
           alignItems: 'center',
           paddingVertical: 2,
           paddingHorizontal: 5,
+          marginRight: 10,
         }} onPress={() => { if (!isGettingHomework) { navigation.navigate("HomeworkInformationPage", { accountID }); } }}>
           <Text style={[
             DefaultTheme.fonts.labelMedium, {
@@ -54,19 +52,24 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
           }]}>{isGettingHomework ? "Chargement..." : gotHomework ? "À jour" : errorGettingHomework ? "Erreur" : "Pas à jour"}</Text>
           {(!isGettingHomework) && <HelpCircleIcon size={20} color={gotHomework ? DefaultTheme.colors.success : DefaultTheme.colors.error}/>}
         </PressableScale>
-      </View>
+        
+        {/* Middle bar */}
+        <View style={{
+          flexGrow: 1,
+          height: 3,
+          backgroundColor: DefaultTheme.colors.surfaceOutline,
+        }}/>
 
-      {/* Homework */}
-      <View style={{ backgroundColor: DefaultTheme.colors.background, paddingLeft: 5 }}>
+        {/* Homework */}
         <PressableScale style={{
-          backgroundColor: DefaultTheme.colors.surface,
+          backgroundColor: DefaultTheme.colors.background,
           borderWidth: 2,
           borderColor: DefaultTheme.colors.surfaceOutline,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
           borderRadius: 5,
-          marginLeft: 5,
+          marginLeft: 10,
           paddingVertical: 5,
           paddingLeft: 10,
           paddingRight: 5,
@@ -75,6 +78,11 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
           <ArrowRightIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
         </PressableScale>
       </View>
+
+      {/* Next exams */}
+      {(upcomingExams.length > 0) && (
+        <NextExamCard accountID={accountID} examID={upcomingExams[0]} gotHomework={gotHomework} navigation={navigation}/>
+      )}
     </View>
   );
 }

@@ -53,13 +53,43 @@ const monthsNames = [
   "Novembre",
   "Décembre",
 ];
-function formatDate2(givenDate: string): string {
+function formatDate2(givenDate: string, tellIfNear: boolean = false): string {
   const date = new Date(givenDate);
+
+  if (tellIfNear) {
+    const now = new Date();
+    if (date.getFullYear() == now.getFullYear() && date.getMonth() == now.getMonth()) {
+      if (date.getDate() == now.getDate()) {
+        return "Aujourd'hui";
+      } else if (date.getDate() == now.getDate() + 1) {
+        return "Demain";
+      }
+    }
+  }
+
   return `${daysNames[date.getDay()]} ${date.getDate()} ${monthsNames[date.getMonth()]}`;
 }
-function formatDate3(givenDate: string | null, date: null | Date): string {
+function formatDate3(givenDate: string | null, date: null | Date, tellIfNear: boolean = false): string {
   date ??= new Date(givenDate);
+
+  if (tellIfNear) {
+    const now = new Date();
+    if (date.getFullYear() == now.getFullYear() && date.getMonth() == now.getMonth()) {
+      if (date.getDate() == now.getDate()) {
+        return "Aujourd'hui";
+      } else if (date.getDate() == now.getDate() + 1) {
+        return "Demain";
+      }
+    }
+  }
+
   return `${date.getDate()} ${monthsNames[date.getMonth()]}`;
+}
+function dateDiff(date1: Date, date2: Date): string {
+  const diff = date1.valueOf() - date2.valueOf();
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  return `${hours}h${minutes}m`;
 }
 
 function formatAverage(average: number, decimals: boolean =true): string {
@@ -95,4 +125,4 @@ function parseHtmlData(data: any): string {
   return htmlToText(utf8Data);
 }
 
-export { openLink, wait, capitalizeWords, formatDate, formatDate2, formatDate3, formatAverage, formatMark, getLatestDate, asyncExpectedResult, parseHtmlData };
+export { openLink, wait, capitalizeWords, formatDate, formatDate2, formatDate3, dateDiff, formatAverage, formatMark, getLatestDate, asyncExpectedResult, parseHtmlData };

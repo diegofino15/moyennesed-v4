@@ -163,7 +163,7 @@ function HomeworkCard({
     return {
       height: animatedHeight,
     }
-  })
+  });
 
   return (
     <View style={{
