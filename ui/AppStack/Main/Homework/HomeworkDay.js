@@ -53,7 +53,6 @@ function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAt
       paddingHorizontal: 10,
       paddingTop: 10,
       paddingBottom: 0,
-      left: -10,
       width: windowWidth - 20,
       backgroundColor: DefaultTheme.colors.surface,
       borderRadius: 10,

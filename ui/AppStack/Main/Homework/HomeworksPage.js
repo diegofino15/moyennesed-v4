@@ -69,7 +69,8 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
         )}
         style={{
           backgroundColor: DefaultTheme.colors.backdrop,
-          padding: 20,
+          paddingVertical: 20,
+          paddingHorizontal: 10,
           height: Dimensions.get('window').height - Constants.statusBarHeight - 50,
           overflow: 'visible',
           zIndex: 0,
@@ -101,15 +102,14 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
         )}
         renderSectionFooter={() => (
           <CustomSeparator style={{
-            left: -20,
-            width: Dimensions.get('window').width,
+            width: '100%',
             backgroundColor: DefaultTheme.colors.surfaceOutline,
             marginBottom: 15,
           }}/>
         )}
         ListFooterComponent={() => (
           <View style={{
-            left: -20,
+            left: -10,
             width: Dimensions.get('window').width,
             height: 100,
             top: -20,

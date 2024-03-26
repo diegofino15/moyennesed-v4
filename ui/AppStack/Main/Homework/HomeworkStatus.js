@@ -14,7 +14,7 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
       if (!data) { return; }
       const cacheData = JSON.parse(data);
       if (accountID in cacheData) {
-        setTotalExams(cacheData[accountID].data.totalExams);
+        setTotalExams(cacheData[accountID].data.upcomingExams.length);
       }
     });
   }, [accountID, gotHomework]);

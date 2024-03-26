@@ -46,6 +46,7 @@ function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, navigation,
       onlyShowBackButtonOnAndroid
       goBackButtonStyle={{ opacity: 0.6 }}
       headerStyle={{ backgroundColor: DefaultTheme.colors.error }}
+      horizontalPadding={10}
       setWidth={setWindowWidth}
       children={(
         <View style={{ backgroundColor: DefaultTheme.colors.backdrop }}>
