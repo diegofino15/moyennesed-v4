@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
-import { View, Text, ActivityIndicator, Dimensions } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 import { CalendarIcon, CheckIcon, ChevronDownIcon, ChevronUpIcon, CircleIcon, DownloadIcon, ExternalLinkIcon, FileIcon, GraduationCapIcon } from "lucide-react-native";
@@ -91,7 +91,9 @@ function LittleInfoCard({ title, icon, style }) {
       ...style,
     }}>
       {icon}
-      <Text style={DefaultTheme.fonts.labelMedium}>{title}</Text>
+      <Text style={[DefaultTheme.fonts.labelMedium, {
+        height: 22,
+      }]}>{title}</Text>
     </View>
   );
 }
@@ -200,11 +202,13 @@ function HomeworkCard({
           alignItems: 'center',
           justifyContent: 'space-between',
           flexDirection: 'row',
-          width: windowWidth - 93,
+          flexGrow: 1,
+          marginRight: 5,
         }} onPress={toggleExpand}>
           <Text style={[DefaultTheme.fonts.bodyLarge, {
             color: 'black',
-            width: Dimensions.get('window').width - 160,
+            width: windowWidth - 160,
+            height: 25,
           }]} numberOfLines={1}>{abstractHomework.subjectTitle}</Text>
 
           <View style={{ padding: 10 }}>
@@ -244,7 +248,7 @@ function HomeworkCard({
         <View style={{
           position: 'absolute',
           padding: 10,
-          width: Dimensions.get('window').width - 40,
+          width: windowWidth - 40,
         }} onLayout={onLayout}>
           {/* What to do */}
           <Text style={DefaultTheme.fonts.bodyMedium}>{specificHomework?.todo}</Text>

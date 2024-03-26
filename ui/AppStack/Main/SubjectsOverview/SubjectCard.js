@@ -52,7 +52,7 @@ function EmbeddedSubjectCard({
         backgroundColor: light,
         borderRadius: 10,
         marginVertical: 5,
-        width: Dimensions.get('window').width - (subject.subID ? 85 : 40),
+        flexGrow: 1,
       }} onPress={openSubjectPage}>
         <View style={{
           backgroundColor: dark,
@@ -118,7 +118,7 @@ function EmbeddedSubjectCard({
             title={"Alerte contrôle"}
             icon={<AlertOctagonIcon size={15} color={'white'}/>}
             color={DefaultTheme.colors.error}
-            secondaryTag={hasExam.length > 1 && <Text style={[DefaultTheme.fonts.labelMedium, { color: 'white' }]}>{hasExam.length}</Text>}
+            secondaryTag={hasExam.length > 1 && <Text style={[DefaultTheme.fonts.labelMedium, { color: 'white', height: 22 }]}>{hasExam.length}</Text>}
             onPress={openExamPage}
             offset={15}
             shadow

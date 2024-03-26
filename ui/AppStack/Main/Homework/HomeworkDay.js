@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
-import { ActivityIndicator, Dimensions, Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import { AlertTriangleIcon, RefreshCcwIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
@@ -54,7 +54,7 @@ function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAt
       paddingTop: 10,
       paddingBottom: 0,
       left: -10,
-      width: Dimensions.get('window').width - 20,
+      width: windowWidth - 20,
       backgroundColor: DefaultTheme.colors.surface,
       borderRadius: 10,
     }}>
@@ -73,7 +73,7 @@ function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAt
           backgroundColor: DefaultTheme.colors.primaryLight,
           left: -10,
         }}>
-          <Text style={[DefaultTheme.fonts.labelLarge, { color: DefaultTheme.colors.primary }]}>{
+          <Text style={[DefaultTheme.fonts.labelLarge, { color: DefaultTheme.colors.primary, height: 25 }]}>{
             formatDate3(day) == formatDate3(null, new Date()) ? "Aujourd'hui" : formatDate2(day)
           }</Text>
         </View>

@@ -1,4 +1,4 @@
-import { Dimensions, Text, View } from "react-native";
+import { Dimensions, Platform, Text, View } from "react-native";
 import { ChevronRightIcon, Users2Icon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
@@ -37,7 +37,11 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth })
         justifyContent: 'center',
         marginRight: 10,
       }}>
-        <Text style={[DefaultTheme.fonts.headlineMedium, { color: 'black' }]}>{mark.valueStr}</Text>
+        <Text style={[DefaultTheme.fonts.headlineMedium, {
+          color: 'black',
+          height: 25,
+          top: Platform.select({ android: -2 }),
+        }]}>{mark.valueStr}</Text>
 
         {mark.valueOn != 20 && (
           <View style={{
@@ -51,7 +55,12 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth })
             shadowOpacity: 0.5,
             shadowOffset: { width: 0, height: 0 },
           }}>
-            <Text style={[DefaultTheme.fonts.headlineSmall, { color: 'black', fontSize: 15 }]}>/{mark.valueOn}</Text>
+            <Text style={[DefaultTheme.fonts.headlineSmall, {
+              color: 'black',
+              fontSize: 15,
+              height: 18,
+              top: Platform.select({ android: -2 }),
+            }]}>/{mark.valueOn}</Text>
           </View>
         )}
       </View>

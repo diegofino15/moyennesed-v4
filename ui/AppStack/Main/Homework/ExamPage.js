@@ -64,8 +64,6 @@ function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, navigation,
               />
             </View>
           ))}
-          
-          <View style={{ height: 50 }}/> 
         </View>
       )}
     />

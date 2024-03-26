@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import useState from "react-usestateref";
-import { Text, View, Dimensions, ScrollView, Platform, Switch } from "react-native";
-import { AlertTriangleIcon, ChevronRightIcon, ChevronsUpDownIcon, CircleEllipsisIcon, DraftingCompassIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneIcon, MegaphoneOffIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
+import { Text, View, Dimensions, ScrollView, Platform } from "react-native";
+import { AlertTriangleIcon, ChevronDownIcon, ChevronRightIcon, ChevronsUpDownIcon, CircleEllipsisIcon, DraftingCompassIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneOffIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -15,11 +15,61 @@ import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import CustomModal from "../../../components/CustomModal";
-import CustomInformationCard from "../../../components/CustomInformationCard";
 import ColorsHandler from "../../../../util/ColorsHandler";
 import { asyncExpectedResult, formatAverage } from "../../../../util/Utils";
 import HapticsHandler from "../../../../util/HapticsHandler";
 import AppData from "../../../../core/AppData";
+
+
+// More info
+function MoreInfoPopup({ shownSubject, toggleIsEffective }) {
+  return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger>
+        <ChevronDownIcon size={30} color={'black'}/>
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content>
+        <DropdownMenu.Label>Plus d'infos</DropdownMenu.Label>
+
+        {Platform.select({ ios: (
+          <>
+          <DropdownMenu.Item key={1}>
+            <DropdownMenu.ItemTitle>Code matière</DropdownMenu.ItemTitle>
+            <DropdownMenu.ItemSubtitle>{`${shownSubject.id}${shownSubject.subID ? ` -> ${shownSubject.subID}` : ""}`}</DropdownMenu.ItemSubtitle>
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Item key={2}>
+            <DropdownMenu.ItemTitle>Coefficient par défaut</DropdownMenu.ItemTitle>
+            <DropdownMenu.ItemSubtitle>{`x ${shownSubject.defaultCoefficient}`}</DropdownMenu.ItemSubtitle>
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Item key={3} destructive={shownSubject.isEffective} onSelect={toggleIsEffective}>
+            <DropdownMenu.ItemIcon ios={{
+              name: shownSubject.isEffective ? 'trash' : 'plus',
+            }}/> 
+            <DropdownMenu.ItemTitle>{shownSubject.isEffective ? "Désactiver cette matière" : "Activer cette matière"}</DropdownMenu.ItemTitle>
+          </DropdownMenu.Item>
+          </>
+        ), android: (
+          <>
+          <DropdownMenu.Item key={1}>
+            <DropdownMenu.ItemTitle>{`Code :  ${shownSubject.id}${shownSubject.subID ? ` -> ${shownSubject.subID}` : ""}`}</DropdownMenu.ItemTitle>
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Item key={2}>
+            <DropdownMenu.ItemTitle>{`Coeff. defaut :  x ${shownSubject.defaultCoefficient}`}</DropdownMenu.ItemTitle>
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Item key={3} destructive={shownSubject.isEffective} onSelect={toggleIsEffective}>
+            <DropdownMenu.ItemIcon androidIconName={shownSubject.isEffective ? 'ic_delete' : 'ic_input_add'}/> 
+            <DropdownMenu.ItemTitle>{shownSubject.isEffective ? "Désactiver cette matière" : "Activer cette matière"}</DropdownMenu.ItemTitle>
+          </DropdownMenu.Item>
+          </>
+        ) })}
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
+  );
+}
 
 
 // Subject page
@@ -143,34 +193,7 @@ function SubjectPage({
           <Text style={[DefaultTheme.fonts.titleSmall, { color: "black" }]}>{shownSubject.title ?? "---"}</Text>
         </View>
       )}
-      rightIcon={(
-        <DropdownMenu.Root>
-          <DropdownMenu.Trigger>
-            <CircleEllipsisIcon size={30} color={'black'}/>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Content>
-            <DropdownMenu.Label>Plus d'infos</DropdownMenu.Label>
-
-            <DropdownMenu.Item key={0}>
-              <DropdownMenu.ItemTitle>{shownSubject.id}</DropdownMenu.ItemTitle>
-              <DropdownMenu.ItemSubtitle>Code matière</DropdownMenu.ItemSubtitle>
-            </DropdownMenu.Item>
-            {shownSubject.subID && (
-              <DropdownMenu.Item key={1}>
-                <DropdownMenu.ItemTitle>{shownSubject.subID}</DropdownMenu.ItemTitle>
-                <DropdownMenu.ItemSubtitle>Code sous matière</DropdownMenu.ItemSubtitle>
-              </DropdownMenu.Item>
-            )}
-
-            <DropdownMenu.Item key={2} destructive={isEffective} onSelect={toggleIsEffective}>
-              <DropdownMenu.ItemIcon ios={{
-                name: isEffective ? 'trash' : 'plus',
-              }} androidIconName='ic_delete'/> 
-              <DropdownMenu.ItemTitle>{isEffective ? "Désactiver cette matière" : "Activer cette matière"}</DropdownMenu.ItemTitle>
-            </DropdownMenu.Item>
-          </DropdownMenu.Content>
-        </DropdownMenu.Root>
-      )}
+      rightIcon={<MoreInfoPopup shownSubject={shownSubject} toggleIsEffective={toggleIsEffective}/>}
       rightIconStyle={{ backgroundColor: undefined, borderWidth: 0, padding: 7 }}
       headerStyle={{ backgroundColor: dark }}
       style={{ paddingVertical: 0 }}
@@ -377,14 +400,44 @@ function SubjectPage({
 
             {/* Is effective */}
             {!isEffective && (
-              <CustomInformationCard
-                title={"Activer cette matière"}
-                description={"Cette matière est désactivée, elle ne compte pas dans la moyenne générale."}
-                icon={<AlertTriangleIcon size={20} color={DefaultTheme.colors.error}/>}
-                onPress={toggleIsEffective}
-                error
-                style={{ marginTop: 5 }}
-              />
+              <View style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 5,
+              }}>
+                <View style={{
+                  paddingHorizontal: 10,
+                  paddingVertical: 5,
+                  borderWidth: 2,
+                  borderColor: DefaultTheme.colors.error,
+                  backgroundColor: DefaultTheme.colors.errorLight,
+                  borderRadius: 10,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  flexGrow: 1,
+                }}>
+                  <AlertTriangleIcon size={20} color={DefaultTheme.colors.error} style={{ marginRight: 10 }}/>
+                  <Text style={[DefaultTheme.fonts.labelMedium, {
+                    color: DefaultTheme.colors.error,
+                    height: 22,
+                  }]}>Matière désactivée</Text>
+                </View>
+
+                <PressableScale onPress={toggleIsEffective} style={{
+                  backgroundColor: DefaultTheme.colors.primaryLight,
+                  paddingHorizontal: 10,
+                  paddingVertical: 5,
+                  borderRadius: 10,
+                  borderWidth: 2,
+                  borderColor: DefaultTheme.colors.primary,
+                  marginLeft: 5,
+                }}>
+                  <Text style={[DefaultTheme.fonts.bodyMedium, {
+                    color: DefaultTheme.colors.primary,
+                    height: 22,
+                  }]}>Activer</Text>
+                </PressableScale>
+              </View>
             )}
 
             {/* Teachers */}

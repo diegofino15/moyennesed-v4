@@ -109,6 +109,8 @@ function CustomModal({
             justifyContent: 'center',
             zIndex: 1,
             overflow: 'hidden',
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
             ...(Platform.select({ ios: {}, android: headerStyle }))
           }} tint="light" intensity={Platform.select({ ios: 50, android: 0 })}>
             <View style={{ height: 45 }}/>

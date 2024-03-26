@@ -155,7 +155,7 @@ function ProfilePage({ route, navigation }) {
                         borderRadius: 10,
                         paddingHorizontal: 15,
                         marginLeft: 10,
-                        width: Dimensions.get('window').width - 150,
+                        width: windowWidth - 150,
                         height: 60,
                         justifyContent: 'center',
                       }}>

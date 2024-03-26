@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { useEffect } from "react";
 import { View, Text, FlatList } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { HelpCircleIcon, ChevronsUpDownIcon, Users2Icon } from "lucide-react-native";
@@ -157,4 +157,4 @@ function MarksOverview({
   );
 }
 
-export default memo(MarksOverview);
+export default MarksOverview;
