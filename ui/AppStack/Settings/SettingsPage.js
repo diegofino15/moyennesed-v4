@@ -102,9 +102,7 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
               />
               <CustomLink
                 title={"Clear double auth tokens"}
-                onPress={() => {
-                  AsyncStorage.removeItem("double-auth-tokens");
-                }}
+                onPress={() => { AsyncStorage.removeItem("double-auth-tokens"); }}
                 icon={<KeyIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
               />
             </>
