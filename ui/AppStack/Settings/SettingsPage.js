@@ -2,6 +2,7 @@ import { memo, useEffect } from "react";
 import { View, Text, Platform, Dimensions } from "react-native";
 import { FileXIcon, HandHelpingIcon, KeyIcon, ScaleIcon, Settings2Icon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
 import CustomModal from "../../components/CustomModal";
@@ -12,7 +13,6 @@ import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import CustomTextArea from "../../components/CustomTextArea";
 import CustomLink from "../../components/CustomLink";
 import AppData from "../../../core/AppData";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 // Settings page
