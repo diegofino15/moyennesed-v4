@@ -37,8 +37,8 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
           
           {/* Profile */}
           <CustomSectionButton
-            icon={currentAccount.accountType == "E" && <CustomProfilePhoto accountID={currentAccount.id} size={70}/>}
-            title={`${currentAccount.firstName} ${currentAccount.lastName}`}
+            icon={currentAccount?.accountType == "E" && <CustomProfilePhoto accountID={currentAccount.id} size={70}/>}
+            title={`${currentAccount?.firstName} ${currentAccount?.lastName}`}
             description="Paramètres du profil"
             onPress={() => navigation.navigate("ProfilePage", { currentAccount: currentAccount })}
             wrapperStyle={{ marginBottom: 10 }}
@@ -52,6 +52,12 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
             title={"Effacer le cache"}
             onPress={() => {
               AsyncStorage.removeItem("specific-homework");
+            }}
+          />
+          <CustomLink
+            title={"Clear double auth tokens"}
+            onPress={() => {
+              AsyncStorage.removeItem("double-auth-tokens");
             }}
           />
 

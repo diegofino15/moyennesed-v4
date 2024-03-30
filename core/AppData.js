@@ -15,6 +15,11 @@ class AppData {
 
   // Login functions //
 
+  // Helper, needed to open security question popup whenever needed
+  static openDoubleAuthPopup = null;
+  static wantToOpenDoubleAuthPopup = false;
+  static temporaryLoginToken = "";
+
   // Login
   static async login(username, password) {
     // Demo account
@@ -26,9 +31,24 @@ class AppData {
 
     console.log(`Logging-in ${username}...`);
 
+    // Get double auth tokens
+    var cn = ""; var cv = "";
+    const doubleAuthTokens = await AsyncStorage.getItem("double-auth-tokens");
+    if (doubleAuthTokens) {
+      let data = JSON.parse(doubleAuthTokens);
+      cn = data.cn;
+      cv = data.cv;
+    }
+
     const credentials = {
       identifiant: encodeURIComponent(username),
       motdepasse: encodeURIComponent(password),
+      "fa": [
+        {
+          cn,
+          cv,
+        }
+      ],
     };
     var response = await axios
       .post(
@@ -41,7 +61,7 @@ class AppData {
       });
     response ??= { status: 500 };
 
-    var status = 0; // 1 = success | 2 = choose account | 0 = wrong password | -1 = error
+    var status = 0; // 1 = success | 2 = choose account | 3 = security question | 0 = wrong password | -1 = error
     switch (response.status) {
       case 200:
         console.log("API request successful");
@@ -69,6 +89,20 @@ class AppData {
               }),
             );
             console.log("Login successful !");
+            break;
+          case 250: // Need to confirm identity with security question
+            await AsyncStorage.setItem(
+              "credentials",
+              JSON.stringify({
+                username: username,
+                password: password,
+              }),
+            );
+            this.temporaryLoginToken = response.data.token;
+            if (this.openDoubleAuthPopup) { this.openDoubleAuthPopup(); }
+            else { this.wantToOpenDoubleAuthPopup = true; }
+            console.log("Need to confirm identity...");
+            status = 0;
             break;
           case 505: // Wrong password
             console.log(`Couldn't connect, wrong password for ${username}`);

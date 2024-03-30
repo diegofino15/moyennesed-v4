@@ -226,13 +226,15 @@ function SettingsStack({ refreshLogin, isConnected, isConnecting }) {
 }
 
 // Stack shown when not logged-in
-function AppStack({ cameFromAuthStack }) {
+function AppStack({ route, cameFromAuthStack }) {
+  const { needToRefresh } = route.params;
+  
   // Login status
   const [isConnected, setIsConnected] = useState(cameFromAuthStack);
   const [isConnecting, setIsConnecting] = useState(false);
 
   // Auto-login
-  useEffect(() => { if (!isConnected) { refreshLogin(); } }, []);
+  useEffect(() => { if (!isConnected || needToRefresh) { refreshLogin(); } }, [needToRefresh]);
   async function refreshLogin() {
     console.log("Refreshing login...");
     
