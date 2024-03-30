@@ -136,7 +136,7 @@ function DoubleAuthPopup({ navigation, isLoggedIn, setIsLoggedIn }) {
       title={"Double authentification"}
       children={(
         <View>
-          <Text style={DefaultTheme.fonts.labelLarge}>Répondez à cette question de sécurité afin de confirmer votre identité.</Text>
+          <Text style={[DefaultTheme.fonts.labelLarge, { marginBottom: 5 }]}>Répondez à cette question de sécurité afin de confirmer votre identité.</Text>
           <Text style={DefaultTheme.fonts.labelLarge}>Si vous choisissez la mauvaise réponse, votre compte sera suspendu.</Text>
           <CustomSeparator style={{
             backgroundColor: DefaultTheme.colors.surfaceOutline,

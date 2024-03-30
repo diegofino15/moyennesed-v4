@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 import { View, Text, Platform, Dimensions } from "react-native";
-import { HandHelpingIcon, ScaleIcon } from "lucide-react-native";
+import { FileXIcon, HandHelpingIcon, KeyIcon, ScaleIcon, Settings2Icon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import useState from "react-usestateref";
 
@@ -48,20 +48,6 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
           <CustomSection title={"Coefficients"}/>
           {/* TODO */}
 
-          <CustomLink
-            title={"Effacer le cache"}
-            onPress={() => {
-              AsyncStorage.removeItem("specific-homework");
-            }}
-          />
-          <CustomLink
-            title={"Clear double auth tokens"}
-            onPress={() => {
-              AsyncStorage.removeItem("double-auth-tokens");
-            }}
-          />
-
-
           {/* About */}
           <CustomSection title={"Informations"}/>
           <CustomTextArea
@@ -97,6 +83,34 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
               </View>
             )}
           />
+
+          {/* Dev options */}
+          {__DEV__ && (
+            <>
+              <CustomSection title={"Dev options"}/>
+              <CustomLink
+                title={"Clear cache"}
+                onPress={AppData.eraseCacheData}
+                icon={<FileXIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                style={{ marginBottom: 10 }}
+              />
+              <CustomLink
+                title={"Reset preferences"}
+                onPress={() => AppData.resetPreferences(currentAccount?.id)}
+                icon={<Settings2Icon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                style={{ marginBottom: 10 }}
+              />
+              <CustomLink
+                title={"Clear double auth tokens"}
+                onPress={() => {
+                  AsyncStorage.removeItem("double-auth-tokens");
+                }}
+                icon={<KeyIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+              />
+            </>
+          )}
+
+          <View style={{ height: 100 }}/> 
         </View>
       )}
     />
