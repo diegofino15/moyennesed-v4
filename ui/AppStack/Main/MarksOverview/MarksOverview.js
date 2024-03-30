@@ -26,6 +26,7 @@ function MarksOverview({
 }) {
   // List of marks present at first display, used to show new marks
   const [firstDisplayMarks, setFirstDisplayMarks, firstDisplayMarksRef] = useState([]);
+  const [oldAccountID, setOldAccountID] = useState(accountID);
 
   // Get periods of student and choose which to display
   const [periods, setPeriods, periodsRef] = useState({});
@@ -48,8 +49,9 @@ function MarksOverview({
         }
 
         // Save first display marks
-        if (firstDisplayMarksRef.current.length == 0) {
+        if (firstDisplayMarksRef.current.length == 0 || accountID != oldAccountID) {
           setFirstDisplayMarks(Object.keys(Object.values(periodsRef.current)[shownPeriod].marks));
+          setOldAccountID(accountID);
         }
       } else { setPeriods({}); }
     });

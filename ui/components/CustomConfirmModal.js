@@ -98,6 +98,7 @@ function CustomConfirmModal({
               style={{
                 position: 'absolute',
                 bottom: Dimensions.get('window').height - 250,
+                width: '100%',
               }}
               reverse
             />
