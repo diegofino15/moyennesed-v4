@@ -86,6 +86,7 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
             />
           </View>
         )}
+        stickySectionHeadersEnabled
         renderSectionHeader={({ section: { title } }) => (
           <BlurView style={{
             paddingHorizontal: 15,
@@ -97,7 +98,7 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
             top: -15,
             alignSelf: 'center',
           }} tint="dark" intensity={50}>
-            <Text style={DefaultTheme.fonts.bodyLarge}>{title}</Text>
+            <Text style={[DefaultTheme.fonts.bodyLarge, { height: 25 }]}>{title}</Text>
           </BlurView>
         )}
         renderSectionFooter={() => (
