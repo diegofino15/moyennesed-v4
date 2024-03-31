@@ -62,7 +62,6 @@ function CustomEvolutionChart({ listOfValues, showClassValues, color, lightColor
         lineColor: lightColor,
         curve: 'linear',
         lineWidth: 0.5,
-        trailingOpacity: 0.1,
         endPointConfig: {
           color: lightColor,
           radius: 2,

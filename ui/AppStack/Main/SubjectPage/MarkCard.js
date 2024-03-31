@@ -1,5 +1,5 @@
 import { Dimensions, Platform, Text, View } from "react-native";
-import { ChevronRightIcon, Users2Icon } from "lucide-react-native";
+import { ChevronRightIcon, Users2Icon, XIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 
@@ -75,8 +75,8 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth })
           {mark.title}
         </Text>
         
-        {mark.classValue ? (
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20 }}>
+          {mark.classValue ? (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Users2Icon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/>
               <Text style={[DefaultTheme.fonts.headlineSmall, {
@@ -85,11 +85,27 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth })
                 fontFamily: "Numbers-Regular"
               }]}> : {formatMark(mark, true)}</Text>
             </View>
-            <Text style={DefaultTheme.fonts.labelMedium} numberOfLines={1}>-   {formatDate3(mark.date)}</Text>
+          ) : (
+            <Text style={DefaultTheme.fonts.labelMedium} numberOfLines={1}>{formatDate3(mark.date)}</Text>
+          )}
+          <View style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            backgroundColor: DefaultTheme.colors.backdrop,
+            borderRadius: 5,
+            paddingHorizontal: 8,
+            paddingVertical: 1,
+            borderWidth: 2,
+            borderColor: DefaultTheme.colors.surfaceOutline,
+          }}>
+            <XIcon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/>
+            <Text style={[DefaultTheme.fonts.headlineSmall, {
+              fontSize: 15,
+              color: DefaultTheme.colors.onSurfaceDisabled,
+              fontFamily: "Numbers-Regular"
+            }]}>{`${mark.coefficient}`.replace(".", ",")}</Text>
           </View>
-        ) : (
-          <Text style={DefaultTheme.fonts.labelMedium} numberOfLines={1}>{formatDate2(mark.date)}</Text>
-        )}
+        </View>
       </View>
 
       <ChevronRightIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
