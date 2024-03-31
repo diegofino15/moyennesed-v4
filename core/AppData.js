@@ -1205,7 +1205,6 @@ class AppData {
       days: {},
       weeks: {},
       subjectsWithExams: {},
-      upcomingExams: [],
     };
 
     Object.keys(homeworks).forEach(day => {
@@ -1223,7 +1222,6 @@ class AppData {
         if (finalHomework.isExam) {
           abstractHomework.subjectsWithExams[finalHomework.subjectID] ??= [];
           abstractHomework.subjectsWithExams[finalHomework.subjectID].push(finalHomework.id);
-          abstractHomework.upcomingExams.push(finalHomework.id);
         }
       
         abstractHomework.days[day] ??= [];
@@ -1245,11 +1243,6 @@ class AppData {
         
         abstractHomework.homeworks[finalHomework.id] = finalHomework;
       });
-    });
-
-    // Sort upcoming exams by date
-    abstractHomework.upcomingExams.sort((a, b) => {
-      return new Date(abstractHomework.homeworks[a].dateFor) - new Date(abstractHomework.homeworks[b].dateFor);
     });
 
     // Save data

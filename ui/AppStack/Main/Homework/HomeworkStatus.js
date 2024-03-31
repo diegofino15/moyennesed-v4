@@ -1,25 +1,11 @@
-import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { ArrowRightIcon, HelpCircleIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import NextExamCard from "./NextExamCard";
 
 
 // Homework status
 function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettingHomework, navigation }) {
-  const [upcomingExams, setUpcomingExams] = useState([]);
-  useEffect(() => {
-    AsyncStorage.getItem("homework").then(data => {
-      if (!data) { return; }
-      const cacheData = JSON.parse(data);
-      if (accountID in cacheData) {
-        setUpcomingExams(cacheData[accountID].data.upcomingExams);
-      }
-    });
-  }, [accountID, gotHomework]);
-  
   return (
     <View style={{
       marginHorizontal: 20,
@@ -78,11 +64,6 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
           <ArrowRightIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
         </PressableScale>
       </View>
-
-      {/* Next exams */}
-      {(upcomingExams.length > 0) && (
-        <NextExamCard accountID={accountID} examID={upcomingExams[0]} gotHomework={gotHomework} navigation={navigation}/>
-      )}
     </View>
   );
 }
