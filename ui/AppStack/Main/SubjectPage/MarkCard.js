@@ -75,19 +75,8 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth })
           {mark.title}
         </Text>
         
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20 }}>
-          {mark.classValue ? (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Users2Icon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/>
-              <Text style={[DefaultTheme.fonts.headlineSmall, {
-                fontSize: 15,
-                color: DefaultTheme.colors.onSurfaceDisabled,
-                fontFamily: "Numbers-Regular"
-              }]}> : {formatMark(mark, true)}</Text>
-            </View>
-          ) : (
-            <Text style={DefaultTheme.fonts.labelMedium} numberOfLines={1}>{formatDate3(mark.date)}</Text>
-          )}
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20, height: 25 }}>
+          
           <View style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -102,9 +91,22 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth })
             <Text style={[DefaultTheme.fonts.headlineSmall, {
               fontSize: 15,
               color: DefaultTheme.colors.onSurfaceDisabled,
-              fontFamily: "Numbers-Regular"
+              fontFamily: "Numbers-Regular",
+              top: Platform.select({ android: -2 }),
             }]}>{`${mark.coefficient}`.replace(".", ",")}</Text>
           </View>
+          {mark.classValue ? (
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Users2Icon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/>
+              <Text style={[DefaultTheme.fonts.headlineSmall, {
+                fontSize: 15,
+                color: DefaultTheme.colors.onSurfaceDisabled,
+                fontFamily: "Numbers-Regular"
+              }]}> : {formatMark(mark, true)}</Text>
+            </View>
+          ) : (
+            <Text style={DefaultTheme.fonts.labelMedium} numberOfLines={1}>{formatDate3(mark.date)}</Text>
+          )}
         </View>
       </View>
 
