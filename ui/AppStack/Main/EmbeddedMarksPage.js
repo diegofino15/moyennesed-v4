@@ -96,6 +96,7 @@ function EmbeddedMarksPage({
     }
     if (isConnected && showMarksAccount.id) { autoGetMarks(); }
     else if (showMarksAccount.id && !isConnecting && manualRefreshing) { reloginAndGetMarks(); }
+    else if (manualRefreshing) { setManualRefreshing(false); }
   }, [isConnected, showMarksAccount.id, manualRefreshing]);  
 
   // Selected period

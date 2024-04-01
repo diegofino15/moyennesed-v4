@@ -43,11 +43,11 @@ function AppRoot() {
       setIsLoggedIn(true);
 
       // For users migrating from v3
-      const accounts = await AsyncStorage.getItem("accounts");
-      if (!accounts) {
-        await AppData.refreshLogin();
-        setCameFromAuthStack(true);
-      }
+      // const accounts = await AsyncStorage.getItem("accounts");
+      // if (!accounts) {
+      //   await AppData.refreshLogin();
+      //   setCameFromAuthStack(true);
+      // }
 
       await ColorsHandler.load();
 

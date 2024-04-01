@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 import { View, Text, Platform, Dimensions } from "react-native";
-import { FileXIcon, HandHelpingIcon, KeyIcon, ScaleIcon, Settings2Icon } from "lucide-react-native";
+import { CheckCircleIcon, FileXIcon, HandHelpingIcon, KeyIcon, ScaleIcon, Settings2Icon, XIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
@@ -13,6 +13,7 @@ import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import CustomTextArea from "../../components/CustomTextArea";
 import CustomLink from "../../components/CustomLink";
 import AppData from "../../../core/AppData";
+import NewsHandler from "../../../util/NewsHandler";
 
 
 // Settings page
@@ -47,6 +48,24 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
           {/* Coefficients */}
           <CustomSection title={"Coefficients"}/>
           {/* TODO */}
+
+          {/* Preferences */}
+          <CustomSection title={"Préférences"}/>
+          <CustomSectionButton
+            title={"Accès aux dernières infos"}
+            description={NewsHandler.allowLatestNewsRefresh ? (
+              <>
+                <CheckCircleIcon size={15} color={DefaultTheme.colors.success}/>
+                <Text style={[DefaultTheme.fonts.labelMedium, { color: DefaultTheme.colors.success }]}> Autorisé</Text>
+              </>
+            ) : (
+              <>
+                <XIcon size={15} color={DefaultTheme.colors.error}/>
+                <Text style={[DefaultTheme.fonts.labelMedium, { color: DefaultTheme.colors.error }]}> Non autorisé</Text>
+              </>
+            )}
+            onPress={() => navigation.navigate('PreferencesPopup', { presentation: 'modal' })}
+          />
 
           {/* About */}
           <CustomSection title={"Informations"}/>

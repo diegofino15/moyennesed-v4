@@ -1,5 +1,5 @@
 import { ArrowRightIcon } from "lucide-react-native";
-import { View, Text, Dimensions } from "react-native";
+import { View, Text } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 

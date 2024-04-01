@@ -9,9 +9,15 @@ import MarksInformationPage from './Main/MarksOverview/MarksInformationPage';
 import HomeworksPage from './Main/Homework/HomeworksPage';
 import ExamPage from './Main/Homework/ExamPage';
 import HomeworkInformationPage from './Main/Homework/HomeworkInformationPage';
+
 import SettingsPage from './Settings/SettingsPage';
 import ProfilePage from './Settings/Profile/ProfilePage';
+
+import PreferencesPopup from './PreferencesPopup';
+
 import AppData from '../../core/AppData';
+import NewsHandler from '../../util/NewsHandler';
+import { useNavigation } from '@react-navigation/native';
 
 
 // Create stack for navigation
@@ -246,6 +252,14 @@ function AppStack({ route, cameFromAuthStack }) {
     return successful;
   }
 
+  // News
+  const navigation = useNavigation();
+  useEffect(() => {
+    NewsHandler.loadPreferences(() => {
+      navigation.navigate('PreferencesPopup');
+    });
+  }, []);
+
   // Update all displays when changing averages (ex: update opened subject
   // page when marks are updated and a new mark appears)
   const [globalDisplayUpdater, setGlobalDisplayUpdater] = useState(0);
@@ -282,6 +296,17 @@ function AppStack({ route, cameFromAuthStack }) {
           isConnecting={isConnecting}
         />}
       </Stack.Screen>
+
+      {/* Preferences popup */}
+      <Stack.Screen
+        name="PreferencesPopup"
+        component={PreferencesPopup}
+        options={{
+          headerShown: false,
+          presentation: 'modal',
+          animation: 'fade_from_bottom',
+        }}
+      />
     </Stack.Navigator>
   );
 }

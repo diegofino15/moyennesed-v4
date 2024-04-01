@@ -11,6 +11,7 @@ import CustomButton from "./CustomButton";
 import CustomSeparator from "./CustomSeparator";
 import { parseHtmlData } from "../../util/Utils";
 import AppData from "../../core/AppData";
+import HapticsHandler from "../../util/HapticsHandler";
 
 
 // Double auth popup
@@ -79,6 +80,7 @@ function DoubleAuthPopup({ navigation, isLoggedIn, setIsLoggedIn }) {
   const [isConfirmingChoice, setIsConfirmingChoice] = useState(false);
   const [errorConfirmingChoice, setErrorConfirmingChoice] = useState(false);
   async function confirmChoice() {
+    HapticsHandler.vibrate("light");
     setIsConfirmingChoice(true);
 
     console.log("Confirming choice...");
@@ -104,6 +106,7 @@ function DoubleAuthPopup({ navigation, isLoggedIn, setIsLoggedIn }) {
             const { cn, cv } = response.data.data;
             await AsyncStorage.setItem("double-auth-tokens", JSON.stringify({ cn, cv }));
             const reloginSuccessful = await AppData.refreshLogin();
+            HapticsHandler.vibrate("light");
             if (reloginSuccessful) {
               if (isLoggedIn) {
                 navigation.navigate("GlobalStack", { needToRefresh: true });
@@ -188,7 +191,10 @@ function DoubleAuthPopup({ navigation, isLoggedIn, setIsLoggedIn }) {
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                }} onPress={() => setSelectedAnswer(index)}>
+                }} onPress={() => {
+                  setSelectedAnswer(index);
+                  HapticsHandler.vibrate("light");
+                }}>
                   <Text style={[DefaultTheme.fonts.bodyLarge, { flex: 1 }]}>{answer}</Text>
                   {index == selectedAnswer ? (
                     <View style={{

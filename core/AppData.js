@@ -1480,21 +1480,27 @@ class AppData {
   // Erase all data //
   static async eraseData() {
     ColorsHandler.resetSubjectColors();
+    const credentials = await AsyncStorage.getItem("credentials");
     await AsyncStorage.clear();
+    await AsyncStorage.setItem("credentials", credentials);
   }
   static async resetPreferences(accountID) {
     await AsyncStorage.multiRemove([
       "customData",
       "colors",
+      "preferences",
     ]);
 
     await this.recalculateAverageHistory(accountID);
   }
   static async eraseCacheData() {
-    await AsyncStorage.multiRemove([ // Put here temporary files
+    // Put here temporary files
+    await AsyncStorage.multiRemove([
       "specific-homework",
       "photos",
     ]);
+
+    // Homework attachements
     RNFS.readDir(RNFS.DocumentDirectoryPath).then(files => {
       files.forEach(file => {
         if (file.isFile()) {

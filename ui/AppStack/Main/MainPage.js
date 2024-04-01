@@ -17,7 +17,7 @@ function MainPage({ refreshLogin, isConnected, isConnecting, globalDisplayUpdate
   // Connected main account (parent / student)
   const { newAccountID } = route.params; 
   const [currentAccount, setCurrentAccount] = useState({ "accountType": "E" });
-  useEffect(() => { AppData.getMainAccount().then(account => { if (account) { setCurrentAccount(account); } }); }, [newAccountID]);
+  useEffect(() => { AppData.getMainAccount().then(account => { if (account) { setCurrentAccount(account); } }); }, [newAccountID, isConnected]);
 
   // Switch account
   const [availableAccounts, setAvailableAccounts] = useState([]);
