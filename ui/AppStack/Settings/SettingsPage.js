@@ -17,7 +17,7 @@ import NewsHandler from "../../../util/NewsHandler";
 
 
 // Settings page
-function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
+function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDisplay, navigation }) {
   // Currently selected account
   const [currentAccount, setCurrentAccount] = useState({});
   useEffect(() => { AppData.getMainAccount().then(account => { setCurrentAccount(account); }); }, []);
@@ -115,7 +115,7 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation }) {
               />
               <CustomLink
                 title={"Reset preferences"}
-                onPress={() => AppData.resetPreferences(currentAccount?.id)}
+                onPress={() => AppData.resetPreferences(currentAccount?.id, updateGlobalDisplay)}
                 icon={<Settings2Icon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
                 style={{ marginBottom: 10 }}
               />

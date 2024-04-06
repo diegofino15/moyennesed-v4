@@ -13,7 +13,7 @@ function CustomTextInput({
   iconOnRight=false,
   initialValue=null,
   onChangeText,
-  secureTextEntry,
+  secureTextEntry=false,
   style,
   textAreaStyle,
   controller,
@@ -56,7 +56,7 @@ function CustomTextInput({
           position: 'absolute',
           right: 15,
         }}>
-          {showContent ? <EyeIcon size={20} color={DefaultTheme.colors.onSurface} /> : <EyeOffIcon size={20} color={DefaultTheme.colors.onSurface} />}
+          {showContent ? <EyeIcon size={20} color={DefaultTheme.colors.onSurface}/> : <EyeOffIcon size={20} color={DefaultTheme.colors.onSurface}/>}
         </PressableScale>
       )}
     </View>

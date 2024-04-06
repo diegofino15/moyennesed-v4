@@ -201,7 +201,7 @@ function SubjectStack({ globalDisplayUpdater, updateGlobalDisplay, route }) {
 
 
 // Profile page stack
-function SettingsStack({ refreshLogin, isConnected, isConnecting }) {
+function SettingsStack({ refreshLogin, isConnected, isConnecting, updateGlobalDisplay }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -216,6 +216,7 @@ function SettingsStack({ refreshLogin, isConnected, isConnecting }) {
           refreshLogin={refreshLogin}
           isConnected={isConnected}
           isConnecting={isConnecting}
+          updateGlobalDisplay={updateGlobalDisplay}
         />}
       </Stack.Screen>
 
@@ -294,6 +295,7 @@ function AppStack({ route, cameFromAuthStack }) {
           refreshLogin={refreshLogin}
           isConnected={isConnected}
           isConnecting={isConnecting}
+          updateGlobalDisplay={updateGlobalDisplay}
         />}
       </Stack.Screen>
 

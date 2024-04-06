@@ -47,7 +47,7 @@ function PreferencesPopup({ navigation }) {
           }}>
             <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 20, letterSpacing: 0.5 }]}>Pour vous tenir au courant des dernières mises à jour et événements, MoyennesED a besoin de se connecter à notre service API. Cette connexion automatique permet de récupérer les informations les plus récentes, comme les événements à venir, les nouvelles fonctionnalités, et les alertes importantes.</Text>
             <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 20, letterSpacing: 0.5 }]}>Aucune donnée personnelle n'est envoyée ni collectée.</Text>
-            <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', letterSpacing: 0.5 }]}>En cliquant sur "Autoriser", vous consentez à ce que notre application se connecte automatiquement à notre API lors de chaque lancement.</Text>
+            <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', letterSpacing: 0.5 }]}>En cliquant sur "Autoriser", vous consentez à ce que MoyennesED se connecte automatiquement à notre API à chaque lancement de l'app.</Text>
           
             <CustomButton
               title={<Text style={DefaultTheme.fonts.bodyLarge}>Autoriser</Text>}
@@ -55,12 +55,12 @@ function PreferencesPopup({ navigation }) {
               style={{ marginTop: 30 }}
             />
             <CustomButton
-              title={<Text style={[DefaultTheme.fonts.bodyLarge, { color: DefaultTheme.colors.primary }]}>Refuser</Text>}
+              title={<Text style={[DefaultTheme.fonts.bodyLarge, { color: DefaultTheme.colors.error }]}>Refuser</Text>}
               onPress={() => handleClick(false)}
               style={{
                 marginTop: 10,
-                borderColor: DefaultTheme.colors.primaryLight,
                 borderWidth: 2,
+                borderColor: DefaultTheme.colors.errorLight,
                 backgroundColor: null,
               }}
             />

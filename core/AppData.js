@@ -1484,14 +1484,15 @@ class AppData {
     await AsyncStorage.clear();
     await AsyncStorage.setItem("credentials", credentials);
   }
-  static async resetPreferences(accountID) {
+  static async resetPreferences(accountID, updateGlobalDisplay) {
     await AsyncStorage.multiRemove([
       "customData",
       "colors",
       "preferences",
     ]);
-
+    ColorsHandler.customColors = {};
     await this.recalculateAverageHistory(accountID);
+    updateGlobalDisplay();
   }
   static async eraseCacheData() {
     // Put here temporary files
