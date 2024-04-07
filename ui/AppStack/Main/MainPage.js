@@ -6,10 +6,10 @@ import useState from "react-usestateref";
 
 import EmbeddedMarksPage from "./EmbeddedMarksPage";
 import WelcomeMessage from "./WelcomeMessage";
+import CustomChooser from "../../components/CustomChooser";
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import HapticsHandler from "../../../util/HapticsHandler";
 import AppData from "../../../core/AppData";
-import CustomChooser from "../../components/CustomChooser";
 
 
 // Main page
