@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
 import CustomChooser from "../../../components/CustomChooser";
+import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
 import { formatAverage } from "../../../../util/Utils";
 import RecentMarkCard from "./RecentMarkCard";
 
@@ -71,24 +72,34 @@ function MarksOverview({
         alignItems: 'center',
       }}>
         {/* Loading status */}
-        <PressableScale style={{
-          backgroundColor: isLoading ? DefaultTheme.colors.primaryLight : gotMarks ? DefaultTheme.colors.successLight : DefaultTheme.colors.errorLight,
-          borderWidth: 2,
-          borderColor: isLoading ? DefaultTheme.colors.primary : gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error,
-          borderRadius: 5,
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingVertical: 2,
-          paddingHorizontal: 5
-        }} onPress={() => { if (!isLoading) { navigation.navigate("MarksInformationPage", { accountID }); } }}>
-          <Text style={[
-            DefaultTheme.fonts.labelMedium, {
-              color: isLoading ? DefaultTheme.colors.primary : gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error,
-              marginRight: 5,
-              height: 22,
-          }]}>{isLoading ? "Chargement..." : gotMarks ? "À jour" : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
-          {(!isLoading) && <HelpCircleIcon size={20} color={gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error}/>}
-        </PressableScale>
+        <CustomAnimatedChangeableItem
+          item={(
+            <PressableScale style={{
+              backgroundColor: isLoading ? DefaultTheme.colors.primaryLight : gotMarks ? DefaultTheme.colors.successLight : DefaultTheme.colors.errorLight,
+              borderWidth: 2,
+              borderColor: isLoading ? DefaultTheme.colors.primary : gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error,
+              borderRadius: 5,
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingVertical: 2,
+              paddingHorizontal: 5
+            }} onPress={() => { if (!isLoading) { navigation.navigate("MarksInformationPage", { accountID }); } }}>
+              <Text style={[
+                DefaultTheme.fonts.labelMedium, {
+                  color: isLoading ? DefaultTheme.colors.primary : gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error,
+                  marginRight: 5,
+                  height: 22,
+              }]}>{isLoading ? "Chargement..." : gotMarks ? "À jour" : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
+              {(!isLoading) && <HelpCircleIcon size={20} color={gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error}/>}
+            </PressableScale>
+          )}
+          animationTime={200}
+          updaters={[
+            isLoading,
+            gotMarks,
+            errorGettingMarks,
+          ]}
+        />
 
         {/* Period chooser */}
         <CustomChooser

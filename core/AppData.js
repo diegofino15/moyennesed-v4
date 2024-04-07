@@ -1219,9 +1219,11 @@ class AppData {
           isExam: homework.interrogation,
         };
 
-        if (finalHomework.isExam) {
-          abstractHomework.subjectsWithExams[finalHomework.subjectID] ??= [];
-          abstractHomework.subjectsWithExams[finalHomework.subjectID].push(finalHomework.id);
+        if (finalHomework.isExam) { // Check if exam is in less than 3 weeks
+          if (new Date(day) - new Date() <= 3 * 7 * 24 * 60 * 60 * 1000) {
+            abstractHomework.subjectsWithExams[finalHomework.subjectID] ??= [];
+            abstractHomework.subjectsWithExams[finalHomework.subjectID].push(finalHomework.id);
+          }
         }
       
         abstractHomework.days[day] ??= [];
@@ -1334,9 +1336,11 @@ class AppData {
   }
   static async getLastTimeUpdatedHomework(accountID) {
     const data = await AsyncStorage.getItem("homework");
-    const cacheData = JSON.parse(data);
-    if (accountID in cacheData) {
-      return cacheData[accountID].date;
+    if (data) {
+      const cacheData = JSON.parse(data);
+      if (accountID in cacheData) {
+        return cacheData[accountID].date;
+      }
     }
   }
   static async getSubjectHasExam(accountID) {

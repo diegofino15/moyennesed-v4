@@ -56,7 +56,7 @@ function HomeworkInformationPage({ globalDisplayUpdater, navigation, route }) {
               icon={<AlertTriangleIcon size={20} color={DefaultTheme.colors.error}/>}
               style={{ marginBottom: 20 }}
             />
-            <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>L'app récupère vos devoirs et détecte si un contrôle est prévu pour chaque matière.</Text>
+            <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>L'app récupère vos devoirs et détecte si un contrôle est prévu pour chaque matière dans les 3 prochaines semaines.</Text>
             <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 30 }]}>Ils sont mis à jour en temps réel.</Text>
             <Text style={[DefaultTheme.fonts.labelMedium, { fontFamily: 'Text-Italic' }]}>Dernière mise à jour : {formatDate(lastDateUpdated)}</Text>
           </View>

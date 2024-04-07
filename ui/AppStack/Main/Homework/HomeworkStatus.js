@@ -3,6 +3,8 @@ import { PressableScale } from "react-native-pressable-scale";
 import { ArrowRightIcon, HelpCircleIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 
+import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
+
 
 // Homework status
 function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettingHomework, navigation }) {
@@ -19,25 +21,35 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
         justifyContent: 'space-between',
       }}>
         {/* Loading status */}
-        <PressableScale style={{
-          backgroundColor: isGettingHomework ? DefaultTheme.colors.primaryLight : gotHomework ? DefaultTheme.colors.successLight : DefaultTheme.colors.errorLight,
-          borderWidth: 2,
-          borderColor: isGettingHomework ? DefaultTheme.colors.primary : gotHomework ? DefaultTheme.colors.success : DefaultTheme.colors.error,
-          borderRadius: 5,
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingVertical: 2,
-          paddingHorizontal: 5,
-          marginRight: 10,
-        }} onPress={() => { if (!isGettingHomework) { navigation.navigate("HomeworkInformationPage", { accountID }); } }}>
-          <Text style={[
-            DefaultTheme.fonts.labelMedium, {
-              color: isGettingHomework ? DefaultTheme.colors.primary : gotHomework ? DefaultTheme.colors.success : DefaultTheme.colors.error,
-              marginRight: 5,
-              height: 22,
-          }]}>{isGettingHomework ? "Chargement..." : gotHomework ? "À jour" : errorGettingHomework ? "Erreur" : "Pas à jour"}</Text>
-          {(!isGettingHomework) && <HelpCircleIcon size={20} color={gotHomework ? DefaultTheme.colors.success : DefaultTheme.colors.error}/>}
-        </PressableScale>
+        <CustomAnimatedChangeableItem
+          item={(
+            <PressableScale style={{
+              backgroundColor: isGettingHomework ? DefaultTheme.colors.primaryLight : gotHomework ? DefaultTheme.colors.successLight : DefaultTheme.colors.errorLight,
+              borderWidth: 2,
+              borderColor: isGettingHomework ? DefaultTheme.colors.primary : gotHomework ? DefaultTheme.colors.success : DefaultTheme.colors.error,
+              borderRadius: 5,
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingVertical: 2,
+              paddingHorizontal: 5,
+              marginRight: 10,
+            }} onPress={() => { if (!isGettingHomework) { navigation.navigate("HomeworkInformationPage", { accountID }); } }}>
+              <Text style={[
+                DefaultTheme.fonts.labelMedium, {
+                  color: isGettingHomework ? DefaultTheme.colors.primary : gotHomework ? DefaultTheme.colors.success : DefaultTheme.colors.error,
+                  marginRight: 5,
+                  height: 22,
+              }]}>{isGettingHomework ? "Chargement..." : gotHomework ? "À jour" : errorGettingHomework ? "Erreur" : "Pas à jour"}</Text>
+              {(!isGettingHomework) && <HelpCircleIcon size={20} color={gotHomework ? DefaultTheme.colors.success : DefaultTheme.colors.error}/>}
+            </PressableScale>
+          )}
+          animationTime={200}
+          updaters={[
+            isGettingHomework,
+            gotHomework,
+            errorGettingHomework,
+          ]}
+        />
         
         {/* Middle bar */}
         <View style={{
