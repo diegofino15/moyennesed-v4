@@ -37,7 +37,7 @@ class NewsHandler {
     if (!this.isLoaded || !this.allowLatestNewsRefresh) return;
     
     console.log("Fetching latest news...")
-    const latestNews = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/latest`).catch(e => {
+    const latestNews = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/news/latest`).catch(e => {
       console.warn(`An error occured while parsing latest news : ${e}`);
     });
     return latestNews;
@@ -48,7 +48,7 @@ class NewsHandler {
     if (!this.isLoaded || !this.allowLatestNewsRefresh) return;
     
     console.log(`Fetching poll content... (ID : ${pollID}`)
-    const pollContent = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/polls/get?id=${pollID}`).catch(e => {
+    const pollContent = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/polls/get/${pollID}`).catch(e => {
       console.warn(`An error occured while parsing poll content : ${e}`);
     });
     return pollContent;
