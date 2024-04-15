@@ -4,7 +4,7 @@ import AppData from "../core/AppData";
 
 
 // This class contains all functions related to parsing the latest news
-// from the custom MoyennesED's API, like polls, warnings or available updates
+// from the custom MoyennesED's API, like warnings or available updates
 class NewsHandler {
   static isLoaded = false;
 
@@ -41,17 +41,6 @@ class NewsHandler {
       console.warn(`An error occured while parsing latest news : ${e}`);
     });
     return latestNews;
-  }
-
-  // Get poll content
-  static async getPollContent(pollID) {
-    if (!this.isLoaded || !this.allowLatestNewsRefresh) return;
-    
-    console.log(`Fetching poll content... (ID : ${pollID}`)
-    const pollContent = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/polls/get/${pollID}`).catch(e => {
-      console.warn(`An error occured while parsing poll content : ${e}`);
-    });
-    return pollContent;
   }
 }
 
