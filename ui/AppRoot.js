@@ -12,8 +12,8 @@ import AppStack from "./AppStack/AppStack";
 import DoubleAuthPopup from "./components/DoubleAuthPopup";
 import { AppContextProvider } from "../util/AppContext";
 import { useFonts, initTheme } from "../util/Styles";
-import AdsHandler from "../util/AdsHandler";
-import ColorsHandler from "../util/ColorsHandler";
+import AdsHandler from "../core/AdsHandler";
+import ColorsHandler from "../core/ColorsHandler";
 import AppData from "../core/AppData";
 
 

@@ -16,7 +16,7 @@ import ProfilePage from './Settings/Profile/ProfilePage';
 import PreferencesPopup from './PreferencesPopup';
 
 import AppData from '../../core/AppData';
-import NewsHandler from '../../util/NewsHandler';
+import NewsHandler from '../../core/NewsHandler';
 import { useNavigation } from '@react-navigation/native';
 
 

@@ -3,7 +3,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 
 import CustomSeparator from "../../components/CustomSeparator";
-import HapticsHandler from "../../../util/HapticsHandler";
+import HapticsHandler from "../../../core/HapticsHandler";
 import AppData from "../../../core/AppData";
 
 

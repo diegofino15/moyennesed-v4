@@ -6,8 +6,8 @@ import { TrashIcon } from "lucide-react-native";
 import ColorPicker, { Preview, Panel1, HueSlider } from "reanimated-color-picker";
 
 import CustomConfirmModal from "../../../components/CustomConfirmModal";
-import ColorsHandler from "../../../../util/ColorsHandler";
-import HapticsHandler from "../../../../util/HapticsHandler";
+import ColorsHandler from "../../../../core/ColorsHandler";
+import HapticsHandler from "../../../../core/HapticsHandler";
 
 // Subject color picker
 function SubjectColorPicker({

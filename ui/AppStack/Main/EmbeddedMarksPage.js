@@ -6,7 +6,7 @@ import { DefaultTheme } from "react-native-paper";
 import ChildChooser from "./ChildChooser";
 import MarksOverview from "./MarksOverview/MarksOverview";
 import SubjectsOverview from "./SubjectsOverview/SubjectsOverview";
-import HapticsHandler from "../../../util/HapticsHandler";
+import HapticsHandler from "../../../core/HapticsHandler";
 import AppData from "../../../core/AppData";
 import HomeworkStatus from "./Homework/HomeworkStatus";
 import CustomSection from "../../components/CustomSection";

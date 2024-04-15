@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 
-import ColorsHandler from "../../../../util/ColorsHandler";
+import ColorsHandler from "../../../../core/ColorsHandler";
 import { formatDate2 } from "../../../../util/Utils";
 import CustomChangingText from "../../../components/CustomChangingText";
 import CustomTag from "../../../components/CustomTag";

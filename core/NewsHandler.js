@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import AppData from "../core/AppData";
+import AppData from "./AppData";
 
 
 // This class contains all functions related to parsing the latest news

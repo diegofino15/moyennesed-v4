@@ -4,8 +4,8 @@ import LottieView from "lottie-react-native";
 
 import CustomModal from "../components/CustomModal";
 import CustomButton from "../components/CustomButton";
-import NewsHandler from "../../util/NewsHandler";
-import HapticsHandler from "../../util/HapticsHandler";
+import NewsHandler from "../../core/NewsHandler";
+import HapticsHandler from "../../core/HapticsHandler";
 
 
 // Preferences popup

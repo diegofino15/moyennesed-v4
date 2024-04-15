@@ -10,7 +10,7 @@ import CustomProfilePhoto from "../components/CustomProfilePhoto";
 import CustomButton from "../components/CustomButton";
 import { useAppContext } from "../../util/AppContext";
 import AppData from "../../core/AppData";
-import HapticsHandler from "../../util/HapticsHandler";
+import HapticsHandler from "../../core/HapticsHandler";
 
 
 // Choose account page

@@ -6,7 +6,7 @@ import { Users2Icon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomModal from "../../../components/CustomModal";
-import ColorsHandler from "../../../../util/ColorsHandler";
+import ColorsHandler from "../../../../core/ColorsHandler";
 import { formatMark } from "../../../../util/Utils";
 
 

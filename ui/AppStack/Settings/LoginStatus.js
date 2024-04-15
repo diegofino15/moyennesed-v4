@@ -4,7 +4,7 @@ import { MoreHorizontalIcon, XIcon, RefreshCcwIcon, UserCheckIcon } from "lucide
 import { DefaultTheme } from "react-native-paper";
 import { useEffect, useState } from "react";
 
-import HapticsHandler from "../../../util/HapticsHandler";
+import HapticsHandler from "../../../core/HapticsHandler";
 
 
 // Login status

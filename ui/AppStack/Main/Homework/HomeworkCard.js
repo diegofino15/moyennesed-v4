@@ -11,8 +11,8 @@ import RNFS from "react-native-fs";
 import CustomSeparator from "../../../components/CustomSeparator";
 import CustomChooser from "../../../components/CustomChooser";
 import { formatDate2, asyncExpectedResult } from "../../../../util/Utils";
-import ColorsHandler from "../../../../util/ColorsHandler";
-import HapticsHandler from "../../../../util/HapticsHandler";
+import ColorsHandler from "../../../../core/ColorsHandler";
+import HapticsHandler from "../../../../core/HapticsHandler";
 import AppData from "../../../../core/AppData";
 
 

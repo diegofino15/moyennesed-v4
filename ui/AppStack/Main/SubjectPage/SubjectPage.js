@@ -15,9 +15,9 @@ import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import CustomModal from "../../../components/CustomModal";
-import ColorsHandler from "../../../../util/ColorsHandler";
+import ColorsHandler from "../../../../core/ColorsHandler";
 import { asyncExpectedResult, formatAverage } from "../../../../util/Utils";
-import HapticsHandler from "../../../../util/HapticsHandler";
+import HapticsHandler from "../../../../core/HapticsHandler";
 import AppData from "../../../../core/AppData";
 
 

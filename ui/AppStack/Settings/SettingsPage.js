@@ -13,7 +13,7 @@ import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import CustomTextArea from "../../components/CustomTextArea";
 import CustomLink from "../../components/CustomLink";
 import AppData from "../../../core/AppData";
-import NewsHandler from "../../../util/NewsHandler";
+import NewsHandler from "../../../core/NewsHandler";
 
 
 // Settings page

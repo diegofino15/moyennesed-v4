@@ -5,7 +5,7 @@ import { DefaultTheme } from "react-native-paper";
 
 import CustomTag from "../../../components/CustomTag";
 import { formatAverage, formatMark } from "../../../../util/Utils";
-import ColorsHandler from "../../../../util/ColorsHandler";
+import ColorsHandler from "../../../../core/ColorsHandler";
 
 
 // Embedded subject card

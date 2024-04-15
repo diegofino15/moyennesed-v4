@@ -11,7 +11,7 @@ import CustomButton from "./CustomButton";
 import CustomSeparator from "./CustomSeparator";
 import { parseHtmlData } from "../../util/Utils";
 import AppData from "../../core/AppData";
-import HapticsHandler from "../../util/HapticsHandler";
+import HapticsHandler from "../../core/HapticsHandler";
 
 
 // Double auth popup

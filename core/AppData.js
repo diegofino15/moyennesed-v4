@@ -3,7 +3,7 @@ import RNFS from "react-native-fs";
 import axios from "axios";
 
 import { capitalizeWords, formatDate3, getLatestDate, parseHtmlData } from "../util/Utils";
-import ColorsHandler from "../util/ColorsHandler";
+import ColorsHandler from "./ColorsHandler";
 
 
 // This class contains all the functions used for logic and cache handling in the app

@@ -8,7 +8,7 @@ import EmbeddedMarksPage from "./EmbeddedMarksPage";
 import WelcomeMessage from "./WelcomeMessage";
 import CustomChooser from "../../components/CustomChooser";
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
-import HapticsHandler from "../../../util/HapticsHandler";
+import HapticsHandler from "../../../core/HapticsHandler";
 import AppData from "../../../core/AppData";
 
 
