@@ -4,6 +4,7 @@ import axios from "axios";
 
 import { capitalizeWords, formatDate3, getLatestDate, parseHtmlData } from "../util/Utils";
 import ColorsHandler from "./ColorsHandler";
+import CoefficientHandler from "./CoefficientHandler";
 
 
 // This class contains all the functions used for logic and cache handling in the app
@@ -1484,18 +1485,25 @@ class AppData {
   // Erase all data //
   static async eraseData() {
     ColorsHandler.resetSubjectColors();
-    const credentials = await AsyncStorage.getItem("credentials");
+    CoefficientHandler.erase();
     await AsyncStorage.clear();
-    await AsyncStorage.setItem("credentials", credentials);
   }
-  static async resetPreferences(accountID, updateGlobalDisplay) {
+  static async resetPreferences(account, updateGlobalDisplay) {
     await AsyncStorage.multiRemove([
       "customData",
       "colors",
       "preferences",
+      "coefficient-profiles",
     ]);
     ColorsHandler.customColors = {};
-    await this.recalculateAverageHistory(accountID);
+    CoefficientHandler.erase();
+    if (account.accountType == "E") { await this.recalculateAverageHistory(account.id); }
+    else {
+      for (const childID in account.children) {
+        await this.recalculateAverageHistory(childID);
+      }
+    }
+    
     updateGlobalDisplay();
   }
   static async eraseCacheData() {

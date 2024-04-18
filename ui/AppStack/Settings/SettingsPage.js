@@ -45,12 +45,17 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDis
             wrapperStyle={{ marginBottom: 10 }}
           />
 
-          {/* Coefficients */}
-          <CustomSection title={"Coefficients"}/>
-          {/* TODO */}
-
-          {/* Preferences */}
           <CustomSection title={"Préférences"}/>
+
+          {/* Coefficients */}
+          <CustomSectionButton
+            title={"Coefficients"}
+            description={<Text style={DefaultTheme.fonts.labelMedium}>Comment sont choisis les coefficients</Text>}
+            onPress={() => navigation.navigate('CoefficientsPage', { currentAccount, presentation: 'modal' })}
+            style={{ marginBottom: 10 }}
+          />
+
+          {/* Connexion à l'API */}
           <CustomSectionButton
             title={"Accès aux dernières infos"}
             description={NewsHandler.allowLatestNewsRefresh ? (

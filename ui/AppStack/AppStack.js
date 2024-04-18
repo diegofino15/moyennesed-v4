@@ -12,6 +12,7 @@ import HomeworkInformationPage from './Main/Homework/HomeworkInformationPage';
 
 import SettingsPage from './Settings/SettingsPage';
 import ProfilePage from './Settings/Profile/ProfilePage';
+import CoefficientsPage from './Settings/CoefficientsPage';
 
 import PreferencesPopup from './PreferencesPopup';
 
@@ -156,6 +157,17 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
           updateGlobalDisplay={updateGlobalDisplay}
         />}
       </Stack.Screen>
+
+      {/* Preferences popup */}
+      <Stack.Screen
+        name="PreferencesPopup"
+        component={PreferencesPopup}
+        options={{
+          headerShown: false,
+          presentation: 'modal',
+          animation: 'fade_from_bottom',
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -201,7 +213,7 @@ function SubjectStack({ globalDisplayUpdater, updateGlobalDisplay, route }) {
 
 
 // Profile page stack
-function SettingsStack({ refreshLogin, isConnected, isConnecting, updateGlobalDisplay }) {
+function SettingsStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -220,9 +232,35 @@ function SettingsStack({ refreshLogin, isConnected, isConnecting, updateGlobalDi
         />}
       </Stack.Screen>
 
+      {/* Profile page */}
       <Stack.Screen
         name="ProfilePage"
         component={ProfilePage}
+        options={{
+          headerShown: false,
+          animation: 'slide_from_right',
+        }}
+      />
+
+      {/* Coefficients page */}
+      <Stack.Screen
+        name="CoefficientsPage"
+        options={{
+          headerShown: false,
+          animation: 'slide_from_right',
+        }}
+      >
+        {(props) => <CoefficientsPage
+          {...props}
+          updateGlobalDisplay={updateGlobalDisplay}
+          globalDisplayUpdater={globalDisplayUpdater}
+        />}
+      </Stack.Screen>
+
+      {/* Preferences popup */}
+      <Stack.Screen
+        name="PreferencesPopup"
+        component={PreferencesPopup}
         options={{
           headerShown: false,
           animation: 'slide_from_right',
@@ -295,20 +333,10 @@ function AppStack({ route, cameFromAuthStack }) {
           refreshLogin={refreshLogin}
           isConnected={isConnected}
           isConnecting={isConnecting}
+          globalDisplayUpdater={globalDisplayUpdater}
           updateGlobalDisplay={updateGlobalDisplay}
         />}
       </Stack.Screen>
-
-      {/* Preferences popup */}
-      <Stack.Screen
-        name="PreferencesPopup"
-        component={PreferencesPopup}
-        options={{
-          headerShown: false,
-          presentation: 'modal',
-          animation: 'fade_from_bottom',
-        }}
-      />
     </Stack.Navigator>
   );
 }

@@ -125,4 +125,8 @@ function parseHtmlData(data: any): string {
   return htmlToText(utf8Data);
 }
 
-export { openLink, wait, capitalizeWords, formatDate, formatDate2, formatDate3, dateDiff, formatAverage, formatMark, getLatestDate, asyncExpectedResult, parseHtmlData };
+function normalizeString(str: string): string {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+export { openLink, wait, capitalizeWords, formatDate, formatDate2, formatDate3, dateDiff, formatAverage, formatMark, getLatestDate, asyncExpectedResult, parseHtmlData, normalizeString };

@@ -14,6 +14,7 @@ import { AppContextProvider } from "../util/AppContext";
 import { useFonts, initTheme } from "../util/Styles";
 import AdsHandler from "../core/AdsHandler";
 import ColorsHandler from "../core/ColorsHandler";
+import CoefficientHandler from "../core/CoefficientHandler";
 import AppData from "../core/AppData";
 
 
@@ -42,14 +43,8 @@ function AppRoot() {
     if (credentials) {
       setIsLoggedIn(true);
 
-      // For users migrating from v3
-      // const accounts = await AsyncStorage.getItem("accounts");
-      // if (!accounts) {
-      //   await AppData.refreshLogin();
-      //   setCameFromAuthStack(true);
-      // }
-
       await ColorsHandler.load();
+      await CoefficientHandler.load();
 
       AdsHandler.setupAdmob({ checkForConsent: true });
       setIsLoaded(true);
