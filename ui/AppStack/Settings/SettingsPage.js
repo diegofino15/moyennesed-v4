@@ -120,7 +120,7 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDis
               />
               <CustomLink
                 title={"Reset preferences"}
-                onPress={() => AppData.resetPreferences(currentAccount?.id, updateGlobalDisplay)}
+                onPress={() => AppData.resetPreferences(currentAccount, updateGlobalDisplay)}
                 icon={<Settings2Icon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
                 style={{ marginBottom: 10 }}
               />

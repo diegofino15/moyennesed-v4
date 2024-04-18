@@ -319,6 +319,12 @@ class AppData {
       return 0;
     }
 
+    // Detect right guess parameters
+    if (!CoefficientHandler.didChooseIfEnable[accountID]) {
+      CoefficientHandler.setGuessMarkCoefficientEnabled(accountID, !(marks.parametrage?.coefficientNote ?? false));
+      CoefficientHandler.setGuessSubjectCoefficientEnabled(accountID, !((marks.parametrage.moyenneCoefMatiere ?? false) || (marks.parametrage.colonneCoefficientMatiere ?? false)));
+    }
+
     // Helper functions
     function createPeriod(
       id,
@@ -676,6 +682,19 @@ class AppData {
       return;
     }
 
+    // Reset all previous custom data
+    (isSinglePeriod ? [periods] : Object.values(periods)).forEach(period => {
+      Object.values(period.marks).forEach(mark => {
+        mark.isCustomCoefficient = false;
+      });
+      Object.values(period.subjects).forEach(subject => {
+        subject.isCustomCoefficient = false;
+        Object.values(subject.subSubjects).forEach(subSubject => {
+          subSubject.isCustomCoefficient = false;
+        });
+      });
+    })
+
     // Marks (period specific)
     function applyMarkCustomData(period, markID, customData) {
       let correspondingMark = period.marks[markID];
@@ -685,7 +704,7 @@ class AppData {
           customData.marks[period.id][markID].coefficient !=
             correspondingMark.defaultCoefficient
         ) {
-          correspondingMark.coefficientWasChanged = true;
+          correspondingMark.isCustomCoefficient = true;
         }
         Object.keys(customData.marks[period.id][markID]).forEach((key) => {
           correspondingMark[key] = customData.marks[period.id][markID][key];
@@ -724,7 +743,7 @@ class AppData {
             customData.subjects[fullSubjectID].coefficient !=
               correspondingSubject.defaultCoefficient
           ) {
-            correspondingSubject.coefficientWasChanged = true;
+            correspondingSubject.isCustomCoefficient = true;
           }
           Object.keys(customData.subjects[fullSubjectID]).forEach((key) => {
             correspondingSubject[key] = customData.subjects[fullSubjectID][key];
@@ -734,33 +753,48 @@ class AppData {
     });
   }
   // Set possibly missing data
-  static applyMissingData(periods, isSinglePeriod = false) {
+  static applyMissingData(accountID, periods, isSinglePeriod = false) {
     Object.values(isSinglePeriod ? { [periods.id]: periods } : periods).forEach(
       (period) => {
         // Set missing mark data
         Object.values(period.marks).forEach((mark) => {
-          if (isNaN(mark.coefficient)) {
-            mark.coefficient = mark.defaultCoefficient;
-          }
-          if (mark.isEffective == undefined) {
-            mark.isEffective = mark.defaultIsEffective;
+          if (mark.isEffective == undefined) { mark.isEffective = mark.defaultIsEffective; }
+
+          // Guess coefficient if enabled
+          if (!mark.isCustomCoefficient || isNaN(mark.coefficient)) {
+            if (CoefficientHandler.guessMarkCoefficientEnabled[accountID]) {
+              mark.coefficient = CoefficientHandler.chooseMarkCoefficient(accountID, mark.title);
+            } else {
+              mark.coefficient = mark.defaultCoefficient;
+            }
           }
         });
 
         // Set missing subject data
         Object.values(period.subjects).forEach((subject) => {
-          if (isNaN(subject.coefficient)) {
-            subject.coefficient = subject.defaultCoefficient;
-          }
-          if (subject.isEffective == undefined) {
-            subject.isEffective = subject.defaultIsEffective;
-          }
-          Object.values(subject.subSubjects).forEach((subSubject) => {
-            if (isNaN(subSubject.coefficient)) {
-              subSubject.coefficient = subSubject.defaultCoefficient;
+          if (subject.isEffective == undefined) { subject.isEffective = subject.defaultIsEffective; }
+
+          // Guess coefficient
+          if (!subject.isCustomCoefficient || isNaN(subject.coefficient)) {
+            if (CoefficientHandler.guessSubjectCoefficientEnabled[accountID]) {
+              let subjectGroupTitle = "";
+              if (subject.subjectGroupID) { subjectGroupTitle = period.subjectGroups[subject.subjectGroupID].title; }
+              subject.coefficient = CoefficientHandler.chooseSubjectCoefficient(accountID, subject.title, subjectGroupTitle);
+            } else {
+              subject.coefficient = subject.defaultCoefficient;
             }
-            if (subSubject.isEffective == undefined) {
-              subSubject.isEffective = subSubject.defaultIsEffective;
+          }
+
+          Object.values(subject.subSubjects).forEach((subSubject) => {
+            if (subSubject.isEffective == undefined) { subSubject.isEffective = subSubject.defaultIsEffective; }
+
+            // Guess coefficient
+            if (!subSubject.isCustomCoefficient || isNaN(subSubject.coefficient)) {
+              if (CoefficientHandler.guessSubjectCoefficientEnabled[accountID]) {
+                subSubject.coefficient = CoefficientHandler.chooseSubjectCoefficient(accountID, subSubject.title, "");
+              } else {
+                subSubject.coefficient = subSubject.defaultCoefficient;
+              }
             }
           });
         });
@@ -1036,7 +1070,7 @@ class AppData {
         await this.applyCustomData(accountID, givenPeriod, true);
 
         // Set possibly missing data
-        this.applyMissingData(givenPeriod, true);
+        this.applyMissingData(accountID, givenPeriod, true);
       }
 
       // Calculate averages
@@ -1052,7 +1086,7 @@ class AppData {
         await this.applyCustomData(accountID, cacheData[accountID].data);
 
         // Set possibly missing data
-        this.applyMissingData(cacheData[accountID].data);
+        this.applyMissingData(accountID, cacheData[accountID].data);
 
         // Calculate averages
         Object.values(cacheData[accountID].data).forEach((period) => {
@@ -1088,7 +1122,7 @@ class AppData {
       });
 
       await this.applyCustomData(accountID, givenPeriod, true);
-      this.applyMissingData(givenPeriod, true);
+      this.applyMissingData(accountID, givenPeriod, true);
 
       // Add the marks one by one
       var listOfMarks = givenPeriod.sortedMarks.slice().reverse();

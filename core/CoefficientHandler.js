@@ -31,11 +31,12 @@ class CoefficientHandler {
     },
     Lycée: {
       subjectGroupSpecialCoefficient: { // If subject is in subjectGroup, it gets the coefficient
-        specialites: 8, special: 8,
+        spe: 8,
         tronc: 3, commun: 3,
       },
       subjects: {
-        francais: 10, franc: 10,
+        spe: 8,
+        franc: 10,
         emc: 1, moral: 1, civique: 1,
       }
     },
@@ -71,7 +72,36 @@ class CoefficientHandler {
 
   // MARKS //
   static marksKeywords = {};
-  // TODO
+  static chooseMarkCoefficient(rawMarkTitle) {
+    var chosenCoefficient = 1;
+    
+    const markTitle = normalizeString(rawMarkTitle.toLowerCase());
+    
+    Object.keys(this.marksKeywords).forEach(keyword => {
+      if (markTitle.includes(keyword)) {
+        chosenCoefficient = this.marksKeywords[keyword];
+      }
+    });
+
+    return chosenCoefficient;
+  }
+
+  // Setters
+  static async setGuessSubjectCoefficientEnabled(accountID, enabled) {
+    this.guessSubjectCoefficientEnabled[accountID] = enabled;
+    this.didChooseIfEnable[accountID] = true;
+    await this.save();
+  }
+  static async setChoosenProfile(accountID, profile) {
+    this.choosenProfiles[accountID] = profile;
+    this.didChooseIfEnable[accountID] = true;
+    await this.save();
+  }
+  static async setGuessMarkCoefficientEnabled(accountID, enabled) {
+    this.guessMarkCoefficientEnabled[accountID] = enabled;
+    this.didChooseIfEnable[accountID] = true;
+    await this.save();
+  }
 
   // Save and load
   static async save() {

@@ -52,8 +52,7 @@ function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigatio
                   <Switch
                     value={CoefficientHandler.guessMarkCoefficientEnabled[account.id]}
                     onValueChange={async (value) => {
-                      CoefficientHandler.guessMarkCoefficientEnabled[account.id] = value;
-                      await CoefficientHandler.save();
+                      await CoefficientHandler.setGuessMarkCoefficientEnabled(account.id, value);
                       await AppData.recalculateAverageHistory(account.id);
                       updateGlobalDisplay();
                     }}
@@ -68,8 +67,7 @@ function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigatio
                   <Switch
                     value={CoefficientHandler.guessSubjectCoefficientEnabled[account.id]}
                     onValueChange={async (value) => {
-                      CoefficientHandler.guessSubjectCoefficientEnabled[account.id] = value;
-                      await CoefficientHandler.save();
+                      await CoefficientHandler.setGuessSubjectCoefficientEnabled(account.id, value);
                       await AppData.recalculateAverageHistory(account.id);
                       updateGlobalDisplay();
                     }}
@@ -92,8 +90,7 @@ function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigatio
                         )}
                         selected={CoefficientHandler.choosenProfiles[account.id]}
                         setSelected={async (profile) => {
-                          CoefficientHandler.choosenProfiles[account.id] = profile;
-                          await CoefficientHandler.save();
+                          await CoefficientHandler.setChoosenProfile(account.id, profile);
                           await AppData.recalculateAverageHistory(account.id);
                           updateGlobalDisplay();
                         }}
