@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import useState from "react-usestateref";
 import { DefaultTheme } from "react-native-paper";
 
@@ -10,6 +10,10 @@ import HapticsHandler from "../../../core/HapticsHandler";
 import AppData from "../../../core/AppData";
 import HomeworkStatus from "./Homework/HomeworkStatus";
 import CustomSection from "../../components/CustomSection";
+import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
+import { ArrowRightIcon, CornerDownRightIcon, InfoIcon, Wand2Icon } from "lucide-react-native";
+import CoefficientHandler from "../../../core/CoefficientHandler";
+import CustomLink from "../../components/CustomLink";
 
 
 // Embedded mark page
@@ -102,7 +106,11 @@ function EmbeddedMarksPage({
   // Selected period
   const [selectedPeriod, setSelectedPeriod] = useState(null);
   const [latestCurrentPeriod, setLatestCurrentPeriod] = useState(null);
-  
+
+  // Show warning telling the user the guess parameters have been set automatically
+  const [showGuessParametersWarning, setShowGuessParametersWarning] = useState({});
+  useEffect(() => { AppData.showGuessParametersWarning = (accountID) => setShowGuessParametersWarning({...showGuessParametersWarning, [accountID]: true}) }, []);
+
   return (
     <View>
       {mainAccount.accountType == "P" && <ChildChooser
@@ -110,6 +118,34 @@ function EmbeddedMarksPage({
         showMarksAccount={showMarksAccount}
         setShowMarksAccount={setShowMarksAccount}
       />}
+      {showGuessParametersWarning[showMarksAccount.id] && (
+        <View style={{ marginHorizontal: 20, marginBottom: 20 }}>
+          <CustomSection
+            title={"Paramètres MoyennesED"}
+            viewStyle={{ marginTop: 0 }}
+          />
+          {CoefficientHandler.guessMarkCoefficientEnabled[showMarksAccount.id] && (
+            <CustomSimpleInformationCard
+              content={"Device coefficient notes activé"}
+              icon={<Wand2Icon size={20} color={DefaultTheme.colors.primary}/>}
+              style={{ marginBottom: 10 }}
+            />
+          )}
+          {CoefficientHandler.guessSubjectCoefficientEnabled[showMarksAccount.id] && (
+            <CustomSimpleInformationCard
+              content={"Device coefficient matières activé"}
+              icon={<Wand2Icon size={20} color={DefaultTheme.colors.primary}/>}
+              style={{ marginBottom: 10 }}
+            />
+          )}
+          <CustomLink
+            title={"En savoir plus"}
+            icon={<InfoIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+            linkIcon={<ArrowRightIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+            onPress={() => navigation.navigate('SettingsStack', { openCoefficientsPage: true })}
+          />
+        </View>
+      )}
       <MarksOverview
         accountID={showMarksAccount.id}
         selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod}

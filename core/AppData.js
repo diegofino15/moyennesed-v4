@@ -21,6 +21,9 @@ class AppData {
   static wantToOpenDoubleAuthPopup = false;
   static temporaryLoginToken = "";
 
+  // Helper, needed to inform the user that guess parameters have been set automatically
+  static showGuessParametersWarning = null;
+
   // Login
   static async login(username, password) {
     // Demo account
@@ -321,8 +324,12 @@ class AppData {
 
     // Detect right guess parameters
     if (!CoefficientHandler.didChooseIfEnable[accountID]) {
-      CoefficientHandler.setGuessMarkCoefficientEnabled(accountID, !(marks.parametrage?.coefficientNote ?? false));
-      CoefficientHandler.setGuessSubjectCoefficientEnabled(accountID, !((marks.parametrage.moyenneCoefMatiere ?? false) || (marks.parametrage.colonneCoefficientMatiere ?? false)));
+      await CoefficientHandler.setGuessMarkCoefficientEnabled(accountID, !(marks.parametrage?.coefficientNote ?? false));
+      await CoefficientHandler.setGuessSubjectCoefficientEnabled(accountID, !((marks.parametrage.moyenneCoefMatiere ?? false) || (marks.parametrage.colonneCoefficientMatiere ?? false)));
+    
+      if ((CoefficientHandler.guessMarkCoefficientEnabled[accountID] || CoefficientHandler.guessSubjectCoefficientEnabled[accountID]) && this.showGuessParametersWarning) {
+        this.showGuessParametersWarning(accountID);
+      }
     }
 
     // Helper functions

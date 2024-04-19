@@ -213,7 +213,9 @@ function SubjectStack({ globalDisplayUpdater, updateGlobalDisplay, route }) {
 
 
 // Profile page stack
-function SettingsStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay }) {
+function SettingsStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, route }) {
+  const { openCoefficientsPage } = route.params;
+  
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -221,6 +223,9 @@ function SettingsStack({ refreshLogin, isConnected, isConnecting, globalDisplayU
         options={{
           presentation: 'modal',
           headerShown: false,
+        }}
+        initialParams={{
+          openCoefficientsPage,
         }}
       >
         {(props) => <SettingsPage
@@ -270,7 +275,7 @@ function SettingsStack({ refreshLogin, isConnected, isConnecting, globalDisplayU
   );
 }
 
-// Stack shown when not logged-in
+// Stack shown when logged-in
 function AppStack({ route, cameFromAuthStack }) {
   const { needToRefresh } = route.params;
   
@@ -293,11 +298,7 @@ function AppStack({ route, cameFromAuthStack }) {
 
   // News
   const navigation = useNavigation();
-  useEffect(() => {
-    NewsHandler.loadPreferences(() => {
-      navigation.navigate('PreferencesPopup');
-    });
-  }, []);
+  useEffect(() => { NewsHandler.loadPreferences(() => { navigation.navigate('PreferencesPopup'); }); }, []);
 
   // Update all displays when changing averages (ex: update opened subject
   // page when marks are updated and a new mark appears)
@@ -326,6 +327,9 @@ function AppStack({ route, cameFromAuthStack }) {
           headerShown: false,
           presentation: 'modal',
           animation: 'fade_from_bottom',
+        }}
+        initialParams={{
+          openCoefficientsPage: false,
         }}
       >
         {(props) => <SettingsStack

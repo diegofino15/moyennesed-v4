@@ -17,10 +17,15 @@ import NewsHandler from "../../../core/NewsHandler";
 
 
 // Settings page
-function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDisplay, navigation }) {
+function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDisplay, navigation, route }) {
+  const { openCoefficientsPage } = route.params;
+  
   // Currently selected account
   const [currentAccount, setCurrentAccount] = useState({});
   useEffect(() => { AppData.getMainAccount().then(account => { setCurrentAccount(account); }); }, []);
+
+  // Auto-open coefficients page
+  useEffect(() => { if (openCoefficientsPage && currentAccount.id) { navigation.navigate('CoefficientsPage', { currentAccount, presentation: 'modal' }); } }, [currentAccount]);
 
   const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
 

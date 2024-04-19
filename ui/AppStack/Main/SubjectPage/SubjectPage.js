@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import useState from "react-usestateref";
 import { Text, View, Dimensions, ScrollView, Platform } from "react-native";
-import { AlertTriangleIcon, ChevronDownIcon, ChevronRightIcon, ChevronsUpDownIcon, CircleEllipsisIcon, DraftingCompassIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneOffIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon, WeightIcon, XIcon } from "lucide-react-native";
+import { AlertTriangleIcon, ChevronDownIcon, ChevronRightIcon, ChevronsUpDownIcon, CircleEllipsisIcon, DraftingCompassIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneOffIcon, PaletteIcon, PenIcon, TrashIcon, TrendingUpIcon, Users2Icon, Wand2Icon, WeightIcon, WrenchIcon, XIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -19,6 +19,9 @@ import ColorsHandler from "../../../../core/ColorsHandler";
 import { asyncExpectedResult, formatAverage } from "../../../../util/Utils";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import AppData from "../../../../core/AppData";
+import CustomTag from "../../../components/CustomTag";
+import CoefficientHandler from "../../../../core/CoefficientHandler";
+import CustomChooser from "../../../components/CustomChooser";
 
 
 // More info
@@ -150,6 +153,16 @@ function SubjectPage({
       `${shownSubject.id}/${shownSubject.subID ?? ""}`,
       "coefficient",
       newCoefficient,
+    );
+    await AppData.recalculateAverageHistory(accountID);
+    updateGlobalDisplay();
+  }
+  async function resetCustomCoefficient() {
+    await AppData.removeCustomData(
+      accountID,
+      "subjects",
+      `${shownSubject.id}/${shownSubject.subID ?? ""}`,
+      "coefficient",
     );
     await AppData.recalculateAverageHistory(accountID);
     updateGlobalDisplay();
@@ -371,21 +384,43 @@ function SubjectPage({
             left: -22,
           }}>
             {/* Coefficient */}
-            <CustomSimpleInformationCard
-              icon={<WeightIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
-              content={"Coefficient"}
-              style={{ marginBottom: 5 }}
-              rightIcon={
-                <PressableScale style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                }} onPress={() => setIsCoefficientModalVisible(true)}>
-                  <XIcon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/>
-                  <Text style={DefaultTheme.fonts.headlineMedium}>{`${coefficient}`.replace(".", ",")}</Text>
-                  <ChevronsUpDownIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginLeft: 5 }}/>
-                </PressableScale>
-              }
-            />
+            <View>
+              <CustomSimpleInformationCard
+                icon={<WeightIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                content={"Coefficient"}
+                style={{ marginBottom: 5 }}
+                rightIcon={
+                  <PressableScale style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }} onPress={() => setIsCoefficientModalVisible(true)}>
+                    <XIcon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                    <Text style={DefaultTheme.fonts.headlineMedium}>{`${coefficient}`.replace(".", ",")}</Text>
+                    <ChevronsUpDownIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginLeft: 5 }}/>
+                  </PressableScale>
+                }
+              />
+              {(shownSubject.isCustomCoefficient || CoefficientHandler.guessSubjectCoefficientEnabled[accountID]) && (
+                <CustomTag
+                  title={shownSubject.isCustomCoefficient ? "Personnalisé" : "Deviné"}
+                  textStyle={{ color: 'black' }}
+                  icon={shownSubject.isCustomCoefficient ? <WrenchIcon size={15} color={'black'}/> : <Wand2Icon size={15} color={'black'}/>}
+                  color={dark}
+                  secondaryTag={shownSubject.isCustomCoefficient && (
+                    <TrashIcon size={15} color={DefaultTheme.colors.error}/>
+                  )}
+                  secondaryTagStyle={{
+                    paddingVertical: 3,
+                    paddingHorizontal: 3,
+                    backgroundColor: DefaultTheme.colors.errorLight,
+                    borderWidth: 2,
+                    borderColor: DefaultTheme.colors.error,
+                  }}
+                  secondaryTagOnPress={resetCustomCoefficient}
+                  onBottom
+                />
+              )}
+            </View>
             {isCoefficientModalVisible && (
               <CoefficientPicker
                 isModalVisible={isCoefficientModalVisible}

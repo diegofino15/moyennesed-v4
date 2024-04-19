@@ -1,16 +1,16 @@
 import { memo, useEffect } from "react";
 import { View, Text, Switch } from "react-native";
+import { ChevronsUpDownIcon, CornerDownRightIcon, SparklesIcon, UserRoundIcon, Wand2Icon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import useState from "react-usestateref";
 
 import CustomModal from "../../components/CustomModal";
-import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
-import { ChevronsUpDownIcon, CornerDownRightIcon, SparklesIcon, UserRoundIcon, Wand2Icon } from "lucide-react-native";
 import CustomSection from "../../components/CustomSection";
-import CoefficientHandler from "../../../core/CoefficientHandler";
 import CustomChooser from "../../components/CustomChooser";
-import AppData from "../../../core/AppData";
 import CustomInformationCard from "../../components/CustomInformationCard";
+import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
+import CoefficientHandler from "../../../core/CoefficientHandler";
+import AppData from "../../../core/AppData";
 
 
 // Settings page
@@ -29,12 +29,12 @@ function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigatio
       goBackFunction={() => navigation.pop()}
       children={(
         <View>
-          <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify'}]}>{currentAccount.accountType == "E" ? "Gérez comment MoyennesED choisit les coefficients de chacune de vos matières et notes." : "Gérez comment sont choisis les coefficients des matières et notes de vos enfants."}</Text>
+          <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify'}]}>{currentAccount.accountType == "E" ? "Gérez comment MoyennesED choisit les coefficients de chacune de vos matières et de vos notes." : "Gérez comment sont choisis les coefficients des matières et des notes de vos enfants."}</Text>
 
           <CustomInformationCard
             title={"Ajustage automatique"}
             icon={<SparklesIcon size={20} color={DefaultTheme.colors.primary}/>}
-            description={"Ces paramètres sont ajustés automatiquement selon les informations que partage ÉcoleDirecte sur vos coefficients."}
+            description={"Ces paramètres sont ajustés automatiquement, mais vous pouvez les activer / désactiver à tout moment."}
             style={{ borderColor: DefaultTheme.colors.primary, marginTop: 20 }}
           />
 
@@ -110,7 +110,7 @@ function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigatio
           ))}
 
           <CustomSection title={"Plus d'infos"} textStyle={DefaultTheme.fonts.labelLarge} viewStyle={{ marginTop: 30 }}/>
-          <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify' }]}>MoyennesED détecte les mots clés présents dans les noms des matières et notes pour déterminer le coefficient le plus adapté, et préciser les calculs des moyennes.</Text>
+          <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify' }]}>Dans le cas où un établissement ne fournit pas les coefficients des notes et des matières, MoyennesED essaiera de les deviner grâce à des mots clés. Cela devrait augmenter la précision des moyennes, mais vous pouvez toujours modifier manuellement les coefficients souhaités.</Text>
           <View style={{ height: 100 }}/> 
         </View>
       )}

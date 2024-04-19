@@ -7,7 +7,7 @@ import { openLink } from "../../util/Utils";
 
 
 // Custom link
-function CustomLink({ title, icon, link, onPress, style }) {
+function CustomLink({ title, icon, link, linkIcon, onPress, style }) {
   return (
     <PressableScale style={{
       flexDirection: 'row',
@@ -17,7 +17,7 @@ function CustomLink({ title, icon, link, onPress, style }) {
     }} onPress={() => onPress ? onPress() : openLink(link)}>
       {icon ? icon : <LinkIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
       <Text style={[DefaultTheme.fonts.bodyLarge, { marginLeft: 10 }]}>{title}</Text>
-      <ArrowBigRightDashIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+      {linkIcon ? linkIcon : <ArrowBigRightDashIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
     </PressableScale>
   );
 }
