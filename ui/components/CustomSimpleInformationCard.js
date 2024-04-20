@@ -3,7 +3,7 @@ import { DefaultTheme } from "react-native-paper";
 
 
 // Custom little information card
-function CustomSimpleInformationCard({ icon, rightIcon, content, style }) {
+function CustomSimpleInformationCard({ icon, rightIcon, content, style, textStyle }) {
   return (
     <View style={{
       backgroundColor: DefaultTheme.colors.surface,
@@ -19,7 +19,7 @@ function CustomSimpleInformationCard({ icon, rightIcon, content, style }) {
         alignItems: 'center',
       }}>
         {icon}
-        <Text style={[DefaultTheme.fonts.bodyLarge, { height: 25, marginLeft: 10 }]}>{content}</Text>
+        <Text style={[DefaultTheme.fonts.bodyLarge, { height: 25, marginLeft: 10, ...textStyle }]}>{content}</Text>
       </View>
       {rightIcon}
     </View>

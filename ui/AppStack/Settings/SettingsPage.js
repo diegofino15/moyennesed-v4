@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 import { View, Text, Platform, Dimensions } from "react-native";
-import { CheckCircleIcon, FileXIcon, HandHelpingIcon, KeyIcon, ScaleIcon, Settings2Icon, XIcon } from "lucide-react-native";
+import { ArrowRightIcon, CheckCircleIcon, CheckIcon, FileXIcon, GlobeIcon, HandHelpingIcon, KeyIcon, ScaleIcon, Settings2Icon, WeightIcon, XIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
@@ -9,6 +9,7 @@ import CustomModal from "../../components/CustomModal";
 import CustomSection from "../../components/CustomSection";
 import LoginStatus from "./LoginStatus";
 import CustomSectionButton from "../../components/CustomSectionButton";
+import CustomSimpleSectionButton from "../../components/CustomSimpleSectionButton";
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import CustomTextArea from "../../components/CustomTextArea";
 import CustomLink from "../../components/CustomLink";
@@ -53,32 +54,32 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDis
           <CustomSection title={"Préférences"}/>
 
           {/* Coefficients */}
-          <CustomSectionButton
-            title={"Coefficients"}
-            description={<Text style={DefaultTheme.fonts.labelMedium}>Comment sont choisis les coefficients</Text>}
+          <CustomSimpleSectionButton
+            title={"Paramètres des coefficients"}
+            icon={<WeightIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
             onPress={() => navigation.navigate('CoefficientsPage', { currentAccount, presentation: 'modal' })}
             style={{ marginBottom: 10 }}
           />
 
-          {/* Connexion à l'API */}
-          <CustomSectionButton
-            title={"Accès aux dernières infos"}
-            description={NewsHandler.allowLatestNewsRefresh ? (
-              <>
-                <CheckCircleIcon size={15} color={DefaultTheme.colors.success}/>
-                <Text style={[DefaultTheme.fonts.labelMedium, { color: DefaultTheme.colors.success }]}> Autorisé</Text>
-              </>
-            ) : (
-              <>
-                <XIcon size={15} color={DefaultTheme.colors.error}/>
-                <Text style={[DefaultTheme.fonts.labelMedium, { color: DefaultTheme.colors.error }]}> Non autorisé</Text>
-              </>
-            )}
-            onPress={() => navigation.navigate('PreferencesPopup', { presentation: 'modal' })}
+          {/* Advanced settings */}
+          <CustomSimpleSectionButton
+            title={"Paramètres avancés"}
+            icon={<Settings2Icon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+            onPress={() => navigation.navigate('AdvancedSettingsPage', { currentAccount, presentation: 'modal' })}
           />
 
           {/* About */}
           <CustomSection title={"Informations"}/>
+          <CustomSimpleSectionButton
+            title={"Accès à l'API"}
+            icon={NewsHandler.allowLatestNewsRefresh ? (
+              <View style={{ backgroundColor: DefaultTheme.colors.success, borderRadius: 15, padding: 5 }}><CheckIcon size={15} color={'black'}/></View>
+            ) : (
+              <XIcon size={20} color={DefaultTheme.colors.error}/>
+            )}
+            onPress={() => navigation.navigate('PreferencesPopup', { presentation: 'modal' })}
+            style={{ marginBottom: 10 }}
+          />
           <CustomTextArea
             children={(
               <View>

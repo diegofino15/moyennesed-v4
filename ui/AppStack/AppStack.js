@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'; 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 
 import MainPage from './Main/MainPage';
 import MarkPage from './Main/SubjectPage/MarkPage';
@@ -13,12 +14,12 @@ import HomeworkInformationPage from './Main/Homework/HomeworkInformationPage';
 import SettingsPage from './Settings/SettingsPage';
 import ProfilePage from './Settings/Profile/ProfilePage';
 import CoefficientsPage from './Settings/CoefficientsPage';
+import AdvancedSettingsPage from './Settings/AdvancedSettingsPage';
 
 import PreferencesPopup from './PreferencesPopup';
 
 import AppData from '../../core/AppData';
 import NewsHandler from '../../core/NewsHandler';
-import { useNavigation } from '@react-navigation/native';
 
 
 // Create stack for navigation
@@ -254,8 +255,26 @@ function SettingsStack({ refreshLogin, isConnected, isConnecting, globalDisplayU
           headerShown: false,
           animation: 'slide_from_right',
         }}
+        initialParams={{
+          currentAccount: null,
+        }}
       >
         {(props) => <CoefficientsPage
+          {...props}
+          updateGlobalDisplay={updateGlobalDisplay}
+          globalDisplayUpdater={globalDisplayUpdater}
+        />}
+      </Stack.Screen>
+
+      {/* Advanced settings page */}
+      <Stack.Screen
+        name="AdvancedSettingsPage"
+        options={{
+          headerShown: false,
+          animation: 'slide_from_right',
+        }}
+      >
+        {(props) => <AdvancedSettingsPage
           {...props}
           updateGlobalDisplay={updateGlobalDisplay}
           globalDisplayUpdater={globalDisplayUpdater}

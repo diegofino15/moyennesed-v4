@@ -329,6 +329,11 @@ class AppData {
     
       if ((CoefficientHandler.guessMarkCoefficientEnabled[accountID] || CoefficientHandler.guessSubjectCoefficientEnabled[accountID]) && this.showGuessParametersWarning) {
         this.showGuessParametersWarning(accountID);
+
+        // Auto-detect if account is in middle school or high school
+        if (CoefficientHandler.guessSubjectCoefficientEnabled[accountID]) {
+          
+        }
       }
     }
 

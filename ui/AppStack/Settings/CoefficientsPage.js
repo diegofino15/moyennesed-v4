@@ -47,7 +47,7 @@ function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigatio
               />
               <CustomSimpleInformationCard
                 content={"Devine coefficient notes"}
-                icon={<Wand2Icon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                icon={<Wand2Icon size={20} color={DefaultTheme.colors.primary}/>}
                 rightIcon={(
                   <Switch
                     value={CoefficientHandler.guessMarkCoefficientEnabled[account.id]}
@@ -62,7 +62,7 @@ function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigatio
               />
               <CustomSimpleInformationCard
                 content={"Devine coefficient matières"}
-                icon={<Wand2Icon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                icon={<Wand2Icon size={20} color={DefaultTheme.colors.primary}/>}
                 rightIcon={(
                   <Switch
                     value={CoefficientHandler.guessSubjectCoefficientEnabled[account.id]}
@@ -78,7 +78,7 @@ function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigatio
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <CornerDownRightIcon size={30} color={DefaultTheme.colors.onSurface} style={{ marginRight: 5 }}/>
                   <CustomSimpleInformationCard
-                    content={"Profil de coefficient"}
+                    content={"Niveau"}
                     icon={<UserRoundIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
                     rightIcon={(
                       <CustomChooser
