@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { Text, View } from "react-native";
-import useState from "react-usestateref";
+import { ArrowRightIcon, CornerDownRightIcon, InfoIcon, Wand2Icon, UserRoundIcon, ChevronsUpDownIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
+import useState from "react-usestateref";
 
 import ChildChooser from "./ChildChooser";
 import MarksOverview from "./MarksOverview/MarksOverview";
@@ -11,9 +12,9 @@ import AppData from "../../../core/AppData";
 import HomeworkStatus from "./Homework/HomeworkStatus";
 import CustomSection from "../../components/CustomSection";
 import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
-import { ArrowRightIcon, CornerDownRightIcon, InfoIcon, Wand2Icon } from "lucide-react-native";
 import CoefficientHandler from "../../../core/CoefficientHandler";
 import CustomLink from "../../components/CustomLink";
+import CustomChooser from "../../components/CustomChooser";
 
 
 // Embedded mark page
@@ -118,32 +119,65 @@ function EmbeddedMarksPage({
         showMarksAccount={showMarksAccount}
         setShowMarksAccount={setShowMarksAccount}
       />}
-      {showGuessParametersWarning[showMarksAccount.id] && (
+      {showGuessParametersWarning[showMarksAccount.id] && (CoefficientHandler.guessMarkCoefficientEnabled[showMarksAccount.id] || CoefficientHandler.guessSubjectCoefficientEnabled[showMarksAccount.id]) && (
         <View style={{ marginHorizontal: 20, marginBottom: 20 }}>
           <CustomSection
             title={"Paramètres MoyennesED"}
             viewStyle={{ marginTop: 0 }}
+            textAreaStyle={{ backgroundColor: DefaultTheme.colors.background }}
           />
           {CoefficientHandler.guessMarkCoefficientEnabled[showMarksAccount.id] && (
             <CustomSimpleInformationCard
-              content={"Device coefficient notes activé"}
+              content={"Devine coefficient notes activé"}
               icon={<Wand2Icon size={20} color={DefaultTheme.colors.primary}/>}
               style={{ marginBottom: 10 }}
             />
           )}
           {CoefficientHandler.guessSubjectCoefficientEnabled[showMarksAccount.id] && (
-            <CustomSimpleInformationCard
-              content={"Device coefficient matières activé"}
-              icon={<Wand2Icon size={20} color={DefaultTheme.colors.primary}/>}
-              style={{ marginBottom: 10 }}
-            />
+            <>
+              <CustomSimpleInformationCard
+                content={"Devine coefficient matières activé"}
+                icon={<Wand2Icon size={20} color={DefaultTheme.colors.primary}/>}
+              />
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                <CornerDownRightIcon size={30} color={DefaultTheme.colors.onSurface} style={{ marginRight: 5 }}/>
+                <CustomSimpleInformationCard
+                  content={"Profil de coefficient"}
+                  icon={<UserRoundIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                  rightIcon={(
+                    <CustomChooser
+                      defaultItem={(
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                          <Text style={[DefaultTheme.fonts.labelLarge, { marginRight: 5 }]}>{CoefficientHandler.choosenProfiles[showMarksAccount.id] ?? "Choisir..."}</Text>
+                          <ChevronsUpDownIcon size={20} color={DefaultTheme.colors.onSurface}/>
+                        </View>
+                      )}
+                      selected={CoefficientHandler.choosenProfiles[showMarksAccount.id]}
+                      setSelected={async (profile) => {
+                        await CoefficientHandler.setChoosenProfile(showMarksAccount.id, profile);
+                        await AppData.recalculateAverageHistory(showMarksAccount.id);
+                        updateGlobalDisplay();
+                      }}
+                      items={Object.keys(CoefficientHandler.profiles).map(key => {
+                        return {
+                          id: key,
+                          title: key,
+                        }
+                      })}
+                    />
+                  )}
+                  style={{ marginTop: 5, flexGrow: 1 }}
+                />
+              </View>
+            </>
           )}
           <CustomLink
-            title={"En savoir plus"}
+            title={"Plus d'infos"}
             icon={<InfoIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
             linkIcon={<ArrowRightIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
             onPress={() => navigation.navigate('SettingsStack', { openCoefficientsPage: true })}
           />
+          <CustomSection textAreaStyle={{ paddingHorizontal: 0 }} viewStyle={{ marginTop: 0 }}/>
         </View>
       )}
       <MarksOverview

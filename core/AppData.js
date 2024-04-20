@@ -706,11 +706,7 @@ class AppData {
     function applyMarkCustomData(period, markID, customData) {
       let correspondingMark = period.marks[markID];
       if (correspondingMark) {
-        if (
-          customData.marks[period.id][markID].coefficient &&
-          customData.marks[period.id][markID].coefficient !=
-            correspondingMark.defaultCoefficient
-        ) {
+        if (customData.marks[period.id][markID].coefficient) {
           correspondingMark.isCustomCoefficient = true;
         }
         Object.keys(customData.marks[period.id][markID]).forEach((key) => {
@@ -745,11 +741,7 @@ class AppData {
         }
 
         if (correspondingSubject) {
-          if (
-            customData.subjects[fullSubjectID].coefficient &&
-            customData.subjects[fullSubjectID].coefficient !=
-              correspondingSubject.defaultCoefficient
-          ) {
+          if (customData.subjects[fullSubjectID].coefficient) {
             correspondingSubject.isCustomCoefficient = true;
           }
           Object.keys(customData.subjects[fullSubjectID]).forEach((key) => {

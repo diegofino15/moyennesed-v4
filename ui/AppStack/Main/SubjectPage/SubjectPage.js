@@ -146,7 +146,6 @@ function SubjectPage({
   const [coefficient, setCoefficient] = useState(null);
   useEffect(() => { setCoefficient(shownSubject.coefficient ?? 1); }, [shownSubject]);
   async function changeCoefficient(newCoefficient) {
-    if (newCoefficient === coefficient) { return; }
     await AppData.setCustomData(
       accountID,
       "subjects",
@@ -383,62 +382,12 @@ function SubjectPage({
             width: windowWidth + 4,
             left: -22,
           }}>
-            {/* Coefficient */}
-            <View>
-              <CustomSimpleInformationCard
-                icon={<WeightIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
-                content={"Coefficient"}
-                style={{ marginBottom: 5 }}
-                rightIcon={
-                  <PressableScale style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }} onPress={() => setIsCoefficientModalVisible(true)}>
-                    <XIcon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/>
-                    <Text style={DefaultTheme.fonts.headlineMedium}>{`${coefficient}`.replace(".", ",")}</Text>
-                    <ChevronsUpDownIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginLeft: 5 }}/>
-                  </PressableScale>
-                }
-              />
-              {(shownSubject.isCustomCoefficient || CoefficientHandler.guessSubjectCoefficientEnabled[accountID]) && (
-                <CustomTag
-                  title={shownSubject.isCustomCoefficient ? "Personnalisé" : "Deviné"}
-                  textStyle={{ color: 'black' }}
-                  icon={shownSubject.isCustomCoefficient ? <WrenchIcon size={15} color={'black'}/> : <Wand2Icon size={15} color={'black'}/>}
-                  color={dark}
-                  secondaryTag={shownSubject.isCustomCoefficient && (
-                    <TrashIcon size={15} color={DefaultTheme.colors.error}/>
-                  )}
-                  secondaryTagStyle={{
-                    paddingVertical: 3,
-                    paddingHorizontal: 3,
-                    backgroundColor: DefaultTheme.colors.errorLight,
-                    borderWidth: 2,
-                    borderColor: DefaultTheme.colors.error,
-                  }}
-                  secondaryTagOnPress={resetCustomCoefficient}
-                  onBottom
-                />
-              )}
-            </View>
-            {isCoefficientModalVisible && (
-              <CoefficientPicker
-                isModalVisible={isCoefficientModalVisible}
-                setIsModalVisible={setIsCoefficientModalVisible}
-                initialValue={coefficient}
-                setCoefficient={(newCoefficient) => {
-                  setCoefficient(newCoefficient);
-                  changeCoefficient(newCoefficient);
-                }}
-              />
-            )}
-
             {/* Is effective */}
             {!isEffective && (
               <View style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                marginTop: 5,
+                marginBottom: 20,
               }}>
                 <View style={{
                   paddingHorizontal: 10,
@@ -473,6 +422,61 @@ function SubjectPage({
                   }]}>Activer</Text>
                 </PressableScale>
               </View>
+            )}
+            
+            {/* Coefficient */}
+            <View>
+              <CustomSimpleInformationCard
+                icon={<WeightIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                content={"Coefficient"}
+                style={{ marginBottom: 5 }}
+                rightIcon={
+                  <PressableScale style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }} onPress={() => setIsCoefficientModalVisible(true)}>
+                    <XIcon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                    <Text style={DefaultTheme.fonts.headlineMedium}>{`${coefficient}`.replace(".", ",")}</Text>
+                    <ChevronsUpDownIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginLeft: 5 }}/>
+                  </PressableScale>
+                }
+              />
+              {(shownSubject.isCustomCoefficient || CoefficientHandler.guessSubjectCoefficientEnabled[accountID]) && (
+                <CustomTag
+                  title={shownSubject.isCustomCoefficient ? "Personnalisé" : "Deviné"}
+                  textStyle={{ color: 'black' }}
+                  icon={shownSubject.isCustomCoefficient ? <WrenchIcon size={15} color={'black'}/> : <Wand2Icon size={15} color={'black'}/>}
+                  color={dark}
+                  onPress={() => {
+                    if (CoefficientHandler.guessSubjectCoefficientEnabled[accountID]) {
+                      navigation.navigate('SettingsStack', { openCoefficientsPage: true });
+                    }
+                  }}
+                  secondaryTag={shownSubject.isCustomCoefficient && (
+                    <TrashIcon size={15} color={DefaultTheme.colors.error}/>
+                  )}
+                  secondaryTagStyle={{
+                    paddingVertical: 3,
+                    paddingHorizontal: 3,
+                    backgroundColor: DefaultTheme.colors.errorLight,
+                    borderWidth: 2,
+                    borderColor: DefaultTheme.colors.error,
+                  }}
+                  secondaryTagOnPress={resetCustomCoefficient}
+                  onBottom
+                />
+              )}
+            </View>
+            {isCoefficientModalVisible && (
+              <CoefficientPicker
+                isModalVisible={isCoefficientModalVisible}
+                setIsModalVisible={setIsCoefficientModalVisible}
+                initialValue={coefficient}
+                setCoefficient={(newCoefficient) => {
+                  setCoefficient(newCoefficient);
+                  changeCoefficient(newCoefficient);
+                }}
+              />
             )}
 
             {/* Teachers */}
