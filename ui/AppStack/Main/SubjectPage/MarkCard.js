@@ -1,12 +1,11 @@
-import { Dimensions, Platform, Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 import { ChevronRightIcon, Users2Icon, XIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 
 import CustomTag from "../../../components/CustomTag";
 import ColorsHandler from "../../../../core/ColorsHandler";
-import { formatDate2, formatDate3, formatMark } from "../../../../util/Utils";
-
+import { formatDate3, formatMark } from "../../../../util/Utils";
 
 // Mark card
 function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth }) {

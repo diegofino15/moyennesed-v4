@@ -105,6 +105,7 @@ function RecentMarkCard({ accountID, mark, getSubject, showNewLabel=false, navig
         <CustomTag
           title={"NOUVEAU"}
           color={DefaultTheme.colors.error}
+          style={{ paddingVertical: 0 }}
         />
       )}
     </PressableScale>

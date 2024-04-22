@@ -14,6 +14,7 @@ function EmbeddedSubjectCard({
   subject,
   getMark,
   hasExam,
+  countMarksWithOnlyCompetences,
   navigation,
 }) {
   const { light, dark } = ColorsHandler.getSubjectColors(subject.id)
@@ -53,6 +54,7 @@ function EmbeddedSubjectCard({
         borderRadius: 10,
         marginVertical: 5,
         flexGrow: 1,
+        maxWidth: Dimensions.get('window').width - (subject.subID ? 85 : 40),
       }} onPress={openSubjectPage}>
         <View style={{
           backgroundColor: dark,
@@ -102,7 +104,7 @@ function EmbeddedSubjectCard({
                 return (
                   <Text style={[DefaultTheme.fonts.headlineMedium, {
                     color: 'black',
-                    opacity: mark.isEffective ? 1 : 0.2,
+                    opacity: mark.isEffective && (!mark.valueOn && mark.competences.length ? countMarksWithOnlyCompetences : true) ? 1 : 0.2,
                     fontFamily: "Numbers-Regular",
                   }]}>{formatMark(mark)}</Text>
                 );
@@ -136,6 +138,7 @@ function SubjectCard({
   subject,
   getMark,
   hasExam,
+  countMarksWithOnlyCompetences,
   navigation,
 }) {
   return (
@@ -145,6 +148,7 @@ function SubjectCard({
         subject={subject}
         getMark={getMark}
         hasExam={hasExam}
+        countMarksWithOnlyCompetences={countMarksWithOnlyCompetences}
         navigation={navigation}
       />
 
@@ -155,6 +159,7 @@ function SubjectCard({
           accountID={accountID}
           subject={subSubject}
           getMark={getMark}
+          countMarksWithOnlyCompetences={countMarksWithOnlyCompetences}
           navigation={navigation}
         />
       ))}

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Text, View, Dimensions } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import LottieView from "lottie-react-native";
@@ -71,4 +72,4 @@ function PreferencesPopup({ navigation }) {
   );
 }
 
-export default PreferencesPopup;
+export default memo(PreferencesPopup);

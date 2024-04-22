@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Dimensions, Text, View } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -35,6 +35,10 @@ function SubjectsOverview({
   useEffect(() => {
     AppData.getSubjectHasExam(accountID).then(setSubjectHasExam);
   }, [accountID, gotHomework]);
+
+  // Preferences
+  const [countMarksWithOnlyCompetences, setCountMarksWithOnlyCompetences] = useState(false);
+  useEffect(() => { AppData.getPreference('countMarksWithOnlyCompetences').then(setCountMarksWithOnlyCompetences) }, [globalDisplayUpdater]);
   
   return (
     <View>
@@ -55,7 +59,10 @@ function SubjectsOverview({
               justifyContent: "space-between",
               marginVertical: 5,
             }} onPress={() => navigation.navigate("SubjectGroupPage", { accountID, cacheSubjectGroup: subjectGroup })}>
-              <Text style={[DefaultTheme.fonts.labelLarge, { fontFamily: 'Text-Medium', height: 25 }]}>{subjectGroup.title}</Text>
+              <Text style={[DefaultTheme.fonts.labelLarge, {
+                fontFamily: 'Text-Medium',
+                width: Dimensions.get('window').width - 150,
+              }]}>{subjectGroup.title}</Text>
               <View style={{
                 flexDirection: 'row',
                 alignItems: 'flex-end',
@@ -81,6 +88,7 @@ function SubjectsOverview({
                 subject={periods[selectedPeriod].subjects[subjectID]}
                 getMark={(markID) => periods[selectedPeriod].marks[markID]}
                 hasExam={selectedPeriod == latestCurrentPeriod ? subjectHasExam[subjectID] : undefined}
+                countMarksWithOnlyCompetences={countMarksWithOnlyCompetences}
                 navigation={navigation}
               />;
             })}
@@ -113,6 +121,7 @@ function SubjectsOverview({
               subject={periods[selectedPeriod].subjects[subjectID]}
               getMark={(markID) => periods[selectedPeriod].marks[markID]}
               hasExam={selectedPeriod == latestCurrentPeriod ? subjectHasExam[subjectID] : undefined}
+              countMarksWithOnlyCompetences={countMarksWithOnlyCompetences}
               navigation={navigation}
             />;
           })}

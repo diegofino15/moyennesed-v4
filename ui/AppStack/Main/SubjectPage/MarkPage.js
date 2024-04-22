@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { View, Text, Platform, Dimensions } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
-import { Users2Icon } from "lucide-react-native";
+import { CornerDownRightIcon, LandPlotIcon, Users2Icon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomModal from "../../../components/CustomModal";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import { formatMark } from "../../../../util/Utils";
+import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
+import CustomSection from "../../../components/CustomSection";
 
 
 // Mark page
@@ -119,6 +121,28 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
               top: -10,
             }]}>{mark.title}</Text>
           </View>
+
+          {mark.competences.length > 0 && (
+            <>
+              <CustomSection
+                title={"Compétences"}
+              />
+              {mark.competences.map(competence => (
+                <View key={competence.id} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <CustomSimpleInformationCard
+                    content={`${competence.title} Modi ullam doloribus voluptate. Odio laboriosam dignissimos tempora.`}
+                    icon={<LandPlotIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                    style={{ maxWidth: windowWidth - 100, backgroundColor: 'red' }}
+                  />
+                  <View style={{
+                    backgroundColor: dark,
+                  }}>
+                    
+                  </View>
+                </View>
+              ))}
+            </>
+          )}
         </View>
       )}
     />

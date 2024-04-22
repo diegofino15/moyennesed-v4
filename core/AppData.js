@@ -329,11 +329,6 @@ class AppData {
     
       if ((CoefficientHandler.guessMarkCoefficientEnabled[accountID] || CoefficientHandler.guessSubjectCoefficientEnabled[accountID]) && this.showGuessParametersWarning) {
         this.showGuessParametersWarning(accountID);
-
-        // Auto-detect if account is in middle school or high school
-        if (CoefficientHandler.guessSubjectCoefficientEnabled[accountID]) {
-          
-        }
       }
     }
 
@@ -562,6 +557,7 @@ class AppData {
       let markCompetences = [];
       for (competence of mark.elementsProgramme) {
         markCompetences.push({
+          id: competence.idCompetence,
           title: competence.libelleCompetence,
           description: competence.descriptif,
           value: parseFloat(`${competence.valeur}`),
@@ -578,6 +574,13 @@ class AppData {
       let markHasValue = true;
       if (!markValueOn && markCompetences.length == 0) {
         markHasValue = false;
+      } else if (!markValueOn) {
+        let sum = 0;
+        for (const competence of markCompetences) {
+          sum += competence.value;
+        }
+        markValue = sum / markCompetences.length / 4 * 20;
+        markValueStr = `${markValue}`.replace(".", ",");
       }
 
       // Class values

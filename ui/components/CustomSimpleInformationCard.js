@@ -12,6 +12,7 @@ function CustomSimpleInformationCard({ icon, rightIcon, content, style, textStyl
       alignItems: 'center',
       justifyContent: 'space-between',
       padding: 10,
+      overflow: 'hidden',
       ...style,
     }}>
       <View style={{
