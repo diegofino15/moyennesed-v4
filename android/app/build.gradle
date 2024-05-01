@@ -83,9 +83,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'me.diegof.moyennesed.dev'
+    namespace 'me.diegof.moyennesed'
     defaultConfig {
-        applicationId 'me.diegof.moyennesed.dev'
+        applicationId 'me.diegof.moyennesed'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 19

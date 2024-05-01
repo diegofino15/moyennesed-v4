@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, Platform, TextInput } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 import { CalendarIcon, CheckIcon, ChevronDownIcon, ChevronUpIcon, CircleIcon, DownloadIcon, ExternalLinkIcon, FileIcon, GraduationCapIcon } from "lucide-react-native";
@@ -251,7 +251,16 @@ function HomeworkCard({
           width: windowWidth - 40,
         }} onLayout={onLayout}>
           {/* What to do */}
-          <Text style={DefaultTheme.fonts.bodyMedium}>{specificHomework?.todo}</Text>
+          {Platform.select({ ios: (
+            <TextInput
+              style={DefaultTheme.fonts.bodyMedium}
+              multiline
+              editable={false}
+              scrollEnabled={false}
+            >{specificHomework?.todo}</TextInput>
+          ), android: (
+            <Text style={DefaultTheme.fonts.bodyMedium} selectable>{specificHomework?.todo}</Text>
+          ) })}
 
           {/* Files */}
           {specificHomework.files?.length > 0 && (

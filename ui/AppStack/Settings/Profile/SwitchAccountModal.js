@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, Text } from "react-native";
-import { CheckCircleIcon, CircleIcon, MousePointerSquareIcon } from "lucide-react-native";
+import { CheckCircleIcon, CircleIcon, SquareMousePointerIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -63,7 +63,7 @@ function SwitchAccountModal({ isSwitchingAccount, setIsSwitchingAccount, switchA
         <CustomInformationCard
           title={"Le saviez-vous ?"}
           description={"Vous pouvez changer de compte en laissant pressé le bouton profil sur la page d'accueil."}
-          icon={<MousePointerSquareIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+          icon={<SquareMousePointerIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
         />
       )}
     />

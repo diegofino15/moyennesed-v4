@@ -34,14 +34,6 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-
-# CUSTOM #
-
-# Environment variables
-.env
-
-# Builds compiled locally
-builds/
-
-# Testing
-test-accounts.txt
+# Bare workflow
+ios/
+android/

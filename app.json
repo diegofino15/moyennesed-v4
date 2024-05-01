@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MoyennesED Dev",
-    "slug": "moyennesed-v4",
+    "name": "MoyennesED",
+    "slug": "moyennesed",
     "version": "4.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,52 +14,47 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "me.diegof.moyennesed.dev",
-      "buildNumber": "1"
+    "extra": {
+      "eas": {
+        "projectId": "e17b020c-b1bf-4f61-9fa6-7bf681626451"
+      }
     },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "me.diegof.moyennesed.dev",
-      "versionCode": 19
-    },
+    "owner": "finocchiarodev",
     "plugins": [
       [
         "expo-build-properties",
         {
           "ios": {
-            "deploymentTarget": "13.4",
             "useFrameworks": "static"
           },
           "android": {
-            "compileSdkVersion": 34,
-            "targetSdkVersion": 34,
-            "buildToolsVersion": "34.0.0",
             "extraProguardRules": "-keep class com.google.android.gms.internal.consent_sdk.** { *; }"
           }
         }
       ],
+      "expo-font",
       [
         "react-native-permissions",
         {
           "iosPermissions": [
-            "AppTrackingTransparency"
+            "AppTrackingTransparency",
+            "Notifications"
           ]
         }
-      ],
-      "expo-font"
+      ]
     ],
-    "extra": {
-      "eas": {
-        "projectId": "9ce52348-55ae-4fea-bfca-12160d51f550"
-      }
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "me.diegof.moyennesed",
+      "versionCode": 19
     },
-    "runtimeVersion": {
-      "policy": "appVersion"
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "me.diegof.moyennesed",
+      "buildNumber": "1"
     }
   },
   "react-native-google-mobile-ads": {

@@ -3,7 +3,7 @@ import { Animated } from "react-native";
 
 
 // Custom Animated indicator
-function CustomAnimatedIndicator({ child, value, startX=0, endX=0, startY=0, endY=0, style }) {
+function CustomAnimatedIndicator({ child, value, startX=0, endX=0, startY=0, endY=0, startScale=0.5, endScale=1, style }) {
   const [anim, _] = useState(new Animated.Value(0));
   useEffect(() => {
     Animated.timing(anim, {
@@ -31,7 +31,7 @@ function CustomAnimatedIndicator({ child, value, startX=0, endX=0, startY=0, end
         {
           scale: anim.interpolate({
             inputRange: [0, 1],
-            outputRange: [0.5, 1],
+            outputRange: [startScale, endScale],
           }),
         },
       ],

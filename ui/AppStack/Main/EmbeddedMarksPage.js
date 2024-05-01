@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Switch, Text, View } from "react-native";
-import { ArrowRightIcon, CornerDownRightIcon, InfoIcon, Wand2Icon, UserRoundIcon, ChevronsUpDownIcon } from "lucide-react-native";
+import { ArrowRightIcon, CornerDownRightIcon, InfoIcon, Wand2Icon, UserRoundIcon, ChevronsUpDownIcon, AlertTriangleIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import useState from "react-usestateref";
 
@@ -15,6 +15,7 @@ import CustomSimpleInformationCard from "../../components/CustomSimpleInformatio
 import CoefficientHandler from "../../../core/CoefficientHandler";
 import CustomLink from "../../components/CustomLink";
 import CustomChooser from "../../components/CustomChooser";
+import { PressableScale } from "react-native-pressable-scale";
 
 
 // Embedded mark page
@@ -121,26 +122,72 @@ function EmbeddedMarksPage({
       />}
       {showGuessParametersWarning[showMarksAccount.id] && (
         <View style={{ marginHorizontal: 20, marginBottom: 20 }}>
-          <CustomSection
+          <PressableScale style={{
+            backgroundColor: DefaultTheme.colors.surface,
+            borderWidth: 2,
+            borderColor: DefaultTheme.colors.surfaceOutline,
+            paddingHorizontal: 15,
+            paddingVertical: 10,
+            borderRadius: 10,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }} onPress={() => navigation.navigate('SettingsStack', { openCoefficientsPage: true })}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Wand2Icon size={20} color={DefaultTheme.colors.primary} style={{ marginRight: 10 }}/>
+              <Text style={DefaultTheme.fonts.bodyLarge}>Paramètres ajustés !</Text>
+            </View>
+            <InfoIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+
+            {/* Alert badge */}
+            <AlertTriangleIcon size={30} color={DefaultTheme.colors.error} style={{
+              position: 'absolute',
+              top: -15,
+              right: -10,
+              zIndex: 1,
+              transform: [{
+                rotate: '20deg'
+              }]
+            }}/>
+          </PressableScale>
+          {CoefficientHandler.guessSubjectCoefficientEnabled[showMarksAccount.id] && (
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <CornerDownRightIcon size={30} color={DefaultTheme.colors.onSurface} style={{ marginRight: 5 }}/>
+              <CustomSimpleInformationCard
+                content={"Vous êtes au..."}
+                icon={<UserRoundIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                rightIcon={(
+                  <CustomChooser
+                    defaultItem={(
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={[DefaultTheme.fonts.labelLarge, { marginRight: 5 }]}>{CoefficientHandler.choosenProfiles[showMarksAccount.id] ?? "Choisir..."}</Text>
+                        <ChevronsUpDownIcon size={20} color={DefaultTheme.colors.onSurface}/>
+                      </View>
+                    )}
+                    selected={CoefficientHandler.choosenProfiles[showMarksAccount.id]}
+                    setSelected={async (profile) => {
+                      await CoefficientHandler.setChoosenProfile(showMarksAccount.id, profile);
+                      await AppData.recalculateAverageHistory(showMarksAccount.id);
+                      updateGlobalDisplay();
+                    }}
+                    items={Object.keys(CoefficientHandler.profiles).map(key => {
+                      return {
+                        id: key,
+                        title: key,
+                      }
+                    })}
+                  />
+                )}
+                style={{ marginTop: 5, flexGrow: 1 }}
+              />
+            </View>
+          )}
+          {/* <CustomSection
             title={"Paramètres automatiques"}
             viewStyle={{ marginTop: 0 }}
             textAreaStyle={{ backgroundColor: DefaultTheme.colors.background }}
           />
-          <CustomSimpleInformationCard
-            content={"Devine coefficient notes"}
-            icon={<Wand2Icon size={20} color={DefaultTheme.colors.primary}/>}
-            rightIcon={(
-              <Switch
-                value={CoefficientHandler.guessMarkCoefficientEnabled[showMarksAccount.id]}
-                onValueChange={async (value) => {
-                  await CoefficientHandler.setGuessMarkCoefficientEnabled(showMarksAccount.id, value);
-                  await AppData.recalculateAverageHistory(showMarksAccount.id);
-                  updateGlobalDisplay();
-                }}
-              />
-            )}
-            style={{ marginBottom: 10 }}
-          />
+
           <CustomSimpleInformationCard
             content={"Devine coefficient matières"}
             icon={<Wand2Icon size={20} color={DefaultTheme.colors.primary}/>}
@@ -194,7 +241,7 @@ function EmbeddedMarksPage({
             onPress={() => navigation.navigate('SettingsStack', { openCoefficientsPage: true })}
             style={{ marginTop: 10 }}
           />
-          <CustomSection textAreaStyle={{ paddingHorizontal: 0 }} viewStyle={{ marginTop: 0 }}/>
+          <CustomSection textAreaStyle={{ paddingHorizontal: 0 }} viewStyle={{ marginTop: 0 }}/> */}
         </View>
       )}
       <MarksOverview

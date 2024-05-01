@@ -1,15 +1,18 @@
-import { useEffect } from "react";
-import { View, Text, FlatList } from "react-native";
+import { useEffect, useRef } from "react";
+import { View, Text, FlatList, Dimensions, ScrollView } from "react-native";
 import { DefaultTheme } from "react-native-paper";
-import { HelpCircleIcon, ChevronsUpDownIcon, Users2Icon } from "lucide-react-native";
+import { HelpCircleIcon, ChevronsUpDownIcon, Users2Icon, DraftingCompassIcon, TrendingUpIcon, EyeIcon, EyeOffIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
+import RecentMarkCard from "./RecentMarkCard";
 import CustomChooser from "../../../components/CustomChooser";
+import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
+import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
 import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
 import { formatAverage } from "../../../../util/Utils";
-import RecentMarkCard from "./RecentMarkCard";
+import HapticsHandler from "../../../../core/HapticsHandler";
 
 
 // Marks overview
@@ -58,6 +61,18 @@ function MarksOverview({
     });
   }, [accountID, globalDisplayUpdater]);
 
+  // Show average or evolution graph
+  const scrollViewRef = useRef(null);
+  const [showEvolution, setShowEvolution] = useState(false);
+  const [showClassValueOnChart, setShowClassValueOnChart] = useState(false);
+  useEffect(() => {
+    if (showEvolution) {
+      scrollViewRef.current?.scrollTo({x: Dimensions.get('window').width - 80, animated: true});
+    } else {
+      scrollViewRef.current?.scrollTo({ x: 0, animated: true });
+    }
+  }, [showEvolution]);
+
   return (
     <View style={{
       backgroundColor: DefaultTheme.colors.surface,
@@ -69,7 +84,6 @@ function MarksOverview({
       <View style={{
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
       }}>
         {/* Loading status */}
         <CustomAnimatedChangeableItem
@@ -102,35 +116,119 @@ function MarksOverview({
         />
 
         {/* Period chooser */}
-        <CustomChooser
-          title="Sélectionnez une période"
-          items={Object.values(periods).map(period => { return {
-            title: period.title,
-            id: period.id,
-          }})}
-          defaultItem={<Text style={[DefaultTheme.fonts.labelMedium, { color: DefaultTheme.colors.primary }]}>---</Text>}
-          getItemForSelected={(periodID) => <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={[DefaultTheme.fonts.labelMedium, { color: DefaultTheme.colors.primary }]}>{periods[periodID]?.title}</Text>
-            <ChevronsUpDownIcon size={16} color={DefaultTheme.colors.primary} style={{ marginLeft: 5 }} />
-          </View>}
-          selected={selectedPeriod}
-          setSelected={setSelectedPeriod}
-        />
-      </View>
-      
-      {/* Main average */}
-      <View style={{
-        alignItems: 'center',
-        marginVertical: 30,
-      }}>
-        <Text style={[DefaultTheme.fonts.headlineLarge, { fontSize: 40 }]}>{formatAverage(periods[selectedPeriod]?.average)}</Text>
-        <Text style={[DefaultTheme.fonts.labelLarge, { top: -5 }]}>MOYENNE GÉNÉRALE</Text>
-        
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 3 }}>
-          <Users2Icon size={15} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
-          <Text style={[DefaultTheme.fonts.labelMedium, { fontFamily: "Numbers-Regular" }]}>: {formatAverage(periods[selectedPeriod]?.classAverage)}</Text>
+        <View style={{
+          alignItems: 'flex-end',
+          position: 'absolute',
+          right: 0,
+        }}>
+          <CustomChooser
+            title="Sélectionnez une période"
+            items={Object.values(periods).map(period => { return {
+              title: period.title,
+              id: period.id,
+            }})}
+            defaultItem={<Text style={[DefaultTheme.fonts.labelMedium, { color: DefaultTheme.colors.primary }]}>---</Text>}
+            getItemForSelected={(periodID) => <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={[DefaultTheme.fonts.labelMedium, {
+                color: DefaultTheme.colors.primary,
+                width: Dimensions.get('window').width - 190,
+                textAlign: 'right',
+              }]}>{periods[periodID]?.title}</Text>
+              <ChevronsUpDownIcon size={16} color={DefaultTheme.colors.primary} style={{ marginLeft: 5 }} />
+            </View>}
+            selected={selectedPeriod}
+            setSelected={setSelectedPeriod}
+          />
+
+          {/* Toggle show evolution */}
+          {periods[selectedPeriod]?.hasAverage && (
+            <View>
+              <View style={{
+                flexDirection: "row",
+                alignItems: "center",
+                position: 'absolute',
+                marginTop: 5,
+              }}>
+                <CustomAnimatedIndicator
+                  value={showEvolution}
+                  startScale={0}
+                  endX={-60}
+                  child={
+                    <PressableScale style={{
+                      padding: 3,
+                      borderWidth: 2,
+                      borderColor: DefaultTheme.colors.primary,
+                      borderRadius: 5,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }} onPress={() => setShowClassValueOnChart(!showClassValueOnChart)}>
+                      <Users2Icon size={20} color={DefaultTheme.colors.primary} style={{ marginRight: 5 }}/>
+                      {showClassValueOnChart ? (
+                        <EyeIcon size={20} color={DefaultTheme.colors.primary}/>
+                      ) : (
+                        <EyeOffIcon size={20} color={DefaultTheme.colors.primary}/>
+                      )}
+                    </PressableScale>
+                  }
+                />
+              </View>
+              <PressableScale style={{
+                backgroundColor: DefaultTheme.colors.primary,
+                borderRadius: 5,
+                marginTop: 5,
+                width: 30,
+                height: 30,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }} onPress={() => {
+                setShowEvolution(!showEvolution);
+                HapticsHandler.vibrate('light');
+              }}>
+                {showEvolution ? (
+                  <DraftingCompassIcon size={20} color={'black'}/>
+                ) : (
+                  <TrendingUpIcon size={20} color={'black'}/>
+                )}
+              </PressableScale>
+            </View>
+          )}
         </View>
       </View>
+      
+      {/* Main average & evolution */}
+      <ScrollView
+        ref={scrollViewRef}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        scrollEnabled={false}
+        style={{
+          marginTop: 30,
+          marginBottom: 20,
+        }}
+      >
+        <View style={{
+          alignItems: 'center',
+          width: Dimensions.get('window').width - 80,
+        }}>
+          <Text style={[DefaultTheme.fonts.headlineLarge, { fontSize: 40 }]}>{formatAverage(periods[selectedPeriod]?.average)}</Text>
+          <Text style={[DefaultTheme.fonts.labelLarge, { top: -5 }]}>MOYENNE GÉNÉRALE</Text>
+          
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 3 }}>
+            <Users2Icon size={15} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
+            <Text style={[DefaultTheme.fonts.labelMedium, { fontFamily: "Numbers-Regular" }]}>: {formatAverage(periods[selectedPeriod]?.classAverage)}</Text>
+          </View>
+        </View>
+
+        <CustomEvolutionChart
+          listOfValues={periods[selectedPeriod]?.averageHistory}
+          showClassValues={showClassValueOnChart}
+          color={DefaultTheme.colors.primary}
+          lightColor={DefaultTheme.colors.primary}
+          activeColor={DefaultTheme.colors.primary}
+          height={100}
+          windowWidth={Dimensions.get('window').width - 80}
+        />
+      </ScrollView>
 
       {/* Lastest marks */}
       <Text style={[DefaultTheme.fonts.bodyLarge, { marginBottom: 0 }]}>Dernières notes</Text>
