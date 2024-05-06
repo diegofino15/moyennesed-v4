@@ -555,13 +555,17 @@ class AppData {
 
       // Check if mark has competences
       let markCompetences = [];
+      let tempMarkCompetences = {};
       for (competence of mark.elementsProgramme) {
-        markCompetences.push({
-          id: competence.idCompetence,
-          title: competence.libelleCompetence,
-          description: competence.descriptif,
-          value: parseFloat(`${competence.valeur}`),
-        });
+        if (!tempMarkCompetences[competence.idCompetence]) {
+          markCompetences.push({
+            id: competence.idCompetence,
+            title: competence.libelleCompetence,
+            description: competence.descriptif,
+            value: parseFloat(`${competence.valeur}`),
+          });
+          tempMarkCompetences[competence.idCompetence] = true;
+        }
       }
 
       // Check mark numerical value
@@ -581,6 +585,7 @@ class AppData {
         }
         markValue = sum / markCompetences.length / 4 * 20;
         markValueStr = `${markValue}`.replace(".", ",");
+        markValueOn = 20;
       }
 
       // Class values

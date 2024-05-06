@@ -101,6 +101,7 @@ function formatAverage(average: number, decimals: boolean =true): string {
 function formatMark(mark: { valueStr: string, classValue: number, valueOn: number }, isClass: boolean =false): string {
   if (!isClass) {
     if (mark.valueOn == 20 || mark.valueOn == 0) { return mark.valueStr; }
+    if (!mark.valueStr) { return `--`; }
     return `${mark.valueStr}/${mark.valueOn}`;
   } else {
     if (mark.valueOn == 20) { return `${mark.classValue}`.replace(".", ","); }

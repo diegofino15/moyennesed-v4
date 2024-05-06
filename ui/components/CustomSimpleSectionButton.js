@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { ArrowRightIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
@@ -21,7 +21,7 @@ function CustomSimpleSectionButton({ title, icon, onPress, style, textStyle }) {
     }} onPress={onPress}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         {icon}
-        <Text style={[DefaultTheme.fonts.bodyLarge, { marginLeft: 10, ...textStyle }]}>{title}</Text>
+        <Text style={[DefaultTheme.fonts.bodyLarge, { marginLeft: 10, top: Platform.select({ android: 2 }), ...textStyle }]}>{title}</Text>
       </View>
       <ArrowRightIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
     </PressableScale>

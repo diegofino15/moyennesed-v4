@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, TextInput, Dimensions } from 'react-native';
+import { View, TextInput, Dimensions, Platform } from 'react-native';
 import { DefaultTheme } from 'react-native-paper';
 import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
 import { PressableScale } from 'react-native-pressable-scale';
@@ -39,6 +39,7 @@ function CustomTextInput({
           marginLeft: !iconOnRight ? 10 : 0,
           width: Dimensions.get('window').width - 105 - (iconOnRight ? 15 : 0),
           height: 50,
+          top: Platform.select({ android: 2 }),
           ...textAreaStyle,
         }}
         placeholder={label}

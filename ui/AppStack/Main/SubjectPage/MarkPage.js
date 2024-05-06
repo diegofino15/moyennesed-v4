@@ -58,11 +58,11 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={[DefaultTheme.fonts.headlineLarge, {
                   fontSize: 45,
-                }]}>{mark.valueStr}</Text>
+                }]}>{mark.valueStr ? mark.valueStr : "--"}</Text>
                 <Text style={[DefaultTheme.fonts.headlineMedium, {
                   color: DefaultTheme.colors.onSurfaceDisabled,
                   bottom: -15,
-                }]}>/{`${mark.valueOn}`.replace(".", ",")}</Text>
+                }]}>{mark.valueOn ? `/${mark.valueOn}`.replace(".", ",") : "/--"}</Text>
               </View>
             </View>
 
@@ -132,7 +132,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
                   <CustomSimpleInformationCard
                     content={`${competence.title} Modi ullam doloribus voluptate. Odio laboriosam dignissimos tempora.`}
                     icon={<LandPlotIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
-                    style={{ maxWidth: windowWidth - 100, backgroundColor: 'red' }}
+                    textStyle={{ maxWidth: windowWidth - 90 }}
                   />
                   <View style={{
                     backgroundColor: dark,

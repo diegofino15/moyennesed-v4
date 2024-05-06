@@ -40,7 +40,7 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth })
           color: 'black',
           height: 25,
           top: Platform.select({ android: -2 }),
-        }]}>{mark.valueStr}</Text>
+        }]}>{mark.valueStr ? mark.valueStr : "--"}</Text>
 
         {mark.valueOn != 20 && (
           <View style={{

@@ -63,7 +63,7 @@ function RecentMarkCard({ accountID, mark, getSubject, showNewLabel=false, navig
         justifyContent: 'center',
         marginRight: 10,
       }}>
-        <Text style={[DefaultTheme.fonts.headlineMedium, { color: 'black' }]}>{mark.valueStr}</Text>
+        <Text style={[DefaultTheme.fonts.headlineMedium, { color: 'black' }]}>{mark.valueStr ? mark.valueStr : "--"}</Text>
 
         {mark.valueOn != 20 && (
           <View style={{
