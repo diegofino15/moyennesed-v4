@@ -208,6 +208,25 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
             )}
           />
 
+          {/* Competences */}
+          {mark.competences.length > 0 && (
+            <>
+              <CustomSection
+                title={"Compétences"}
+              />
+              {mark.competences.map(competence => (
+                <CustomSimpleInformationCard
+                  key={competence.id}
+                  content={competence.title}
+                  subtitle={competence.description}
+                  icon={<LandPlotIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                  textStyle={{ width: windowWidth - 90 }}
+                  style={{ marginBottom: 10 }}
+                />
+              ))}
+            </>
+          )}
+
           {/* Influence on averages */}
           {mark.generalAverageInfluence || mark.subjectAverageInfluence || mark.subSubjectAverageInfluence ? (
             <>
@@ -286,24 +305,6 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
             ) : null}
             </>
           ) : null}
-
-          {/* Competences */}
-          {mark.competences.length > 0 && (
-            <>
-              <CustomSection
-                title={"Compétences"}
-              />
-              {mark.competences.map(competence => (
-                <View key={competence.id} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <CustomSimpleInformationCard
-                    content={`${competence.title}`}
-                    icon={<LandPlotIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
-                    textStyle={{ width: windowWidth - 90 }}
-                  />
-                </View>
-              ))}
-            </>
-          )}
         </View>
       )}
     />

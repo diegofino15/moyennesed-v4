@@ -3,14 +3,11 @@ import { DefaultTheme } from "react-native-paper";
 
 
 // Custom little information card
-function CustomSimpleInformationCard({ icon, rightIcon, content, style, textStyle, nof }) {
+function CustomSimpleInformationCard({ icon, rightIcon, content, style, textStyle, nof, subtitle=null }) {
   return (
     <View style={{
       backgroundColor: DefaultTheme.colors.surface,
       borderRadius: 10,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
       padding: 10,
       overflow: 'hidden',
       ...style,
@@ -18,11 +15,20 @@ function CustomSimpleInformationCard({ icon, rightIcon, content, style, textStyl
       <View style={{
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
       }}>
-        {icon}
-        <Text style={[DefaultTheme.fonts.bodyLarge, { marginLeft: 10, ...textStyle }]} numberOfLines={nof}>{content}</Text>
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+          {icon}
+          <Text style={[DefaultTheme.fonts.bodyLarge, { marginLeft: 10, ...textStyle }]} numberOfLines={nof}>{content}</Text>
+        </View>
+        {rightIcon}
       </View>
-      {rightIcon}
+      {subtitle ? (
+        <Text style={[DefaultTheme.fonts.labelMedium, { marginTop: 5, textAlign: 'justify' }]}>{subtitle}</Text>
+      ) : null}
     </View>
   );
 }
