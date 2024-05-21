@@ -1515,9 +1515,20 @@ class AppData {
 
   // Erase all data //
   static async eraseData() {
+    var keepApiPreferences = false;
+    if (await this.getPreference("hasChosenAPIPreferences")) {
+      var apiPreferences = this.getPreference("allowLatestNewsRefresh");
+      keepApiPreferences = true;
+    }
+    
     ColorsHandler.resetSubjectColors();
     CoefficientHandler.erase();
     await AsyncStorage.clear();
+
+    if (keepApiPreferences) {
+      await this.setPreference("hasChosenAPIPreferences", true);
+      await this.setPreference("allowLatestNewsRefresh", apiPreferences);
+    }
   }
   static async resetPreferences(account, updateGlobalDisplay) {
     await AsyncStorage.multiRemove([
