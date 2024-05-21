@@ -55,6 +55,7 @@ function StartPage({ navigation }) {
           <CustomButton
             title={<Text style={[DefaultTheme.fonts.bodyLarge, { height: 25 }]}>Se connecter avec ÉcoleDirecte</Text>}
             onPress={() => navigation.navigate("LoginPage")}
+            style={{ paddingHorizontal: 0 }}
           />
 
           {/* Footer */}

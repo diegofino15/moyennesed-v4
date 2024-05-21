@@ -12,12 +12,12 @@ function CustomButton({ title, onPress, rightIcon, style }) {
       padding: 15,
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      justifyContent: rightIcon ?'space-between' : 'center',
       ...style,
     }} onPress={onPress}>
-      <View style={{ width: 30 }}/>
+      {rightIcon ? <View style={{ width: 30 }}/> : null}
       {title}
-      {rightIcon ? rightIcon : <View style={{ width: 30 }}/>}
+      {rightIcon ? rightIcon : null}
     </PressableScale>
   );
 }

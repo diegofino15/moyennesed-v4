@@ -236,7 +236,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
             />
             {mark.subSubjectAverageInfluence ? (
               <CustomSimpleInformationCard
-                content={"Moyenne de la sous-matière"}
+                content={"Sous-matière"}
                 icon={mark.subSubjectAverageInfluence > 0 ? (
                   <TrendingUpIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
                 ) : (
@@ -259,7 +259,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
             ) : null}
             {mark.subjectAverageInfluence ? (
               <CustomSimpleInformationCard
-                content={"Moyenne de la matière"}
+                content={"Matière"}
                 icon={mark.subjectAverageInfluence > 0 ? (
                   <TrendingUpIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
                 ) : (
