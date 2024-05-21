@@ -11,7 +11,7 @@ import CoefficientHandler from "./CoefficientHandler";
 class AppData {
   // Base URLs
   static API_URL = "https://api.ecoledirecte.com";
-  static CUSTOM_API_URL = "https://api.moyennesed.my.to/test-api";
+  static CUSTOM_API_URL = process.env.EXPO_PUBLIC_API_URL;
   static USED_URL = AppData.API_URL;
 
   // Login functions //
@@ -814,19 +814,14 @@ class AppData {
     );
   }
   // Calculate all averages
-  static async _refreshAverages(
-    accountID,
-    givenPeriod = null,
-    averageDate = null,
-    applyOtherData = true,
-  ) {
+  static async _refreshAverages(givenPeriod, averageDate, updateMarkGeneralInfluence, updateMarkSubjectAverageInfluence, updateMarkSubSubjectAverageInfluence) {
     // Preferences
     const countMarksWithOnlyCompetences = await this.getPreference(
       "countMarksWithOnlyCompetences",
     );
 
     // Calculates the straight average for any given subject
-    function _calculateSubjectAverage(subject, getMark, averageDate) {
+    function _calculateSubjectAverage(subject, getMark, averageDate, customUpdateMarkSubjectAverageInfluence) {
       let nbOfCountedMarks = 0;
 
       let sumOfMarks = 0;
@@ -886,6 +881,7 @@ class AppData {
             nbMarks: nbOfCountedMarks,
             date: averageDate,
           });
+          customUpdateMarkSubjectAverageInfluence(subject.averageHistory[subject.averageHistory.length - 1].value - (subject.averageHistory[subject.averageHistory.length - 2]?.value ?? subject.averageHistory[subject.averageHistory.length - 1].value))
         }
       }
 
@@ -905,6 +901,7 @@ class AppData {
           subSubject,
           getMark,
           averageDate,
+          updateMarkSubSubjectAverageInfluence,
         );
         if (subSubject.isEffective) {
           if (subSubject.hasAverage) {
@@ -922,7 +919,7 @@ class AppData {
 
       // To not count twice marks in subject containing sub subjects
       if (!coefOfSubSubjects && !coefOfClassSubSubjects) {
-        _calculateSubjectAverage(subject, getMark, averageDate);
+        _calculateSubjectAverage(subject, getMark, averageDate, updateMarkSubjectAverageInfluence);
       } else {
         if (coefOfClassSubSubjects) {
           subject.classAverage = sumOfClassSubSubjects / coefOfClassSubSubjects;
@@ -942,6 +939,7 @@ class AppData {
               nbMarks: nbOfCountedMarks,
               date: averageDate,
             });
+            updateMarkSubjectAverageInfluence(subject.averageHistory[subject.averageHistory.length - 1].value - (subject.averageHistory[subject.averageHistory.length - 2]?.value ?? subject.averageHistory[subject.averageHistory.length - 1].value));
           }
         }
       }
@@ -1072,41 +1070,17 @@ class AppData {
             classValue: period.classAverage,
             date: averageDate,
           });
+          updateMarkGeneralInfluence(period.averageHistory[period.averageHistory.length - 1].value - (period.averageHistory[period.averageHistory.length - 2]?.value ?? period.averageHistory[period.averageHistory.length - 1].value))
         }
       }
     }
 
+    // Calculate averages
     if (givenPeriod) {
-      if (applyOtherData) {
-        // Set custom data
-        await this.applyCustomData(accountID, givenPeriod, true);
-
-        // Set possibly missing data
-        this.applyMissingData(accountID, givenPeriod, true);
-      }
-
-      // Calculate averages
-      calculatePeriodAverage(givenPeriod, averageDate);
-    } else {
-      var cacheData = {};
-      const data = await AsyncStorage.getItem("marks");
-      if (data) {
-        cacheData = JSON.parse(data);
-      }
-      if (accountID in cacheData) {
-        // Set custom data
-        await this.applyCustomData(accountID, cacheData[accountID].data);
-
-        // Set possibly missing data
-        this.applyMissingData(accountID, cacheData[accountID].data);
-
-        // Calculate averages
-        Object.values(cacheData[accountID].data).forEach((period) => {
-          calculatePeriodAverage(period);
-        });
-        await AsyncStorage.setItem("marks", JSON.stringify(cacheData));
-      }
+      var generalAverageInfluence = calculatePeriodAverage(givenPeriod, averageDate);
     }
+    
+    return generalAverageInfluence;
   }
   // Calculate the whole average history of a given period
   static async recalculateAverageHistory(accountID) {
@@ -1149,10 +1123,17 @@ class AppData {
         }
 
         await this._refreshAverages(
-          accountID,
           givenPeriod,
           givenPeriod.marks[markID].date,
-          false,
+          (generalAverageInfluence) => {
+            mark.generalAverageInfluence = generalAverageInfluence;
+          },
+          (subjectAverageInfluence) => {
+            if (subjectAverageInfluence) { mark.subjectAverageInfluence = subjectAverageInfluence; }
+          },
+          (subSubjectAverageInfluence) => {
+            if (subSubjectAverageInfluence) { mark.subSubjectAverageInfluence = subSubjectAverageInfluence; }
+          }
         );
       }
     }
@@ -1221,10 +1202,14 @@ class AppData {
     }
     await this._setAccountCustomData(accountID, customData);
   }
-  static async removeCustomData(accountID, dataType, itemID) {
+  static async removeCustomData(accountID, dataType, itemID, property, periodID = null) {
     const customData = await this.getAccountCustomData(accountID);
-    if (dataType in customData && itemID in customData[dataType]) {
-      delete customData[dataType][itemID];
+    if (dataType in customData && (itemID in customData[dataType] || periodID in customData[dataType])) {
+      if (periodID) {
+        delete customData[dataType][periodID][itemID][property];
+      } else {
+        delete customData[dataType][itemID][property];
+      }
     }
     await this._setAccountCustomData(accountID, customData);
   }

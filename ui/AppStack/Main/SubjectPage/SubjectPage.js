@@ -448,7 +448,7 @@ function SubjectPage({
                   icon={shownSubject.isCustomCoefficient ? <WrenchIcon size={15} color={'black'}/> : <Wand2Icon size={15} color={'black'}/>}
                   color={dark}
                   onPress={() => {
-                    if (CoefficientHandler.guessSubjectCoefficientEnabled[accountID]) {
+                    if (CoefficientHandler.guessSubjectCoefficientEnabled[accountID] && !shownSubject.isCustomCoefficient) {
                       navigation.navigate('SettingsStack', { openCoefficientsPage: true });
                     }
                   }}

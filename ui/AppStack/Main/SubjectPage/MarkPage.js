@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import { View, Text, Platform, Dimensions } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
-import { CornerDownRightIcon, LandPlotIcon, Users2Icon } from "lucide-react-native";
+import { CalendarIcon, ChevronsDownUpIcon, ChevronsUpDownIcon, CornerDownRightIcon, LandPlotIcon, MinusIcon, PlusIcon, TrashIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon, Wand2Icon, WeightIcon, WrenchIcon, XIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomModal from "../../../components/CustomModal";
 import ColorsHandler from "../../../../core/ColorsHandler";
-import { formatMark } from "../../../../util/Utils";
+import { formatAverage, formatDate, formatDate2, formatDate3, formatMark } from "../../../../util/Utils";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import CustomSection from "../../../components/CustomSection";
+import CoefficientHandler from "../../../../core/CoefficientHandler";
+import CustomTag from "../../../components/CustomTag";
+import AppData from "../../../../core/AppData";
 
 
 // Mark page
@@ -28,9 +31,33 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
     });
   }, [globalDisplayUpdater]);
 
+  // Change mark coefficient
+  async function changeCoefficient(newCoefficient) {
+    await AppData.setCustomData(
+      accountID,
+      "marks",
+      `${mark.id}`,
+      "coefficient",
+      newCoefficient,
+      mark.periodID,
+    );
+    await AppData.recalculateAverageHistory(accountID);
+    updateGlobalDisplay();
+  }
+  async function resetCustomCoefficient() {
+    await AppData.removeCustomData(
+      accountID,
+      "marks",
+      `${mark.id}`,
+      "coefficient",
+      mark.periodID,
+    );
+    await AppData.recalculateAverageHistory(accountID);
+    updateGlobalDisplay();
+  }
+
   // Get subject colors
   const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
-
   const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
   
   return (
@@ -122,6 +149,145 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
             }]}>{mark.title}</Text>
           </View>
 
+          {/* Coefficient */}
+          <View style={{ top: -20 }}>
+            <CustomSimpleInformationCard
+              icon={<WeightIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+              content={"Coefficient"}
+              style={{ marginBottom: 5 }}
+              rightIcon={
+                <PressableScale style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                }} onPress={() => changeCoefficient(10)}>
+                  <XIcon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                  <Text style={DefaultTheme.fonts.headlineMedium}>{`${mark.coefficient}`.replace(".", ",")}</Text>
+                  <ChevronsUpDownIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginLeft: 5 }}/>
+                </PressableScale>
+              }
+            />
+            {(mark.isCustomCoefficient || CoefficientHandler.guessMarkCoefficientEnabled[accountID]) && (
+              <CustomTag
+                title={mark.isCustomCoefficient ? "Personnalisé" : "Deviné"}
+                textStyle={{ color: 'black' }}
+                icon={mark.isCustomCoefficient ? <WrenchIcon size={15} color={'black'}/> : <Wand2Icon size={15} color={'black'}/>}
+                color={dark}
+                onPress={() => {
+                  if (CoefficientHandler.guessMarkCoefficientEnabled[accountID] && !mark.isCustomCoefficient) {
+                    navigation.navigate('SettingsStack', { openCoefficientsPage: true });
+                  }
+                }}
+                secondaryTag={mark.isCustomCoefficient && (
+                  <TrashIcon size={15} color={DefaultTheme.colors.error}/>
+                )}
+                secondaryTagStyle={{
+                  paddingVertical: 3,
+                  paddingHorizontal: 3,
+                  backgroundColor: DefaultTheme.colors.errorLight,
+                  borderWidth: 2,
+                  borderColor: DefaultTheme.colors.error,
+                }}
+                secondaryTagOnPress={resetCustomCoefficient}
+                onBottom
+              />
+            )}
+          </View>
+
+          {/* Informations */}
+          <CustomSection
+            title={"Informations"}
+            marginTop={0}
+          />
+          <CustomSimpleInformationCard
+            icon={<CalendarIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+            content={"Date"}
+            rightIcon={(
+              <Text style={[DefaultTheme.fonts.bodyLarge, {
+                color: DefaultTheme.colors.onSurfaceDisabled,
+              }]}>{formatDate2(mark.date)}</Text>
+            )}
+          />
+
+          {/* Influence on averages */}
+          {mark.generalAverageInfluence || mark.subjectAverageInfluence || mark.subSubjectAverageInfluence ? (
+            <>
+            <CustomSection
+              title={"Influence"}
+              viewStyle={{ marginBottom: 5 }}
+            />
+            {mark.subSubjectAverageInfluence ? (
+              <CustomSimpleInformationCard
+                content={"Moyenne de la sous-matière"}
+                icon={mark.subSubjectAverageInfluence > 0 ? (
+                  <TrendingUpIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                ) : (
+                  <TrendingDownIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                )}
+                rightIcon={(
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    {mark.subSubjectAverageInfluence > 0 ? (
+                      <PlusIcon size={20} color={DefaultTheme.colors.success}/>
+                    ) : (
+                      <MinusIcon size={20} color={DefaultTheme.colors.error}/>
+                    )}
+                    <Text style={[DefaultTheme.fonts.headlineMedium, {
+                      color: mark.subSubjectAverageInfluence > 0 ? DefaultTheme.colors.success : DefaultTheme.colors.error,
+                    }]}>{formatAverage(Math.abs(mark.subSubjectAverageInfluence))}</Text>
+                  </View>
+                )}
+                style={{ marginVertical: 5 }}
+              />
+            ) : null}
+            {mark.subjectAverageInfluence ? (
+              <CustomSimpleInformationCard
+                content={"Moyenne de la matière"}
+                icon={mark.subjectAverageInfluence > 0 ? (
+                  <TrendingUpIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                ) : (
+                  <TrendingDownIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                )}
+                rightIcon={(
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    {mark.subjectAverageInfluence > 0 ? (
+                      <PlusIcon size={20} color={DefaultTheme.colors.success}/>
+                    ) : (
+                      <MinusIcon size={20} color={DefaultTheme.colors.error}/>
+                    )}
+                    <Text style={[DefaultTheme.fonts.headlineMedium, {
+                      color: mark.subjectAverageInfluence > 0 ? DefaultTheme.colors.success : DefaultTheme.colors.error,
+                    }]}>{formatAverage(Math.abs(mark.subjectAverageInfluence))}</Text>
+                  </View>
+                )}
+                style={{ marginVertical: 5 }}
+              />
+            ) : null}
+            {mark.generalAverageInfluence ? (
+              <CustomSimpleInformationCard
+                content={"Moyenne générale"}
+                icon={mark.generalAverageInfluence > 0 ? (
+                  <TrendingUpIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                ) : (
+                  <TrendingDownIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                )}
+                rightIcon={(
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    {mark.generalAverageInfluence > 0 ? (
+                      <PlusIcon size={20} color={DefaultTheme.colors.success}/>
+                    ) : (
+                      <MinusIcon size={20} color={DefaultTheme.colors.error}/>
+                    )}
+                    <Text style={[DefaultTheme.fonts.headlineMedium, {
+                      color: mark.generalAverageInfluence > 0 ? DefaultTheme.colors.success : DefaultTheme.colors.error,
+                    }]}>{formatAverage(Math.abs(mark.generalAverageInfluence))}</Text>
+                  </View>
+                )}
+                style={{ marginVertical: 5 }}
+              />
+            ) : null}
+            </>
+          ) : null}
+
+          {/* Competences */}
           {mark.competences.length > 0 && (
             <>
               <CustomSection
@@ -130,15 +296,10 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
               {mark.competences.map(competence => (
                 <View key={competence.id} style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <CustomSimpleInformationCard
-                    content={`${competence.title} Modi ullam doloribus voluptate. Odio laboriosam dignissimos tempora.`}
+                    content={`${competence.title}`}
                     icon={<LandPlotIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
-                    textStyle={{ maxWidth: windowWidth - 90 }}
+                    textStyle={{ width: windowWidth - 90 }}
                   />
-                  <View style={{
-                    backgroundColor: dark,
-                  }}>
-                    
-                  </View>
                 </View>
               ))}
             </>
