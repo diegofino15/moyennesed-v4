@@ -1,27 +1,25 @@
 import { useEffect, useRef } from "react";
 import useState from "react-usestateref";
 import { Text, View, Dimensions, ScrollView, Platform } from "react-native";
-import { AlertTriangleIcon, ChevronDownIcon, ChevronRightIcon, ChevronsUpDownIcon, CircleEllipsisIcon, DraftingCompassIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneOffIcon, PaletteIcon, PenIcon, TrashIcon, TrendingUpIcon, Users2Icon, Wand2Icon, WeightIcon, WrenchIcon, XIcon } from "lucide-react-native";
+import { AlertTriangleIcon, ChevronDownIcon, ChevronRightIcon, DraftingCompassIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneOffIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as DropdownMenu from 'zeego/dropdown-menu'
 
 import MarkCard from "./MarkCard";
-import CoefficientPicker from "./CoefficientPicker";
 import SubjectColorPicker from "./SubjectColorPicker";
+import CustomModal from "../../../components/CustomModal";
 import CustomSection from "../../../components/CustomSection";
 import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
+import CustomCoefficientPicker from "../../../components/CustomCoefficientPicker";
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
-import CustomModal from "../../../components/CustomModal";
-import ColorsHandler from "../../../../core/ColorsHandler";
 import { asyncExpectedResult, formatAverage } from "../../../../util/Utils";
-import HapticsHandler from "../../../../core/HapticsHandler";
-import AppData from "../../../../core/AppData";
-import CustomTag from "../../../components/CustomTag";
 import CoefficientHandler from "../../../../core/CoefficientHandler";
-import CustomChooser from "../../../components/CustomChooser";
+import HapticsHandler from "../../../../core/HapticsHandler";
+import ColorsHandler from "../../../../core/ColorsHandler";
+import AppData from "../../../../core/AppData";
 
 
 // More info
@@ -143,8 +141,6 @@ function SubjectPage({
   }, [showEvolution]);
 
   // Changeable coefficient
-  const [coefficient, setCoefficient] = useState(null);
-  useEffect(() => { setCoefficient(shownSubject.coefficient ?? 1); }, [shownSubject]);
   async function changeCoefficient(newCoefficient) {
     await AppData.setCustomData(
       accountID,
@@ -166,7 +162,6 @@ function SubjectPage({
     await AppData.recalculateAverageHistory(accountID);
     updateGlobalDisplay();
   }
-  const [isCoefficientModalVisible, setIsCoefficientModalVisible] = useState(false);
 
   // Is subject effective
   const [isEffective, setIsEffective] = useState(shownSubject.isEffective ?? true);
@@ -425,59 +420,19 @@ function SubjectPage({
             )}
             
             {/* Coefficient */}
-            <View>
-              <CustomSimpleInformationCard
-                icon={<WeightIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
-                content={"Coefficient"}
-                style={{ marginBottom: 5 }}
-                rightIcon={
-                  <PressableScale style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }} onPress={() => setIsCoefficientModalVisible(true)}>
-                    <XIcon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/>
-                    <Text style={DefaultTheme.fonts.headlineMedium}>{`${coefficient}`.replace(".", ",")}</Text>
-                    <ChevronsUpDownIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginLeft: 5 }}/>
-                  </PressableScale>
+            <CustomCoefficientPicker
+              coefficient={shownSubject.coefficient}
+              setCoefficient={changeCoefficient}
+              resetCoefficient={resetCustomCoefficient}
+              isCustom={shownSubject.isCustomCoefficient}
+              isGuessed={CoefficientHandler.guessSubjectCoefficientEnabled[accountID]}
+              openGuessParametersPage={() => {
+                if (CoefficientHandler.guessSubjectCoefficientEnabled[accountID] && !shownSubject.isCustomCoefficient) {
+                  navigation.navigate('SettingsStack', { openCoefficientsPage: true });
                 }
-              />
-              {(shownSubject.isCustomCoefficient || CoefficientHandler.guessSubjectCoefficientEnabled[accountID]) && (
-                <CustomTag
-                  title={shownSubject.isCustomCoefficient ? "Personnalisé" : "Deviné"}
-                  textStyle={{ color: 'black' }}
-                  icon={shownSubject.isCustomCoefficient ? <WrenchIcon size={15} color={'black'}/> : <Wand2Icon size={15} color={'black'}/>}
-                  color={dark}
-                  onPress={() => {
-                    if (CoefficientHandler.guessSubjectCoefficientEnabled[accountID] && !shownSubject.isCustomCoefficient) {
-                      navigation.navigate('SettingsStack', { openCoefficientsPage: true });
-                    }
-                  }}
-                  secondaryTag={shownSubject.isCustomCoefficient && (
-                    <TrashIcon size={15} color={DefaultTheme.colors.error}/>
-                  )}
-                  secondaryTagStyle={{
-                    paddingVertical: 3,
-                    paddingHorizontal: 3,
-                    backgroundColor: DefaultTheme.colors.errorLight,
-                    borderWidth: 2,
-                    borderColor: DefaultTheme.colors.error,
-                  }}
-                  secondaryTagOnPress={resetCustomCoefficient}
-                  onBottom
-                />
-              )}
-            </View>
-            {isCoefficientModalVisible && (
-              <CoefficientPicker
-                isModalVisible={isCoefficientModalVisible}
-                setIsModalVisible={setIsCoefficientModalVisible}
-                initialValue={coefficient}
-                setCoefficient={(newCoefficient) => {
-                  setCoefficient(newCoefficient);
-                  changeCoefficient(newCoefficient);
-                }}
-              />
-            )}
+              }}
+              dark={dark}
+            />
 
             {/* Teachers */}
             {shownSubject.teachers && (

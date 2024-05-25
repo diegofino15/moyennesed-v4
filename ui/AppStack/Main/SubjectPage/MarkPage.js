@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { View, Text, Platform, Dimensions } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
-import { CalendarIcon, ChevronsDownUpIcon, ChevronsUpDownIcon, CornerDownRightIcon, LandPlotIcon, MinusIcon, PlusIcon, TrashIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon, Wand2Icon, WeightIcon, WrenchIcon, XIcon } from "lucide-react-native";
+import { CalendarIcon,LandPlotIcon, MinusIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomModal from "../../../components/CustomModal";
-import ColorsHandler from "../../../../core/ColorsHandler";
-import { formatAverage, formatDate, formatDate2, formatDate3, formatMark } from "../../../../util/Utils";
-import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import CustomSection from "../../../components/CustomSection";
+import CustomCoefficientPicker from "../../../components/CustomCoefficientPicker";
+import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
+import { formatAverage, formatDate2, formatMark } from "../../../../util/Utils";
 import CoefficientHandler from "../../../../core/CoefficientHandler";
-import CustomTag from "../../../components/CustomTag";
+import ColorsHandler from "../../../../core/ColorsHandler";
 import AppData from "../../../../core/AppData";
 
 
@@ -150,7 +150,22 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
           </View>
 
           {/* Coefficient */}
-          <View style={{ top: -20 }}>
+          <CustomCoefficientPicker
+            coefficient={mark.coefficient}
+            setCoefficient={changeCoefficient}
+            resetCoefficient={resetCustomCoefficient}
+            isCustom={mark.isCustomCoefficient}
+            isGuessed={CoefficientHandler.guessMarkCoefficientEnabled[accountID]}
+            openGuessParametersPage={() => {
+              if (CoefficientHandler.guessMarkCoefficientEnabled[accountID] && !mark.isCustomCoefficient) {
+                navigation.navigate('SettingsStack', { openCoefficientsPage: true });
+              }
+            }}
+            dark={dark}
+            style={{ top: -20 }}
+          />
+          
+          {/* <View style={{ top: -20 }}>
             <CustomSimpleInformationCard
               icon={<WeightIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
               content={"Coefficient"}
@@ -191,7 +206,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
                 onBottom
               />
             )}
-          </View>
+          </View> */}
 
           {/* Informations */}
           <CustomSection
