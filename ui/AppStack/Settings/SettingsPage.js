@@ -88,7 +88,7 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDis
                   marginBottom: 10,
                 }]}>MoyennesED est une application non-officielle, elle ne peut être tenue responsable de problèmes potentiels liés à son utilisation.</Text>
                 <CustomLink title="Site officiel ÉcoleDirecte" link={"https://www.ecoledirecte.com/"} style={{ marginBottom: 10 }}/>
-                <CustomLink title="Conditions d'utilisation" link={"https://moyennesed.my.to/privacy-policy.html"} icon={(
+                <CustomLink title="Conditions d'utilisation" link={"https://moyennesed.dfino.dev/privacy-policy.html"} icon={(
                   <ScaleIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
                 )}/>
               </View>

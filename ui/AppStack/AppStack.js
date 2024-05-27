@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/native';
 import MainPage from './Main/MainPage';
 import MarkPage from './Main/SubjectPage/MarkPage';
 import SubjectPage from './Main/SubjectPage/SubjectPage';
-import SubjectGroupPage from './Main/SubjectsOverview/SubjectGroupPage';
 import MarksInformationPage from './Main/MarksOverview/MarksInformationPage';
 import HomeworksPage from './Main/Homework/HomeworksPage';
 import ExamPage from './Main/Homework/ExamPage';
@@ -133,26 +132,6 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         }}
       >
         {(props) => <SubjectStack
-          {...props}
-          globalDisplayUpdater={globalDisplayUpdater}
-          updateGlobalDisplay={updateGlobalDisplay}
-        />}
-      </Stack.Screen>
-
-      {/* SubjectGroups */}
-      <Stack.Screen
-        name="SubjectGroupPage"
-        options={{
-          presentation: 'modal',
-          headerShown: false,
-          animation: 'fade_from_bottom',
-        }}
-        initialParams={{
-          accountID: 0,
-          cacheSubjectGroup: {},
-        }}
-      >
-        {(props) => <SubjectGroupPage
           {...props}
           globalDisplayUpdater={globalDisplayUpdater}
           updateGlobalDisplay={updateGlobalDisplay}

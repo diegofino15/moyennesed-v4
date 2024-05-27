@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 import { View, Text, Switch } from "react-native";
-import { BellOffIcon, BellRingIcon, LandPlotIcon } from "lucide-react-native";
+import { LandPlotIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import useState from "react-usestateref";
 
@@ -22,13 +22,10 @@ function AdvancedSettingsPage({ globalDisplayUpdater, updateGlobalDisplay, navig
 
   // Competences
   const [countCompetences, setCountCompetences] = useState(false);
-  
-  // Notifications
-  const [allowAlertNotifications, setAllowAlertNotifications] = useState(false);
+
   // Init
   useEffect(() => {
     AppData.getPreference("countMarksWithOnlyCompetences").then(setCountCompetences);
-    AppData.getPreference("allowAlertNotifications").then(setAllowAlertNotifications);
   }, [globalDisplayUpdater, forceUpdate]);
 
   return (
@@ -52,28 +49,6 @@ function AdvancedSettingsPage({ globalDisplayUpdater, updateGlobalDisplay, navig
                   await AppData.setPreference("countMarksWithOnlyCompetences", value);
                   await AppData.recalculateAverageHistory(currentAccount.id);
                   updateGlobalDisplay();
-                }}
-              />
-            )}
-          />
-
-          <CustomSection
-            title={"Notifications"}
-          />
-          <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>Vous recevrez des notifications lorsque l'app est temporairement indisponible, et lorsque le problème sera réglé.</Text>
-          <CustomSimpleInformationCard
-            content={"Notifications d'alerte"}
-            icon={allowAlertNotifications ? (
-              <BellRingIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
-            ) : (
-              <BellOffIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
-            )}
-            rightIcon={(
-              <Switch
-                value={allowAlertNotifications}
-                onValueChange={async (value) => {
-                  await AppData.setPreference("allowAlertNotifications", value);
-                  updateScreen();
                 }}
               />
             )}

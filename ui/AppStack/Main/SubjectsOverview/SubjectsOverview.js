@@ -51,14 +51,14 @@ function SubjectsOverview({
               paddingHorizontal: 13,
               paddingVertical: 5,
               backgroundColor: DefaultTheme.colors.surface,
-              borderWidth: 2,
+              borderWidth: 1,
               borderColor: DefaultTheme.colors.surfaceOutline,
               borderRadius: 10,
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
               marginVertical: 5,
-            }} onPress={() => navigation.navigate("SubjectGroupPage", { accountID, cacheSubjectGroup: subjectGroup })}>
+            }}>
               <Text style={[DefaultTheme.fonts.labelLarge, {
                 fontFamily: 'Text-Medium',
                 width: Dimensions.get('window').width - 150,
