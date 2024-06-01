@@ -45,7 +45,8 @@ function CustomCoefficientPicker({ coefficient, setCoefficient, resetCoefficient
                 value={tempCoefficient}
                 onChangeText={(newCoefficient) => setTempCoefficient(allowOnlyNumbers(newCoefficient))}
                 onSubmitEditing={() => {
-                  if (tempCoefficient) { setCoefficient(parseFloat(tempCoefficient.replace(",", "."))); }
+                  let newCoefficient = parseFloat(tempCoefficient.replace(",", "."));
+                  if (!isNaN(newCoefficient)) { setCoefficient(newCoefficient); }
                   else { setTempCoefficient(coefficient); }
                 }}
                 keyboardType="numeric"
