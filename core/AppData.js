@@ -722,6 +722,11 @@ class AppData {
         if (customData.marks[period.id][markID].coefficient) {
           correspondingMark.isCustomCoefficient = true;
         }
+        if (!customData.marks[period.id][markID].isEffective) {
+          correspondingMark.generalAverageInfluence = null;
+          correspondingMark.subjectAverageInfluence = null;
+          correspondingMark.subSubjectAverageInfluence = null;
+        }
         Object.keys(customData.marks[period.id][markID]).forEach((key) => {
           correspondingMark[key] = customData.marks[period.id][markID][key];
         });

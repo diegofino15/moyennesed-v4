@@ -179,7 +179,7 @@ function SubjectPage({
       },
       () => updateGlobalDisplay(),
       () => setIsEffective(!shownSubject.isEffective),
-    )
+    );
   }
 
   // Chart

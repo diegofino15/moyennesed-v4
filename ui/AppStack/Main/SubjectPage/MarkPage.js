@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { View, Text, Platform, Dimensions } from "react-native";
+import { View, Text, Platform, Dimensions, Switch } from "react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
-import { CalendarIcon,LandPlotIcon, MinusIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
+import { ArchiveIcon, CalendarIcon,LandPlotIcon, MegaphoneIcon, MegaphoneOffIcon, MinusIcon, PlusIcon, TrashIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomModal from "../../../components/CustomModal";
 import CustomSection from "../../../components/CustomSection";
 import CustomCoefficientPicker from "../../../components/CustomCoefficientPicker";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
-import { formatAverage, formatDate2, formatMark } from "../../../../util/Utils";
+import { asyncExpectedResult, formatAverage, formatDate2, formatMark } from "../../../../util/Utils";
 import CoefficientHandler from "../../../../core/CoefficientHandler";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import AppData from "../../../../core/AppData";
@@ -54,6 +54,26 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
     );
     await AppData.recalculateAverageHistory(accountID);
     updateGlobalDisplay();
+  }
+
+  // Change if mark is effective
+  const [isEffective, setIsEffective] = useState(mark.isEffective ?? true);
+  function toggleIsEffective() {
+    asyncExpectedResult(
+      async () => {
+        await AppData.setCustomData(
+          accountID,
+          "marks",
+          mark.id,
+          "isEffective",
+          !mark.isEffective,
+          mark.periodID,
+        );
+        await AppData.recalculateAverageHistory(accountID);
+      },
+      () => updateGlobalDisplay(),
+      () => setIsEffective(!mark.isEffective),
+    );
   }
 
   // Get subject colors
@@ -165,49 +185,6 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
             style={{ top: -20 }}
           />
           
-          {/* <View style={{ top: -20 }}>
-            <CustomSimpleInformationCard
-              icon={<WeightIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
-              content={"Coefficient"}
-              style={{ marginBottom: 5 }}
-              rightIcon={
-                <PressableScale style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                }} onPress={() => changeCoefficient(10)}>
-                  <XIcon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/>
-                  <Text style={DefaultTheme.fonts.headlineMedium}>{`${mark.coefficient}`.replace(".", ",")}</Text>
-                  <ChevronsUpDownIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginLeft: 5 }}/>
-                </PressableScale>
-              }
-            />
-            {(mark.isCustomCoefficient || CoefficientHandler.guessMarkCoefficientEnabled[accountID]) && (
-              <CustomTag
-                title={mark.isCustomCoefficient ? "Personnalisé" : "Deviné"}
-                textStyle={{ color: 'black' }}
-                icon={mark.isCustomCoefficient ? <WrenchIcon size={15} color={'black'}/> : <Wand2Icon size={15} color={'black'}/>}
-                color={dark}
-                onPress={() => {
-                  if (CoefficientHandler.guessMarkCoefficientEnabled[accountID] && !mark.isCustomCoefficient) {
-                    navigation.navigate('SettingsStack', { openCoefficientsPage: true });
-                  }
-                }}
-                secondaryTag={mark.isCustomCoefficient && (
-                  <TrashIcon size={15} color={DefaultTheme.colors.error}/>
-                )}
-                secondaryTagStyle={{
-                  paddingVertical: 3,
-                  paddingHorizontal: 3,
-                  backgroundColor: DefaultTheme.colors.errorLight,
-                  borderWidth: 2,
-                  borderColor: DefaultTheme.colors.error,
-                }}
-                secondaryTagOnPress={resetCustomCoefficient}
-                onBottom
-              />
-            )}
-          </View> */}
-
           {/* Informations */}
           <CustomSection
             title={"Informations"}
@@ -320,6 +297,27 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
             ) : null}
             </>
           ) : null}
+
+          {/* Deactivate mark */}
+          <CustomSection
+            title={"Autre"}
+          />
+          <CustomSimpleInformationCard
+            icon={isEffective ? (
+              <MegaphoneIcon size={25} color={DefaultTheme.colors.error}/>
+            ) : (
+              <MegaphoneOffIcon size={25} color={DefaultTheme.colors.error}/>
+            )}
+            content={"Désactiver la note"}
+            textStyle={{ color: DefaultTheme.colors.error }}
+            subtitle={!mark.defaultIsEffective && "Note désactivée par défaut"}
+            rightIcon={(
+              <Switch
+                value={!isEffective}
+                onValueChange={toggleIsEffective}
+              />
+            )}
+          />
         </View>
       )}
     />

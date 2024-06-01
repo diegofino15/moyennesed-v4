@@ -1,5 +1,5 @@
 import { Platform, Text, View } from "react-native";
-import { ChevronRightIcon, Users2Icon, XIcon } from "lucide-react-native";
+import { ChevronRightIcon, Users2Icon, WrenchIcon, XIcon } from "lucide-react-native";
 import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 
@@ -116,6 +116,14 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth })
         <CustomTag
           title={"Non significative"}
           color={DefaultTheme.colors.error}
+          secondaryTag={mark.defaultIsEffective != mark.isEffective && (
+            <WrenchIcon size={15} color={'white'}/>
+          )}
+          secondaryTagStyle={{
+            paddingVertical: 5,
+            paddingHorizontal: 5,
+            backgroundColor: DefaultTheme.colors.error,
+          }}
         />
       )}
     </PressableScale>
