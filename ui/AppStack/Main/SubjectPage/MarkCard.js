@@ -76,7 +76,7 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth })
         
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20, height: 25 }}>
           
-          <View style={{
+          <View style={[{
             flexDirection: 'row',
             alignItems: 'center',
             backgroundColor: DefaultTheme.colors.backdrop,
@@ -85,7 +85,11 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth })
             paddingVertical: 1,
             borderWidth: 2,
             borderColor: DefaultTheme.colors.surfaceOutline,
-          }}>
+          }, mark.isCustomCoefficient && {
+            borderColor: light,
+            borderStyle: 'dashed',
+            borderWidth: 1,
+          }]}>
             <XIcon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/>
             <Text style={[DefaultTheme.fonts.headlineSmall, {
               fontSize: 15,
