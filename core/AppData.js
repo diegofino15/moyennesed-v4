@@ -583,10 +583,11 @@ class AppData {
         for (const competence of markCompetences) {
           sum += competence.value;
         }
-        markValue = sum / markCompetences.length / 4 * 20;
+        markValue = sum / markCompetences.length;
         markValueStr = `${markValue}`.replace(".", ",");
-        markValueOn = 20;
+        markValueOn = 4;
       }
+      if (isNaN(markValue)) { markHasValue = false; }
 
       // Class values
       let markClassValue = parseFloat(

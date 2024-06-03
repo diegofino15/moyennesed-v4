@@ -315,6 +315,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
               <Switch
                 value={!isEffective}
                 onValueChange={toggleIsEffective}
+                disabled={!mark.hasValue}
               />
             )}
           />
