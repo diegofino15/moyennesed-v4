@@ -1474,15 +1474,13 @@ class AppData {
     const token = mainAccount.connectionToken;
     
     console.log(`Getting ${title} for account ${accountID}...`);
-    var response = await axios
-      .post(
-        `${url}?verbe=${verbe}&v=4`,
-        payload,
-        { headers: { "Content-Type": "text/plain", "X-Token": token } },
-      )
-      .catch((error) => {
-        console.warn(`An error occured while getting ${title} : ${error}`);
-      });
+    var response = await axios.post(
+      `${url}?verbe=${verbe}&v=4`,
+      payload,
+      { headers: { "Content-Type": "text/plain", "X-Token": token } },
+    ).catch((error) => {
+      console.warn(`An error occured while getting ${title} : ${error}`);
+    });
     response ??= { status: 500 };
 
     var status = 0; // 1 = success | 0 = outdated token, re-login failed | -1 = error
