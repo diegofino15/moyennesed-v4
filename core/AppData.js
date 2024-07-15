@@ -149,7 +149,7 @@ class AppData {
       if (accountType == "E") {
         gender = account.profile.sexe;
         let school = capitalizeWords(account.profile.nomEtablissement);
-        let grade = capitalizeWords(account.profile.classe.libelle);
+        let grade = capitalizeWords(account.profile.classe?.libelle ?? "Pas de classe");
         let photoURL = account.profile.photo;
 
         connectedAccounts[ID] = {
