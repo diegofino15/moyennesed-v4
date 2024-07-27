@@ -18,7 +18,7 @@ import { useAppContext } from "../../../../util/AppContext";
 function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
   const { theme } = useAppContext();
   
-  const { accountID } = route.params;
+  const { accountID, _errorGettingHomework } = route.params;
 
   // Get abstract homeworks (waiting for them to load)
   const [abstractHomeworks, setAbstractHomeworks] = useState({});
@@ -38,7 +38,7 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
 
   // Refresh next homeworks
   const [refreshing, setRefreshing] = useState(false);
-  const [errorGettingHomework, setErrorGettingHomework] = useState(false);
+  const [errorGettingHomework, setErrorGettingHomework] = useState(_errorGettingHomework);
   async function refreshNextExams() {
     if (!isConnected) { return; }
     
@@ -125,10 +125,14 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
             marginTop: 200,
             alignItems: 'center'
           }}>
-            <Text style={theme.fonts.bodyLarge}>
-              {errorGettingHomework ? "Une erreur est survenue" : "Aucun devoir pour le moment"}
-            </Text>
-            <Text style={theme.fonts.labelMedium}>Vous n'avez aucun devoir à faire.</Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              {errorGettingHomework && <AlertTriangleIcon size={25} color={theme.colors.error} style={{ marginRight: 5 }}/>}
+
+              <Text style={theme.fonts.bodyLarge}>
+                {errorGettingHomework ? "Une erreur est survenue" : "Aucun devoir pour le moment"}
+              </Text>
+            </View>
+            <Text style={theme.fonts.labelMedium}>{errorGettingHomework ? "Impossible de récupérer les devoirs" : "Vous n'avez aucun devoir à faire."}</Text>
           </View>
         )}
       />

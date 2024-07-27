@@ -85,6 +85,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         options={{ headerShown: false }}
         initialParams={{
           accountID: 0,
+          _errorGettingHomework: false,
         }}
       >
         {(props) => <HomeworksPage

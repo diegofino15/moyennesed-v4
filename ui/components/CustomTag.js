@@ -5,7 +5,7 @@ import { useAppContext } from "../../util/AppContext";
 
 
 // Custom tag (used on mark cards)
-function CustomTag({ icon, title, color, onPress, secondaryTag, secondaryTagOnPress, secondaryTagStyle, textStyle, onBottom=false, onLeft=false, offset=10, shadow=false, style }) {
+function CustomTag({ icon, title, color, onPress, secondaryTag, secondaryTagOnPress, secondaryTagStyle, textStyle, onBottom=false, onLeft=false, offset=10, shadow=false, style, mainStyle }) {
   const { theme } = useAppContext();
   
   return (
@@ -17,6 +17,7 @@ function CustomTag({ icon, title, color, onPress, secondaryTag, secondaryTagOnPr
       bottom: onBottom ? -offset : undefined,
       flexDirection: 'row',
       alignItems: 'center',
+      ...mainStyle,
     }}>
       {secondaryTag && (
         <PressableScale style={{

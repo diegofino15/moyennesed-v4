@@ -7,6 +7,7 @@ import ColorsHandler from "../../../../core/ColorsHandler";
 import { formatDate3, formatMark } from "../../../../util/Utils";
 import { useAppContext } from "../../../../util/AppContext";
 
+
 // Mark card
 function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth }) {
   if (!mark) { return; }
@@ -77,28 +78,34 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth })
         </Text>
         
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20, height: 25 }}>
-          
-          <View style={[{
-            flexDirection: 'row',
-            alignItems: 'center',
-            backgroundColor: theme.colors.backdrop,
-            borderRadius: 5,
-            paddingHorizontal: 8,
-            paddingVertical: 1,
-            borderWidth: 2,
-            borderColor: theme.colors.surfaceOutline,
-          }, mark.isCustomCoefficient && {
-            borderColor: light,
-            borderStyle: 'dashed',
-            borderWidth: 1,
-          }]}>
-            <XIcon size={15} color={theme.colors.onSurfaceDisabled}/>
-            <Text style={[theme.fonts.headlineSmall, {
-              fontSize: 15,
-              color: theme.colors.onSurfaceDisabled,
-              fontFamily: "Numbers-Regular",
-              top: Platform.select({ android: -2 }),
-            }]}>{`${mark.coefficient}`.replace(".", ",")}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={[{
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: theme.colors.backdrop,
+              borderRadius: 5,
+              paddingHorizontal: 8,
+              paddingVertical: 1,
+              borderWidth: 2,
+              borderColor: theme.colors.surfaceOutline,
+            }, mark.isCustomCoefficient && {
+              borderColor: light,
+              borderStyle: 'dashed',
+              borderWidth: 1,
+            }]}>
+              <XIcon size={15} color={theme.colors.onSurfaceDisabled}/>
+              <Text style={[theme.fonts.headlineSmall, {
+                fontSize: 15,
+                color: theme.colors.onSurfaceDisabled,
+                fontFamily: "Numbers-Regular",
+                top: Platform.select({ android: -2 }),
+              }]}>{`${mark.coefficient}`.replace(".", ",")}</Text>
+            </View>
+            {mark.isCustomCoefficient && (
+              <WrenchIcon size={15} color={dark} style={{
+                marginLeft: 5,
+              }}/>
+            )}
           </View>
           {mark.classValue ? (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
