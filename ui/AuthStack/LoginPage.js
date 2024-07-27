@@ -82,7 +82,7 @@ function LoginPage({ navigation }) {
             title={isConnecting ? (
               <ActivityIndicator size={25} color={theme.colors.onPrimary}/>
             ) : (
-              <Text style={[theme.fonts.bodyLarge, { height: 25 }]}>Se connecter</Text>
+              <Text style={[theme.fonts.bodyLarge, { height: 25, color: theme.colors.onPrimary }]}>Se connecter</Text>
             )}
             onPress={login}
           />

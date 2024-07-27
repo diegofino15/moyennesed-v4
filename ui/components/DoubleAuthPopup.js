@@ -205,7 +205,7 @@ function DoubleAuthPopup({ navigation, isLoggedIn, setIsLoggedIn }) {
                       borderRadius: 15,
                       backgroundColor: theme.colors.primary,
                     }}>
-                      <CheckIcon size={18} color={'black'}/>
+                      <CheckIcon size={18} color={theme.colors.onPrimary}/>
                     </View>
                   ) : (
                     <CircleIcon size={28} color={theme.colors.surfaceOutline}/>
@@ -218,9 +218,9 @@ function DoubleAuthPopup({ navigation, isLoggedIn, setIsLoggedIn }) {
                 title={isConfirmingChoice ? (
                   <ActivityIndicator size={24} color={theme.colors.onSurface}/>
                 ) : errorConfirmingChoice ? (
-                  <Text style={theme.fonts.bodyLarge}>Une erreur est survenue</Text>
+                  <Text style={[theme.fonts.bodyLarge, { color: theme.colors.onPrimary }]}>Une erreur est survenue</Text>
                 ) : (
-                  <Text style={theme.fonts.bodyLarge}>Confirmer</Text>
+                  <Text style={[theme.fonts.bodyLarge, { color: theme.colors.onPrimary }]}>Confirmer</Text>
                 )}
                 onPress={confirmChoice}
                 style={{

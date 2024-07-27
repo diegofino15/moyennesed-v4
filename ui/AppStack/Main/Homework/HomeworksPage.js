@@ -119,6 +119,18 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
             backgroundColor: theme.colors.backdrop,
           }}/>
         )}
+        ListEmptyComponent={() => (
+          <View style={{
+            marginBottom: 50, 
+            marginTop: 200,
+            alignItems: 'center'
+          }}>
+            <Text style={theme.fonts.bodyLarge}>
+              {errorGettingHomework ? "Une erreur est survenue" : "Aucun devoir pour le moment"}
+            </Text>
+            <Text style={theme.fonts.labelMedium}>Vous n'avez aucun devoir à faire.</Text>
+          </View>
+        )}
       />
 
       {/* Header */}
@@ -130,7 +142,7 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
         justifyContent: 'flex-end',
         height: Constants.statusBarHeight + 50,
         zIndex: 1,
-      }} tint="light" intensity={50}>
+      }} tint={theme.dark ? "light" : "dark"} intensity={50}>
         <Text style={[theme.fonts.titleSmall, { height: 26 }]}>Travail à faire</Text>
 
         {/* Go back button */}

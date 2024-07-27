@@ -100,13 +100,13 @@ function ProfilePage({ route, navigation }) {
                   paddingHorizontal: 10,
                   paddingVertical: 5,
                 }}>
-                  <Text style={[theme.fonts.bodyMedium, { height: 22 }]}>ID - {currentAccount.id}</Text>
+                  <Text style={[theme.fonts.bodyMedium, { height: 22, color: 'white' }]}>ID - {currentAccount.id}</Text>
                 </BlurView>
               </PressableScale>
 
               {/* Name */}
               <View style={{ position: 'absolute', bottom: 20, width: '80%', alignSelf: 'center' }}>
-                <Text style={[theme.fonts.titleMedium, { alignSelf: 'center', textAlign: 'center' }]}>{currentAccount.firstName} {currentAccount.lastName}</Text>
+                <Text style={[theme.fonts.titleMedium, { alignSelf: 'center', textAlign: 'center', color: 'white' }]}>{currentAccount.firstName} {currentAccount.lastName}</Text>
                 <Text style={[theme.fonts.labelLarge, { alignSelf: 'center', textAlign: 'center' }]}>{currentAccount.accountType == "E" ? currentAccount.grade : "Compte parent"}</Text>
               </View>
             </LinearGradient>

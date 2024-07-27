@@ -35,12 +35,12 @@ class Themes {
       background: '#FFF',
       onBackground: '#020409',
   
-      backdrop: '#E7EDF2',
+      backdrop: '#FFF',
   
-      surface: '#E7EDF2',
+      surface: '#ECECEC',
       surfaceOutline: '#E7EDF2',
-      onSurface: '#020409',
-      onSurfaceDisabled: '#868D96',
+      onSurface: '#000',
+      onSurfaceDisabled: '#888',
   
       primary: '#1985A1',
       primaryLight: '#FFF',

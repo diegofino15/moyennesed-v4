@@ -118,20 +118,19 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth })
       <ChevronRightIcon size={25} color={theme.colors.onSurfaceDisabled}/>
 
       {/* Is effective ? */}
-      {!mark.isEffective && (
-        <CustomTag
-          title={"Non significative"}
-          color={theme.colors.error}
-          secondaryTag={mark.defaultIsEffective != mark.isEffective && (
-            <WrenchIcon size={15} color={'white'}/>
-          )}
-          secondaryTagStyle={{
-            paddingVertical: 5,
-            paddingHorizontal: 5,
-            backgroundColor: theme.colors.error,
-          }}
-        />
-      )}
+      <CustomTag
+        title={mark.isEffective ? "" : "Non significative"}
+        style={mark.isEffective ? { paddingHorizontal: 0, paddingVertical: 0 } : {}}
+        color={theme.colors.error}
+        secondaryTag={mark.defaultIsEffective != mark.isEffective && (
+          <WrenchIcon size={15} color={'white'}/>
+        )}
+        secondaryTagStyle={{
+          paddingVertical: 5,
+          paddingHorizontal: 5,
+          backgroundColor: theme.colors.error,
+        }}
+      />
     </PressableScale>
   );
 }

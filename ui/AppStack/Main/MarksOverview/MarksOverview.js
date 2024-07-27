@@ -187,9 +187,9 @@ function MarksOverview({
                 HapticsHandler.vibrate('light');
               }}>
                 {showEvolution ? (
-                  <DraftingCompassIcon size={20} color={'black'}/>
+                  <DraftingCompassIcon size={20} color={theme.colors.background}/>
                 ) : (
-                  <TrendingUpIcon size={20} color={'black'}/>
+                  <TrendingUpIcon size={20} color={theme.colors.background}/>
                 )}
               </PressableScale>
             </View>

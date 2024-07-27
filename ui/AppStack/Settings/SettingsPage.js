@@ -75,7 +75,7 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDis
           <CustomSimpleSectionButton
             title={"Accès à l'API"}
             icon={NewsHandler.allowLatestNewsRefresh ? (
-              <View style={{ backgroundColor: theme.colors.success, borderRadius: 15, padding: 5 }}><CheckIcon size={15} color={'black'}/></View>
+              <View style={{ backgroundColor: theme.colors.success, borderRadius: 15, padding: 5 }}><CheckIcon size={15} color={theme.colors.background}/></View>
             ) : (
               <XIcon size={20} color={theme.colors.error}/>
             )}

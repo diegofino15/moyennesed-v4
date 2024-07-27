@@ -53,7 +53,7 @@ function PreferencesPopup({ navigation }) {
             <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', letterSpacing: 0.5 }]}>En cliquant sur "Autoriser", vous consentez à ce que MoyennesED se connecte automatiquement à notre API à chaque lancement de l'app.</Text>
           
             <CustomButton
-              title={<Text style={theme.fonts.bodyLarge}>Autoriser</Text>}
+              title={<Text style={[theme.fonts.bodyLarge, { color: theme.colors.onPrimary }]}>Autoriser</Text>}
               onPress={() => handleClick(true)}
               style={{ marginTop: 30 }}
             />

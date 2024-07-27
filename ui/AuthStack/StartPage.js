@@ -48,14 +48,14 @@ function StartPage({ navigation }) {
             alignItems: 'center',
             top: -75,
           }}>
-            <Text style={[theme.fonts.titleLarge, { fontSize: 25, height: 35 }]}>Bienvenue sur</Text>
-            <Text style={[theme.fonts.titleLarge, { fontSize: 40, top: -15 }]}>MoyennesED</Text>
+            <Text style={[theme.fonts.titleLarge, { fontSize: 25, height: 35, color: theme.colors.onPrimary }]}>Bienvenue sur</Text>
+            <Text style={[theme.fonts.titleLarge, { fontSize: 40, top: -15, color: theme.colors.onPrimary }]}>MoyennesED</Text>
             <Text style={[theme.fonts.labelLarge, { width: '80%', textAlign: 'center', top: -10 }]}>Rapide. Efficace. Vos moyennes en un clin d'oeil.</Text>
           </View>
           
           {/* Login button */}
           <CustomButton
-            title={<Text style={[theme.fonts.bodyLarge, { height: 25 }]}>Se connecter avec ÉcoleDirecte</Text>}
+            title={<Text style={[theme.fonts.bodyLarge, { height: 25, color: theme.colors.onPrimary }]}>Se connecter avec ÉcoleDirecte</Text>}
             onPress={() => navigation.navigate("LoginPage")}
             style={{ paddingHorizontal: 0 }}
           />
