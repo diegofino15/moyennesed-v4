@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { View, Text, Dimensions } from "react-native";
 import { AlertTriangleIcon } from "lucide-react-native";
-import { DefaultTheme } from "react-native-paper";
 import LottieView from "lottie-react-native";
 
 import CustomModal from "../../../components/CustomModal";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import { formatDate } from "../../../../util/Utils";
 import AppData from "../../../../core/AppData";
+import { useAppContext } from "../../../../util/AppContext";
 
 
 // Information page
 function HomeworkInformationPage({ globalDisplayUpdater, navigation, route }) {
+  const { theme } = useAppContext();
+  
   const { accountID } = route.params;
   
   // Get last date updated marks
@@ -41,7 +43,7 @@ function HomeworkInformationPage({ globalDisplayUpdater, navigation, route }) {
                 top: -30,
               }}
             />
-            <Text style={[DefaultTheme.fonts.titleMedium, { width: '90%', textAlign: 'center', top: -100 }]}>Comment sont trouvés les contrôles ?</Text>
+            <Text style={[theme.fonts.titleMedium, { width: '90%', textAlign: 'center', top: -100 }]}>Comment sont trouvés les contrôles ?</Text>
           </View>
           
           {/* Text */}
@@ -53,12 +55,12 @@ function HomeworkInformationPage({ globalDisplayUpdater, navigation, route }) {
               title="Il peut manquer certains contrôles"
               description={`Certains professeurs ne cochent pas la case "contrôle", l'app ne les détectera pas.`}
               error={true}
-              icon={<AlertTriangleIcon size={20} color={DefaultTheme.colors.error}/>}
+              icon={<AlertTriangleIcon size={20} color={theme.colors.error}/>}
               style={{ marginBottom: 20 }}
             />
-            <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>L'app récupère vos devoirs et détecte si un contrôle est prévu pour chaque matière dans les 3 prochaines semaines.</Text>
-            <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 30 }]}>Ils sont mis à jour en temps réel.</Text>
-            <Text style={[DefaultTheme.fonts.labelMedium, { fontFamily: 'Text-Italic' }]}>Dernière mise à jour : {formatDate(lastDateUpdated)}</Text>
+            <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>L'app récupère vos devoirs et détecte si un contrôle est prévu pour chaque matière dans les 3 prochaines semaines.</Text>
+            <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 30 }]}>Ils sont mis à jour en temps réel.</Text>
+            <Text style={[theme.fonts.labelMedium, { fontFamily: 'Text-Italic' }]}>Dernière mise à jour : {formatDate(lastDateUpdated)}</Text>
           </View>
         </View>
       )}

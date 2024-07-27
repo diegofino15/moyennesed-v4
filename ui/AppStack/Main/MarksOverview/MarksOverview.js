@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { View, Text, FlatList, Dimensions, ScrollView } from "react-native";
-import { DefaultTheme } from "react-native-paper";
 import { HelpCircleIcon, ChevronsUpDownIcon, Users2Icon, DraftingCompassIcon, TrendingUpIcon, EyeIcon, EyeOffIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -13,6 +12,7 @@ import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator
 import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
 import { formatAverage } from "../../../../util/Utils";
 import HapticsHandler from "../../../../core/HapticsHandler";
+import { useAppContext } from "../../../../util/AppContext";
 
 
 // Marks overview
@@ -28,6 +28,8 @@ function MarksOverview({
   globalDisplayUpdater,
   navigation,
 }) {
+  const { theme } = useAppContext();
+  
   // List of marks present at first display, used to show new marks
   const [firstDisplayMarks, setFirstDisplayMarks, firstDisplayMarksRef] = useState([]);
   const [oldAccountID, setOldAccountID] = useState(accountID);
@@ -75,7 +77,7 @@ function MarksOverview({
 
   return (
     <View style={{
-      backgroundColor: DefaultTheme.colors.surface,
+      backgroundColor: theme.colors.surface,
       borderRadius: 20,
       padding: 20,
       paddingBottom: 10,
@@ -89,9 +91,9 @@ function MarksOverview({
         <CustomAnimatedChangeableItem
           item={(
             <PressableScale style={{
-              backgroundColor: isLoading ? DefaultTheme.colors.primaryLight : gotMarks ? DefaultTheme.colors.successLight : DefaultTheme.colors.errorLight,
+              backgroundColor: isLoading ? theme.colors.primaryLight : gotMarks ? theme.colors.successLight : theme.colors.errorLight,
               borderWidth: 2,
-              borderColor: isLoading ? DefaultTheme.colors.primary : gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error,
+              borderColor: isLoading ? theme.colors.primary : gotMarks ? theme.colors.success : theme.colors.error,
               borderRadius: 5,
               flexDirection: 'row',
               alignItems: 'center',
@@ -99,12 +101,12 @@ function MarksOverview({
               paddingHorizontal: 5
             }} onPress={() => { if (!isLoading) { navigation.navigate("MarksInformationPage", { accountID }); } }}>
               <Text style={[
-                DefaultTheme.fonts.labelMedium, {
-                  color: isLoading ? DefaultTheme.colors.primary : gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error,
+                theme.fonts.labelMedium, {
+                  color: isLoading ? theme.colors.primary : gotMarks ? theme.colors.success : theme.colors.error,
                   marginRight: 5,
                   height: 22,
               }]}>{isLoading ? "Chargement..." : gotMarks ? "À jour" : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
-              {(!isLoading) && <HelpCircleIcon size={20} color={gotMarks ? DefaultTheme.colors.success : DefaultTheme.colors.error}/>}
+              {(!isLoading) && <HelpCircleIcon size={20} color={gotMarks ? theme.colors.success : theme.colors.error}/>}
             </PressableScale>
           )}
           animationTime={200}
@@ -127,14 +129,14 @@ function MarksOverview({
               title: period.title,
               id: period.id,
             }})}
-            defaultItem={<Text style={[DefaultTheme.fonts.labelMedium, { color: DefaultTheme.colors.primary }]}>---</Text>}
+            defaultItem={<Text style={[theme.fonts.labelMedium, { color: theme.colors.primary }]}>---</Text>}
             getItemForSelected={(periodID) => <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={[DefaultTheme.fonts.labelMedium, {
-                color: DefaultTheme.colors.primary,
+              <Text style={[theme.fonts.labelMedium, {
+                color: theme.colors.primary,
                 width: Dimensions.get('window').width - 190,
                 textAlign: 'right',
               }]}>{periods[periodID]?.title}</Text>
-              <ChevronsUpDownIcon size={16} color={DefaultTheme.colors.primary} style={{ marginLeft: 5 }} />
+              <ChevronsUpDownIcon size={16} color={theme.colors.primary} style={{ marginLeft: 5 }} />
             </View>}
             selected={selectedPeriod}
             setSelected={setSelectedPeriod}
@@ -157,23 +159,23 @@ function MarksOverview({
                     <PressableScale style={{
                       padding: 3,
                       borderWidth: 2,
-                      borderColor: DefaultTheme.colors.primary,
+                      borderColor: theme.colors.primary,
                       borderRadius: 5,
                       flexDirection: 'row',
                       alignItems: 'center',
                     }} onPress={() => setShowClassValueOnChart(!showClassValueOnChart)}>
-                      <Users2Icon size={20} color={DefaultTheme.colors.primary} style={{ marginRight: 5 }}/>
+                      <Users2Icon size={20} color={theme.colors.primary} style={{ marginRight: 5 }}/>
                       {showClassValueOnChart ? (
-                        <EyeIcon size={20} color={DefaultTheme.colors.primary}/>
+                        <EyeIcon size={20} color={theme.colors.primary}/>
                       ) : (
-                        <EyeOffIcon size={20} color={DefaultTheme.colors.primary}/>
+                        <EyeOffIcon size={20} color={theme.colors.primary}/>
                       )}
                     </PressableScale>
                   }
                 />
               </View>
               <PressableScale style={{
-                backgroundColor: DefaultTheme.colors.primary,
+                backgroundColor: theme.colors.primary,
                 borderRadius: 5,
                 marginTop: 5,
                 width: 30,
@@ -210,28 +212,28 @@ function MarksOverview({
           alignItems: 'center',
           width: Dimensions.get('window').width - 80,
         }}>
-          <Text style={[DefaultTheme.fonts.headlineLarge, { fontSize: 40 }]}>{formatAverage(periods[selectedPeriod]?.average)}</Text>
-          <Text style={[DefaultTheme.fonts.labelLarge, { top: -5 }]}>MOYENNE GÉNÉRALE</Text>
+          <Text style={[theme.fonts.headlineLarge, { fontSize: 40 }]}>{formatAverage(periods[selectedPeriod]?.average)}</Text>
+          <Text style={[theme.fonts.labelLarge, { top: -5 }]}>MOYENNE GÉNÉRALE</Text>
           
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 3 }}>
-            <Users2Icon size={15} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
-            <Text style={[DefaultTheme.fonts.labelMedium, { fontFamily: "Numbers-Regular" }]}>: {formatAverage(periods[selectedPeriod]?.classAverage)}</Text>
+            <Users2Icon size={15} color={theme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
+            <Text style={[theme.fonts.labelMedium, { fontFamily: "Numbers-Regular" }]}>: {formatAverage(periods[selectedPeriod]?.classAverage)}</Text>
           </View>
         </View>
 
         <CustomEvolutionChart
           listOfValues={periods[selectedPeriod]?.averageHistory}
           showClassValues={showClassValueOnChart}
-          color={DefaultTheme.colors.primary}
-          lightColor={DefaultTheme.colors.primary}
-          activeColor={DefaultTheme.colors.primary}
+          color={theme.colors.primary}
+          lightColor={theme.colors.primary}
+          activeColor={theme.colors.primary}
           height={100}
           windowWidth={Dimensions.get('window').width - 80}
         />
       </ScrollView>
 
       {/* Lastest marks */}
-      <Text style={[DefaultTheme.fonts.bodyLarge, { marginBottom: 0 }]}>Dernières notes</Text>
+      <Text style={[theme.fonts.bodyLarge, { marginBottom: 0 }]}>Dernières notes</Text>
       {Object.keys(periods[selectedPeriod]?.marks || {}).length > 0 ? (
         <FlatList
           horizontal
@@ -254,14 +256,14 @@ function MarksOverview({
       ) : (
         <View style={{
           borderWidth: 2,
-          borderColor: DefaultTheme.colors.surfaceOutline,
+          borderColor: theme.colors.surfaceOutline,
           borderRadius: 10,
           alignItems: 'center',
           justifyContent: 'center',
           height: 90,
           marginBottom: 10,
         }}>
-          <Text style={DefaultTheme.fonts.labelLarge}>Aucune note</Text>
+          <Text style={theme.fonts.labelLarge}>Aucune note</Text>
         </View>
       )}
     </View>

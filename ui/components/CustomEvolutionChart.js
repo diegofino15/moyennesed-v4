@@ -1,13 +1,15 @@
 import { Text, View } from "react-native";
-import { DefaultTheme } from "react-native-paper";
 import { Users2Icon } from "lucide-react-native";
 import LineChart from 'react-native-simple-line-chart';
 
 import { formatAverage, formatDate3 } from "../../util/Utils";
+import { useAppContext } from "../../util/AppContext";
 
 
 // Custom evolution chart
 function CustomEvolutionChart({ listOfValues, showClassValues, color, lightColor, activeColor, height, windowWidth }) {
+  const { theme } = useAppContext();
+  
   return (
     <LineChart
       lines={[{
@@ -39,11 +41,11 @@ function CustomEvolutionChart({ listOfValues, showClassValues, color, lightColor
             paddingVertical: 5,
             borderRadius: 10,
           }}>
-            <Text style={[DefaultTheme.fonts.headlineSmall, {
+            <Text style={[theme.fonts.headlineSmall, {
               color: 'black',
               fontSize: 15,
             }]}>{point?.extraData?.formattedValue}</Text>
-            <Text style={[DefaultTheme.fonts.labelMedium, {
+            <Text style={[theme.fonts.labelMedium, {
               color: 'black',
               fontSize: 13,
             }]}>{point?.extraData?.formattedDate}</Text>
@@ -82,7 +84,7 @@ function CustomEvolutionChart({ listOfValues, showClassValues, color, lightColor
             marginVertical: 5,
           }}>
             <Users2Icon size={15} color="black"/>
-            <Text style={[DefaultTheme.fonts.headlineSmall, {
+            <Text style={[theme.fonts.headlineSmall, {
               color: 'black',
               fontSize: 15,
             }]}> : {point?.extraData?.formattedValue}</Text>

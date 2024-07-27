@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Dimensions, Text, View } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import SubjectCard from "./SubjectCard";
 import { formatAverage } from "../../../../util/Utils";
 import AppData from "../../../../core/AppData";
+import { useAppContext } from "../../../../util/AppContext";
 
 
 // Subjects overview
@@ -18,6 +18,8 @@ function SubjectsOverview({
   globalDisplayUpdater,
   navigation,
 }) {
+  const { theme } = useAppContext();
+  
   // Get periods of student
   const [periods, setPeriods] = useState({});
   useEffect(() => {
@@ -50,16 +52,16 @@ function SubjectsOverview({
             <PressableScale style={{
               paddingHorizontal: 13,
               paddingVertical: 5,
-              backgroundColor: DefaultTheme.colors.surface,
+              backgroundColor: theme.colors.surface,
               borderWidth: 1,
-              borderColor: DefaultTheme.colors.surfaceOutline,
+              borderColor: theme.colors.surfaceOutline,
               borderRadius: 10,
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
               marginVertical: 5,
             }}>
-              <Text style={[DefaultTheme.fonts.labelLarge, {
+              <Text style={[theme.fonts.labelLarge, {
                 fontFamily: 'Text-Medium',
                 width: Dimensions.get('window').width - 150,
               }]}>{subjectGroup.title}</Text>
@@ -67,8 +69,8 @@ function SubjectsOverview({
                 flexDirection: 'row',
                 alignItems: 'flex-end',
               }}>
-                <Text style={[DefaultTheme.fonts.headlineMedium, { color: DefaultTheme.colors.onSurfaceDisabled }]}>{formatAverage(subjectGroup.average)}</Text>
-                {subjectGroup.average && <Text style={[DefaultTheme.fonts.labelSmall, { color: DefaultTheme.colors.onSurfaceDisabled, fontFamily: "Numbers-Medium" }]}>/20</Text>}
+                <Text style={[theme.fonts.headlineMedium, { color: theme.colors.onSurfaceDisabled }]}>{formatAverage(subjectGroup.average)}</Text>
+                {subjectGroup.average && <Text style={[theme.fonts.labelSmall, { color: theme.colors.onSurfaceDisabled, fontFamily: "Numbers-Medium" }]}>/20</Text>}
               </View>
             </PressableScale>
             
@@ -77,7 +79,7 @@ function SubjectsOverview({
               left: -10,
               width: 4,
               borderRadius: 5,
-              backgroundColor: DefaultTheme.colors.surfaceOutline,
+              backgroundColor: theme.colors.surfaceOutline,
               height: '100%',
             }}/>
 
@@ -99,13 +101,13 @@ function SubjectsOverview({
       <View style={{ marginTop: 15, marginBottom: 20, marginHorizontal: 20 }}>
         {Object.keys(periods[selectedPeriod]?.subjectGroups ?? {}).length > 0 && periods[selectedPeriod]?.subjectsNotInSubjectGroup.length > 0 && (
           <View style={{ position: 'absolute', height: '100%' }}>
-            <Text style={[DefaultTheme.fonts.labelLarge, { fontFamily: 'Text-Medium' }]}>AUTRES MATIÈRES</Text>
+            <Text style={[theme.fonts.labelLarge, { fontFamily: 'Text-Medium' }]}>AUTRES MATIÈRES</Text>
             <View style={{
               position: 'absolute',
               left: -10,
               width: 4,
               borderRadius: 5,
-              backgroundColor: DefaultTheme.colors.surfaceOutline,
+              backgroundColor: theme.colors.surfaceOutline,
               height: '100%',
             }}/>
           </View>

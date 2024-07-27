@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
 import { View, Text, ActivityIndicator, Platform, TextInput } from "react-native";
-import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 import { CalendarIcon, CheckIcon, ChevronDownIcon, ChevronUpIcon, CircleIcon, DownloadIcon, ExternalLinkIcon, FileIcon, GraduationCapIcon } from "lucide-react-native";
 import Animated, { useAnimatedStyle, withTiming } from "react-native-reanimated";
@@ -14,6 +13,7 @@ import { formatDate2, asyncExpectedResult } from "../../../../util/Utils";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import AppData from "../../../../core/AppData";
+import { useAppContext } from "../../../../util/AppContext";
 
 
 // Attachment
@@ -40,26 +40,26 @@ function Attachment({ accountID, file, windowWidth }) {
           marginVertical: 5,
           padding: 5,
           borderWidth: 2,
-          borderColor: DefaultTheme.colors.surfaceOutline,
-          backgroundColor: DefaultTheme.colors.backdrop,
+          borderColor: theme.colors.surfaceOutline,
+          backgroundColor: theme.colors.backdrop,
           borderRadius: 5,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
         }} onPress={() => openAttachment(file)} onLongPress={fileExists ? () => {} : undefined}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <FileIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
-            <Text style={[DefaultTheme.fonts.bodyMedium, {
+            <FileIcon size={20} color={theme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
+            <Text style={[theme.fonts.bodyMedium, {
               width: windowWidth - 150,
               height: 22,
             }]} numberOfLines={1}>{file.title}</Text>
           </View>
           {fileExists ? (
-            <ExternalLinkIcon size={20} color={DefaultTheme.colors.onSurface}/>
+            <ExternalLinkIcon size={20} color={theme.colors.onSurface}/>
           ) : isDownloading ? (
-            <ActivityIndicator size={20} color={DefaultTheme.colors.onSurface}/>
+            <ActivityIndicator size={20} color={theme.colors.onSurface}/>
           ) : (
-            <DownloadIcon size={20} color={DefaultTheme.colors.onSurface}/>
+            <DownloadIcon size={20} color={theme.colors.onSurface}/>
           )}
         </PressableScale>
       )}
@@ -79,19 +79,21 @@ function Attachment({ accountID, file, windowWidth }) {
 
 // Little info card
 function LittleInfoCard({ title, icon, style }) {
+  const { theme } = useAppContext();
+  
   return (
     <View style={{
       flexDirection: 'row',
       alignItems: 'center',
       borderWidth: 2,
-      borderColor: DefaultTheme.colors.surfaceOutline,
+      borderColor: theme.colors.surfaceOutline,
       borderRadius: 5,
       paddingHorizontal: 5,
       paddingVertical: 2,
       ...style,
     }}>
       {icon}
-      <Text style={[DefaultTheme.fonts.labelMedium, {
+      <Text style={[theme.fonts.labelMedium, {
         height: 22,
       }]}>{title}</Text>
     </View>
@@ -109,6 +111,8 @@ function HomeworkCard({
   openAtDisplay,
   windowWidth,
 }) {
+  const { theme } = useAppContext();
+  
   // Get subject
   const { light, dark } = ColorsHandler.getSubjectColors(abstractHomework.subjectID);
 
@@ -176,14 +180,14 @@ function HomeworkCard({
           marginLeft: 10,
           borderWidth: 2,
           borderBottomWidth: 0,
-          borderColor: DefaultTheme.colors.error,
+          borderColor: theme.colors.error,
           position: 'absolute',
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
           height: 30,
         }}>
-          <Text style={[DefaultTheme.fonts.bodyMedium, {
-            color: DefaultTheme.colors.error,
+          <Text style={[theme.fonts.bodyMedium, {
+            color: theme.colors.error,
           }]}>CONTRÔLE</Text>
         </View>
       )}
@@ -205,7 +209,7 @@ function HomeworkCard({
           flexGrow: 1,
           marginRight: 5,
         }} onPress={toggleExpand}>
-          <Text style={[DefaultTheme.fonts.bodyLarge, {
+          <Text style={[theme.fonts.bodyLarge, {
             color: 'black',
             width: windowWidth - 160,
             height: 25,
@@ -230,12 +234,12 @@ function HomeworkCard({
             <View style={{
               padding: 5,
               borderRadius: 15,
-              backgroundColor: abstractHomework.isExam ? DefaultTheme.colors.error : light,
+              backgroundColor: abstractHomework.isExam ? theme.colors.error : light,
             }}>
               <CheckIcon size={18} color={'black'}/>
             </View>
           ) : (
-            <CircleIcon size={28} color={abstractHomework.isExam ? DefaultTheme.colors.error : light}/>
+            <CircleIcon size={28} color={abstractHomework.isExam ? theme.colors.error : light}/>
           )}
         </PressableScale>
       </View>
@@ -253,20 +257,20 @@ function HomeworkCard({
           {/* What to do */}
           {Platform.select({ ios: (
             <TextInput
-              style={DefaultTheme.fonts.bodyMedium}
+              style={theme.fonts.bodyMedium}
               multiline
               editable={false}
               scrollEnabled={false}
             >{specificHomework?.todo}</TextInput>
           ), android: (
-            <Text style={DefaultTheme.fonts.bodyMedium} selectable>{specificHomework?.todo}</Text>
+            <Text style={theme.fonts.bodyMedium} selectable>{specificHomework?.todo}</Text>
           ) })}
 
           {/* Files */}
           {specificHomework.files?.length > 0 && (
             <View style={{ marginTop: 10 }}>
-              <CustomSeparator style={{ backgroundColor: DefaultTheme.colors.surfaceOutline, marginVertical: 10 }}/>
-              <Text style={DefaultTheme.fonts.labelLarge}>Pièces jointes</Text>
+              <CustomSeparator style={{ backgroundColor: theme.colors.surfaceOutline, marginVertical: 10 }}/>
+              <Text style={theme.fonts.labelLarge}>Pièces jointes</Text>
               {specificHomework.files.map(file => (
                 <Attachment key={file.id} accountID={accountID} file={file} windowWidth={windowWidth}/>
               ))}
@@ -276,12 +280,12 @@ function HomeworkCard({
           {/* Professor name */}
           <LittleInfoCard
             title={specificHomework.givenBy}
-            icon={<GraduationCapIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>}
+            icon={<GraduationCapIcon size={20} color={theme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>}
             style={{ marginTop: 20 }}
           />
           <LittleInfoCard
             title={`Donné le ${formatDate2(abstractHomework.dateGiven)}`}
-            icon={<CalendarIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>}
+            icon={<CalendarIcon size={20} color={theme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>}
             style={{ marginVertical: 5 }}
           />
         </View>

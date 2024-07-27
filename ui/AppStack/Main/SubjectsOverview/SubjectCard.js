@@ -1,11 +1,11 @@
 import { Dimensions, FlatList, Text, View } from "react-native";
 import { AlertOctagonIcon, CornerDownRightIcon, MegaphoneOffIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { DefaultTheme } from "react-native-paper";
 
 import CustomTag from "../../../components/CustomTag";
 import { formatAverage, formatMark } from "../../../../util/Utils";
 import ColorsHandler from "../../../../core/ColorsHandler";
+import { useAppContext } from "../../../../util/AppContext";
 
 
 // Embedded subject card
@@ -17,6 +17,8 @@ function EmbeddedSubjectCard({
   countMarksWithOnlyCompetences,
   navigation,
 }) {
+  const { theme } = useAppContext();
+  
   const { light, dark } = ColorsHandler.getSubjectColors(subject.id)
   
   // Open subject page
@@ -44,7 +46,7 @@ function EmbeddedSubjectCard({
       {subject.subID && (
         <CornerDownRightIcon
           size={40}
-          color={DefaultTheme.colors.onSurfaceDisabled}
+          color={theme.colors.onSurfaceDisabled}
           style={{ marginRight: 5 }}
         />
       )}
@@ -72,7 +74,7 @@ function EmbeddedSubjectCard({
             {!subject.isEffective && (
               <MegaphoneOffIcon size={20} color={'black'} style={{ marginRight: 5 }}/>
             )}
-            <Text style={[DefaultTheme.fonts.bodyLarge, {
+            <Text style={[theme.fonts.bodyLarge, {
               color: 'black',
               width: Dimensions.get('window').width - (subject.subID ? 195 : 150) - (subject.isEffective ? 0 : 25),
               height: 25,
@@ -83,8 +85,8 @@ function EmbeddedSubjectCard({
             flexDirection: 'row',
             alignItems: 'flex-end',
           }}>
-            <Text style={[DefaultTheme.fonts.headlineMedium, { color: 'black' }]}>{formatAverage(subject.average)}</Text>
-            {subject.average && <Text style={[DefaultTheme.fonts.labelSmall, { color: 'black', fontFamily: "Numbers-Medium" }]}>/20</Text>}
+            <Text style={[theme.fonts.headlineMedium, { color: 'black' }]}>{formatAverage(subject.average)}</Text>
+            {subject.average && <Text style={[theme.fonts.labelSmall, { color: 'black', fontFamily: "Numbers-Medium" }]}>/20</Text>}
           </View>
         </View>
         
@@ -102,7 +104,7 @@ function EmbeddedSubjectCard({
               renderItem={({ item }) => {
                 const mark = getMark(item);
                 return (
-                  <Text style={[DefaultTheme.fonts.headlineMedium, {
+                  <Text style={[theme.fonts.headlineMedium, {
                     color: 'black',
                     opacity: mark.isEffective && (!mark.valueOn && mark.competences.length ? countMarksWithOnlyCompetences : true) ? 1 : 0.2,
                     fontFamily: "Numbers-Regular",
@@ -119,8 +121,8 @@ function EmbeddedSubjectCard({
           <CustomTag
             title={"Alerte contrôle"}
             icon={<AlertOctagonIcon size={15} color={'white'}/>}
-            color={DefaultTheme.colors.error}
-            secondaryTag={hasExam.length > 1 && <Text style={[DefaultTheme.fonts.labelMedium, { color: 'white', height: 22 }]}>{hasExam.length}</Text>}
+            color={theme.colors.error}
+            secondaryTag={hasExam.length > 1 && <Text style={[theme.fonts.labelMedium, { color: 'white', height: 22 }]}>{hasExam.length}</Text>}
             onPress={openExamPage}
             offset={15}
             shadow

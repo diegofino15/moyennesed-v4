@@ -1,15 +1,18 @@
 import { View } from "react-native";
-import { DefaultTheme } from "react-native-paper";
+
+import { useAppContext } from "../../util/AppContext";
 
 
 // Custom separator
 function CustomSeparator({ style }) {
+  const { theme } = useAppContext();
+  
   return (
     <View
       style={[{
         width: '100%',
         height: 3,
-        backgroundColor: DefaultTheme.colors.surface,
+        backgroundColor: theme.colors.surface,
         borderRadius: 3,
       }, style]}
     />

@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
 import { View, Text } from "react-native";
 import { CheckCircleIcon, CircleIcon, SquareMousePointerIcon } from "lucide-react-native";
-import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomConfirmModal from "../../../components/CustomConfirmModal";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import CustomProfilePhoto from "../../../components/CustomProfilePhoto";
 import CustomSectionButton from "../../../components/CustomSectionButton";
+import { useAppContext } from '../../../../util/AppContext';
 
 
 // Switch accounts modal
 function SwitchAccountModal({ isSwitchingAccount, setIsSwitchingAccount, switchAccount, selectedAccount }) {
+  const { theme } = useAppContext();
+  
   // Get available accounts
   const [availableAccounts, setAvailableAccounts] = useState({});
   useEffect(() => { AsyncStorage.getItem("accounts").then(accounts => { setAvailableAccounts(JSON.parse(accounts)); }); }, []);
@@ -22,16 +24,16 @@ function SwitchAccountModal({ isSwitchingAccount, setIsSwitchingAccount, switchA
       exitModal={() => setIsSwitchingAccount(false)}
       children={[
         (<View key={1} style={{
-          backgroundColor: DefaultTheme.colors.surface,
+          backgroundColor: theme.colors.surface,
           borderWidth: 2,
-          borderColor: DefaultTheme.colors.surfaceOutline,
+          borderColor: theme.colors.surfaceOutline,
           paddingHorizontal: 15,
           paddingVertical: 10,
           borderRadius: 10,
           marginBottom: 10,
         }}>
-          <Text style={DefaultTheme.fonts.titleSmall}>Changer de compte</Text>
-          <Text style={DefaultTheme.fonts.labelMedium}>Vos données et préférences seront sauvegardées. Cliquez sur un compte pour le sélectionner.</Text>
+          <Text style={theme.fonts.titleSmall}>Changer de compte</Text>
+          <Text style={theme.fonts.labelMedium}>Vos données et préférences seront sauvegardées. Cliquez sur un compte pour le sélectionner.</Text>
         </View>),
 
         Object.values(availableAccounts).map(account => <CustomSectionButton
@@ -47,15 +49,15 @@ function SwitchAccountModal({ isSwitchingAccount, setIsSwitchingAccount, switchA
               top: 10,
             }}>
               {account.id === selectedAccount ? (
-                <CheckCircleIcon size={20} color={DefaultTheme.colors.primary}/>
+                <CheckCircleIcon size={20} color={theme.colors.primary}/>
               ) : (
-                <CircleIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                <CircleIcon size={20} color={theme.colors.onSurfaceDisabled}/>
               )}
             </View>
           )}
           wrapperStyle={{ marginTop: 10 }}
           style={{
-            borderColor: account.id === selectedAccount ? DefaultTheme.colors.primary : DefaultTheme.colors.surfaceOutline,
+            borderColor: account.id === selectedAccount ? theme.colors.primary : theme.colors.surfaceOutline,
           }}
         />),
       ]}
@@ -63,7 +65,7 @@ function SwitchAccountModal({ isSwitchingAccount, setIsSwitchingAccount, switchA
         <CustomInformationCard
           title={"Le saviez-vous ?"}
           description={"Vous pouvez changer de compte en laissant pressé le bouton profil sur la page d'accueil."}
-          icon={<SquareMousePointerIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+          icon={<SquareMousePointerIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
         />
       )}
     />

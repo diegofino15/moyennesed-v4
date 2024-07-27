@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Dimensions, Text, View } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { DefaultTheme } from "react-native-paper";
 import { TrashIcon } from "lucide-react-native";
 import ColorPicker, { Preview, Panel1, HueSlider } from "reanimated-color-picker";
 
 import CustomConfirmModal from "../../../components/CustomConfirmModal";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
+import { useAppContext } from "../../../../util/AppContext";
 
 // Subject color picker
 function SubjectColorPicker({
@@ -17,6 +17,8 @@ function SubjectColorPicker({
   initialValue,
   updateGlobalDisplay,
 }) {
+  const { theme } = useAppContext();
+  
   const [color, setColor] = useState(initialValue);
   function onSelectColor({ hex }) {
     setColor(hex);
@@ -86,15 +88,15 @@ function SubjectColorPicker({
           {/* Reset color */}
           <PressableScale
             style={{
-              backgroundColor: DefaultTheme.colors.errorLight,
+              backgroundColor: theme.colors.errorLight,
               borderWidth: 2,
-              borderColor: DefaultTheme.colors.error,
+              borderColor: theme.colors.error,
               borderRadius: 5,
               padding: 5,
             }}
             onPress={reset}
           >
-            <TrashIcon size={25} color={DefaultTheme.colors.error} />
+            <TrashIcon size={25} color={theme.colors.error} />
           </PressableScale>
 
           {/* Validate color */}
@@ -102,9 +104,9 @@ function SubjectColorPicker({
             style={{
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: DefaultTheme.colors.primaryLight,
+              backgroundColor: theme.colors.primaryLight,
               borderWidth: 2,
-              borderColor: DefaultTheme.colors.primary,
+              borderColor: theme.colors.primary,
               width: Dimensions.get("window").width - 90,
               padding: 5,
               borderRadius: 5,
@@ -112,7 +114,7 @@ function SubjectColorPicker({
             }}
             onPress={validate}
           >
-            <Text style={DefaultTheme.fonts.bodyLarge}>Valider</Text>
+            <Text style={theme.fonts.bodyLarge}>Valider</Text>
           </PressableScale>
         </View>,
       ]}

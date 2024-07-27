@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Text, ActivityIndicator, View, Dimensions, RefreshControl, Platform, SectionList } from "react-native";
 import { AlertTriangleIcon, RefreshCcwIcon, ChevronLeftIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { DefaultTheme } from "react-native-paper";
 import { BlurView } from "expo-blur";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
@@ -12,10 +11,13 @@ import CustomSeparator from "../../../components/CustomSeparator";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import AppData from "../../../../core/AppData";
+import { useAppContext } from "../../../../util/AppContext";
 
 
 // Exam page
 function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
+  const { theme } = useAppContext();
+  
   const { accountID } = route.params;
 
   // Get abstract homeworks (waiting for them to load)
@@ -50,7 +52,7 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
 
   return (
     <View style={{
-      backgroundColor: DefaultTheme.colors.backdrop,
+      backgroundColor: theme.colors.backdrop,
     }}>
       <View style={{ height: Constants.statusBarHeight + 50 }}/>
       
@@ -64,11 +66,11 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
           <RefreshControl
             refreshing={refreshing}
             onRefresh={refreshNextExams}
-            tintColor={DefaultTheme.colors.onBackground}
+            tintColor={theme.colors.onBackground}
           />
         )}
         style={{
-          backgroundColor: DefaultTheme.colors.backdrop,
+          backgroundColor: theme.colors.backdrop,
           paddingVertical: 20,
           paddingHorizontal: 10,
           height: Dimensions.get('window').height - Constants.statusBarHeight - 50,
@@ -93,18 +95,18 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
             paddingVertical: 5,
             borderRadius: 10,
             overflow: 'hidden',
-            backgroundColor: Platform.select({ android: DefaultTheme.colors.backdrop }),
+            backgroundColor: Platform.select({ android: theme.colors.backdrop }),
             marginVertical: 15,
             top: -15,
             alignSelf: 'center',
           }} tint="dark" intensity={50}>
-            <Text style={[DefaultTheme.fonts.bodyLarge, { height: 25 }]}>{title}</Text>
+            <Text style={[theme.fonts.bodyLarge, { height: 25 }]}>{title}</Text>
           </BlurView>
         )}
         renderSectionFooter={() => (
           <CustomSeparator style={{
             width: '100%',
-            backgroundColor: DefaultTheme.colors.surfaceOutline,
+            backgroundColor: theme.colors.surfaceOutline,
             marginBottom: 15,
           }}/>
         )}
@@ -114,7 +116,7 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
             width: Dimensions.get('window').width,
             height: 100,
             top: -20,
-            backgroundColor: DefaultTheme.colors.backdrop,
+            backgroundColor: theme.colors.backdrop,
           }}/>
         )}
       />
@@ -129,7 +131,7 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
         height: Constants.statusBarHeight + 50,
         zIndex: 1,
       }} tint="light" intensity={50}>
-        <Text style={[DefaultTheme.fonts.titleSmall, { height: 26 }]}>Travail à faire</Text>
+        <Text style={[theme.fonts.titleSmall, { height: 26 }]}>Travail à faire</Text>
 
         {/* Go back button */}
         <PressableScale style={{
@@ -137,12 +139,12 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
           left: 22.5,
           bottom: 10,
           borderWidth: 2,
-          borderColor: DefaultTheme.colors.surfaceOutline,
-          backgroundColor: DefaultTheme.colors.surface,
+          borderColor: theme.colors.surfaceOutline,
+          backgroundColor: theme.colors.surface,
           padding: 5,
           borderRadius: 10,
         }} onPress={() => navigation.pop()}>
-          <ChevronLeftIcon size={30} color={DefaultTheme.colors.onSurface}/>
+          <ChevronLeftIcon size={30} color={theme.colors.onSurface}/>
         </PressableScale>
 
         {/* Refresh button */}
@@ -151,17 +153,17 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
           right: 22.5,
           bottom: 10,
           borderWidth: 2,
-          borderColor: DefaultTheme.colors.surfaceOutline,
-          backgroundColor: DefaultTheme.colors.surface,
+          borderColor: theme.colors.surfaceOutline,
+          backgroundColor: theme.colors.surface,
           padding: 5,
           borderRadius: 10,
         }} onPress={refreshNextExams}>
           {refreshing || isConnecting ? (
-            <ActivityIndicator size={30} color={DefaultTheme.colors.onSurface}/>
+            <ActivityIndicator size={30} color={theme.colors.onSurface}/>
           ) : !isConnected ? (
-            <AlertTriangleIcon size={25} color={DefaultTheme.colors.error}/>
+            <AlertTriangleIcon size={25} color={theme.colors.error}/>
           ) : (
-            <RefreshCcwIcon size={25} color={DefaultTheme.colors.onSurface} style={{ margin: 2.5 }}/>
+            <RefreshCcwIcon size={25} color={theme.colors.onSurface} style={{ margin: 2.5 }}/>
           )}
         </PressableScale>
       </BlurView>

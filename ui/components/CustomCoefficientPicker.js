@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { TextInput, View } from "react-native";
-import { DefaultTheme } from "react-native-paper";
 import { PencilRulerIcon, TrashIcon, Wand2Icon, WeightIcon, WrenchIcon, XIcon } from "lucide-react-native";
 
 import CustomTag from "./CustomTag";
 import CustomSimpleInformationCard from "./CustomSimpleInformationCard";
+import { useAppContext } from "../../util/AppContext";
 
 
 // Custom coefficient picker
 function CustomCoefficientPicker({ coefficient, setCoefficient, resetCoefficient, isCustom, isGuessed, openGuessParametersPage, dark, style }) {
+  const { theme } = useAppContext();
+  
   const [tempCoefficient, setTempCoefficient] = useState(coefficient.toString().replace(".", ","));
   useEffect(() => { setTempCoefficient(coefficient.toString().replace(".", ",")) }, [coefficient]);
 
@@ -20,24 +22,24 @@ function CustomCoefficientPicker({ coefficient, setCoefficient, resetCoefficient
   return (
     <View style={style}>
       <CustomSimpleInformationCard
-        icon={<WeightIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+        icon={<WeightIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
         content={"Coefficient"}
         style={{ marginBottom: 5 }}
         rightIcon={(
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <XIcon size={15} color={DefaultTheme.colors.onSurfaceDisabled}/>
+            <XIcon size={15} color={theme.colors.onSurfaceDisabled}/>
             <View>
               <TextInput
                 style={{
-                  ...DefaultTheme.fonts.headlineMedium,
-                  color: DefaultTheme.colors.onSurface,
+                  ...theme.fonts.headlineMedium,
+                  color: theme.colors.onSurface,
                   width: "auto",
                   minWidth: 70,
                   textAlign: 'right',
                   paddingRight: 30,
                   paddingLeft: 10,
                   borderWidth: 1,
-                  borderColor: DefaultTheme.colors.onSurfaceDisabled,
+                  borderColor: theme.colors.onSurfaceDisabled,
                   borderRadius: 5,
                   borderStyle: 'dashed',
                 }}
@@ -46,14 +48,14 @@ function CustomCoefficientPicker({ coefficient, setCoefficient, resetCoefficient
                 onChangeText={(newCoefficient) => setTempCoefficient(allowOnlyNumbers(newCoefficient))}
                 onSubmitEditing={() => {
                   let newCoefficient = parseFloat(tempCoefficient.replace(",", "."));
-                  if (!isNaN(newCoefficient)) { setCoefficient(newCoefficient); }
-                  else { setTempCoefficient(coefficient); }
+                  if (!isNaN(newCoefficient) && newCoefficient != 0) { setCoefficient(newCoefficient); }
+                  else { setTempCoefficient(coefficient.toString().replace(".", ",")); }
                 }}
                 keyboardType="numeric"
                 returnKeyType="done"
               />
             </View>
-            <PencilRulerIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled} style={{
+            <PencilRulerIcon size={20} color={theme.colors.onSurfaceDisabled} style={{
               position: 'absolute',
               right: 5,
             }}/>
@@ -68,14 +70,14 @@ function CustomCoefficientPicker({ coefficient, setCoefficient, resetCoefficient
           color={dark}
           onPress={openGuessParametersPage}
           secondaryTag={isCustom && (
-            <TrashIcon size={15} color={DefaultTheme.colors.error}/>
+            <TrashIcon size={15} color={theme.colors.error}/>
           )}
           secondaryTagStyle={{
             paddingVertical: 3,
             paddingHorizontal: 3,
-            backgroundColor: DefaultTheme.colors.errorLight,
+            backgroundColor: theme.colors.errorLight,
             borderWidth: 2,
-            borderColor: DefaultTheme.colors.error,
+            borderColor: theme.colors.error,
           }}
           secondaryTagOnPress={resetCoefficient}
           onBottom

@@ -1,4 +1,57 @@
 import { loadAsync } from 'expo-font';
+import { DefaultTheme } from 'react-native-paper';
+
+
+// Themes
+class Themes {
+  static DarkTheme = {
+    ...DefaultTheme,
+    dark: true,
+    colors: {
+      background: '#020409',
+      onBackground: '#E7EDF2',
+  
+      backdrop: '#0E1116',
+    
+      surface: '#171B21',
+      surfaceOutline: '#31363C',
+      onSurface: '#E7EDF2',
+      onSurfaceDisabled: '#868D96',
+    
+      primary: '#1985A1',
+      primaryLight: '#162831',
+      onPrimary: '#FFF',
+      success: '#4CAF50',
+      successLight: '#1F3023',
+      error: '#DA3633',
+      errorLight: '#33191C',
+    },
+  };
+
+  static LightTheme = {
+    ...DefaultTheme,
+    dark: false,
+    colors: {
+      background: '#FFF',
+      onBackground: '#020409',
+  
+      backdrop: '#E7EDF2',
+  
+      surface: '#E7EDF2',
+      surfaceOutline: '#E7EDF2',
+      onSurface: '#020409',
+      onSurfaceDisabled: '#868D96',
+  
+      primary: '#1985A1',
+      primaryLight: '#FFF',
+      onPrimary: '#FFF',
+      success: '#4CAF50',
+      successLight: '#FFF',
+      error: '#DA3633',
+      errorLight: '#FFF',
+    },
+  };
+};
 
 
 // Load all fonts used in the app
@@ -15,29 +68,8 @@ const useFonts = async () => await loadAsync({
   'Numbers-Bold': require('../assets/fonts/Rubik-Bold.ttf'),
 });
 
-// Set all colors and fonts in app
-function initTheme(theme) {
-  // Dark
-  theme.colors = {
-    background: '#020409',
-    onBackground: '#E7EDF2',
-
-    backdrop: '#0E1116',
-  
-    surface: '#171B21',
-    surfaceOutline: '#31363C',
-    onSurface: '#E7EDF2',
-    onSurfaceDisabled: '#868D96',
-  
-    primary: '#1985A1',
-    primaryLight: '#162831',
-    onPrimary: '#FFF',
-    success: '#4CAF50',
-    successLight: '#1F3023',
-    error: '#DA3633',
-    errorLight: '#33191C',
-  };
-
+// Set all fonts in app
+function initThemeFonts(theme) {
   theme.fonts = {
     titleLarge: {
       fontSize: 35.0,
@@ -111,4 +143,11 @@ function initTheme(theme) {
   }
 }
 
-export { useFonts, initTheme };
+// Main load function
+async function initFontsAndThemes() {
+  await useFonts();
+  initThemeFonts(Themes.DarkTheme);
+  initThemeFonts(Themes.LightTheme);
+}
+
+export { initFontsAndThemes, Themes };

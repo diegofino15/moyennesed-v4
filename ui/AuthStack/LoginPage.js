@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
 import { AlertTriangleIcon, CircleUserRoundIcon, HelpCircleIcon, KeySquareIcon } from "lucide-react-native";
-import { DefaultTheme } from "react-native-paper";
 
 import CustomModal from "../components/CustomModal";
 import CustomTextInput from "../components/CustomTextInput";
@@ -16,7 +15,7 @@ import HapticsHandler from "../../core/HapticsHandler";
 // Login page
 function LoginPage({ navigation }) {
   // Show AppStack once logged-in
-  const appContext = useAppContext();
+  const { theme, setIsLoggedIn } = useAppContext();
 
   // Username and password
   const [username, setUsername] = useState('');
@@ -41,7 +40,7 @@ function LoginPage({ navigation }) {
     setIsConnecting(false);
     if (status == 1) { // Successful
       navigation.pop();
-      appContext.setIsLoggedIn(true);
+      setIsLoggedIn(true);
     } else if (status == 2) { // Choose account
       navigation.navigate("ChooseAccountPage");
     } else if (status == 0) { // Wrong password
@@ -59,21 +58,21 @@ function LoginPage({ navigation }) {
       onlyShowBackButtonOnAndroid
       children={(
         <View>
-          <Text style={[DefaultTheme.fonts.labelMedium, { marginBottom: 30 }]}>Vous pouvez vous connecter en tant qu'élève ou en tant que parent.</Text>
+          <Text style={[theme.fonts.labelMedium, { marginBottom: 30 }]}>Vous pouvez vous connecter en tant qu'élève ou en tant que parent.</Text>
           
           {/* Inputs */}
           <CustomTextInput
             label='Identifiant'
             onChangeText={setUsername}
-            icon={<CircleUserRoundIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+            icon={<CircleUserRoundIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
             style={{ marginBottom: 10 }}
           />
           <CustomTextInput
             label={wrongPassword ? "Mot de passe incorrect" : "Mot de passe"}
-            labelColor={wrongPassword ? DefaultTheme.colors.error : null}
+            labelColor={wrongPassword ? theme.colors.error : null}
             onChangeText={setPassword}
             secureTextEntry={true}
-            icon={<KeySquareIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+            icon={<KeySquareIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
             controller={passwordTextController}
             style={{ marginBottom: 20 }}
           />
@@ -81,9 +80,9 @@ function LoginPage({ navigation }) {
           {/* Login button */}
           <CustomButton
             title={isConnecting ? (
-              <ActivityIndicator size={25} color={DefaultTheme.colors.onPrimary}/>
+              <ActivityIndicator size={25} color={theme.colors.onPrimary}/>
             ) : (
-              <Text style={[DefaultTheme.fonts.bodyLarge, { height: 25 }]}>Se connecter</Text>
+              <Text style={[theme.fonts.bodyLarge, { height: 25 }]}>Se connecter</Text>
             )}
             onPress={login}
           />
@@ -91,7 +90,7 @@ function LoginPage({ navigation }) {
           {/* Connection failed */}
           {errorConnecting && <CustomInformationCard
             title='Une erreur est survenue'
-            icon={<AlertTriangleIcon size={20} color={DefaultTheme.colors.error}/>}
+            icon={<AlertTriangleIcon size={20} color={theme.colors.error}/>}
             description='La connexion aux serveurs a échoué, vérifiez votre connexion internet.'
             error={true}
             style={{ marginTop: 30 }}
@@ -100,14 +99,14 @@ function LoginPage({ navigation }) {
           {/* Reset password */}
           <CustomInformationCard
             title='Mot de passe oublié ?'
-            icon={<HelpCircleIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+            icon={<HelpCircleIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
             description='Pas de panique, cliquez ici pour réinitialiser votre mot de passe.'
             onPress={() => openLink('https://api.ecoledirecte.com/mot-de-passe-oublie.awp')}
             style={{ marginTop: 30 }}
           />
 
           {/* Information */}
-          <Text style={[DefaultTheme.fonts.labelMedium, { marginTop: 30, width: '80%', textAlign: 'center', alignSelf: 'center' }]}>
+          <Text style={[theme.fonts.labelMedium, { marginTop: 30, width: '80%', textAlign: 'center', alignSelf: 'center' }]}>
             Aucune information n'est enregistrée, vos identifiants restent entre vous et ÉcoleDirecte.
           </Text>
         </View>

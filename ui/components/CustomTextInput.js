@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { View, TextInput, Dimensions, Platform } from 'react-native';
-import { DefaultTheme } from 'react-native-paper';
 import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
 import { PressableScale } from 'react-native-pressable-scale';
+
+import { useAppContext } from '../../util/AppContext';
 
 
 // Custom text input
@@ -18,13 +19,15 @@ function CustomTextInput({
   textAreaStyle,
   controller,
 }) {
+  const { theme } = useAppContext();
+  
   const [showContent, setShowContent] = useState(!secureTextEntry);
 
   return (
     <View style={{
-      backgroundColor: DefaultTheme.colors.surface,
+      backgroundColor: theme.colors.surface,
       borderWidth: 1,
-      borderColor: DefaultTheme.colors.surfaceOutline,
+      borderColor: theme.colors.surfaceOutline,
       borderRadius: 10,
       paddingHorizontal: 10,
       flexDirection: 'row',
@@ -34,8 +37,8 @@ function CustomTextInput({
       {!iconOnRight && icon}
       <TextInput
         style={{
-          ...DefaultTheme.fonts.bodyLarge,
-          color: DefaultTheme.colors.onSurface,
+          ...theme.fonts.bodyLarge,
+          color: theme.colors.onSurface,
           marginLeft: !iconOnRight ? 10 : 0,
           width: Dimensions.get('window').width - 105 - (iconOnRight ? 15 : 0),
           height: 50,
@@ -46,7 +49,7 @@ function CustomTextInput({
         value={initialValue}
         onChangeText={onChangeText}
         secureTextEntry={!showContent}
-        placeholderTextColor={labelColor ? labelColor : DefaultTheme.colors.onSurfaceDisabled}
+        placeholderTextColor={labelColor ? labelColor : theme.colors.onSurfaceDisabled}
         autoCapitalize='none'
         autoCorrect={false}
         ref={controller}
@@ -57,7 +60,7 @@ function CustomTextInput({
           position: 'absolute',
           right: 15,
         }}>
-          {showContent ? <EyeIcon size={20} color={DefaultTheme.colors.onSurface}/> : <EyeOffIcon size={20} color={DefaultTheme.colors.onSurface}/>}
+          {showContent ? <EyeIcon size={20} color={theme.colors.onSurface}/> : <EyeOffIcon size={20} color={theme.colors.onSurface}/>}
         </PressableScale>
       )}
     </View>

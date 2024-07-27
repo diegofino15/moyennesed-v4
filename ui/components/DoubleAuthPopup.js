@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Text, View, ActivityIndicator } from "react-native";
-import { DefaultTheme } from "react-native-paper";
+
 import { CheckIcon, CircleIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -12,10 +12,13 @@ import CustomSeparator from "./CustomSeparator";
 import { parseHtmlData } from "../../util/Utils";
 import AppData from "../../core/AppData";
 import HapticsHandler from "../../core/HapticsHandler";
+import { useAppContext } from "../../util/AppContext";
 
 
 // Double auth popup
 function DoubleAuthPopup({ navigation, isLoggedIn, setIsLoggedIn }) {
+  const { theme } = useAppContext();
+  
   // Is loading
   const [isLoading, setIsLoading] = useState(false);
   const [errorLoading, setErrorLoading] = useState(false);
@@ -139,37 +142,37 @@ function DoubleAuthPopup({ navigation, isLoggedIn, setIsLoggedIn }) {
       title={"Double authentification"}
       children={(
         <View>
-          <Text style={[DefaultTheme.fonts.labelLarge, { marginBottom: 5 }]}>Répondez à cette question de sécurité afin de confirmer votre identité.</Text>
-          <Text style={DefaultTheme.fonts.labelLarge}>Si vous choisissez la mauvaise réponse, votre compte pourrait être suspendu.</Text>
+          <Text style={[theme.fonts.labelLarge, { marginBottom: 5 }]}>Répondez à cette question de sécurité afin de confirmer votre identité.</Text>
+          <Text style={theme.fonts.labelLarge}>Si vous choisissez la mauvaise réponse, votre compte pourrait être suspendu.</Text>
           <CustomSeparator style={{
-            backgroundColor: DefaultTheme.colors.surfaceOutline,
+            backgroundColor: theme.colors.surfaceOutline,
             marginVertical: 20,
           }}/>
 
           {isLoading ? (
-            <ActivityIndicator size={"large"} color={DefaultTheme.colors.surfaceOutline} style={{
+            <ActivityIndicator size={"large"} color={theme.colors.surfaceOutline} style={{
               marginTop: 20,
             }}/>
           ) : errorLoading ? (
             <>
-              <Text style={[DefaultTheme.fonts.bodyLarge, {
+              <Text style={[theme.fonts.bodyLarge, {
                 marginTop: 20,
-                color: DefaultTheme.colors.error,
+                color: theme.colors.error,
                 textAlign: 'center',
               }]}>Une erreur est survenue.</Text>
-              <Text style={[DefaultTheme.fonts.labelMedium, {
+              <Text style={[theme.fonts.labelMedium, {
                 marginTop: 10,
                 textAlign: 'center',
               }]}>Impossible de récupérer la question de double authentification, veuillez réessayer plus tard.</Text>
             </>
           ) : wrongChoice ? (
             <>
-              <Text style={[DefaultTheme.fonts.bodyLarge, {
+              <Text style={[theme.fonts.bodyLarge, {
                 marginTop: 20,
-                color: DefaultTheme.colors.error,
+                color: theme.colors.error,
                 textAlign: 'center',
               }]}>Cette réponse est incorrecte.</Text>
-              <Text style={[DefaultTheme.fonts.labelMedium, {
+              <Text style={[theme.fonts.labelMedium, {
                 marginTop: 10,
                 textAlign: 'center',
               }]}>Votre compte a été suspendu, un mail de réactivation a été envoyé.</Text>
@@ -177,17 +180,17 @@ function DoubleAuthPopup({ navigation, isLoggedIn, setIsLoggedIn }) {
           ) : (
             <>
               {/* Content */}
-              <Text style={[DefaultTheme.fonts.bodyLarge, { marginBottom: 10 }]}>{question}</Text>
+              <Text style={[theme.fonts.bodyLarge, { marginBottom: 10 }]}>{question}</Text>
               {answers.map((answer, index) => (
                 <PressableScale key={index} style={{
                   paddingLeft: 15,
                   paddingRight: 10,
                   paddingVertical: 10,
                   borderWidth: 2,
-                  borderColor: index == selectedAnswer ? DefaultTheme.colors.primary : DefaultTheme.colors.surfaceOutline,
+                  borderColor: index == selectedAnswer ? theme.colors.primary : theme.colors.surfaceOutline,
                   borderRadius: 10,
                   marginVertical: 5,
-                  backgroundColor: DefaultTheme.colors.surface,
+                  backgroundColor: theme.colors.surface,
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'space-between',
@@ -195,17 +198,17 @@ function DoubleAuthPopup({ navigation, isLoggedIn, setIsLoggedIn }) {
                   setSelectedAnswer(index);
                   HapticsHandler.vibrate("light");
                 }}>
-                  <Text style={[DefaultTheme.fonts.bodyLarge, { flex: 1 }]}>{answer}</Text>
+                  <Text style={[theme.fonts.bodyLarge, { flex: 1 }]}>{answer}</Text>
                   {index == selectedAnswer ? (
                     <View style={{
                       padding: 5,
                       borderRadius: 15,
-                      backgroundColor: DefaultTheme.colors.primary,
+                      backgroundColor: theme.colors.primary,
                     }}>
                       <CheckIcon size={18} color={'black'}/>
                     </View>
                   ) : (
-                    <CircleIcon size={28} color={DefaultTheme.colors.surfaceOutline}/>
+                    <CircleIcon size={28} color={theme.colors.surfaceOutline}/>
                   )}
                 </PressableScale>
               ))}
@@ -213,16 +216,16 @@ function DoubleAuthPopup({ navigation, isLoggedIn, setIsLoggedIn }) {
               {/* Confirm */}
               <CustomButton
                 title={isConfirmingChoice ? (
-                  <ActivityIndicator size={24} color={DefaultTheme.colors.onSurface}/>
+                  <ActivityIndicator size={24} color={theme.colors.onSurface}/>
                 ) : errorConfirmingChoice ? (
-                  <Text style={DefaultTheme.fonts.bodyLarge}>Une erreur est survenue</Text>
+                  <Text style={theme.fonts.bodyLarge}>Une erreur est survenue</Text>
                 ) : (
-                  <Text style={DefaultTheme.fonts.bodyLarge}>Confirmer</Text>
+                  <Text style={theme.fonts.bodyLarge}>Confirmer</Text>
                 )}
                 onPress={confirmChoice}
                 style={{
                   marginVertical: 30,
-                  backgroundColor: errorConfirmingChoice ? DefaultTheme.colors.error : DefaultTheme.colors.primary,
+                  backgroundColor: errorConfirmingChoice ? theme.colors.error : theme.colors.primary,
                 }}
               />
             </>

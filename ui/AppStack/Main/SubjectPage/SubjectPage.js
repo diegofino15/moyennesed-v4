@@ -3,7 +3,6 @@ import useState from "react-usestateref";
 import { Text, View, Dimensions, ScrollView, Platform } from "react-native";
 import { AlertTriangleIcon, ChevronDownIcon, ChevronRightIcon, DraftingCompassIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneOffIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as DropdownMenu from 'zeego/dropdown-menu'
 
@@ -20,6 +19,7 @@ import CoefficientHandler from "../../../../core/CoefficientHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import AppData from "../../../../core/AppData";
+import { useAppContext } from "../../../../util/AppContext";
 
 
 // More info
@@ -80,6 +80,8 @@ function SubjectPage({
   route,
   navigation,
 }) {
+  const { theme } = useAppContext();
+  
   const { accountID, cacheSubject, cacheMark } = route.params;
 
   // Refresh the shown subject in case of marks refresh
@@ -195,9 +197,9 @@ function SubjectPage({
       titleObject={(
         <View style={{ flexDirection: "row", alignItems: "center", maxWidth: '100%', overflow: 'hidden' }}>
           {!isEffective && <MegaphoneOffIcon size={25} color={'black'} style={{ marginRight: 5 }}/>}
-          {shownSubject.subID && <Text style={[DefaultTheme.fonts.titleSmall, { color: "black" }]}>{mainSubject.title ?? "---"}</Text>}
+          {shownSubject.subID && <Text style={[theme.fonts.titleSmall, { color: "black" }]}>{mainSubject.title ?? "---"}</Text>}
           {shownSubject.subID && <ChevronRightIcon size={25} color={"black"}/>}
-          <Text style={[DefaultTheme.fonts.titleSmall, { color: "black" }]}>{shownSubject.title ?? "---"}</Text>
+          <Text style={[theme.fonts.titleSmall, { color: "black" }]}>{shownSubject.title ?? "---"}</Text>
         </View>
       )}
       rightIcon={<MoreInfoPopup shownSubject={shownSubject} toggleIsEffective={toggleIsEffective}/>}
@@ -206,7 +208,7 @@ function SubjectPage({
       style={{ paddingVertical: 0 }}
       setWidth={setWindowWidth}
       children={
-        <View style={{ backgroundColor: DefaultTheme.colors.backdrop }}>
+        <View style={{ backgroundColor: theme.colors.backdrop }}>
           {/* Top portion */}
           <View style={{ paddingTop: 20 }}>
             {/* Average & Evolution */}
@@ -225,10 +227,10 @@ function SubjectPage({
                 marginBottom: 20,
                 width: windowWidth - 40,
               }}>
-                <Text style={[DefaultTheme.fonts.headlineLarge, {
+                <Text style={[theme.fonts.headlineLarge, {
                   fontSize: 45,
                 }]}>{formatAverage(shownSubject?.average)}</Text>
-                <Text style={[DefaultTheme.fonts.labelLarge, { top: -5 }]}>
+                <Text style={[theme.fonts.labelLarge, { top: -5 }]}>
                   MOYENNE DE LA {shownSubject.subID ? "SOUS-" : ""}MATIÈRE
                 </Text>
               </View>
@@ -264,7 +266,7 @@ function SubjectPage({
                 alignItems: "center",
               }} onPress={() => setShowChangeColorModal(true)}>
                 <PaletteIcon size={20} color={"black"}/>
-                <Text style={[DefaultTheme.fonts.labelMedium, {
+                <Text style={[theme.fonts.labelMedium, {
                   color: "black",
                   marginHorizontal: 5,
                   height: 22,
@@ -321,7 +323,7 @@ function SubjectPage({
                   alignItems: "center",
                 }}>
                   <Users2Icon size={20} color={"black"}/>
-                  <Text style={[DefaultTheme.fonts.headlineMedium, {
+                  <Text style={[theme.fonts.headlineMedium, {
                     color: "black",
                     fontSize: 17,
                     height: 22,
@@ -354,7 +356,7 @@ function SubjectPage({
               ) : (
                 <TrendingUpIcon size={20} color={"black"} />
               )}
-              <Text style={[DefaultTheme.fonts.labelMedium, {
+              <Text style={[theme.fonts.labelMedium, {
                 color: "black",
                 marginLeft: 5,
                 height: 22,
@@ -365,11 +367,11 @@ function SubjectPage({
           {/* Actual page */}
           <View style={{
             marginTop: 10,
-            backgroundColor: DefaultTheme.colors.backdrop,
+            backgroundColor: theme.colors.backdrop,
             padding: 20,
             paddingTop: 25,
             borderWidth: 2,
-            borderColor: DefaultTheme.colors.surfaceOutline,
+            borderColor: theme.colors.surfaceOutline,
             borderRadius: 20,
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
@@ -388,31 +390,31 @@ function SubjectPage({
                   paddingHorizontal: 10,
                   paddingVertical: 5,
                   borderWidth: 2,
-                  borderColor: DefaultTheme.colors.error,
-                  backgroundColor: DefaultTheme.colors.errorLight,
+                  borderColor: theme.colors.error,
+                  backgroundColor: theme.colors.errorLight,
                   borderRadius: 10,
                   flexDirection: 'row',
                   alignItems: 'center',
                   flexGrow: 1,
                 }}>
-                  <AlertTriangleIcon size={20} color={DefaultTheme.colors.error} style={{ marginRight: 10 }}/>
-                  <Text style={[DefaultTheme.fonts.labelMedium, {
-                    color: DefaultTheme.colors.error,
+                  <AlertTriangleIcon size={20} color={theme.colors.error} style={{ marginRight: 10 }}/>
+                  <Text style={[theme.fonts.labelMedium, {
+                    color: theme.colors.error,
                     height: 22,
                   }]}>Matière désactivée</Text>
                 </View>
 
                 <PressableScale onPress={toggleIsEffective} style={{
-                  backgroundColor: DefaultTheme.colors.primaryLight,
+                  backgroundColor: theme.colors.primaryLight,
                   paddingHorizontal: 10,
                   paddingVertical: 5,
                   borderRadius: 10,
                   borderWidth: 2,
-                  borderColor: DefaultTheme.colors.primary,
+                  borderColor: theme.colors.primary,
                   marginLeft: 5,
                 }}>
-                  <Text style={[DefaultTheme.fonts.bodyMedium, {
-                    color: DefaultTheme.colors.primary,
+                  <Text style={[theme.fonts.bodyMedium, {
+                    color: theme.colors.primary,
                     height: 22,
                   }]}>Activer</Text>
                 </PressableScale>
@@ -441,7 +443,7 @@ function SubjectPage({
             {shownSubject.teachers?.map((teacher, index) => (
               <CustomSimpleInformationCard
                 key={index}
-                icon={<GraduationCapIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                icon={<GraduationCapIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
                 content={teacher}
                 style={{ marginVertical: 5 }}
               />

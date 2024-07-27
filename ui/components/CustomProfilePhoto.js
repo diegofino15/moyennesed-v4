@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { Image } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { DefaultTheme } from "react-native-paper";
 import { UserRoundIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import AppData from "../../core/AppData";
+import { useAppContext } from "../../util/AppContext";
 
 
 // Custom profile photo
 function CustomProfilePhoto({ accountID, onPress, size=60, style, hasOtherPressAction=false }) {
+  const { theme } = useAppContext();
+  
   // Auto-update photo
   const [photo, setPhoto] = useState(null);
   useEffect(() => {
@@ -65,9 +67,9 @@ function CustomProfilePhoto({ accountID, onPress, size=60, style, hasOtherPressA
       justifyContent: "center",
       borderRadius: 10,
       overflow: "hidden",
-      backgroundColor: DefaultTheme.colors.surface,
+      backgroundColor: theme.colors.surface,
       borderWidth: 2,
-      borderColor: DefaultTheme.colors.surfaceOutline,
+      borderColor: theme.colors.surfaceOutline,
       ...style,
     }} onPress={onPress} activeScale={onPress ? 0.95 : 1} onLongPress={hasOtherPressAction ? () => {} : undefined}>
       {photo ? <Image source={{ uri: photo }} style={{
@@ -75,7 +77,7 @@ function CustomProfilePhoto({ accountID, onPress, size=60, style, hasOtherPressA
         height: size + 10,
         borderRadius: 10,
         transform: [{ translateY: 5 }],
-      }}/> : <UserRoundIcon size={size / 2} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+      }}/> : <UserRoundIcon size={size / 2} color={theme.colors.onSurfaceDisabled}/>}
     </PressableScale>
   );
 }

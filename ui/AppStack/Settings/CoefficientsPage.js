@@ -1,7 +1,6 @@
 import { memo, useEffect } from "react";
 import { View, Text, Switch } from "react-native";
 import { ChevronsUpDownIcon, CornerDownRightIcon, SparklesIcon, UserRoundIcon, Wand2Icon } from "lucide-react-native";
-import { DefaultTheme } from "react-native-paper";
 import useState from "react-usestateref";
 
 import CustomModal from "../../components/CustomModal";
@@ -11,10 +10,13 @@ import CustomInformationCard from "../../components/CustomInformationCard";
 import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
 import CoefficientHandler from "../../../core/CoefficientHandler";
 import AppData from "../../../core/AppData";
+import { useAppContext } from "../../../util/AppContext";
 
 
 // Settings page
 function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
+  const { theme } = useAppContext();
+  
   // Currently selected account
   const { currentAccount } = route.params;
 
@@ -29,25 +31,25 @@ function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigatio
       goBackFunction={() => navigation.pop()}
       children={(
         <View>
-          <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify'}]}>{currentAccount.accountType == "E" ? "Gérez comment MoyennesED choisit les coefficients de chacune de vos matières et de vos notes." : "Gérez comment sont choisis les coefficients des matières et des notes de vos enfants."}</Text>
+          <Text style={[theme.fonts.labelLarge, { textAlign: 'justify'}]}>{currentAccount.accountType == "E" ? "Gérez comment MoyennesED choisit les coefficients de chacune de vos matières et de vos notes." : "Gérez comment sont choisis les coefficients des matières et des notes de vos enfants."}</Text>
 
           <CustomInformationCard
             title={"Ajustage automatique"}
-            icon={<SparklesIcon size={20} color={DefaultTheme.colors.primary}/>}
+            icon={<SparklesIcon size={20} color={theme.colors.primary}/>}
             description={"Ces paramètres sont ajustés automatiquement, mais vous pouvez les activer / désactiver à tout moment."}
-            style={{ borderColor: DefaultTheme.colors.primary, marginTop: 20 }}
+            style={{ borderColor: theme.colors.primary, marginTop: 20 }}
           />
 
           {(currentAccount.accountType == "E" ? [currentAccount] : Object.values(currentAccount.children)).map(account => (
             <View key={account.id}>
               <CustomSection
                 title={`${account.firstName} ${account.lastName}`}
-                textStyle={DefaultTheme.fonts.bodyLarge}
+                textStyle={theme.fonts.bodyLarge}
                 textAreaStyle={{ height: 22 }}
               />
               <CustomSimpleInformationCard
                 content={"Devine coefficient notes"}
-                icon={<Wand2Icon size={20} color={DefaultTheme.colors.primary}/>}
+                icon={<Wand2Icon size={20} color={theme.colors.primary}/>}
                 rightIcon={(
                   <Switch
                     value={CoefficientHandler.guessMarkCoefficientEnabled[account.id]}
@@ -62,7 +64,7 @@ function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigatio
               />
               <CustomSimpleInformationCard
                 content={"Devine coefficient matières"}
-                icon={<Wand2Icon size={20} color={DefaultTheme.colors.primary}/>}
+                icon={<Wand2Icon size={20} color={theme.colors.primary}/>}
                 rightIcon={(
                   <Switch
                     value={CoefficientHandler.guessSubjectCoefficientEnabled[account.id]}
@@ -76,16 +78,16 @@ function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigatio
               />
               {CoefficientHandler.guessSubjectCoefficientEnabled[account.id] && (
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <CornerDownRightIcon size={30} color={DefaultTheme.colors.onSurface} style={{ marginRight: 5 }}/>
+                  <CornerDownRightIcon size={30} color={theme.colors.onSurface} style={{ marginRight: 5 }}/>
                   <CustomSimpleInformationCard
                     content={"Niveau"}
-                    icon={<UserRoundIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                    icon={<UserRoundIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
                     rightIcon={(
                       <CustomChooser
                         defaultItem={(
                           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={[DefaultTheme.fonts.labelLarge, { marginRight: 5 }]}>{CoefficientHandler.choosenProfiles[account.id] ?? "Choisir..."}</Text>
-                            <ChevronsUpDownIcon size={20} color={DefaultTheme.colors.onSurface}/>
+                            <Text style={[theme.fonts.labelLarge, { marginRight: 5 }]}>{CoefficientHandler.choosenProfiles[account.id] ?? "Choisir..."}</Text>
+                            <ChevronsUpDownIcon size={20} color={theme.colors.onSurface}/>
                           </View>
                         )}
                         selected={CoefficientHandler.choosenProfiles[account.id]}
@@ -109,8 +111,8 @@ function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigatio
             </View>
           ))}
 
-          <CustomSection title={"Plus d'infos"} textStyle={DefaultTheme.fonts.labelLarge} viewStyle={{ marginTop: 30 }}/>
-          <Text style={[DefaultTheme.fonts.labelLarge, { textAlign: 'justify' }]}>Dans le cas où un établissement ne fournit pas les coefficients des notes et des matières, MoyennesED essaiera de les deviner grâce à des mots clés. Cela devrait augmenter la précision des moyennes, mais vous pouvez toujours modifier manuellement les coefficients souhaités.</Text>
+          <CustomSection title={"Plus d'infos"} textStyle={theme.fonts.labelLarge} viewStyle={{ marginTop: 30 }}/>
+          <Text style={[theme.fonts.labelLarge, { textAlign: 'justify' }]}>Dans le cas où un établissement ne fournit pas les coefficients des notes et des matières, MoyennesED essaiera de les deviner grâce à des mots clés. Cela devrait augmenter la précision des moyennes, mais vous pouvez toujours modifier manuellement les coefficients souhaités.</Text>
           <View style={{ height: 100 }}/> 
         </View>
       )}

@@ -1,7 +1,8 @@
-import { View, Text, Dimensions } from "react-native";
-import { DefaultTheme } from "react-native-paper";
+import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { ArrowRightIcon } from "lucide-react-native";
+
+import { useAppContext } from "../../util/AppContext";
 
 
 // Custom information card
@@ -13,12 +14,14 @@ function CustomInformationCard({
   error=false,
   style,
 }) {
+  const { theme } = useAppContext();
+  
   return (
     <PressableScale onPress={onPress} activeScale={onPress ? 0.95 : 1} style={{
-      backgroundColor: DefaultTheme.colors.surface,
+      backgroundColor: theme.colors.surface,
       borderRadius: 10,
       borderWidth: 2,
-      borderColor: error ? DefaultTheme.colors.error : DefaultTheme.colors.surfaceOutline,
+      borderColor: error ? theme.colors.error : theme.colors.surfaceOutline,
       padding: 10,
       width: '100%',
       flexDirection: 'column',
@@ -31,11 +34,11 @@ function CustomInformationCard({
       }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {icon}
-          <Text style={[DefaultTheme.fonts.bodyMedium, { marginLeft: 10, height: 22 }]}>{title}</Text>
+          <Text style={[theme.fonts.bodyMedium, { marginLeft: 10, height: 22 }]}>{title}</Text>
         </View>
-        {onPress && <ArrowRightIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+        {onPress && <ArrowRightIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
       </View>
-      <Text style={[DefaultTheme.fonts.labelMedium, { marginTop: 5 }]}>{description}</Text>
+      <Text style={[theme.fonts.labelMedium, { marginTop: 5 }]}>{description}</Text>
     </PressableScale>
   );
 }

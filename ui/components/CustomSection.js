@@ -1,9 +1,12 @@
 import { View, Text } from "react-native";
-import { DefaultTheme } from "react-native-paper";
+
+import { useAppContext } from "../../util/AppContext";
 
 
 // Settings section
 function CustomSection({ title, rightIcon, marginTop=20, textAreaStyle={}, textStyle={}, lineStyle={}, viewStyle={} }) {
+  const { theme } = useAppContext();
+  
   return (
     <View style={{
       marginTop: marginTop,
@@ -16,24 +19,24 @@ function CustomSection({ title, rightIcon, marginTop=20, textAreaStyle={}, textS
         width: '100%',
         height: 2,
         borderRadius: 1,
-        backgroundColor: DefaultTheme.colors.surfaceOutline,
+        backgroundColor: theme.colors.surfaceOutline,
         ...lineStyle,
       }}/>
       <View style={{
         position: 'absolute',
         alignSelf: "center",
-        backgroundColor: DefaultTheme.colors.backdrop,
+        backgroundColor: theme.colors.backdrop,
         height: 20,
         paddingHorizontal: 10,
         ...textAreaStyle,
       }}>
-        <Text style={[DefaultTheme.fonts.labelMedium, textStyle]}>{title}</Text>
+        <Text style={[theme.fonts.labelMedium, textStyle]}>{title}</Text>
       </View>
       {rightIcon && (
         <View style={{
           position: 'absolute',
           right: 0,
-          backgroundColor: DefaultTheme.colors.backdrop,
+          backgroundColor: theme.colors.backdrop,
           paddingLeft: 10,
         }}>
           {rightIcon}

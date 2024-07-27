@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { View, Text, SafeAreaView, Dimensions, ScrollView, RefreshControl, Platform } from "react-native";
-import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
@@ -10,10 +9,13 @@ import CustomChooser from "../../components/CustomChooser";
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import HapticsHandler from "../../../core/HapticsHandler";
 import AppData from "../../../core/AppData";
+import { useAppContext } from "../../../util/AppContext";
 
 
 // Main page
 function MainPage({ refreshLogin, isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, route, navigation }) {
+  const { theme } = useAppContext();
+  
   // Connected main account (parent / student)
   const { newAccountID } = route.params; 
   const [currentAccount, setCurrentAccount] = useState({ "accountType": "E" });
@@ -46,14 +48,14 @@ function MainPage({ refreshLogin, isConnected, isConnecting, globalDisplayUpdate
       contentInsetAdjustmentBehavior="automatic"
       style={{
         height: '100%',
-        backgroundColor: DefaultTheme.colors.background,
+        backgroundColor: theme.colors.background,
         paddingTop: Platform.select({ ios: 0, android: 20 }),
       }}
       refreshControl={
         <RefreshControl refreshing={manualRefreshing} onRefresh={() => {
           setManualRefreshing(true);
           HapticsHandler.vibrate("light");
-        }} tintColor={DefaultTheme.colors.onBackground}/>
+        }} tintColor={theme.colors.onBackground}/>
       }
     >
       <SafeAreaView>
@@ -66,7 +68,7 @@ function MainPage({ refreshLogin, isConnected, isConnecting, globalDisplayUpdate
           marginHorizontal: 20,
         }}>
           <View style={{ flexDirection: 'column', width: Dimensions.get('window').width - 120 }}>
-            <Text style={[DefaultTheme.fonts.titleLarge, { fontSize: 22, height: 30 }]} numberOfLines={1}>Bonjour {currentAccount.firstName} !</Text>
+            <Text style={[theme.fonts.titleLarge, { fontSize: 22, height: 30 }]} numberOfLines={1}>Bonjour {currentAccount.firstName} !</Text>
             {currentAccount.id && <WelcomeMessage currentAccount={currentAccount}/>}
           </View>
 

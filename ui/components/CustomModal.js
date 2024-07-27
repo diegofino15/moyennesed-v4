@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { View, ScrollView, Text, Platform, Dimensions } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { DefaultTheme } from "react-native-paper";
 import { ChevronLeftIcon } from "lucide-react-native";
 import { BlurView } from "expo-blur";
 import Constants from "expo-constants";
+
+import { useAppContext } from "../../util/AppContext";
 
 
 // Custom modal
@@ -28,6 +29,8 @@ function CustomModal({
   setWidth=()=>{},
   setHeight=()=>{},
 }) {
+  const { theme } = useAppContext();
+  
   const [windowHeight, setWindowHeight] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
   const onLayout = (event) => {
@@ -47,20 +50,20 @@ function CustomModal({
 
   return (
     <View style={{
-      backgroundColor: DefaultTheme.colors.backdrop,
+      backgroundColor: theme.colors.backdrop,
       height: '100%',
       overflow: 'hidden',
     }} onLayout={onLayout}>
       <View style={{
         marginTop: Platform.select({ ios: 0, android: Constants.statusBarHeight }),
-        backgroundColor: DefaultTheme.colors.backdrop,
+        backgroundColor: theme.colors.backdrop,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
       }}>
         {/* Header space */}
         {(title || titleObject) && <View style={{
           borderBottomWidth: 2,
-          borderColor: DefaultTheme.colors.surfaceOutline,
+          borderColor: theme.colors.surfaceOutline,
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
           height: 67,
@@ -70,7 +73,7 @@ function CustomModal({
         {/* Main view */}
         {showScrollView ? (
           <ScrollView style={{
-            backgroundColor: DefaultTheme.colors.backdrop,
+            backgroundColor: theme.colors.backdrop,
             width: '100%',
             height: windowHeight - (title || titleObject ? 70 : 0),
             paddingVertical: 20,
@@ -78,7 +81,7 @@ function CustomModal({
             zIndex: 0,
             ...style,
           }} showsVerticalScrollIndicator={false}>
-            <View style={{ paddingHorizontal: horizontalPadding, backgroundColor: DefaultTheme.colors.backdrop }}>
+            <View style={{ paddingHorizontal: horizontalPadding, backgroundColor: theme.colors.backdrop }}>
               {children}
             </View>
             <View style={{ height: Platform.isPad ? 0 : 50 }}/> 
@@ -114,7 +117,7 @@ function CustomModal({
             ...(Platform.select({ ios: {}, android: headerStyle }))
           }} tint="light" intensity={Platform.select({ ios: 50, android: 0 })}>
             <View style={{ height: 45 }}/>
-            {titleObject ? titleObject : <Text style={[DefaultTheme.fonts.titleSmall, { height: 30, ...titleStyle }]}>{title}</Text>}
+            {titleObject ? titleObject : <Text style={[theme.fonts.titleSmall, { height: 30, ...titleStyle }]}>{title}</Text>}
           </BlurView>
           </View>
         )}
@@ -125,14 +128,14 @@ function CustomModal({
           left: 12,
           top: 12,
           borderWidth: 2,
-          borderColor: DefaultTheme.colors.surfaceOutline,
-          backgroundColor: DefaultTheme.colors.surface,
+          borderColor: theme.colors.surfaceOutline,
+          backgroundColor: theme.colors.surface,
           padding: 5,
           borderRadius: 10,
           zIndex: 1,
           ...goBackButtonStyle,
         }} onPress={goBackFunction}>
-          <ChevronLeftIcon size={30} color={DefaultTheme.colors.onSurface}/>
+          <ChevronLeftIcon size={30} color={theme.colors.onSurface}/>
         </PressableScale>}
 
         {/* Right icon */}
@@ -141,8 +144,8 @@ function CustomModal({
           right: 12,
           top: 12,
           borderWidth: 2,
-          borderColor: DefaultTheme.colors.surfaceOutline,
-          backgroundColor: DefaultTheme.colors.surface,
+          borderColor: theme.colors.surfaceOutline,
+          backgroundColor: theme.colors.surface,
           padding: 5,
           borderRadius: 10,
           zIndex: 1,

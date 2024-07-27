@@ -1,12 +1,15 @@
 import { View } from "react-native";
-import { DefaultTheme } from "react-native-paper";
+
+import { useAppContext } from "../../util/AppContext";
 
 
 // Custom text area
 function CustomTextArea({ children, style }) {
+  const { theme } = useAppContext();
+  
   return (
     <View style={{
-      backgroundColor: DefaultTheme.colors.surface,
+      backgroundColor: theme.colors.surface,
       paddingHorizontal: 20,
       paddingVertical: 15,
       borderRadius: 20,

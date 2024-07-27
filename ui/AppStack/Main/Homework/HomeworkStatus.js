@@ -1,20 +1,22 @@
 import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { ArrowRightIcon, HelpCircleIcon } from "lucide-react-native";
-import { DefaultTheme } from "react-native-paper";
 
 import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
+import { useAppContext } from "../../../../util/AppContext";
 
 
 // Homework status
 function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettingHomework, navigation }) {
+  const { theme } = useAppContext();
+
   return (
     <View style={{
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
       marginHorizontal: 20,
-      backgroundColor: DefaultTheme.colors.surface,
+      backgroundColor: theme.colors.surface,
       borderRadius: 10,
       padding: 10,
     }}>
@@ -22,9 +24,9 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
       <CustomAnimatedChangeableItem
         item={(
           <PressableScale style={{
-            backgroundColor: isGettingHomework ? DefaultTheme.colors.primaryLight : gotHomework ? DefaultTheme.colors.successLight : DefaultTheme.colors.errorLight,
+            backgroundColor: isGettingHomework ? theme.colors.primaryLight : gotHomework ? theme.colors.successLight : theme.colors.errorLight,
             borderWidth: 2,
-            borderColor: isGettingHomework ? DefaultTheme.colors.primary : gotHomework ? DefaultTheme.colors.success : DefaultTheme.colors.error,
+            borderColor: isGettingHomework ? theme.colors.primary : gotHomework ? theme.colors.success : theme.colors.error,
             borderRadius: 5,
             flexDirection: 'row',
             alignItems: 'center',
@@ -33,12 +35,12 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
             marginRight: 10,
           }} onPress={() => { if (!isGettingHomework) { navigation.navigate("HomeworkInformationPage", { accountID }); } }}>
             <Text style={[
-              DefaultTheme.fonts.labelMedium, {
-                color: isGettingHomework ? DefaultTheme.colors.primary : gotHomework ? DefaultTheme.colors.success : DefaultTheme.colors.error,
+              theme.fonts.labelMedium, {
+                color: isGettingHomework ? theme.colors.primary : gotHomework ? theme.colors.success : theme.colors.error,
                 marginRight: 5,
                 height: 22,
             }]}>{isGettingHomework ? "Chargement..." : gotHomework ? "À jour" : errorGettingHomework ? "Erreur" : "Pas à jour"}</Text>
-            {(!isGettingHomework) && <HelpCircleIcon size={20} color={gotHomework ? DefaultTheme.colors.success : DefaultTheme.colors.error}/>}
+            {(!isGettingHomework) && <HelpCircleIcon size={20} color={gotHomework ? theme.colors.success : theme.colors.error}/>}
           </PressableScale>
         )}
         animationTime={200}
@@ -53,14 +55,14 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
       <View style={{
         flexGrow: 1,
         height: 3,
-        backgroundColor: DefaultTheme.colors.surfaceOutline,
+        backgroundColor: theme.colors.surfaceOutline,
       }}/>
 
       {/* Homework */}
       <PressableScale style={{
-        backgroundColor: DefaultTheme.colors.background,
+        backgroundColor: theme.colors.background,
         borderWidth: 2,
-        borderColor: DefaultTheme.colors.surfaceOutline,
+        borderColor: theme.colors.surfaceOutline,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -70,8 +72,8 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
         paddingLeft: 10,
         paddingRight: 5,
       }} onPress={() => { navigation.navigate("HomeworksPage", { accountID }); }}>
-        <Text style={[DefaultTheme.fonts.labelMedium, { marginRight: 5, height: 22 }]}>Travail à faire</Text>
-        <ArrowRightIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+        <Text style={[theme.fonts.labelMedium, { marginRight: 5, height: 22 }]}>Travail à faire</Text>
+        <ArrowRightIcon size={20} color={theme.colors.onSurfaceDisabled}/>
       </PressableScale>
     </View>
   );

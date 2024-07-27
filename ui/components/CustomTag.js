@@ -1,10 +1,13 @@
 import { View, Text } from "react-native";
-import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
+
+import { useAppContext } from "../../util/AppContext";
 
 
 // Custom tag (used on mark cards)
 function CustomTag({ icon, title, color, onPress, secondaryTag, secondaryTagOnPress, secondaryTagStyle, textStyle, onBottom=false, onLeft=false, offset=10, shadow=false, style }) {
+  const { theme } = useAppContext();
+  
   return (
     <View style={{
       position: 'absolute',
@@ -42,7 +45,7 @@ function CustomTag({ icon, title, color, onPress, secondaryTag, secondaryTagOnPr
         ...style,
       }}>
         {icon}
-        <Text style={[DefaultTheme.fonts.labelMedium, {
+        <Text style={[theme.fonts.labelMedium, {
           color: 'white',
           marginLeft: icon ? 5 : 0,
           height: 22,

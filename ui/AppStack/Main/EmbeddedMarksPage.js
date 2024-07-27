@@ -1,8 +1,7 @@
 import { useEffect } from "react";
-import { Switch, Text, View } from "react-native";
-import { ArrowRightIcon, CornerDownRightIcon, InfoIcon, Wand2Icon, UserRoundIcon, ChevronsUpDownIcon, AlertTriangleIcon } from "lucide-react-native";
-import { DefaultTheme } from "react-native-paper";
 import useState from "react-usestateref";
+import { Text, View } from "react-native";
+import { CornerDownRightIcon, InfoIcon, Wand2Icon, UserRoundIcon, ChevronsUpDownIcon, AlertTriangleIcon } from "lucide-react-native";
 
 import ChildChooser from "./ChildChooser";
 import MarksOverview from "./MarksOverview/MarksOverview";
@@ -13,9 +12,9 @@ import HomeworkStatus from "./Homework/HomeworkStatus";
 import CustomSection from "../../components/CustomSection";
 import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
 import CoefficientHandler from "../../../core/CoefficientHandler";
-import CustomLink from "../../components/CustomLink";
 import CustomChooser from "../../components/CustomChooser";
 import { PressableScale } from "react-native-pressable-scale";
+import { useAppContext } from "../../../util/AppContext";
 
 
 // Embedded mark page
@@ -30,6 +29,8 @@ function EmbeddedMarksPage({
   updateGlobalDisplay,
   navigation,
 }) {
+  const { theme } = useAppContext();
+  
   // Select a student account to get marks from
   const [showMarksAccount, setShowMarksAccount] = useState({});
   useEffect(() => {
@@ -123,9 +124,9 @@ function EmbeddedMarksPage({
       {showGuessParametersWarning[showMarksAccount.id] && (
         <View style={{ marginHorizontal: 20, marginBottom: 20 }}>
           <PressableScale style={{
-            backgroundColor: DefaultTheme.colors.surface,
+            backgroundColor: theme.colors.surface,
             borderWidth: 2,
-            borderColor: DefaultTheme.colors.surfaceOutline,
+            borderColor: theme.colors.surfaceOutline,
             paddingHorizontal: 15,
             paddingVertical: 10,
             borderRadius: 10,
@@ -134,13 +135,13 @@ function EmbeddedMarksPage({
             justifyContent: 'space-between',
           }} onPress={() => navigation.navigate('SettingsStack', { openCoefficientsPage: true })}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Wand2Icon size={20} color={DefaultTheme.colors.primary} style={{ marginRight: 10 }}/>
-              <Text style={DefaultTheme.fonts.bodyLarge}>Paramètres ajustés !</Text>
+              <Wand2Icon size={20} color={theme.colors.primary} style={{ marginRight: 10 }}/>
+              <Text style={theme.fonts.bodyLarge}>Paramètres ajustés !</Text>
             </View>
-            <InfoIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+            <InfoIcon size={20} color={theme.colors.onSurfaceDisabled}/>
 
             {/* Alert badge */}
-            <AlertTriangleIcon size={30} color={DefaultTheme.colors.error} style={{
+            <AlertTriangleIcon size={30} color={theme.colors.error} style={{
               position: 'absolute',
               top: -15,
               right: -10,
@@ -152,16 +153,16 @@ function EmbeddedMarksPage({
           </PressableScale>
           {CoefficientHandler.guessSubjectCoefficientEnabled[showMarksAccount.id] && (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <CornerDownRightIcon size={30} color={DefaultTheme.colors.onSurface} style={{ marginRight: 5 }}/>
+              <CornerDownRightIcon size={30} color={theme.colors.onSurface} style={{ marginRight: 5 }}/>
               <CustomSimpleInformationCard
                 content={"Vous êtes au..."}
-                icon={<UserRoundIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                icon={<UserRoundIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
                 rightIcon={(
                   <CustomChooser
                     defaultItem={(
                       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={[DefaultTheme.fonts.labelLarge, { marginRight: 5 }]}>{CoefficientHandler.choosenProfiles[showMarksAccount.id] ?? "Choisir..."}</Text>
-                        <ChevronsUpDownIcon size={20} color={DefaultTheme.colors.onSurface}/>
+                        <Text style={[theme.fonts.labelLarge, { marginRight: 5 }]}>{CoefficientHandler.choosenProfiles[showMarksAccount.id] ?? "Choisir..."}</Text>
+                        <ChevronsUpDownIcon size={20} color={theme.colors.onSurface}/>
                       </View>
                     )}
                     selected={CoefficientHandler.choosenProfiles[showMarksAccount.id]}
@@ -185,12 +186,12 @@ function EmbeddedMarksPage({
           {/* <CustomSection
             title={"Paramètres automatiques"}
             viewStyle={{ marginTop: 0 }}
-            textAreaStyle={{ backgroundColor: DefaultTheme.colors.background }}
+            textAreaStyle={{ backgroundColor: theme.colors.background }}
           />
 
           <CustomSimpleInformationCard
             content={"Devine coefficient matières"}
-            icon={<Wand2Icon size={20} color={DefaultTheme.colors.primary}/>}
+            icon={<Wand2Icon size={20} color={theme.colors.primary}/>}
             rightIcon={(
               <Switch
                 value={CoefficientHandler.guessSubjectCoefficientEnabled[showMarksAccount.id]}
@@ -204,16 +205,16 @@ function EmbeddedMarksPage({
           />
           {CoefficientHandler.guessSubjectCoefficientEnabled[showMarksAccount.id] && (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <CornerDownRightIcon size={30} color={DefaultTheme.colors.onSurface} style={{ marginRight: 5 }}/>
+              <CornerDownRightIcon size={30} color={theme.colors.onSurface} style={{ marginRight: 5 }}/>
               <CustomSimpleInformationCard
                 content={"Niveau"}
-                icon={<UserRoundIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                icon={<UserRoundIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
                 rightIcon={(
                   <CustomChooser
                     defaultItem={(
                       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={[DefaultTheme.fonts.labelLarge, { marginRight: 5 }]}>{CoefficientHandler.choosenProfiles[showMarksAccount.id] ?? "Choisir..."}</Text>
-                        <ChevronsUpDownIcon size={20} color={DefaultTheme.colors.onSurface}/>
+                        <Text style={[theme.fonts.labelLarge, { marginRight: 5 }]}>{CoefficientHandler.choosenProfiles[showMarksAccount.id] ?? "Choisir..."}</Text>
+                        <ChevronsUpDownIcon size={20} color={theme.colors.onSurface}/>
                       </View>
                     )}
                     selected={CoefficientHandler.choosenProfiles[showMarksAccount.id]}
@@ -236,8 +237,8 @@ function EmbeddedMarksPage({
           )}
           <CustomLink
             title={"Plus d'infos"}
-            icon={<InfoIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
-            linkIcon={<ArrowRightIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+            icon={<InfoIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
+            linkIcon={<ArrowRightIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
             onPress={() => navigation.navigate('SettingsStack', { openCoefficientsPage: true })}
             style={{ marginTop: 10 }}
           />
@@ -262,7 +263,7 @@ function EmbeddedMarksPage({
             title={"Devoirs & Contrôles"}
             viewStyle={{ marginHorizontal: 20 }}
             marginTop={10}
-            textAreaStyle={{ backgroundColor: DefaultTheme.colors.background }}
+            textAreaStyle={{ backgroundColor: theme.colors.background }}
           />
           <HomeworkStatus
             accountID={showMarksAccount.id}
@@ -278,7 +279,7 @@ function EmbeddedMarksPage({
         title={"Matières"}
         viewStyle={{ marginHorizontal: 20, top: 15 }}
         marginTop={10}
-        textAreaStyle={{ backgroundColor: DefaultTheme.colors.background }}
+        textAreaStyle={{ backgroundColor: theme.colors.background }}
       />
       <SubjectsOverview
         accountID={showMarksAccount.id}

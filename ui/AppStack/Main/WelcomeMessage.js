@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { Platform } from "react-native";
-import { DefaultTheme } from "react-native-paper";
 
 import AppData from "../../../core/AppData";
 import CustomChangingText from "../../components/CustomChangingText";
+import { useAppContext } from "../../../util/AppContext";
 
 
 // Welcome message
 function WelcomeMessage({ currentAccount }) {
+  const { theme } = useAppContext();
+  
   // Get random message
   const [welcomeMessage, setWelcomeMessage] = useState("");
   async function getWelcomeMessage() {
@@ -63,7 +65,7 @@ function WelcomeMessage({ currentAccount }) {
       }}
       refreshRate={30 * 1000}
       animationTime={500}
-      style={DefaultTheme.fonts.labelMedium}
+      style={theme.fonts.labelMedium}
       nof={2}
     />
   );

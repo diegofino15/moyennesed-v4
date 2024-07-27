@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
-import { DefaultTheme } from "react-native-paper";
 import { CheckCircleIcon, CircleIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -16,7 +15,7 @@ import HapticsHandler from "../../core/HapticsHandler";
 // Choose account page
 function ChooseAccountPage({ navigation }) {
   // Show AppStack once logged-in
-  const appContext = useAppContext();
+  const { theme, setIsLoggedIn } = useAppContext();
   
   // Get connected accounts from local storage
   const [accounts, setAccounts] = useState({});
@@ -32,7 +31,7 @@ function ChooseAccountPage({ navigation }) {
     HapticsHandler.vibrate('light');
     await AppData.saveSelectedAccount(Object.keys(accounts)[selectedAccount]);
     navigation.popToTop();
-    appContext.setIsLoggedIn(true);
+    setIsLoggedIn(true);
   }
 
   return (
@@ -41,8 +40,8 @@ function ChooseAccountPage({ navigation }) {
       children={(
         <View>
           {/* Choose account */}
-          <Text style={[DefaultTheme.fonts.labelMedium, { marginBottom: 10 }]}>Plusieurs comptes ont été détectés, choisissez lequel connecter.</Text>
-          <Text style={[DefaultTheme.fonts.labelMedium, { marginBottom: 10 }]}>Vous pourrez changer de compte à tout moment dans les paramètres.</Text>
+          <Text style={[theme.fonts.labelMedium, { marginBottom: 10 }]}>Plusieurs comptes ont été détectés, choisissez lequel connecter.</Text>
+          <Text style={[theme.fonts.labelMedium, { marginBottom: 10 }]}>Vous pourrez changer de compte à tout moment dans les paramètres.</Text>
           
           {/* List connected accounts */}
           {Object.values(accounts).map((account, index) => <CustomSectionButton
@@ -58,21 +57,21 @@ function ChooseAccountPage({ navigation }) {
                 top: 10,
               }}>
                 {index === selectedAccount ? (
-                  <CheckCircleIcon size={20} color={DefaultTheme.colors.primary}/>
+                  <CheckCircleIcon size={20} color={theme.colors.primary}/>
                 ) : (
-                  <CircleIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                  <CircleIcon size={20} color={theme.colors.onSurfaceDisabled}/>
                 )}
               </View>
             )}
             wrapperStyle={{ marginTop: 10 }}
             style={{
-              borderColor: index === selectedAccount ? DefaultTheme.colors.primary : DefaultTheme.colors.surfaceOutline,
+              borderColor: index === selectedAccount ? theme.colors.primary : theme.colors.surfaceOutline,
             }}
           />)}
 
           {/* Confirm selection */}
           <CustomButton
-            title={<Text style={DefaultTheme.fonts.bodyLarge}>Confirmer</Text>}
+            title={<Text style={theme.fonts.bodyLarge}>Confirmer</Text>}
             onPress={confirmSelection}
             style={{ marginTop: 20 }}
           />

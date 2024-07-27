@@ -1,20 +1,22 @@
 import { View, Text, ActivityIndicator } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { MoreHorizontalIcon, XIcon, RefreshCcwIcon, UserCheckIcon } from "lucide-react-native";
-import { DefaultTheme } from "react-native-paper";
 import { useEffect, useState } from "react";
 
 import HapticsHandler from "../../../core/HapticsHandler";
+import { useAppContext } from "../../../util/AppContext";
 
 
 // Login status
 function LoginStatus({ isConnected, isConnecting, refreshLogin, style, windowWidth }) {
-  const [color, setColor] = useState(DefaultTheme.colors.primary);
-  const [lightColor, setLightColor] = useState(DefaultTheme.colors.primaryLight);
+  const { theme } = useAppContext();
+  
+  const [color, setColor] = useState(theme.colors.primary);
+  const [lightColor, setLightColor] = useState(theme.colors.primaryLight);
   useEffect(() => {
-    setColor(isConnected ? DefaultTheme.colors.success : isConnecting ? DefaultTheme.colors.primary : DefaultTheme.colors.error);
-    setLightColor(isConnected ? DefaultTheme.colors.successLight : isConnecting ? DefaultTheme.colors.primaryLight : DefaultTheme.colors.errorLight);
-  }, [isConnected, isConnecting]);
+    setColor(isConnected ? theme.colors.success : isConnecting ? theme.colors.primary : theme.colors.error);
+    setLightColor(isConnected ? theme.colors.successLight : isConnecting ? theme.colors.primaryLight : theme.colors.errorLight);
+  }, [isConnected, isConnecting, theme.dark]);
   
   return (
     <View style={{
@@ -45,7 +47,7 @@ function LoginStatus({ isConnected, isConnecting, refreshLogin, style, windowWid
           ) : (
             <XIcon size={20} color={color}/>
           )}
-          <Text style={[DefaultTheme.fonts.bodyLarge, {
+          <Text style={[theme.fonts.bodyLarge, {
             marginLeft: 10,
             color: color,
 
@@ -65,9 +67,9 @@ function LoginStatus({ isConnected, isConnecting, refreshLogin, style, windowWid
         alignItems: 'center',
       }}>
         {isConnecting ? (
-          <ActivityIndicator size={25} color={DefaultTheme.colors.onPrimary}/>
+          <ActivityIndicator size={25} color={theme.colors.onPrimary}/>
         ) : (
-          <RefreshCcwIcon size={25} color={DefaultTheme.colors.onPrimary}/>
+          <RefreshCcwIcon size={25} color={theme.colors.onPrimary}/>
         )}
       </PressableScale>
     </View>

@@ -1,14 +1,16 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
 import { View, Dimensions, Platform } from "react-native";
-import { DefaultTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import HomeworkDay from "./HomeworkDay";
 import CustomModal from "../../../components/CustomModal";
+import { useAppContext } from "../../../../util/AppContext";
 
 // Exam page
 function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, navigation, route }) {
+  const { theme } = useAppContext();
+  
   const {
     accountID,
     subjectTitle,
@@ -44,11 +46,11 @@ function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, navigation,
       goBackFunction={() => navigation.pop()}
       onlyShowBackButtonOnAndroid
       goBackButtonStyle={{ opacity: 0.6 }}
-      headerStyle={{ backgroundColor: DefaultTheme.colors.error }}
+      headerStyle={{ backgroundColor: theme.colors.error }}
       horizontalPadding={10}
       setWidth={setWindowWidth}
       children={(
-        <View style={{ backgroundColor: DefaultTheme.colors.backdrop }}>
+        <View style={{ backgroundColor: theme.colors.backdrop }}>
           {Object.keys(abstractExams).map(day => (
             <View key={day} style={{
               marginBottom: 50,

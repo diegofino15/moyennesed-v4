@@ -4,10 +4,10 @@ import { BlurView } from "expo-blur";
 import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PressableScale } from "react-native-pressable-scale";
-import { DefaultTheme } from "react-native-paper";
 import { XIcon } from "lucide-react-native";
 
 import CustomSection from "./CustomSection";
+import { useAppContext } from "../../util/AppContext";
 
 
 // Animated card
@@ -59,6 +59,8 @@ function CustomConfirmModal({
   children,
   specialTip,
 }) {
+  const { theme } = useAppContext();
+  
   return (
     <Modal
       visible={visible}
@@ -87,8 +89,8 @@ function CustomConfirmModal({
                   <CustomSection title={"Astuce"} textAreaStyle={{
                     borderRadius: 5,
                     borderWidth: 2,
-                    borderColor: DefaultTheme.colors.surfaceOutline,
-                    backgroundColor: DefaultTheme.colors.surface,
+                    borderColor: theme.colors.surfaceOutline,
+                    backgroundColor: theme.colors.surface,
                     top: -1,
                     height: 'auto',
                   }} marginTop={0}/>
@@ -110,8 +112,8 @@ function CustomConfirmModal({
             child={(
               <PressableScale key={1} style={{
                 borderWidth: 2,
-                borderColor: DefaultTheme.colors.surfaceOutline,
-                backgroundColor: DefaultTheme.colors.surface,
+                borderColor: theme.colors.surfaceOutline,
+                backgroundColor: theme.colors.surface,
                 borderRadius: 10,
                 padding: 5,
                 width: 35,
@@ -121,7 +123,7 @@ function CustomConfirmModal({
                 marginBottom: 5,
                 left: Dimensions.get('window').width - 75,
               }} onPress={exitModal}>
-                <XIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                <XIcon size={20} color={theme.colors.onSurfaceDisabled}/>
               </PressableScale>
             )}
           />

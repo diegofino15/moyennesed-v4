@@ -1,13 +1,16 @@
 import { View } from "react-native";
-import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
+
+import { useAppContext } from "../../util/AppContext";
 
 
 // Custom button
 function CustomButton({ title, onPress, rightIcon, style }) {
+  const { theme } = useAppContext();
+  
   return (
     <PressableScale style={{
-      backgroundColor: DefaultTheme.colors.primary,
+      backgroundColor: theme.colors.primary,
       borderRadius: 20,
       padding: 15,
       flexDirection: 'row',

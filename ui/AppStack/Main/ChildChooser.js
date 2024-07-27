@@ -1,14 +1,16 @@
 import { View, Text, FlatList } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { DefaultTheme } from "react-native-paper";
 
 import CustomSeparator from "../../components/CustomSeparator";
 import HapticsHandler from "../../../core/HapticsHandler";
 import AppData from "../../../core/AppData";
+import { useAppContext } from "../../../util/AppContext";
 
 
 // Child chooser
 function ChildChooser({ mainAccount, showMarksAccount, setShowMarksAccount }) {
+  const { theme } = useAppContext();
+  
   return (
     <View style={{
       marginBottom: 20,
@@ -37,12 +39,12 @@ function ChildChooser({ mainAccount, showMarksAccount, setShowMarksAccount }) {
               <View style={{
                 paddingHorizontal: 20,
                 paddingVertical: 10,
-                backgroundColor: showMarksAccount.id == item ? DefaultTheme.colors.primary : DefaultTheme.colors.background,
+                backgroundColor: showMarksAccount.id == item ? theme.colors.primary : theme.colors.background,
                 borderRadius: 10,
               }}>
                 <Text style={[
-                  DefaultTheme.fonts.labelLarge,
-                  { color: showMarksAccount.id == item ? DefaultTheme.colors.onPrimary : DefaultTheme.colors.onSurfaceDisabled, height: 25 }
+                  theme.fonts.labelLarge,
+                  { color: showMarksAccount.id == item ? theme.colors.onPrimary : theme.colors.onSurfaceDisabled, height: 25 }
                 ]}>{childAccount.firstName}</Text>
               </View>
             </PressableScale>

@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { View, Text, Dimensions, ScrollView, Platform } from "react-native";
-import { DefaultTheme } from "react-native-paper";
 import { ArrowDownUpIcon, CornerDownRightIcon, SchoolIcon, GraduationCapIcon, UserRoundCogIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { LinearGradient } from "expo-linear-gradient";
@@ -23,6 +22,8 @@ import HapticsHandler from "../../../../core/HapticsHandler";
 
 // Profile settings page
 function ProfilePage({ route, navigation }) {
+  const { theme, setIsLoggedIn, setIsAutoTheme } = useAppContext();
+  
   // Currently selected account
   const { currentAccount } = route.params;
 
@@ -43,13 +44,14 @@ function ProfilePage({ route, navigation }) {
   }
 
   // Disconnect
-  const appContext = useAppContext();
   const [isDisconnecting, setIsDisconnecting] = useState(false);
   async function disconnect() {
+    setIsAutoTheme(true);
+    
     await AppData.eraseData();
     setIsDisconnecting(false);
     navigation.navigate("MainPage", { newAccountID: 0 });
-    appContext.setIsLoggedIn(false);
+    setIsLoggedIn(false);
     console.log("Logged out !");
     HapticsHandler.vibrate("light");
   }
@@ -65,7 +67,7 @@ function ProfilePage({ route, navigation }) {
       setWidth={setWindowWidth}
       children={(
         <View style={{
-          backgroundColor: DefaultTheme.colors.backdrop,
+          backgroundColor: theme.colors.backdrop,
           height: '100%',
         }}>
           {/* Blurred background */}
@@ -98,23 +100,23 @@ function ProfilePage({ route, navigation }) {
                   paddingHorizontal: 10,
                   paddingVertical: 5,
                 }}>
-                  <Text style={[DefaultTheme.fonts.bodyMedium, { height: 22 }]}>ID - {currentAccount.id}</Text>
+                  <Text style={[theme.fonts.bodyMedium, { height: 22 }]}>ID - {currentAccount.id}</Text>
                 </BlurView>
               </PressableScale>
 
               {/* Name */}
               <View style={{ position: 'absolute', bottom: 20, width: '80%', alignSelf: 'center' }}>
-                <Text style={[DefaultTheme.fonts.titleMedium, { alignSelf: 'center', textAlign: 'center' }]}>{currentAccount.firstName} {currentAccount.lastName}</Text>
-                <Text style={[DefaultTheme.fonts.labelLarge, { alignSelf: 'center', textAlign: 'center' }]}>{currentAccount.accountType == "E" ? currentAccount.grade : "Compte parent"}</Text>
+                <Text style={[theme.fonts.titleMedium, { alignSelf: 'center', textAlign: 'center' }]}>{currentAccount.firstName} {currentAccount.lastName}</Text>
+                <Text style={[theme.fonts.labelLarge, { alignSelf: 'center', textAlign: 'center' }]}>{currentAccount.accountType == "E" ? currentAccount.grade : "Compte parent"}</Text>
               </View>
             </LinearGradient>
 
             <View style={{ backgroundColor: 'black' }}>
               <View style={{
-                backgroundColor: DefaultTheme.colors.backdrop,
+                backgroundColor: theme.colors.backdrop,
                 padding: 20,
                 borderWidth: 2,
-                borderColor: DefaultTheme.colors.surfaceOutline,
+                borderColor: theme.colors.surfaceOutline,
                 borderRadius: 20,
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
@@ -125,7 +127,7 @@ function ProfilePage({ route, navigation }) {
                 {/* Informations */}
                 {currentAccount.accountType == "E" && (
                   <CustomSimpleInformationCard
-                    icon={<GraduationCapIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                    icon={<GraduationCapIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
                     content={currentAccount.grade}
                     style={{ marginBottom: 10 }}
                   />
@@ -134,9 +136,9 @@ function ProfilePage({ route, navigation }) {
                 {/* Show children for parent accounts */}
                 <CustomSimpleInformationCard
                   icon={currentAccount.accountType == "E" ? (
-                    <SchoolIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                    <SchoolIcon size={25} color={theme.colors.onSurfaceDisabled}/>
                   ) : (
-                    <UserRoundCogIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                    <UserRoundCogIcon size={25} color={theme.colors.onSurfaceDisabled}/>
                   )}
                   content={currentAccount.accountType == "E" ? currentAccount.school : "Élèves associés"}
                 />
@@ -148,10 +150,10 @@ function ProfilePage({ route, navigation }) {
                       alignItems: 'center',
                       marginTop: 10,
                     }}>
-                      <CornerDownRightIcon size={30} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                      <CornerDownRightIcon size={30} color={theme.colors.onSurfaceDisabled}/>
                       <CustomProfilePhoto accountID={childID} size={60} style={{ marginLeft: 10, borderWidth: 0 }}/>
                       <View style={{
-                        backgroundColor: DefaultTheme.colors.surface,
+                        backgroundColor: theme.colors.surface,
                         borderRadius: 10,
                         paddingHorizontal: 15,
                         marginLeft: 10,
@@ -159,8 +161,8 @@ function ProfilePage({ route, navigation }) {
                         height: 60,
                         justifyContent: 'center',
                       }}>
-                        <Text style={[DefaultTheme.fonts.bodyMedium, { height: 20 }]} numberOfLines={1}>{child.firstName} {child.lastName}</Text>
-                        <Text style={DefaultTheme.fonts.labelMedium}>{child.grade}</Text>
+                        <Text style={[theme.fonts.bodyMedium, { height: 20 }]} numberOfLines={1}>{child.firstName} {child.lastName}</Text>
+                        <Text style={theme.fonts.labelMedium}>{child.grade}</Text>
                       </View>
                     </View>
                   );
@@ -172,7 +174,7 @@ function ProfilePage({ route, navigation }) {
                   <CustomInformationCard
                     title={"Changer de compte"}
                     description={"Plusieurs comptes ont été détectés, cliquez ici pour changer."}
-                    icon={<ArrowDownUpIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                    icon={<ArrowDownUpIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
                     onPress={() => setIsSwitchingAccount(true)}
                   />
                 </View>}
@@ -180,12 +182,12 @@ function ProfilePage({ route, navigation }) {
                 {/* Destructive actions */}
                 <CustomSection title={"Danger zone"}/>
                 <CustomButton
-                  title={<Text style={[DefaultTheme.fonts.bodyLarge, { color: DefaultTheme.colors.error, height: 25 }]}>Se déconnecter</Text>}
+                  title={<Text style={[theme.fonts.bodyLarge, { color: theme.colors.error, height: 25 }]}>Se déconnecter</Text>}
                   onPress={() => setIsDisconnecting(true)}
                   style={{
-                    backgroundColor: DefaultTheme.colors.errorLight,
+                    backgroundColor: theme.colors.errorLight,
                     borderWidth: 2,
-                    borderColor: DefaultTheme.colors.error,
+                    borderColor: theme.colors.error,
                     paddingVertical: 10,
                   }}
                 />

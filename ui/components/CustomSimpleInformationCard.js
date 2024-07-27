@@ -1,12 +1,15 @@
 import { View, Text } from "react-native";
-import { DefaultTheme } from "react-native-paper";
+
+import { useAppContext } from "../../util/AppContext";
 
 
 // Custom little information card
 function CustomSimpleInformationCard({ icon, rightIcon, content, style, textStyle, nof, subtitle=null }) {
+  const { theme } = useAppContext();
+  
   return (
     <View style={{
-      backgroundColor: DefaultTheme.colors.surface,
+      backgroundColor: theme.colors.surface,
       borderRadius: 10,
       padding: 10,
       overflow: 'hidden',
@@ -22,12 +25,12 @@ function CustomSimpleInformationCard({ icon, rightIcon, content, style, textStyl
           alignItems: 'center',
         }}>
           {icon}
-          <Text style={[DefaultTheme.fonts.bodyLarge, { marginLeft: 10, ...textStyle }]} numberOfLines={nof}>{content}</Text>
+          <Text style={[theme.fonts.bodyLarge, { marginLeft: 10, ...textStyle }]} numberOfLines={nof}>{content}</Text>
         </View>
         {rightIcon}
       </View>
       {subtitle ? (
-        <Text style={[DefaultTheme.fonts.labelMedium, { marginTop: 5, textAlign: 'justify' }]}>{subtitle}</Text>
+        <Text style={[theme.fonts.labelMedium, { marginTop: 5, textAlign: 'justify' }]}>{subtitle}</Text>
       ) : null}
     </View>
   );

@@ -2,16 +2,18 @@ import { useEffect } from "react";
 import useState from "react-usestateref";
 import { ActivityIndicator, Text, View } from "react-native";
 import { AlertTriangleIcon, RefreshCcwIcon } from "lucide-react-native";
-import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
 
 import HomeworkCard from "./HomeworkCard";
 import { formatDate2, formatDate3 } from "../../../../util/Utils";
 import AppData from "../../../../core/AppData";
+import { useAppContext } from "../../../../util/AppContext";
 
 
 // Homework day
 function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAtDisplay=false, canLoad=true, windowWidth }) {
+  const { theme } = useAppContext();
+  
   const [manualRefreshing, setManualRefreshing] = useState(false);
 
   const [gettingSpecificHomeworks, setGettingSpecificHomeworks] = useState(false);
@@ -54,7 +56,7 @@ function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAt
       paddingTop: 10,
       paddingBottom: 0,
       width: windowWidth - 20,
-      backgroundColor: DefaultTheme.colors.surface,
+      backgroundColor: theme.colors.surface,
       borderRadius: 10,
     }}>
       <View style={{
@@ -69,21 +71,21 @@ function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAt
           paddingVertical: 5,
           borderTopRightRadius: 10,
           borderBottomRightRadius: 10,
-          backgroundColor: DefaultTheme.colors.primaryLight,
+          backgroundColor: theme.colors.primaryLight,
           left: -10,
         }}>
-          <Text style={[DefaultTheme.fonts.labelLarge, { color: DefaultTheme.colors.primary, height: 25 }]}>{
+          <Text style={[theme.fonts.labelLarge, { color: theme.colors.primary, height: 25 }]}>{
             formatDate2(day, true)
           }</Text>
         </View>
         
         <PressableScale onPress={() => { if (!gettingSpecificHomeworks) { setManualRefreshing(true); } }}>
           {gettingSpecificHomeworks || manualRefreshing ? (
-            <ActivityIndicator size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
+            <ActivityIndicator size={25} color={theme.colors.onSurfaceDisabled}/>
           ) : errorGettingSpecificHomeworks ? (
-            <AlertTriangleIcon size={25} color={DefaultTheme.colors.error}/>
+            <AlertTriangleIcon size={25} color={theme.colors.error}/>
           ) : !waitingToLoad && (
-            <RefreshCcwIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>
+            <RefreshCcwIcon size={25} color={theme.colors.onSurfaceDisabled}/>
           )}
         </PressableScale>
       </View>

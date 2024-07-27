@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, Text, Platform, Dimensions, Switch } from "react-native";
-import { DefaultTheme } from "react-native-paper";
 import { PressableScale } from "react-native-pressable-scale";
-import { ArchiveIcon, CalendarIcon,LandPlotIcon, MegaphoneIcon, MegaphoneOffIcon, MinusIcon, PlusIcon, TrashIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
+import { CalendarIcon,LandPlotIcon, MegaphoneIcon, MegaphoneOffIcon, MinusIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomModal from "../../../components/CustomModal";
@@ -13,10 +12,13 @@ import { asyncExpectedResult, formatAverage, formatDate2, formatMark } from "../
 import CoefficientHandler from "../../../../core/CoefficientHandler";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import AppData from "../../../../core/AppData";
+import { useAppContext } from "../../../../util/AppContext";
 
 
 // Mark page
 function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
+  const { theme } = useAppContext();
+  
   const { accountID, cacheMark } = route.params;
 
   // Auto-refresh info
@@ -90,7 +92,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
       setWidth={setWindowWidth}
       title={"Détails de la note"}
       children={(
-        <View style={{ backgroundColor: DefaultTheme.colors.backdrop }}>
+        <View style={{ backgroundColor: theme.colors.backdrop }}>
           {/* Top portion */}
           <View>
             {/* Mark value */}
@@ -103,11 +105,11 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
               marginBottom: 10,
             }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={[DefaultTheme.fonts.headlineLarge, {
+                <Text style={[theme.fonts.headlineLarge, {
                   fontSize: 45,
                 }]}>{mark.valueStr ? mark.valueStr : "--"}</Text>
-                <Text style={[DefaultTheme.fonts.headlineMedium, {
-                  color: DefaultTheme.colors.onSurfaceDisabled,
+                <Text style={[theme.fonts.headlineMedium, {
+                  color: theme.colors.onSurfaceDisabled,
                   bottom: -15,
                 }]}>{mark.valueOn ? `/${mark.valueOn}`.replace(".", ",") : "/--"}</Text>
               </View>
@@ -131,7 +133,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
                   alignItems: "center",
                 }}>
                   <Users2Icon size={20} color={"black"}/>
-                  <Text style={[DefaultTheme.fonts.headlineMedium, {
+                  <Text style={[theme.fonts.headlineMedium, {
                     color: "black",
                     fontSize: 17,
                     height: 22,
@@ -145,11 +147,11 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
           {/* Actual page */}
           <View style={{
             marginTop: 10,
-            backgroundColor: DefaultTheme.colors.backdrop,
+            backgroundColor: theme.colors.backdrop,
             padding: 20,
             paddingTop: 0,
             borderWidth: 2,
-            borderColor: DefaultTheme.colors.surfaceOutline,
+            borderColor: theme.colors.surfaceOutline,
             borderRadius: 20,
             borderBottomLeftRadius: 0,
             borderBottomRightRadius: 0,
@@ -157,7 +159,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
             width: windowWidth + 4,
             left: -22,
           }}>
-            <Text style={[DefaultTheme.fonts.bodyLarge, {
+            <Text style={[theme.fonts.bodyLarge, {
               color: 'black',
               backgroundColor: dark,
               paddingHorizontal: 20,
@@ -191,11 +193,11 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
             marginTop={0}
           />
           <CustomSimpleInformationCard
-            icon={<CalendarIcon size={25} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+            icon={<CalendarIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
             content={"Date"}
             rightIcon={(
-              <Text style={[DefaultTheme.fonts.bodyLarge, {
-                color: DefaultTheme.colors.onSurfaceDisabled,
+              <Text style={[theme.fonts.bodyLarge, {
+                color: theme.colors.onSurfaceDisabled,
               }]}>{formatDate2(mark.date)}</Text>
             )}
           />
@@ -211,7 +213,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
                   key={competence.id}
                   content={competence.title}
                   subtitle={competence.description}
-                  icon={<LandPlotIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>}
+                  icon={<LandPlotIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
                   textStyle={{ width: windowWidth - 90 }}
                   style={{ marginBottom: 10 }}
                 />
@@ -230,19 +232,19 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
               <CustomSimpleInformationCard
                 content={"Sous-matière"}
                 icon={mark.subSubjectAverageInfluence > 0 ? (
-                  <TrendingUpIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                  <TrendingUpIcon size={20} color={theme.colors.onSurfaceDisabled}/>
                 ) : (
-                  <TrendingDownIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                  <TrendingDownIcon size={20} color={theme.colors.onSurfaceDisabled}/>
                 )}
                 rightIcon={(
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     {mark.subSubjectAverageInfluence > 0 ? (
-                      <PlusIcon size={20} color={DefaultTheme.colors.success}/>
+                      <PlusIcon size={20} color={theme.colors.success}/>
                     ) : (
-                      <MinusIcon size={20} color={DefaultTheme.colors.error}/>
+                      <MinusIcon size={20} color={theme.colors.error}/>
                     )}
-                    <Text style={[DefaultTheme.fonts.headlineMedium, {
-                      color: mark.subSubjectAverageInfluence > 0 ? DefaultTheme.colors.success : DefaultTheme.colors.error,
+                    <Text style={[theme.fonts.headlineMedium, {
+                      color: mark.subSubjectAverageInfluence > 0 ? theme.colors.success : theme.colors.error,
                     }]}>{formatAverage(Math.abs(mark.subSubjectAverageInfluence))}</Text>
                   </View>
                 )}
@@ -253,19 +255,19 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
               <CustomSimpleInformationCard
                 content={"Matière"}
                 icon={mark.subjectAverageInfluence > 0 ? (
-                  <TrendingUpIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                  <TrendingUpIcon size={20} color={theme.colors.onSurfaceDisabled}/>
                 ) : (
-                  <TrendingDownIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                  <TrendingDownIcon size={20} color={theme.colors.onSurfaceDisabled}/>
                 )}
                 rightIcon={(
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     {mark.subjectAverageInfluence > 0 ? (
-                      <PlusIcon size={20} color={DefaultTheme.colors.success}/>
+                      <PlusIcon size={20} color={theme.colors.success}/>
                     ) : (
-                      <MinusIcon size={20} color={DefaultTheme.colors.error}/>
+                      <MinusIcon size={20} color={theme.colors.error}/>
                     )}
-                    <Text style={[DefaultTheme.fonts.headlineMedium, {
-                      color: mark.subjectAverageInfluence > 0 ? DefaultTheme.colors.success : DefaultTheme.colors.error,
+                    <Text style={[theme.fonts.headlineMedium, {
+                      color: mark.subjectAverageInfluence > 0 ? theme.colors.success : theme.colors.error,
                     }]}>{formatAverage(Math.abs(mark.subjectAverageInfluence))}</Text>
                   </View>
                 )}
@@ -276,19 +278,19 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
               <CustomSimpleInformationCard
                 content={"Moyenne générale"}
                 icon={mark.generalAverageInfluence > 0 ? (
-                  <TrendingUpIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                  <TrendingUpIcon size={20} color={theme.colors.onSurfaceDisabled}/>
                 ) : (
-                  <TrendingDownIcon size={20} color={DefaultTheme.colors.onSurfaceDisabled}/>
+                  <TrendingDownIcon size={20} color={theme.colors.onSurfaceDisabled}/>
                 )}
                 rightIcon={(
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     {mark.generalAverageInfluence > 0 ? (
-                      <PlusIcon size={20} color={DefaultTheme.colors.success}/>
+                      <PlusIcon size={20} color={theme.colors.success}/>
                     ) : (
-                      <MinusIcon size={20} color={DefaultTheme.colors.error}/>
+                      <MinusIcon size={20} color={theme.colors.error}/>
                     )}
-                    <Text style={[DefaultTheme.fonts.headlineMedium, {
-                      color: mark.generalAverageInfluence > 0 ? DefaultTheme.colors.success : DefaultTheme.colors.error,
+                    <Text style={[theme.fonts.headlineMedium, {
+                      color: mark.generalAverageInfluence > 0 ? theme.colors.success : theme.colors.error,
                     }]}>{formatAverage(Math.abs(mark.generalAverageInfluence))}</Text>
                   </View>
                 )}
@@ -304,12 +306,12 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
           />
           <CustomSimpleInformationCard
             icon={isEffective ? (
-              <MegaphoneIcon size={25} color={DefaultTheme.colors.error}/>
+              <MegaphoneIcon size={25} color={theme.colors.error}/>
             ) : (
-              <MegaphoneOffIcon size={25} color={DefaultTheme.colors.error}/>
+              <MegaphoneOffIcon size={25} color={theme.colors.error}/>
             )}
             content={"Désactiver la note"}
-            textStyle={{ color: DefaultTheme.colors.error }}
+            textStyle={{ color: theme.colors.error }}
             subtitle={!mark.defaultIsEffective && "Note désactivée par défaut"}
             rightIcon={(
               <Switch
