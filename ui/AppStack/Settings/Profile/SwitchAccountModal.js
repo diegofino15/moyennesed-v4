@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { View, Text } from "react-native";
-import { CheckCircleIcon, CircleIcon, SquareMousePointerIcon } from "lucide-react-native";
+import { CheckCircleIcon, ChevronRightIcon, SquareMousePointerIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomConfirmModal from "../../../components/CustomConfirmModal";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import CustomProfilePhoto from "../../../components/CustomProfilePhoto";
 import CustomSectionButton from "../../../components/CustomSectionButton";
+import CustomSeparator from '../../../components/CustomSeparator';
 import { useAppContext } from '../../../../util/AppContext';
 
 
@@ -35,6 +36,10 @@ function SwitchAccountModal({ isSwitchingAccount, setIsSwitchingAccount, switchA
           <Text style={theme.fonts.titleSmall}>Changer de compte</Text>
           <Text style={theme.fonts.labelMedium}>Vos données et préférences seront sauvegardées. Cliquez sur un compte pour le sélectionner.</Text>
         </View>),
+        (<CustomSeparator
+          key={2}
+          style={{ backgroundColor: theme.colors.surfaceOutline, marginBottom: 10 }}
+        />),
 
         Object.values(availableAccounts).map(account => <CustomSectionButton
           key={account.id}
@@ -51,7 +56,7 @@ function SwitchAccountModal({ isSwitchingAccount, setIsSwitchingAccount, switchA
               {account.id === selectedAccount ? (
                 <CheckCircleIcon size={20} color={theme.colors.primary}/>
               ) : (
-                <CircleIcon size={20} color={theme.colors.onSurfaceDisabled}/>
+                <ChevronRightIcon size={20} color={theme.colors.onSurfaceDisabled}/>
               )}
             </View>
           )}
