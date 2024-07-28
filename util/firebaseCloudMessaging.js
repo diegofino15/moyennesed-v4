@@ -1,5 +1,5 @@
-import messaging from '@react-native-firebase/messaging';
 import { PermissionsAndroid, Platform } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 
 
 async function iOSRequestUserPermission() {
@@ -9,23 +9,23 @@ async function iOSRequestUserPermission() {
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
   if (enabled) {
-    console.log('Authorization status:', authStatus);
+    console.log(`Notifications are ${enabled ? "allowed" : "not allowed"} !`);
   }
 }
 
-function androidRequestUserPermission() {
-  PermissionsAndroid.request(
+async function androidRequestUserPermission() {
+  const result = await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
-  ).then(result => {
-    console.log('Notification permission result:', result);
-  });
+  );
+
+  console.log('Notification permission result:', result);
 }
 
-function setupNotifications() {
+async function setupNotifications() {
   if (Platform.OS === 'ios') {
-    iOSRequestUserPermission();
+    await iOSRequestUserPermission();
   } else {
-    androidRequestUserPermission();
+    await androidRequestUserPermission();
   }
 }
 

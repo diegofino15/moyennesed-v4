@@ -23,12 +23,6 @@ function AppRoot() {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => { if (isLoaded) { SplashScreen.hideAsync(); } }, [isLoaded]);
 
-  // Setup notifications
-  useEffect(() => {
-    setupNotifications();
-  }, []);
-
-
   // Is user logged-in
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cameFromAuthStack, setCameFromAuthStack] = useState(false);
@@ -64,6 +58,10 @@ function AppRoot() {
       AdsHandler.setupAdmob({ checkForConsent: false });
       setIsLoaded(true);
     }
+
+    setupNotifications().then(() => {
+      console.log("Notifications registered");
+    })
   }
 
   if (!isLoaded) { return null; }
