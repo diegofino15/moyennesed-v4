@@ -262,7 +262,7 @@ function MarksOverview({
               navigation={navigation}
             />
           )}}
-          style={{ paddingBottom: 10 }}
+          // style={{ paddingBottom: 10 }}
         />
       ) : (
         <View style={{

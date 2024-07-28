@@ -56,6 +56,7 @@ function RecentMarkCard({ accountID, mark, getSubject, showNewLabel=false, navig
       flexDirection: 'row',
       alignItems: 'center',
       marginTop: 7.5,
+      marginBottom: 10,
     }} onPress={openMarkDetails}>
       {/* Mark value */}
       <View style={{
