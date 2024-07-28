@@ -8,13 +8,13 @@ import * as SplashScreen from "expo-splash-screen";
 import AuthStack from "./AuthStack/AuthStack";
 import AppStack from "./AppStack/AppStack";
 import DoubleAuthPopup from "./components/DoubleAuthPopup";
-import { AppContextProvider, useAppContext } from "../util/AppContext";
 import { Themes, initFontsAndThemes } from "../util/Styles";
+import { setupNotifications } from "../util/firebaseCloudMessaging";
+import { AppContextProvider, useAppContext } from "../util/AppContext";
 import AdsHandler from "../core/AdsHandler";
 import ColorsHandler from "../core/ColorsHandler";
 import CoefficientHandler from "../core/CoefficientHandler";
 import AppData from "../core/AppData";
-import { setupNotifications } from "../util/firebaseCloudMessaging";
 
 
 // App Root
