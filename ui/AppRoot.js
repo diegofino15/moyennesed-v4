@@ -14,6 +14,7 @@ import AdsHandler from "../core/AdsHandler";
 import ColorsHandler from "../core/ColorsHandler";
 import CoefficientHandler from "../core/CoefficientHandler";
 import AppData from "../core/AppData";
+import { setupNotifications } from "../util/firebaseCloudMessaging";
 
 
 // App Root
@@ -21,6 +22,12 @@ function AppRoot() {
   // Close SplashScreen once app is loaded
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => { if (isLoaded) { SplashScreen.hideAsync(); } }, [isLoaded]);
+
+  // Setup notifications
+  useEffect(() => {
+    setupNotifications();
+  }, []);
+
 
   // Is user logged-in
   const [isLoggedIn, setIsLoggedIn] = useState(false);

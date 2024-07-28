@@ -2704,6 +2704,11 @@
     firebase "10.12.2"
     superstruct "^0.6.2"
 
+"@react-native-firebase/messaging@^20.3.0":
+  version "20.3.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-20.3.0.tgz#2c5e5aa56df1188264417281f403cb785ed1279a"
+  integrity sha512-jkAQq4gMGjrOcodFLP4YJGpaXaqcqikxlGMa7AzldTPyzNPdMIUhhWxiH1xjcCcepb4aIXz3ysqtJ3LvBWdyyw==
+
 "@react-native-menu/menu@^0.9.1":
   version "0.9.1"
   resolved "https://registry.yarnpkg.com/@react-native-menu/menu/-/menu-0.9.1.tgz#aff9f327938dbb7dc44eeabc00da4d2d8e1a4222"

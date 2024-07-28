@@ -52,14 +52,17 @@
       "package": "me.diegof.moyennesed",
       "versionCode": 19,
       "userInterfaceStyle": "automatic",
-      "googleServicesFile": "./android/google-services.json"
+      "googleServicesFile": "./google-services.json"
     },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "me.diegof.moyennesed",
       "buildNumber": "1",
       "userInterfaceStyle": "automatic",
-      "googleServicesFile": "./ios/GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "entitlements": {
+        "aps-environment": "production"
+      }
     }
   },
   "react-native-google-mobile-ads": {

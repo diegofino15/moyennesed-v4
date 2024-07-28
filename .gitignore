@@ -37,3 +37,7 @@ yarn-error.*
 # Bare workflow
 ios/
 android/
+
+# Confidential files
+google-services.json
+GoogleService-Info.plist
