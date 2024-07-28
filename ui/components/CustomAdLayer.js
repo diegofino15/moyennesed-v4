@@ -29,12 +29,12 @@ function CustomAdLayer({ width, height, child, setCanShowAverage }) {
     if (rewardedAd) { return; }
     const lastAdTime = await AsyncStorage.getItem('lastAdTime');
     if (lastAdTime == null) {
+      console.log("First time opening app, no ad");
       setCanShowContent(true);
       AsyncStorage.setItem("lastAdTime", Date.now().toString());
-      console.log("First time opening app, no ad");
     } else if (Date.now() - parseInt(lastAdTime) < AD_COOLDOWN) {
-      setCanShowContent(true);
       console.log("Ad cooldown not finished");
+      setCanShowContent(true);
     } else if (AdsHandler.canServeAds) {
       console.log("Should show ad !");
       loadAd();
@@ -51,6 +51,7 @@ function CustomAdLayer({ width, height, child, setCanShowAverage }) {
     requestNonPersonalizedAdsOnly: !AdsHandler.servePersonalizedAds,
   });}
   async function loadAd() {
+    setLoadingAd(true);
     setRewardedAd(getNewAd());
 
     rewardedAdRef.current.addAdEventsListener(event => {
