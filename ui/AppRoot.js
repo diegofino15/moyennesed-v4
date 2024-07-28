@@ -59,6 +59,7 @@ function AppRoot() {
       setIsLoaded(true);
     }
 
+    // Register for notifications
     setupNotifications().then(() => {
       console.log("Notifications registered");
     })
