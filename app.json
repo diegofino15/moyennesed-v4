@@ -21,6 +21,7 @@
     },
     "owner": "finocchiarodev",
     "plugins": [
+      "@react-native-firebase/app",
       [
         "expo-build-properties",
         {
@@ -50,13 +51,15 @@
       },
       "package": "me.diegof.moyennesed",
       "versionCode": 19,
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "googleServicesFile": "./android/google-services.json"
     },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "me.diegof.moyennesed",
       "buildNumber": "1",
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "googleServicesFile": "./ios/GoogleService-Info.plist"
     }
   },
   "react-native-google-mobile-ads": {
