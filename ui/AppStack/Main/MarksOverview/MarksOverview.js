@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
 import RecentMarkCard from "./RecentMarkCard";
+import CustomAdLayer from "../../../components/CustomAdLayer";
 import CustomChooser from "../../../components/CustomChooser";
 import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
@@ -75,6 +76,9 @@ function MarksOverview({
     }
   }, [showEvolution]);
 
+  // Ad-locked view
+  const [canShowAverage, setCanShowAverage] = useState(false);
+
   return (
     <View style={{
       backgroundColor: theme.colors.surface,
@@ -143,7 +147,7 @@ function MarksOverview({
           />
 
           {/* Toggle show evolution */}
-          {periods[selectedPeriod]?.hasAverage && (
+          {periods[selectedPeriod]?.hasAverage && canShowAverage && (
             <View>
               <View style={{
                 flexDirection: "row",
@@ -198,40 +202,47 @@ function MarksOverview({
       </View>
       
       {/* Main average & evolution */}
-      <ScrollView
-        ref={scrollViewRef}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        scrollEnabled={false}
-        style={{
-          marginTop: 30,
-          marginBottom: 20,
-        }}
-      >
-        <View style={{
-          alignItems: 'center',
-          width: Dimensions.get('window').width - 80,
-        }}>
-          <Text style={[theme.fonts.headlineLarge, { fontSize: 40 }]}>{formatAverage(periods[selectedPeriod]?.average)}</Text>
-          <Text style={[theme.fonts.labelLarge, { top: -5 }]}>MOYENNE GÉNÉRALE</Text>
-          
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 3 }}>
-            <Users2Icon size={15} color={theme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
-            <Text style={[theme.fonts.labelMedium, { fontFamily: "Numbers-Regular" }]}>: {formatAverage(periods[selectedPeriod]?.classAverage)}</Text>
-          </View>
-        </View>
+      <CustomAdLayer
+        width={250}
+        height={120}
+        setCanShowAverage={setCanShowAverage}
+        child={(
+          <ScrollView
+            ref={scrollViewRef}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            scrollEnabled={false}
+            style={{
+              marginTop: 30,
+              marginBottom: 20,
+            }}
+          >
+            <View style={{
+              alignItems: 'center',
+              width: Dimensions.get('window').width - 80,
+            }}>
+              <Text style={[theme.fonts.headlineLarge, { fontSize: 40 }]}>{formatAverage(periods[selectedPeriod]?.average)}</Text>
+              <Text style={[theme.fonts.labelLarge, { top: -5 }]}>MOYENNE GÉNÉRALE</Text>
+              
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 3 }}>
+                <Users2Icon size={15} color={theme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
+                <Text style={[theme.fonts.labelMedium, { fontFamily: "Numbers-Regular" }]}>: {formatAverage(periods[selectedPeriod]?.classAverage)}</Text>
+              </View>
+            </View>
 
-        <CustomEvolutionChart
-          listOfValues={periods[selectedPeriod]?.averageHistory}
-          showClassValues={showClassValueOnChart}
-          color={theme.colors.primary}
-          lightColor={theme.colors.primary}
-          activeColor={theme.colors.primary}
-          height={100}
-          windowWidth={Dimensions.get('window').width - 80}
-        />
-      </ScrollView>
-
+            <CustomEvolutionChart
+              listOfValues={periods[selectedPeriod]?.averageHistory}
+              showClassValues={showClassValueOnChart}
+              color={theme.colors.primary}
+              lightColor={theme.colors.primary}
+              activeColor={theme.colors.primary}
+              height={100}
+              windowWidth={Dimensions.get('window').width - 80}
+            />
+          </ScrollView>
+        )}
+      />
+     
       {/* Lastest marks */}
       <Text style={[theme.fonts.bodyLarge, { marginBottom: 0 }]}>Dernières notes</Text>
       {Object.keys(periods[selectedPeriod]?.marks || {}).length > 0 ? (

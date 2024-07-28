@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 import { View, Text, Platform, Dimensions } from "react-native";
-import { CheckIcon, FileXIcon, HandHelpingIcon, KeyIcon, ScaleIcon, Settings2Icon, WeightIcon, XIcon } from "lucide-react-native";
+import { BarChart3Icon, CheckIcon, FileXIcon, HandHelpingIcon, KeyIcon, ScaleIcon, Settings2Icon, WeightIcon, XIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
@@ -15,6 +15,7 @@ import CustomLink from "../../components/CustomLink";
 import AppData from "../../../core/AppData";
 import NewsHandler from "../../../core/NewsHandler";
 import { useAppContext } from "../../../util/AppContext";
+import AdsHandler from "../../../core/AdsHandler";
 
 
 // Settings page
@@ -136,6 +137,12 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDis
                 title={"Clear double auth tokens"}
                 onPress={() => { AsyncStorage.removeItem("double-auth-tokens"); }}
                 icon={<KeyIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
+                style={{ marginBottom: 10 }}
+              />
+              <CustomLink
+                title={"Open Ad inspector"}
+                onPress={() => { AdsHandler.openDebugger(); }}
+                icon={<BarChart3Icon size={20} color={theme.colors.onSurfaceDisabled}/>}
               />
             </>
           )}

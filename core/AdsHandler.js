@@ -18,8 +18,9 @@ class AdsHandler {
 
       testDeviceIdentifiers: __DEV__ ? [
         'EMULATOR',
-        '00008110-000E34380CD3801E',            // Diego's iPhone 13
-        'ee618e10-913d-4b58-9625-e8cdaa212ac5', // Leo's Samsung S9+
+        // '1adefe524601c1c428f7269406ba7402',        // Diego's iPhone 14
+        // '00008110-000E34380CD3801E',            // Diego's iPhone 13
+        // 'ee618e10-913d-4b58-9625-e8cdaa212ac5', // Leo's Samsung S9+
       ] : [],
     });
   }
