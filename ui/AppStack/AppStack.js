@@ -19,6 +19,7 @@ import PreferencesPopup from './PreferencesPopup';
 
 import AppData from '../../core/AppData';
 import NewsHandler from '../../core/NewsHandler';
+import AdsInformationPage from './Main/MarksOverview/AdsInformationPage';
 
 
 // Create stack for navigation
@@ -78,6 +79,15 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
           globalDisplayUpdater={globalDisplayUpdater}
         />}
       </Stack.Screen>
+      <Stack.Screen
+        name="AdsInformationPage"
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
+        component={AdsInformationPage}
+      />
 
       {/* Homeworks */}
       <Stack.Screen

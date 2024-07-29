@@ -5,14 +5,15 @@ import { TestIds, RewardedAd, AdEventType, RewardedAdEventType } from "react-nat
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PressableScale } from "react-native-pressable-scale";
 import { BlurView } from "expo-blur";
-import { VideoIcon } from "lucide-react-native";
+import { HelpCircleIcon, VideoIcon } from "lucide-react-native";
 
+import CustomChooser from "./CustomChooser";
 import AdsHandler from "../../core/AdsHandler";
 import { useAppContext } from "../../util/AppContext";
 
 
 // Places an ad on top of a component
-function CustomAdLayer({ width, height, child, setCanShowAverage }) {
+function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) {
   const { theme } = useAppContext();
   
   // Show the ad ?
@@ -109,6 +110,24 @@ function CustomAdLayer({ width, height, child, setCanShowAverage }) {
           )}
         </BlurView>
       </PressableScale>
+      <View style={{
+        position: 'absolute',
+        right: 0,
+      }}>
+        <CustomChooser
+          title={"Dev options"}
+          items={__DEV__ ? [
+            { id: "ad-inspector", title: "Open Ad Inspector" },
+          ] : []}
+          setSelected={(_) => AdsHandler.openDebugger()}
+          defaultItem={(
+            <PressableScale onPress={() => navigation.navigate("AdsInformationPage")} onLongPress={__DEV__ ? () => {} : undefined}>
+              <HelpCircleIcon size={25} color={theme.colors.onSurfaceDisabled}/>
+            </PressableScale>
+          )}
+          longPress
+        />
+      </View>
     </View>
   );
 }

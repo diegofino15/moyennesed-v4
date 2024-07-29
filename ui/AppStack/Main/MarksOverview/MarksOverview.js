@@ -203,9 +203,10 @@ function MarksOverview({
       
       {/* Main average & evolution */}
       <CustomAdLayer
-        width={250}
+        width={"70%"}
         height={120}
         setCanShowAverage={setCanShowAverage}
+        navigation={navigation}
         child={(
           <ScrollView
             ref={scrollViewRef}
