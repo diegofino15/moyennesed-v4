@@ -1280,8 +1280,13 @@ class AppData {
 
         // Add homework to corresponding week
         let dateObj = new Date(day);
-        let startOfWeek = new Date(dateObj.setDate(dateObj.getDate() - dateObj.getDay() + 1));
-        let endOfWeek = new Date(dateObj.setDate(dateObj.getDate() - dateObj.getDay() + 7));
+
+        let startOfWeek = new Date(dateObj);
+        startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + (startOfWeek.getDay() === 0 ? -6 : 1));
+
+        let endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6);
+
         let key = `${startOfWeek.getFullYear()}-${startOfWeek.getMonth() + 1}-${startOfWeek.getDate()}/${endOfWeek.getFullYear()}-${endOfWeek.getMonth() + 1}-${endOfWeek.getDate()}`;
         abstractHomework.weeks[key] ??= {
           "id": key,
