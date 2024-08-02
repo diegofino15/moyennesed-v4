@@ -7,12 +7,23 @@ import ColorsHandler from "./ColorsHandler";
 import CoefficientHandler from "./CoefficientHandler";
 
 
+// This enum contains all the endpoints of the api used in the app
+class APIEndpoints {
+  static OFFICIAL_API = "https://api.ecoledirecte.com";
+  static CUSTOM_API = process.env.EXPO_PUBLIC_API_URL;
+
+  static LOGIN = "/v3/login.awp";
+  static MARKS(accountID) { return `/v3/eleves/${accountID}/notes.awp`; };
+  static ALL_HOMEWORK(accountID) { return `/v3/Eleves/${accountID}/cahierdetexte.awp`; }
+  static SPECIFIC_HOMEWORK(accountID, day) { return `/v3/Eleves/${accountID}/cahierdetexte/${day}.awp`; }
+  static DOWNLOAD_HOMEWORK_ATTACHEMENT(fileID, fileType) { return `/v3/telechargement.awp?verbe=get&fichierId=${fileID}&leTypeDeFichier=${fileType}`; }
+}
+
+
 // This class contains all the functions used for logic and cache handling in the app
 class AppData {
-  // Base URLs
-  static API_URL = "https://api.ecoledirecte.com";
-  static CUSTOM_API_URL = process.env.EXPO_PUBLIC_API_URL;
-  static USED_URL = AppData.API_URL;
+  // Base URL
+  static USED_URL = APIEndpoints.OFFICIAL_API;
 
   // Login functions //
 
@@ -27,9 +38,9 @@ class AppData {
   // Login
   static async login(username, password) {
     // Demo account
-    this.USED_URL = AppData.API_URL;
+    this.USED_URL = APIEndpoints.OFFICIAL_API;
     if (username.substring(0, 11) == "demoaccount") {
-      this.USED_URL = this.CUSTOM_API_URL;
+      this.USED_URL = APIEndpoints.CUSTOM_API;
       console.log("Using custom API");
     }
 
@@ -56,7 +67,7 @@ class AppData {
     };
     var response = await axios
       .post(
-        `${this.USED_URL}/v3/login.awp?v=4`,
+        `${this.USED_URL}${APIEndpoints.LOGIN}?v=4`,
         `data=${JSON.stringify(credentials)}`,
         { headers: { "Content-Type": "text/plain" } },
       )
@@ -178,7 +189,7 @@ class AppData {
           if (childSchool.length == 0) {
             childSchool = account.nomEtablissement;
           }
-          let grade = capitalizeWords(childAccount.classe.libelle);
+          let grade = capitalizeWords(childAccount.classe?.libelle ?? "Pas de classe");
           let childPhotoURL = childAccount.photo;
 
           children[childID] = {
@@ -285,7 +296,7 @@ class AppData {
     return this.parseEcoleDirecte(
       "marks",
       accountID,
-      `${this.USED_URL}/v3/eleves/${accountID}/notes.awp`,
+      `${this.USED_URL}${APIEndpoints.MARKS(accountID)}`,
       'data={"anneeScolaire": ""}',
       async (data) => {
         return await this.saveMarks(accountID, data);
@@ -1230,7 +1241,7 @@ class AppData {
     return this.parseEcoleDirecte(
       "homework",
       accountID,
-      `${this.USED_URL}/v3/Eleves/${accountID}/cahierdetexte.awp`,
+      `${this.USED_URL}${APIEndpoints.ALL_HOMEWORK(accountID)}`,
       'data={}',
       async (data) => {
         return await this.saveHomework(accountID, data);
@@ -1327,7 +1338,7 @@ class AppData {
     const status = await this.parseEcoleDirecte(
       "specific homework",
       accountID,
-      `${this.USED_URL}/v3/Eleves/${accountID}/cahierdetexte/${day}.awp`,
+      `${this.USED_URL}${APIEndpoints.SPECIFIC_HOMEWORK(accountID, day)}`,
       'data={}',
       async (data) => {
         return await this.saveSpecificHomeworkForDay(accountID, data);
@@ -1395,7 +1406,7 @@ class AppData {
     const status = await this.parseEcoleDirecte(
       "mark homework as done",
       accountID,
-      `${this.USED_URL}/v3/Eleves/${accountID}/cahierdetexte.awp`,
+      `${this.USED_URL}${APIEndpoints.ALL_HOMEWORK(accountID)}`,
       `data=${JSON.stringify({
         idDevoirsEffectues: done ? [homeworkID] : [],
         idDevoirsNonEffectues: done ? [] : [homeworkID],
@@ -1428,7 +1439,7 @@ class AppData {
 
     console.log(`Downloading ${file.title}...`);
 
-    const url = `${this.USED_URL}/v3/telechargement.awp?verbe=get&fichierId=${file.id}&leTypeDeFichier=${file.fileType}&v=4`;
+    const url = `${this.USED_URL}${APIEndpoints.DOWNLOAD_HOMEWORK_ATTACHEMENT(file.id, file.fileType)}&v=4`;
 
     return {
       promise: RNFS.downloadFile({
