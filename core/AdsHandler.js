@@ -1,6 +1,7 @@
 import mobileAds, { AdsConsent, MaxAdContentRating } from 'react-native-google-mobile-ads';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { Platform } from 'react-native';
+import { useAppContext } from '../util/AppContext';
 
 
 // Class used to serve Admob ads
@@ -39,7 +40,7 @@ class AdsHandler {
   }
 
   // Complete function
-  static async setupAdmob({ checkForConsent=true }){  
+  static async setupAdmob({ checkForConsent=true, setCanServeAds}){  
     if (checkForConsent) {
       // Check consent with Google's UMP message
       var adsConsentInfo = await AdsConsent.requestInfoUpdate();
@@ -60,7 +61,7 @@ class AdsHandler {
     if (checkForConsent) {
       // Finally save preferences
       this.servePersonalizedAds = allowPersonalizedAds && attConsent;
-      this.canServeAds = true;
+      setCanServeAds(true);
     }
   }
 

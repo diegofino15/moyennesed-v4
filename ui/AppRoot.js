@@ -31,6 +31,9 @@ function AppRoot() {
   const [theme, setTheme] = useState(null);
   const [isAutoTheme, setIsAutoTheme] = useState(true);
 
+  // Context
+  const [canServeAds, setCanServeAds] = useState(false);
+
   // Prepare function
   useEffect(() => { prepare(); }, []);
   async function prepare() {
@@ -52,10 +55,10 @@ function AppRoot() {
       await ColorsHandler.load();
       await CoefficientHandler.load();
 
-      AdsHandler.setupAdmob({ checkForConsent: true });
+      AdsHandler.setupAdmob({ checkForConsent: true, setCanServeAds: setCanServeAds });
       setIsLoaded(true);
     } else {
-      AdsHandler.setupAdmob({ checkForConsent: false });
+      AdsHandler.setupAdmob({ checkForConsent: false, setCanServeAds: setCanServeAds });
       setIsLoaded(true);
     }
 
@@ -71,6 +74,7 @@ function AppRoot() {
       loggedIn={isLoggedIn}
       autoTheme={isAutoTheme}
       savedTheme={theme}
+      _canServeAds={canServeAds}
     >
       <GlobalStack
         cameFromAuthStack={cameFromAuthStack}
