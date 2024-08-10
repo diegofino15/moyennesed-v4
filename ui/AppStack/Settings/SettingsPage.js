@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 import { View, Text, Platform, Dimensions } from "react-native";
-import { BarChart3Icon, CheckIcon, FileXIcon, HandHelpingIcon, KeyIcon, ScaleIcon, Settings2Icon, WeightIcon, XIcon } from "lucide-react-native";
+import { FileXIcon, HandHelpingIcon, KeyIcon, ScaleIcon, Settings2Icon, WeightIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
@@ -13,7 +13,6 @@ import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import CustomTextArea from "../../components/CustomTextArea";
 import CustomLink from "../../components/CustomLink";
 import AppData from "../../../core/AppData";
-import NewsHandler from "../../../core/NewsHandler";
 import { useAppContext } from "../../../util/AppContext";
 
 
@@ -72,16 +71,6 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDis
 
           {/* About */}
           <CustomSection title={"Informations"}/>
-          <CustomSimpleSectionButton
-            title={"Accès à l'API"}
-            icon={NewsHandler.allowLatestNewsRefresh ? (
-              <View style={{ backgroundColor: theme.colors.success, borderRadius: 15, padding: 5 }}><CheckIcon size={15} color={theme.colors.background}/></View>
-            ) : (
-              <XIcon size={20} color={theme.colors.error}/>
-            )}
-            onPress={() => navigation.navigate('PreferencesPopup', { presentation: 'modal' })}
-            style={{ marginBottom: 10 }}
-          />
           <CustomTextArea
             children={(
               <View>

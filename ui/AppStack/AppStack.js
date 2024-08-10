@@ -15,10 +15,7 @@ import ProfilePage from './Settings/Profile/ProfilePage';
 import CoefficientsPage from './Settings/CoefficientsPage';
 import AdvancedSettingsPage from './Settings/AdvancedSettingsPage';
 
-import PreferencesPopup from './PreferencesPopup';
-
 import AppData from '../../core/AppData';
-import NewsHandler from '../../core/NewsHandler';
 import AdsInformationPage from './Main/MarksOverview/AdsInformationPage';
 
 
@@ -148,17 +145,6 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
           updateGlobalDisplay={updateGlobalDisplay}
         />}
       </Stack.Screen>
-
-      {/* Preferences popup */}
-      <Stack.Screen
-        name="PreferencesPopup"
-        component={PreferencesPopup}
-        options={{
-          headerShown: false,
-          presentation: 'modal',
-          animation: 'fade_from_bottom',
-        }}
-      />
     </Stack.Navigator>
   );
 }
@@ -270,16 +256,6 @@ function SettingsStack({ refreshLogin, isConnected, isConnecting, globalDisplayU
           globalDisplayUpdater={globalDisplayUpdater}
         />}
       </Stack.Screen>
-
-      {/* Preferences popup */}
-      <Stack.Screen
-        name="PreferencesPopup"
-        component={PreferencesPopup}
-        options={{
-          headerShown: false,
-          animation: 'slide_from_right',
-        }}
-      />
     </Stack.Navigator>
   );
 }
@@ -304,10 +280,6 @@ function AppStack({ route, cameFromAuthStack }) {
     setIsConnecting(false);
     return successful;
   }
-
-  // News
-  const navigation = useNavigation();
-  useEffect(() => { NewsHandler.loadPreferences(() => { navigation.navigate('PreferencesPopup'); }); }, []);
 
   // Update all displays when changing averages (ex: update opened subject
   // page when marks are updated and a new mark appears)
