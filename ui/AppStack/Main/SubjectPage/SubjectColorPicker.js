@@ -16,6 +16,7 @@ function SubjectColorPicker({
   exitModal,
   initialValue,
   updateGlobalDisplay,
+  windowWidth,
 }) {
   const { theme } = useAppContext();
   
@@ -107,7 +108,7 @@ function SubjectColorPicker({
               backgroundColor: theme.colors.primaryLight,
               borderWidth: 2,
               borderColor: theme.colors.primary,
-              width: Dimensions.get("window").width - 90,
+              width: windowWidth - 90,
               padding: 5,
               borderRadius: 5,
               marginLeft: 10,

@@ -478,6 +478,7 @@ function SubjectPage({
               exitModal={() => setShowChangeColorModal(false)}
               initialValue={dark}
               updateGlobalDisplay={updateGlobalDisplay}
+              windowWidth={windowWidth}
             />
           )}
         </View>

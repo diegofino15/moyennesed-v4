@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, Dimensions, Platform } from "react-native";
 import { AlertTriangleIcon, CircleUserRoundIcon, HelpCircleIcon, KeySquareIcon } from "lucide-react-native";
 
 import CustomModal from "../components/CustomModal";
@@ -50,12 +50,15 @@ function LoginPage({ navigation }) {
       setErrorConnecting(true);
     }
   }
+
+  const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
   
   return (
     <CustomModal
       title="Se connecter"
       goBackFunction={() => navigation.pop()}
       onlyShowBackButtonOnAndroid
+      setWidth={setWindowWidth}
       children={(
         <View>
           <Text style={[theme.fonts.labelMedium, { marginBottom: 30 }]}>Vous pouvez vous connecter en tant qu'élève ou en tant que parent.</Text>
@@ -66,6 +69,7 @@ function LoginPage({ navigation }) {
             onChangeText={setUsername}
             icon={<CircleUserRoundIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
             style={{ marginBottom: 10 }}
+            windowWidth={windowWidth}
           />
           <CustomTextInput
             label={wrongPassword ? "Mot de passe incorrect" : "Mot de passe"}
@@ -75,6 +79,7 @@ function LoginPage({ navigation }) {
             icon={<KeySquareIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
             controller={passwordTextController}
             style={{ marginBottom: 20 }}
+            windowWidth={windowWidth}
           />
 
           {/* Login button */}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, TextInput, Dimensions, Platform } from 'react-native';
+import { View, TextInput, Platform } from 'react-native';
 import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
 import { PressableScale } from 'react-native-pressable-scale';
 
@@ -18,6 +18,7 @@ function CustomTextInput({
   style,
   textAreaStyle,
   controller,
+  windowWidth,
 }) {
   const { theme } = useAppContext();
   
@@ -40,7 +41,7 @@ function CustomTextInput({
           ...theme.fonts.bodyLarge,
           color: theme.colors.onSurface,
           marginLeft: !iconOnRight ? 10 : 0,
-          width: Dimensions.get('window').width - 105 - (iconOnRight ? 15 : 0),
+          width: windowWidth - 105 - (iconOnRight ? 15 : 0),
           height: 50,
           top: Platform.select({ android: 2 }),
           ...textAreaStyle,
