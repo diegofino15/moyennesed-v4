@@ -11,8 +11,9 @@ import CustomChooser from "../../../components/CustomChooser";
 import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
 import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
-import { formatAverage } from "../../../../util/Utils";
 import HapticsHandler from "../../../../core/HapticsHandler";
+import AdsHandler from "../../../../core/AdsHandler";
+import { formatAverage } from "../../../../util/Utils";
 import { useAppContext } from "../../../../util/AppContext";
 
 
@@ -92,33 +93,43 @@ function MarksOverview({
         justifyContent: 'space-between',
       }}>
         {/* Loading status */}
-        <CustomAnimatedChangeableItem
-          item={(
-            <PressableScale style={{
-              backgroundColor: isLoading ? theme.colors.primaryLight : gotMarks ? theme.colors.successLight : theme.colors.errorLight,
-              borderWidth: 2,
-              borderColor: isLoading ? theme.colors.primary : gotMarks ? theme.colors.success : theme.colors.error,
-              borderRadius: 5,
-              flexDirection: 'row',
-              alignItems: 'center',
-              paddingVertical: 2,
-              paddingHorizontal: 5
-            }} onPress={() => { if (!isLoading) { navigation.navigate("MarksInformationPage", { accountID }); } }}>
-              <Text style={[
-                theme.fonts.labelMedium, {
-                  color: isLoading ? theme.colors.primary : gotMarks ? theme.colors.success : theme.colors.error,
-                  marginRight: 5,
-                  height: 22,
-              }]}>{isLoading ? "Chargement..." : gotMarks ? "À jour" : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
-              {(!isLoading) && <HelpCircleIcon size={20} color={gotMarks ? theme.colors.success : theme.colors.error}/>}
-            </PressableScale>
+        <CustomChooser
+          title={"Dev options"}
+          items={__DEV__ ? [
+            { id: "ad-inspector", title: "Open Ad Inspector" },
+          ] : []}
+          setSelected={(_) => AdsHandler.openDebugger()}
+          defaultItem={(
+            <CustomAnimatedChangeableItem
+              item={(
+                <PressableScale style={{
+                  backgroundColor: isLoading ? theme.colors.primaryLight : gotMarks ? theme.colors.successLight : theme.colors.errorLight,
+                  borderWidth: 2,
+                  borderColor: isLoading ? theme.colors.primary : gotMarks ? theme.colors.success : theme.colors.error,
+                  borderRadius: 5,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  paddingVertical: 2,
+                  paddingHorizontal: 5
+                }} onPress={() => { if (!isLoading) { navigation.navigate("MarksInformationPage", { accountID }); } }} onLongPress={__DEV__ ? () => {} : undefined}>
+                  <Text style={[
+                    theme.fonts.labelMedium, {
+                      color: isLoading ? theme.colors.primary : gotMarks ? theme.colors.success : theme.colors.error,
+                      marginRight: 5,
+                      height: 22,
+                  }]}>{isLoading ? "Chargement..." : gotMarks ? "À jour" : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
+                  {(!isLoading) && <HelpCircleIcon size={20} color={gotMarks ? theme.colors.success : theme.colors.error}/>}
+                </PressableScale>
+              )}
+              animationTime={200}
+              updaters={[
+                isLoading,
+                gotMarks,
+                errorGettingMarks,
+              ]}
+            />
           )}
-          animationTime={200}
-          updaters={[
-            isLoading,
-            gotMarks,
-            errorGettingMarks,
-          ]}
+          longPress
         />
 
         {/* Period chooser */}

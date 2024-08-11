@@ -34,7 +34,7 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
       setCanShowContent(true);
       setCanShowAverage(true);
       AsyncStorage.setItem("lastAdTime", Date.now().toString());
-    } else if (Date.now() - parseInt(lastAdTime) < AD_COOLDOWN) {
+    } else if (Date.now() - parseInt(lastAdTime) > AD_COOLDOWN) { // TODO: inverse
       console.log("Ad cooldown not finished");
       setCanShowAverage(true);
       setCanShowContent(true);
@@ -112,24 +112,12 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
           )}
         </BlurView>
       </PressableScale>
-      <View style={{
+      <PressableScale style={{
         position: 'absolute',
         right: 0,
-      }}>
-        <CustomChooser
-          title={"Dev options"}
-          items={__DEV__ ? [
-            { id: "ad-inspector", title: "Open Ad Inspector" },
-          ] : []}
-          setSelected={(_) => AdsHandler.openDebugger()}
-          defaultItem={(
-            <PressableScale onPress={() => navigation.navigate("AdsInformationPage")} onLongPress={__DEV__ ? () => {} : undefined}>
-              <HelpCircleIcon size={25} color={theme.colors.onSurfaceDisabled}/>
-            </PressableScale>
-          )}
-          longPress
-        />
-      </View>
+      }} onPress={() => navigation.navigate("AdsInformationPage")}>
+        <HelpCircleIcon size={25} color={theme.colors.onSurfaceDisabled}/>
+      </PressableScale>
     </View>
   );
 }

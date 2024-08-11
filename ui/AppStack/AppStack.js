@@ -256,6 +256,16 @@ function SettingsStack({ refreshLogin, isConnected, isConnecting, globalDisplayU
           globalDisplayUpdater={globalDisplayUpdater}
         />}
       </Stack.Screen>
+
+      {/* Ads information page */}
+      <Stack.Screen
+        name="AdsInformationPage"
+        options={{
+          headerShown: false,
+          animation: 'slide_from_right',
+        }}
+        component={AdsInformationPage}
+      />
     </Stack.Navigator>
   );
 }

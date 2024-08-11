@@ -1,7 +1,6 @@
 import mobileAds, { AdsConsent, MaxAdContentRating } from 'react-native-google-mobile-ads';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { Platform } from 'react-native';
-import { useAppContext } from '../util/AppContext';
 
 
 // Class used to serve Admob ads
@@ -42,27 +41,35 @@ class AdsHandler {
   // Complete function
   static async setupAdmob({ checkForConsent=true, setCanServeAds}){  
     if (checkForConsent) {
-      // Check consent with Google's UMP message
-      var adsConsentInfo = await AdsConsent.requestInfoUpdate();
-      if (adsConsentInfo.isConsentFormAvailable) { adsConsentInfo = await AdsConsent.loadAndShowConsentFormIfRequired(); }
-      const userPreferences = await AdsConsent.getUserChoices();
-      var allowPersonalizedAds = userPreferences.selectPersonalisedAds;
-
-      // Check consent with Apple's ATT message
-      var attConsent = (Platform.OS == "android");
-      if (Platform.OS == "ios") {
-        attConsent = await this.checkATTConsent();
-      }
+      await this.askForAdChoices();
     }
 
     // Init Admob
     await this.initAds();
 
     if (checkForConsent) {
-      // Finally save preferences
-      this.servePersonalizedAds = allowPersonalizedAds && attConsent;
       setCanServeAds(true);
     }
+  }
+
+  // Reset choices
+  static resetAdChoices() { AdsConsent.reset(); }
+
+  // Ask again for choices
+  static async askForAdChoices() {
+    // Check consent with Google's UMP message
+    var adsConsentInfo = await AdsConsent.requestInfoUpdate();
+    if (adsConsentInfo.isConsentFormAvailable) { adsConsentInfo = await AdsConsent.loadAndShowConsentFormIfRequired(); }
+    const userPreferences = await AdsConsent.getUserChoices();
+    var allowPersonalizedAds = userPreferences.selectPersonalisedAds;
+
+    // Check consent with Apple's ATT message
+    var attConsent = (Platform.OS == "android");
+    if (Platform.OS == "ios") {
+      attConsent = await this.checkATTConsent();
+    }
+
+    this.servePersonalizedAds = allowPersonalizedAds && attConsent;
   }
 
   // Open debugger

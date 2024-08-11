@@ -1562,6 +1562,7 @@ class AppData {
     await AsyncStorage.multiRemove([
       "specific-homework",
       "photos",
+      "votes",
     ]);
 
     // Homework attachements

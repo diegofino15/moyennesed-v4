@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, Text, Dimensions } from "react-native";
+import { View, Text, Dimensions, Platform } from "react-native";
 import { AlertTriangleIcon } from "lucide-react-native";
 import LottieView from "lottie-react-native";
 
@@ -22,11 +22,14 @@ function HomeworkInformationPage({ globalDisplayUpdater, navigation, route }) {
     AppData.getLastTimeUpdatedHomework(accountID).then(setLastDateUpdated);
   }, [globalDisplayUpdater]);
 
+  const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
+
   return (
     <CustomModal
       goBackFunction={() => navigation.pop()}
       style={{ paddingVertical: 0 }}
       horizontalPadding={0}
+      setWidth={setWindowWidth}
       children={(
         <View>
           {/* Animation and title */}
@@ -39,7 +42,7 @@ function HomeworkInformationPage({ globalDisplayUpdater, navigation, route }) {
               source={require('../../../../assets/lottie/about-homework.json')}
               style={{
                 width: '90%',
-                height: Dimensions.get('window').width * 0.9,
+                height: windowWidth * 0.9,
                 top: -30,
               }}
             />

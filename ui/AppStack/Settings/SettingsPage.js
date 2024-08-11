@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 import { View, Text, Platform, Dimensions } from "react-native";
-import { FileXIcon, HandHelpingIcon, KeyIcon, ScaleIcon, Settings2Icon, WeightIcon } from "lucide-react-native";
+import { BadgeHelpIcon, FileXIcon, HandHelpingIcon, KeyIcon, ScaleIcon, Settings2Icon, WeightIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
@@ -67,6 +67,14 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDis
             title={"Paramètres avancés"}
             icon={<Settings2Icon size={20} color={theme.colors.onSurfaceDisabled}/>}
             onPress={() => navigation.navigate('AdvancedSettingsPage', { currentAccount, presentation: 'modal' })}
+            style={{ marginBottom: 10 }}
+          />
+
+          {/* Ad settings */}
+          <CustomSimpleSectionButton
+            title={"Préférences de publicité"}
+            icon={<BadgeHelpIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
+            onPress={() => navigation.navigate('AdsInformationPage', { presentation: 'modal' })}
           />
 
           {/* About */}
