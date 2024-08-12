@@ -197,9 +197,9 @@ function SubjectPage({
       titleObject={(
         <View style={{ flexDirection: "row", alignItems: "center", maxWidth: '100%', overflow: 'hidden' }}>
           {!isEffective && <MegaphoneOffIcon size={25} color={'black'} style={{ marginRight: 5 }}/>}
-          {shownSubject.subID && <Text style={[theme.fonts.titleSmall, { color: "black" }]}>{mainSubject.title ?? "---"}</Text>}
+          {shownSubject.subID && <Text style={[theme.fonts.titleSmall, { color: "black" }]} numberOfLines={1}>{mainSubject.title ?? "---"}</Text>}
           {shownSubject.subID && <ChevronRightIcon size={25} color={"black"}/>}
-          <Text style={[theme.fonts.titleSmall, { color: "black" }]}>{shownSubject.title ?? "---"}</Text>
+          <Text style={[theme.fonts.titleSmall, { color: "black", maxWidth: windowWidth - 70 }]} numberOfLines={1}>{shownSubject.title ?? "---"}</Text>
         </View>
       )}
       rightIcon={<MoreInfoPopup shownSubject={shownSubject} toggleIsEffective={toggleIsEffective}/>}

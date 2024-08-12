@@ -56,8 +56,8 @@ class AppData {
     }
 
     const credentials = {
-      identifiant: encodeURIComponent(username),
-      motdepasse: encodeURIComponent(password),
+      identifiant: encodeURIComponent(username.trim()),
+      motdepasse: encodeURIComponent(password.trim()),
       "fa": [
         {
           cn,

@@ -69,13 +69,21 @@ function MarksOverview({
   const scrollViewRef = useRef(null);
   const [showEvolution, setShowEvolution] = useState(false);
   const [showClassValueOnChart, setShowClassValueOnChart] = useState(false);
+  const [canShowClassValueOnChart, setCanShowClassValueOnChart] = useState(false);
   useEffect(() => {
+    if (!periods[selectedPeriod]?.averageHistory?.length) {
+      scrollViewRef.current?.scrollTo({ x: 0, animated: false });
+      return;
+    }
+    if (!periods[selectedPeriod]?.classAverage) { setCanShowClassValueOnChart(false); }
+    else { setCanShowClassValueOnChart(true); }
+
     if (showEvolution) {
       scrollViewRef.current?.scrollTo({x: Dimensions.get('window').width - 80, animated: true});
     } else {
       scrollViewRef.current?.scrollTo({ x: 0, animated: true });
     }
-  }, [showEvolution]);
+  }, [showEvolution, selectedPeriod]);
 
   // Ad-locked view
   const [canShowAverage, setCanShowAverage] = useState(false);
@@ -160,35 +168,37 @@ function MarksOverview({
           {/* Toggle show evolution */}
           {periods[selectedPeriod]?.hasAverage && canShowAverage && (
             <View>
-              <View style={{
-                flexDirection: "row",
-                alignItems: "center",
-                position: 'absolute',
-                marginTop: 5,
-              }}>
-                <CustomAnimatedIndicator
-                  value={showEvolution}
-                  startScale={0}
-                  endX={-60}
-                  child={
-                    <PressableScale style={{
-                      padding: 3,
-                      borderWidth: 2,
-                      borderColor: theme.colors.primary,
-                      borderRadius: 5,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }} onPress={() => setShowClassValueOnChart(!showClassValueOnChart)}>
-                      <Users2Icon size={20} color={theme.colors.primary} style={{ marginRight: 5 }}/>
-                      {showClassValueOnChart ? (
-                        <EyeIcon size={20} color={theme.colors.primary}/>
-                      ) : (
-                        <EyeOffIcon size={20} color={theme.colors.primary}/>
-                      )}
-                    </PressableScale>
-                  }
-                />
-              </View>
+              {canShowClassValueOnChart && (
+                <View style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  position: 'absolute',
+                  marginTop: 5,
+                }}>
+                  <CustomAnimatedIndicator
+                    value={showEvolution}
+                    startScale={0}
+                    endX={-60}
+                    child={
+                      <PressableScale style={{
+                        padding: 3,
+                        borderWidth: 2,
+                        borderColor: theme.colors.primary,
+                        borderRadius: 5,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }} onPress={() => setShowClassValueOnChart(!showClassValueOnChart)}>
+                        <Users2Icon size={20} color={theme.colors.primary} style={{ marginRight: 5 }}/>
+                        {showClassValueOnChart ? (
+                          <EyeIcon size={20} color={theme.colors.primary}/>
+                        ) : (
+                          <EyeOffIcon size={20} color={theme.colors.primary}/>
+                        )}
+                      </PressableScale>
+                    }
+                  />
+                </View>
+              )}
               <PressableScale style={{
                 backgroundColor: theme.colors.primary,
                 borderRadius: 5,
