@@ -82,7 +82,6 @@ function ProfilePage({ route, navigation }) {
           {/* Actual page */}
           <ScrollView showsVerticalScrollIndicator={false} style={{
             zIndex: 0,
-            overflow: 'visible',
           }}>
             <LinearGradient colors={[
               'transparent',
