@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { View, Text, Platform, Dimensions, Switch } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { CalendarIcon,LandPlotIcon, MegaphoneIcon, MegaphoneOffIcon, MinusIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
+import { CalendarIcon,ChevronDownIcon,LandPlotIcon, MegaphoneIcon, MegaphoneOffIcon, MinusIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as DropdownMenu from 'zeego/dropdown-menu'
 
 import CustomModal from "../../../components/CustomModal";
 import CustomSection from "../../../components/CustomSection";
@@ -13,6 +14,49 @@ import CoefficientHandler from "../../../../core/CoefficientHandler";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import AppData from "../../../../core/AppData";
 import { useAppContext } from "../../../../util/AppContext";
+import { BlurView } from "expo-blur";
+
+
+// More info
+function MoreInfoPopup({ mark, toggleIsEffective }) {
+  return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger>
+        <ChevronDownIcon size={30} color={'black'}/>
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content>
+        <DropdownMenu.Label>Plus d'infos</DropdownMenu.Label>
+
+        {Platform.select({ ios: (
+          <>
+          <DropdownMenu.Item key={1}>
+            <DropdownMenu.ItemTitle>Code note</DropdownMenu.ItemTitle>
+            <DropdownMenu.ItemSubtitle>{`${mark.id}`}</DropdownMenu.ItemSubtitle>
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Item key={2} destructive={mark.isEffective} onSelect={toggleIsEffective}>
+            <DropdownMenu.ItemIcon ios={{
+              name: mark.isEffective ? 'trash' : 'plus',
+            }}/> 
+            <DropdownMenu.ItemTitle>{mark.isEffective ? "Désactiver cette note" : "Activer cette note"}</DropdownMenu.ItemTitle>
+          </DropdownMenu.Item>
+          </>
+        ), android: (
+          <>
+          <DropdownMenu.Item key={1}>
+            <DropdownMenu.ItemTitle>{`Code note : ${mark.id}`}</DropdownMenu.ItemTitle>
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Item key={2} destructive={mark.isEffective} onSelect={toggleIsEffective}>
+            <DropdownMenu.ItemIcon androidIconName={mark.isEffective ? 'ic_delete' : 'ic_input_add'}/> 
+            <DropdownMenu.ItemTitle>{mark.isEffective ? "Désactiver cette note" : "Activer cette note"}</DropdownMenu.ItemTitle>
+          </DropdownMenu.Item>
+          </>
+        ) })}
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
+  );
+}
 
 
 // Mark page
@@ -91,6 +135,15 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
       style={{ paddingVertical: 0 }}
       setWidth={setWindowWidth}
       title={"Détails de la note"}
+      rightIconStyle={{ backgroundColor: undefined, borderWidth: 0, padding: 7 }}
+      rightIcon={(
+        <BlurView style={{
+          borderRadius: 10,
+          overflow: "hidden",
+        }} tint="dark" intensity={30}>
+          <MoreInfoPopup mark={mark} toggleIsEffective={toggleIsEffective}/>
+        </BlurView>
+      )}
       children={(
         <View style={{ backgroundColor: theme.colors.backdrop }}>
           {/* Top portion */}

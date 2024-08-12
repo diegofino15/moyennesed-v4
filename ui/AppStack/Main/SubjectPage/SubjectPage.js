@@ -3,6 +3,7 @@ import useState from "react-usestateref";
 import { Text, View, Dimensions, ScrollView, Platform } from "react-native";
 import { AlertTriangleIcon, ChevronDownIcon, ChevronRightIcon, DraftingCompassIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneOffIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
+import { BlurView } from "expo-blur";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as DropdownMenu from 'zeego/dropdown-menu'
 
@@ -15,11 +16,11 @@ import CustomCoefficientPicker from "../../../components/CustomCoefficientPicker
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import { asyncExpectedResult, formatAverage } from "../../../../util/Utils";
+import { useAppContext } from "../../../../util/AppContext";
 import CoefficientHandler from "../../../../core/CoefficientHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import AppData from "../../../../core/AppData";
-import { useAppContext } from "../../../../util/AppContext";
 
 
 // More info
@@ -39,12 +40,7 @@ function MoreInfoPopup({ shownSubject, toggleIsEffective }) {
             <DropdownMenu.ItemSubtitle>{`${shownSubject.id}${shownSubject.subID ? ` -> ${shownSubject.subID}` : ""}`}</DropdownMenu.ItemSubtitle>
           </DropdownMenu.Item>
 
-          <DropdownMenu.Item key={2}>
-            <DropdownMenu.ItemTitle>Coefficient par défaut</DropdownMenu.ItemTitle>
-            <DropdownMenu.ItemSubtitle>{`x ${shownSubject.defaultCoefficient}`}</DropdownMenu.ItemSubtitle>
-          </DropdownMenu.Item>
-
-          <DropdownMenu.Item key={3} destructive={shownSubject.isEffective} onSelect={toggleIsEffective}>
+          <DropdownMenu.Item key={2} destructive={shownSubject.isEffective} onSelect={toggleIsEffective}>
             <DropdownMenu.ItemIcon ios={{
               name: shownSubject.isEffective ? 'trash' : 'plus',
             }}/> 
@@ -57,11 +53,7 @@ function MoreInfoPopup({ shownSubject, toggleIsEffective }) {
             <DropdownMenu.ItemTitle>{`Code :  ${shownSubject.id}${shownSubject.subID ? ` -> ${shownSubject.subID}` : ""}`}</DropdownMenu.ItemTitle>
           </DropdownMenu.Item>
 
-          <DropdownMenu.Item key={2}>
-            <DropdownMenu.ItemTitle>{`Coeff. defaut :  x ${shownSubject.defaultCoefficient}`}</DropdownMenu.ItemTitle>
-          </DropdownMenu.Item>
-
-          <DropdownMenu.Item key={3} destructive={shownSubject.isEffective} onSelect={toggleIsEffective}>
+          <DropdownMenu.Item key={2} destructive={shownSubject.isEffective} onSelect={toggleIsEffective}>
             <DropdownMenu.ItemIcon androidIconName={shownSubject.isEffective ? 'ic_delete' : 'ic_input_add'}/> 
             <DropdownMenu.ItemTitle>{shownSubject.isEffective ? "Désactiver cette matière" : "Activer cette matière"}</DropdownMenu.ItemTitle>
           </DropdownMenu.Item>
@@ -195,14 +187,21 @@ function SubjectPage({
       goBackButtonStyle={{ opacity: 0.6 }}
       onlyShowBackButtonOnAndroid
       titleObject={(
-        <View style={{ flexDirection: "row", alignItems: "center", maxWidth: '100%', overflow: 'hidden' }}>
+        <View style={{ flexDirection: "row", alignItems: "center", maxWidth: '100%', overflow: 'hidden', justifyContent: "flex-end", paddingHorizontal: 50, }}>
           {!isEffective && <MegaphoneOffIcon size={25} color={'black'} style={{ marginRight: 5 }}/>}
           {shownSubject.subID && <Text style={[theme.fonts.titleSmall, { color: "black" }]} numberOfLines={1}>{mainSubject.title ?? "---"}</Text>}
           {shownSubject.subID && <ChevronRightIcon size={25} color={"black"}/>}
           <Text style={[theme.fonts.titleSmall, { color: "black", maxWidth: windowWidth - 70 }]} numberOfLines={1}>{shownSubject.title ?? "---"}</Text>
         </View>
       )}
-      rightIcon={<MoreInfoPopup shownSubject={shownSubject} toggleIsEffective={toggleIsEffective}/>}
+      rightIcon={(
+        <BlurView style={{
+          borderRadius: 10,
+          overflow: "hidden",
+        }} tint="dark" intensity={30}>
+          <MoreInfoPopup shownSubject={shownSubject} toggleIsEffective={toggleIsEffective}/>
+        </BlurView>
+      )}
       rightIconStyle={{ backgroundColor: undefined, borderWidth: 0, padding: 7 }}
       headerStyle={{ backgroundColor: dark }}
       style={{ paddingVertical: 0 }}
