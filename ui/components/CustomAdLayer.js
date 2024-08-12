@@ -34,7 +34,7 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
       setCanShowContent(true);
       setCanShowAverage(true);
       AsyncStorage.setItem("lastAdTime", Date.now().toString());
-    } else if (Date.now() - parseInt(lastAdTime) > AD_COOLDOWN) { // TODO: inverse
+    } else if (Date.now() - parseInt(lastAdTime) < AD_COOLDOWN) {
       console.log("Ad cooldown not finished");
       setCanShowAverage(true);
       setCanShowContent(true);
@@ -90,7 +90,7 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
         position: 'absolute',
         alignSelf: 'center',
       }} onPress={() => {
-        if (rewardedAd.loaded) { rewardedAd.show(); }
+        if (rewardedAd?.loaded) { rewardedAd.show(); }
       }}>
         <BlurView tint="light" intensity={25} style={{
           padding: 10,

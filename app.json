@@ -21,6 +21,7 @@
     },
     "owner": "finocchiarodev",
     "plugins": [
+      "./util/customAppCheck",
       "@react-native-firebase/app",
       [
         "expo-build-properties",

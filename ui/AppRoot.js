@@ -11,6 +11,7 @@ import DoubleAuthPopup from "./components/DoubleAuthPopup";
 import { Themes, initFontsAndThemes } from "../util/Styles";
 import { setupNotifications } from "../util/firebaseCloudMessaging";
 import { AppContextProvider, useAppContext } from "../util/AppContext";
+import { initFirebaseAppCheck } from "../util/firebaseAppCheck";
 import AdsHandler from "../core/AdsHandler";
 import ColorsHandler from "../core/ColorsHandler";
 import CoefficientHandler from "../core/CoefficientHandler";
@@ -37,6 +38,16 @@ function AppRoot() {
   // Prepare function
   useEffect(() => { prepare(); }, []);
   async function prepare() {
+    // Load firebase app-check
+    initFirebaseAppCheck().then(() => {
+      console.log("Firebase AppCheck is setup !");
+    });
+
+    // Register for notifications
+    setupNotifications().then(() => {
+      console.log("Notifications registered");
+    })
+    
     // Load UI
     await initFontsAndThemes();
     const themeData = JSON.parse(await AsyncStorage.getItem("theme"));
@@ -61,11 +72,6 @@ function AppRoot() {
       AdsHandler.setupAdmob({ checkForConsent: false, setCanServeAds: setCanServeAds });
       setIsLoaded(true);
     }
-
-    // Register for notifications
-    setupNotifications().then(() => {
-      console.log("Notifications registered");
-    })
   }
 
   if (!isLoaded) { return null; }
