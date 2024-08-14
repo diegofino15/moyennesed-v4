@@ -47,9 +47,16 @@ function MarksOverview({
         setPeriods(cacheData[accountID].data);
 
         // Choose period that isn't finished
-        let shownPeriod = 0;
-        Object.values(periodsRef.current).forEach(period => { if (period.isFinished) { shownPeriod += 1; } })
-        if (shownPeriod == Object.keys(periodsRef.current).length) { shownPeriod -= 1; }
+        let shownPeriod = null;
+        let periodValues = Object.values(periodsRef.current);
+        for (let i = 0; i < periodValues.length; i++) {
+          if (!periodValues[i].isFinished) {
+            shownPeriod = i;
+            break;
+          }
+        }
+        if (shownPeriod == null) { shownPeriod = periodValues.length - 1; }
+        
         let newSelectedPeriod = Object.keys(periodsRef.current)[shownPeriod];
         if (latestCurrentPeriod != newSelectedPeriod) {
           setSelectedPeriod(newSelectedPeriod);

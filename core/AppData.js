@@ -538,7 +538,7 @@ class AppData {
       // Set period
       periods[periodID] = createPeriod(
         periodID,
-        periodTitle,
+        `${periodTitle}${isPeriodFinished ? " (fini)" : ""}`,
         isPeriodFinished,
         periodSubjects,
         periodSubjectGroups,
