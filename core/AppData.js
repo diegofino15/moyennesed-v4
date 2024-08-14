@@ -551,7 +551,7 @@ class AppData {
     var sortedMarks = [];
     for (const mark of marks.notes ?? []) {
       let markID = mark.id;
-      let periodID = mark.codePeriode;
+      let periodID = `${mark.codePeriode}`.substring(0, 4);
       let subjectID = mark.codeMatiere;
       let subSubjectID = mark.codeSousMatiere;
       let markTitle = mark.devoir;
