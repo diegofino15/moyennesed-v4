@@ -637,6 +637,10 @@ class AppData {
     sortedMarks.sort((a, b) => a.date.getTime() - b.date.getTime());
     for (const mark of sortedMarks) {
       const { id, subjectID, subSubjectID, periodID } = mark;
+      if (!(periodID in periods)) {
+        console.log(`Got mark without period ! ${id}`);
+        continue;
+      }
 
       // Add mark to corresponding Subject
       if (!(subjectID in periods[periodID].subjects)) {
