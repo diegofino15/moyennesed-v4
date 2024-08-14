@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'; 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
 
 import MainPage from './Main/MainPage';
 import MarkPage from './Main/SubjectPage/MarkPage';
