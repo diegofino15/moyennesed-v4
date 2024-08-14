@@ -14,7 +14,6 @@ function EmbeddedSubjectCard({
   subject,
   getMark,
   hasExam,
-  countMarksWithOnlyCompetences,
   navigation,
 }) {
   const { theme } = useAppContext();
@@ -106,7 +105,7 @@ function EmbeddedSubjectCard({
                 return (
                   <Text style={[theme.fonts.headlineMedium, {
                     color: 'black',
-                    opacity: mark.isEffective && (!mark.valueOn && mark.competences.length ? countMarksWithOnlyCompetences : true) ? 1 : 0.2,
+                    opacity: mark.isEffective ? 1 : 0.2,
                     fontFamily: "Numbers-Regular",
                   }]}>{formatMark(mark)}</Text>
                 );
@@ -140,7 +139,6 @@ function SubjectCard({
   subject,
   getMark,
   hasExam,
-  countMarksWithOnlyCompetences,
   navigation,
 }) {
   return (
@@ -150,7 +148,6 @@ function SubjectCard({
         subject={subject}
         getMark={getMark}
         hasExam={hasExam}
-        countMarksWithOnlyCompetences={countMarksWithOnlyCompetences}
         navigation={navigation}
       />
 
@@ -161,7 +158,6 @@ function SubjectCard({
           accountID={accountID}
           subject={subSubject}
           getMark={getMark}
-          countMarksWithOnlyCompetences={countMarksWithOnlyCompetences}
           navigation={navigation}
         />
       ))}

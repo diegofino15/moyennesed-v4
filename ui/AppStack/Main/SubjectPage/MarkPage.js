@@ -34,12 +34,14 @@ function MoreInfoPopup({ mark, toggleIsEffective }) {
             <DropdownMenu.ItemSubtitle>{`${mark.id}`}</DropdownMenu.ItemSubtitle>
           </DropdownMenu.Item>
 
-          <DropdownMenu.Item key={2} destructive={mark.isEffective} onSelect={toggleIsEffective}>
-            <DropdownMenu.ItemIcon ios={{
-              name: mark.isEffective ? 'trash' : 'plus',
-            }}/> 
-            <DropdownMenu.ItemTitle>{mark.isEffective ? "Désactiver cette note" : "Activer cette note"}</DropdownMenu.ItemTitle>
-          </DropdownMenu.Item>
+          {mark.hasValue && (
+            <DropdownMenu.Item key={2} destructive={mark.isEffective} onSelect={toggleIsEffective}>
+              <DropdownMenu.ItemIcon ios={{
+                name: mark.isEffective ? 'trash' : 'plus',
+              }}/> 
+              <DropdownMenu.ItemTitle>{mark.isEffective ? "Désactiver cette note" : "Activer cette note"}</DropdownMenu.ItemTitle>
+            </DropdownMenu.Item>
+          )}
           </>
         ), android: (
           <>
@@ -47,10 +49,12 @@ function MoreInfoPopup({ mark, toggleIsEffective }) {
             <DropdownMenu.ItemTitle>{`Code note : ${mark.id}`}</DropdownMenu.ItemTitle>
           </DropdownMenu.Item>
 
-          <DropdownMenu.Item key={2} destructive={mark.isEffective} onSelect={toggleIsEffective}>
-            <DropdownMenu.ItemIcon androidIconName={mark.isEffective ? 'ic_delete' : 'ic_input_add'}/> 
-            <DropdownMenu.ItemTitle>{mark.isEffective ? "Désactiver cette note" : "Activer cette note"}</DropdownMenu.ItemTitle>
-          </DropdownMenu.Item>
+          {mark.hasValue && (
+            <DropdownMenu.Item key={2} destructive={mark.isEffective} onSelect={toggleIsEffective}>
+              <DropdownMenu.ItemIcon androidIconName={mark.isEffective ? 'ic_delete' : 'ic_input_add'}/> 
+              <DropdownMenu.ItemTitle>{mark.isEffective ? "Désactiver cette note" : "Activer cette note"}</DropdownMenu.ItemTitle>
+            </DropdownMenu.Item>
+          )}
           </>
         ) })}
       </DropdownMenu.Content>
@@ -269,6 +273,18 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
                   icon={<LandPlotIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
                   textStyle={{ width: windowWidth - 90 }}
                   style={{ marginBottom: 10 }}
+                  additionalObject={(
+                    <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5, alignSelf: "flex-end" }}>
+                      <View style={{
+                        width: 30,
+                        height: 20,
+                        backgroundColor: theme.colors.success,
+                        borderRadius: 5,
+                        marginRight: 5,
+                      }}/>
+                      <Text style={theme.fonts.bodyMedium}>{"Acquis"}</Text>
+                    </View>
+                  )}
                 />
               ))}
             </>

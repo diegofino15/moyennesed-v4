@@ -587,16 +587,11 @@ class AppData {
 
       // Determine if the mark has a value or is empty
       let markHasValue = true;
-      if (!markValueOn && markCompetences.length == 0) {
+      if (!markValueOn) {
+        isMarkEffective = false;
         markHasValue = false;
-      } else if (!markValueOn) {
-        let sum = 0;
-        for (const competence of markCompetences) {
-          sum += competence.value;
-        }
-        markValue = sum / markCompetences.length;
-        markValueStr = `${markValue}`.replace(".", ",");
-        markValueOn = 4;
+        markValueStr = "--";
+        markValueOn = 20;
       }
       if (isNaN(markValue)) { markHasValue = false; }
 
@@ -860,11 +855,6 @@ class AppData {
   }
   // Calculate all averages
   static async _refreshAverages(givenPeriod, averageDate, updateMarkGeneralInfluence, updateMarkSubjectAverageInfluence, updateMarkSubSubjectAverageInfluence) {
-    // Preferences
-    const countMarksWithOnlyCompetences = await this.getPreference(
-      "countMarksWithOnlyCompetences",
-    );
-
     // Calculates the straight average for any given subject
     function _calculateSubjectAverage(subject, getMark, averageDate, customUpdateMarkSubjectAverageInfluence) {
       let nbOfCountedMarks = 0;
@@ -886,24 +876,6 @@ class AppData {
               coefOfClassMarks += mark.coefficient;
             }
             nbOfCountedMarks += 1;
-          } else if (countMarksWithOnlyCompetences) {
-            let sumOfCompetences = 0;
-            let coefOfCompetences = 0;
-            mark.competences.forEach((competence) => {
-              if (competence.value) {
-                // Because 0 = student was missing
-                sumOfCompetences += ((competence.value - 1) / 3) * 20;
-                coefOfCompetences += 1;
-              }
-            });
-            if (coefOfCompetences) {
-              sumOfMarks +=
-                (sumOfCompetences / coefOfCompetences) * mark.coefficient;
-              coefOfMarks += mark.coefficient;
-              nbOfCountedMarks += 1;
-            } else {
-              mark.hasValue = false;
-            }
           }
         }
       });

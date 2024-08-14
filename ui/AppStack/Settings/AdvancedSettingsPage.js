@@ -1,14 +1,12 @@
 import { memo, useEffect } from "react";
 import useState from "react-usestateref";
-import { View, Text, Switch } from "react-native";
-import { LandPlotIcon, MoonIcon, SunIcon } from "lucide-react-native";
+import { View, Text } from "react-native";
+import { MoonIcon, SunIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomModal from "../../components/CustomModal";
 import CustomSection from "../../components/CustomSection";
-import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
-import AppData from "../../../core/AppData";
 import { useAppContext } from "../../../util/AppContext";
 import { Themes } from "../../../util/Styles";
 import CustomTextArea from "../../components/CustomTextArea";
@@ -120,14 +118,6 @@ function AdvancedSettingsPage({ globalDisplayUpdater, updateGlobalDisplay, navig
   function updateScreen() { setForceUpdate(!forceUpdate); }
   useEffect(updateScreen, [globalDisplayUpdater]);
 
-  // Competences
-  const [countCompetences, setCountCompetences] = useState(false);
-
-  // Init
-  useEffect(() => {
-    AppData.getPreference("countMarksWithOnlyCompetences").then(setCountCompetences);
-  }, [globalDisplayUpdater, forceUpdate]);
-
   return (
     <CustomModal
       title={"Paramètres avancés"}
@@ -140,24 +130,7 @@ function AdvancedSettingsPage({ globalDisplayUpdater, updateGlobalDisplay, navig
           />
           <ThemeSwitcher/>
 
-          <CustomSection
-            title={"Calcul des moyennes"}
-          />
-          <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>Les notes sans valeur avec seulement des compétences indiquées seront comptées comme des notes sur 4.</Text>
-          <CustomSimpleInformationCard
-            content={"Compter les compétences"}
-            icon={<LandPlotIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
-            rightIcon={(
-              <Switch
-                value={countCompetences}
-                onValueChange={async (value) => {
-                  await AppData.setPreference("countMarksWithOnlyCompetences", value);
-                  await AppData.recalculateAverageHistory(currentAccount.id);
-                  updateGlobalDisplay();
-                }}
-              />
-            )}
-          />
+          {/* Add here future settings */}
         </View>
       )}
     />

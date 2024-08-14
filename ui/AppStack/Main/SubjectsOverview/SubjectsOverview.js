@@ -38,10 +38,6 @@ function SubjectsOverview({
     AppData.getSubjectHasExam(accountID).then(setSubjectHasExam);
   }, [accountID, gotHomework]);
 
-  // Preferences
-  const [countMarksWithOnlyCompetences, setCountMarksWithOnlyCompetences] = useState(false);
-  useEffect(() => { AppData.getPreference('countMarksWithOnlyCompetences').then(setCountMarksWithOnlyCompetences) }, [globalDisplayUpdater]);
-  
   return (
     <View>
       {/* Subject groups */}
@@ -90,7 +86,6 @@ function SubjectsOverview({
                 subject={periods[selectedPeriod].subjects[subjectID]}
                 getMark={(markID) => periods[selectedPeriod].marks[markID]}
                 hasExam={selectedPeriod == latestCurrentPeriod ? subjectHasExam[subjectID] : undefined}
-                countMarksWithOnlyCompetences={countMarksWithOnlyCompetences}
                 navigation={navigation}
               />;
             })}
@@ -123,7 +118,6 @@ function SubjectsOverview({
               subject={periods[selectedPeriod].subjects[subjectID]}
               getMark={(markID) => periods[selectedPeriod].marks[markID]}
               hasExam={selectedPeriod == latestCurrentPeriod ? subjectHasExam[subjectID] : undefined}
-              countMarksWithOnlyCompetences={countMarksWithOnlyCompetences}
               navigation={navigation}
             />;
           })}

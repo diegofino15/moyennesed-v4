@@ -4,7 +4,7 @@ import { useAppContext } from "../../util/AppContext";
 
 
 // Custom little information card
-function CustomSimpleInformationCard({ icon, rightIcon, content, style, textStyle, nof, subtitle=null }) {
+function CustomSimpleInformationCard({ icon, rightIcon, content, style, textStyle, nof, subtitle=null, additionalObject }) {
   const { theme } = useAppContext();
   
   return (
@@ -32,6 +32,7 @@ function CustomSimpleInformationCard({ icon, rightIcon, content, style, textStyl
       {subtitle ? (
         <Text style={[theme.fonts.labelMedium, { marginTop: 5, textAlign: 'justify' }]}>{subtitle}</Text>
       ) : null}
+      {additionalObject}
     </View>
   );
 }
