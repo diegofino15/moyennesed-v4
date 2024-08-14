@@ -278,11 +278,13 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
                       <View style={{
                         width: 30,
                         height: 20,
-                        backgroundColor: theme.colors.success,
+                        backgroundColor: theme.colors.success, // To adapt
                         borderRadius: 5,
                         marginRight: 5,
                       }}/>
-                      <Text style={theme.fonts.bodyMedium}>{"Acquis"}</Text>
+                      <Text style={theme.fonts.bodyMedium}>{
+                        "Acquis" // To adapt
+                      }</Text>
                     </View>
                   )}
                 />
