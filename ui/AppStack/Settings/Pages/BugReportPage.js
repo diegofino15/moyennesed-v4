@@ -13,14 +13,13 @@ import CustomChooser from "../../../components/CustomChooser";
 import CustomBigTextInput from "../../../components/CustomBigTextInput";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import { useAppContext } from "../../../../util/AppContext";
-import { hashString } from "../../../../util/Utils";
 
 
 // Ad information page
 function BugReportPage({ navigation }) {
   const { theme } = useAppContext();
 
-  const [hashedUsername, setHashedUsername] = useState(null);
+  const [username, setUsername] = useState(null);
   
   // Types of bugs
   const bugTypes = {
@@ -49,7 +48,7 @@ function BugReportPage({ navigation }) {
 
     AsyncStorage.getItem("credentials").then(data => {
       const { username } = JSON.parse(data);
-      setHashedUsername(hashString(username));
+      setUsername(username);
     });
   }, []);
 
@@ -69,7 +68,7 @@ function BugReportPage({ navigation }) {
 
     const bugReportsCollection = firestore().collection("bugReports");
     try {
-      await bugReportsCollection.doc(hashedUsername).set({
+      await bugReportsCollection.doc(username).set({
         date: new Date(),
         type: selectedBugType,
         description: bugDescription,

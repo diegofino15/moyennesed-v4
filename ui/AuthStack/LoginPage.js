@@ -10,6 +10,7 @@ import { useAppContext } from "../../util/AppContext";
 import { openLink } from "../../util/Utils";
 import AppData from "../../core/AppData";
 import HapticsHandler from "../../core/HapticsHandler";
+import CustomDynamicLoginChooser from "./CustomDynamicLoginChooser";
 
 
 // Login page
@@ -19,6 +20,7 @@ function LoginPage({ navigation }) {
 
   // Username and password
   const [username, setUsername] = useState('');
+  const usernameTextController = useRef(null);
   const [password, setPassword] = useState('');
   const passwordTextController = useRef(null);
 
@@ -66,10 +68,21 @@ function LoginPage({ navigation }) {
           {/* Inputs */}
           <CustomTextInput
             label='Identifiant'
+            initialValue={username}
             onChangeText={setUsername}
             icon={<CircleUserRoundIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
             style={{ marginBottom: 10 }}
             windowWidth={windowWidth}
+
+            // Only for dev
+            controller={usernameTextController}
+            customRightIcon={__DEV__ && (
+              <View style={{ position: 'absolute', right: 15 }}>
+                <CustomDynamicLoginChooser setSelected={(value) => {
+                  setUsername(`demoaccount-${value}`);
+                }}/>
+              </View>
+            )}
           />
           <CustomTextInput
             label={wrongPassword ? "Mot de passe incorrect" : "Mot de passe"}
