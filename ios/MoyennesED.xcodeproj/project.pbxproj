@@ -443,11 +443,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MoyennesED/MoyennesED.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K346DAP8ZJ;
+				DEVELOPMENT_TEAM = K346DAP8ZJ;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -471,7 +469,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.diegof.moyennesed;
 				PRODUCT_NAME = "MoyennesED";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "MoyennesED Provisioning Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "MoyennesED/MoyennesED-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -489,11 +486,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MoyennesED/MoyennesED.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K346DAP8ZJ;
+				DEVELOPMENT_TEAM = K346DAP8ZJ;
 				INFOPLIST_FILE = MoyennesED/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MoyennesED;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
@@ -512,7 +507,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.diegof.moyennesed;
 				PRODUCT_NAME = "MoyennesED";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "MoyennesED Provisioning Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "MoyennesED/MoyennesED-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -970,7 +970,7 @@ PODS:
   - EXJSONUtils (0.12.3)
   - EXManifests (0.13.2):
     - ExpoModulesCore
-  - Expo (50.0.19):
+  - Expo (50.0.20):
     - ExpoModulesCore
   - expo-dev-client (3.3.12):
     - EXManifests
@@ -1072,6 +1072,9 @@ PODS:
     - React-Core (= 0.73.6)
     - React-jsi (= 0.73.6)
     - ReactCommon/turbomodule/core (= 0.73.6)
+  - Firebase/AnalyticsWithoutAdIdSupport (10.29.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics/WithoutAdIdSupport (~> 10.29.0)
   - Firebase/AppCheck (10.29.0):
     - Firebase/CoreOnly
     - FirebaseAppCheck (~> 10.29.0)
@@ -1083,6 +1086,15 @@ PODS:
   - Firebase/Messaging (10.29.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 10.29.0)
+  - FirebaseAnalytics/WithoutAdIdSupport (10.29.0):
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleAppMeasurement/WithoutAdIdSupport (= 10.29.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
+    - GoogleUtilities/MethodSwizzler (~> 7.11)
+    - GoogleUtilities/Network (~> 7.11)
+    - "GoogleUtilities/NSData+zlib (~> 7.11)"
+    - nanopb (< 2.30911.0, >= 2.30908.0)
   - FirebaseAppCheck (10.29.0):
     - AppCheckCore (~> 10.19)
     - FirebaseAppCheckInterop (~> 10.28)
@@ -1138,6 +1150,12 @@ PODS:
   - glog (0.3.5)
   - Google-Mobile-Ads-SDK (11.2.0):
     - GoogleUserMessagingPlatform (>= 1.1)
+  - GoogleAppMeasurement/WithoutAdIdSupport (10.29.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
+    - GoogleUtilities/MethodSwizzler (~> 7.11)
+    - GoogleUtilities/Network (~> 7.11)
+    - "GoogleUtilities/NSData+zlib (~> 7.11)"
+    - nanopb (< 2.30911.0, >= 2.30908.0)
   - GoogleDataTransport (9.4.1):
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30911.0, >= 2.30908.0)
@@ -1153,6 +1171,9 @@ PODS:
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/Logger (7.13.3):
     - GoogleUtilities/Environment
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/MethodSwizzler (7.13.3):
+    - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
   - GoogleUtilities/Network (7.13.3):
     - GoogleUtilities/Logger
@@ -2316,6 +2337,10 @@ PODS:
     - ExpoModulesCore
   - RNCAsyncStorage (1.21.0):
     - React-Core
+  - RNFBAnalytics (20.4.0):
+    - Firebase/AnalyticsWithoutAdIdSupport (= 10.29.0)
+    - React-Core
+    - RNFBApp
   - RNFBApp (20.3.0):
     - Firebase/CoreOnly (= 10.29.0)
     - React-Core
@@ -2442,6 +2467,7 @@ DEPENDENCIES:
   - ReactNativeIosContextMenu (from `../node_modules/react-native-ios-context-menu`)
   - ReactNativeIosUtilities (from `../node_modules/react-native-ios-utilities`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAppCheck (from `../node_modules/@react-native-firebase/app-check`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
@@ -2466,6 +2492,7 @@ SPEC REPOS:
     - ContextMenuAuxiliaryPreview
     - DGSwiftUtilities
     - Firebase
+    - FirebaseAnalytics
     - FirebaseAppCheck
     - FirebaseAppCheckInterop
     - FirebaseCore
@@ -2478,6 +2505,7 @@ SPEC REPOS:
     - FirebaseSharedSwift
     - fmt
     - Google-Mobile-Ads-SDK
+    - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUserMessagingPlatform
     - GoogleUtilities
@@ -2634,6 +2662,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-ios-utilities"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNFBAnalytics:
+    :path: "../node_modules/@react-native-firebase/analytics"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAppCheck:
@@ -2676,7 +2706,7 @@ SPEC CHECKSUMS:
   EXFont: f20669cb266ef48b004f1eb1f2b20db96cd1df9f
   EXJSONUtils: 5c42959e87be238b045ef37cc5268b16a6c0ad4a
   EXManifests: 5e8c29f36c716af768a4ea47ec05e1b89ab93091
-  Expo: ad8bce0c0fc557cae703cc8dbce73d61a90ab5c5
+  Expo: d86f597bbab83615207499c5b3bfd80992e2bbd3
   expo-dev-client: f22fdebdb8760bc22f660b7c0cb1dd58d80005c0
   expo-dev-launcher: 11c184a2dca65f9bd6dc575a73a554b7be589d1d
   expo-dev-menu: 68ea53d923996e27b20ce02b51cc820fc2327a83
@@ -2693,6 +2723,7 @@ SPEC CHECKSUMS:
   FBLazyVector: f64d1e2ea739b4d8f7e4740cde18089cd97fe864
   FBReactNativeSpec: 9f2b8b243131565335437dba74923a8d3015e780
   Firebase: cec914dab6fd7b1bd8ab56ea07ce4e03dd251c2d
+  FirebaseAnalytics: 23717de130b779aa506e757edb9713d24b6ffeda
   FirebaseAppCheck: a071fc2cfbc877898f7546b2d59d4a30a728ebae
   FirebaseAppCheckInterop: 6a1757cfd4067d8e00fccd14fcc1b8fd78cfac07
   FirebaseCore: 30e9c1cbe3d38f5f5e75f48bfcea87d7c358ec16
@@ -2706,6 +2737,7 @@ SPEC CHECKSUMS:
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
   Google-Mobile-Ads-SDK: 5a6d005a6cb5b5e8f4c7b69ca05cdea79c181139
+  GoogleAppMeasurement: f9de05ee17401e3355f68e8fc8b5064d429f5918
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleUserMessagingPlatform: b1ad7bb1ee3ce64749d4fec24f667b36e45c396c
   GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
@@ -2764,6 +2796,7 @@ SPEC CHECKSUMS:
   ReactNativeIosContextMenu: e5f972174bd78ab3a552bd6ee4745762ffaa42b3
   ReactNativeIosUtilities: 638290fbfaa093c1b50d1f926715d77cabcae759
   RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
+  RNFBAnalytics: 1d2ce0a73ad75bda19530f79eff05affbe450aee
   RNFBApp: a7aff07a7f212149539fce51a1326c6d208b03ad
   RNFBAppCheck: 2463063b94cf3178e0398175636bcc3766f4f98e
   RNFBFirestore: 2c8d40c5a28007d6a3d183e21141e2fedf7f6d41
@@ -2780,6 +2813,6 @@ SPEC CHECKSUMS:
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 805bf71192903b20fc14babe48080582fee65a80
 
-PODFILE CHECKSUM: b0e881fad279f45716558df6f03ed614b1def8ef
+PODFILE CHECKSUM: d7a6155c0b5f599b0929c8c473b5748bad5e7dde
 
 COCOAPODS: 1.15.2

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import useState from "react-usestateref";
 import { StatusBar, useColorScheme } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from "@react-navigation/native";
@@ -16,13 +17,14 @@ import AdsHandler from "../core/AdsHandler";
 import ColorsHandler from "../core/ColorsHandler";
 import CoefficientHandler from "../core/CoefficientHandler";
 import AppData from "../core/AppData";
+import { wait } from "../util/Utils";
 
 
 // App Root
 function AppRoot() {
   // Close SplashScreen once app is loaded
-  const [isLoaded, setIsLoaded] = useState(false);
-  useEffect(() => { if (isLoaded) { SplashScreen.hideAsync(); } }, [isLoaded]);
+  const [isLoaded, setIsLoaded, isLoadedRef] = useState(false);
+  useEffect(() => { if (isLoadedRef.current) { SplashScreen.hideAsync(); } }, [isLoadedRef.current]);
 
   // Is user logged-in
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -65,13 +67,10 @@ function AppRoot() {
 
       await ColorsHandler.load();
       await CoefficientHandler.load();
-
-      AdsHandler.setupAdmob({ checkForConsent: true, setCanServeAds: setCanServeAds });
-      setIsLoaded(true);
-    } else {
-      AdsHandler.setupAdmob({ checkForConsent: false, setCanServeAds: setCanServeAds });
-      setIsLoaded(true);
     }
+    
+    AdsHandler.setupAdmob({ checkForConsent: true, setCanServeAds: setCanServeAds });
+    setIsLoaded(true);
   }
 
   if (!isLoaded) { return null; }
