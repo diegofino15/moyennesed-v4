@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, Text, Platform, Dimensions, Switch } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { CalendarIcon,ChevronDownIcon,LandPlotIcon, MegaphoneIcon, MegaphoneOffIcon, MinusIcon, PenToolIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
+import { CalendarIcon,ChevronDownIcon,LandPlotIcon, MegaphoneIcon, MegaphoneOffIcon, MessageSquareIcon, MinusIcon, PenToolIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as DropdownMenu from 'zeego/dropdown-menu'
 
@@ -278,6 +278,14 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
               style={{ marginTop: 10 }}
             />
           )}
+          {mark.comment && (
+            <CustomSimpleInformationCard
+              icon={<MessageSquareIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
+              content={"Commentaire"}
+              subtitle={mark.comment}
+              style={{ marginTop: 10 }}
+            />
+          )}
 
           {/* Competences */}
           {mark.competences.length > 0 && (
@@ -397,7 +405,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
           />
           {mark.onlyHasCompetences && (
             <>
-               <Text style={[theme.fonts.labelLarge, { textAlign: "justify" }]}>Cette note n'a pas de valeur, vous pouvez choisir de la compter comme une note sur 3.</Text>
+               <Text style={[theme.fonts.labelLarge, { textAlign: "justify" }]}>Cette note n'a pas de valeur numérique, vous pouvez choisir de la compter comme une note sur 3 en fonction de la notation des compétences.</Text>
                <CustomSimpleInformationCard
                 icon={<LandPlotIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
                 content={"Compter les compétences"}

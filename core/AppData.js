@@ -632,6 +632,7 @@ class AppData {
         date: markDate,
         title: markTitle,
         type: capitalizeWords(mark.typeDevoir),
+        comment: mark.commentaire,
         defaultIsEffective: isMarkEffective,
         hasValue: markHasValue,
 
