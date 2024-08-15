@@ -176,6 +176,12 @@ function SubjectPage({
     );
   }
 
+  // Custom settings
+  const [countMarksWithOnlyCompetences, setCountMarksWithOnlyCompetences] = useState(false);
+  useEffect(() => {
+    AppData.getPreference("countMarksWithOnlyCompetences").then(setCountMarksWithOnlyCompetences);
+  }, [globalDisplayUpdater]);
+
   // Chart
   const [showClassValueOnChart, setShowClassValueOnChart] = useState(false);
   const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
@@ -462,6 +468,7 @@ function SubjectPage({
                   openMarkDetails={() => openMarkDetails(marks[markID])}
                   outline={markID == cacheMark?.id}
                   windowWidth={windowWidth}
+                  countMarksWithOnlyCompetences={countMarksWithOnlyCompetences}
                 />
               ))}
           </View>

@@ -126,6 +126,12 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
     );
   }
 
+  // Custom settings
+  const [countMarksWithOnlyCompetences, setCountMarksWithOnlyCompetences] = useState(false);
+  useEffect(() => {
+    AppData.getPreference("countMarksWithOnlyCompetences").then(setCountMarksWithOnlyCompetences);
+  }, [globalDisplayUpdater]);
+
   // Get subject colors
   const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
   const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
@@ -265,6 +271,8 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
               rightIcon={(
                 <Text style={[theme.fonts.bodyLarge, {
                   color: theme.colors.onSurfaceDisabled,
+                  width: windowWidth - 150,
+                  textAlign: "right",
                 }]}>{mark.type}</Text>
               )}
               style={{ marginTop: 10 }}
@@ -387,6 +395,28 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
           <CustomSection
             title={"Autre"}
           />
+          {mark.onlyHasCompetences && (
+            <>
+               <Text style={[theme.fonts.labelLarge, { textAlign: "justify" }]}>Cette note n'a pas de valeur, vous pouvez choisir de la compter comme une note sur 3.</Text>
+               <CustomSimpleInformationCard
+                icon={<LandPlotIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
+                content={"Compter les compétences"}
+                subtitle={"Paramètre global"}
+                rightIcon={(
+                  <Switch
+                    value={countMarksWithOnlyCompetences}
+                    onValueChange={async (value) => {
+                      await AppData.setPreference("countMarksWithOnlyCompetences", value);
+                      await AppData.recalculateAverageHistory(accountID);
+                      updateGlobalDisplay();
+                    }}
+                    disabled={!mark.hasValue}
+                  />
+                )}
+                style={{ marginVertical: 10 }}
+              />
+            </>
+          )}
           <CustomSimpleInformationCard
             icon={isEffective ? (
               <MegaphoneIcon size={25} color={theme.colors.error}/>

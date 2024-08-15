@@ -14,6 +14,7 @@ function EmbeddedSubjectCard({
   subject,
   getMark,
   hasExam,
+  countMarksWithOnlyCompetences,
   navigation,
 }) {
   const { theme } = useAppContext();
@@ -119,6 +120,7 @@ function EmbeddedSubjectCard({
                     alignItems: "center",
                     padding: 2,
                     height: 16,
+                    opacity: mark.isEffective && countMarksWithOnlyCompetences ? 1 : 0.2,
                   }}>
                     {mark.competences.map(competence => (
                       <View key={competence.id} style={{
@@ -161,6 +163,7 @@ function SubjectCard({
   subject,
   getMark,
   hasExam,
+  countMarksWithOnlyCompetences,
   navigation,
 }) {
   return (
@@ -170,6 +173,7 @@ function SubjectCard({
         subject={subject}
         getMark={getMark}
         hasExam={hasExam}
+        countMarksWithOnlyCompetences={countMarksWithOnlyCompetences}
         navigation={navigation}
       />
 
@@ -180,6 +184,7 @@ function SubjectCard({
           accountID={accountID}
           subject={subSubject}
           getMark={getMark}
+          countMarksWithOnlyCompetences={countMarksWithOnlyCompetences}
           navigation={navigation}
         />
       ))}

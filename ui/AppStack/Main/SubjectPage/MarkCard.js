@@ -9,7 +9,7 @@ import { useAppContext } from "../../../../util/AppContext";
 
 
 // Mark card
-function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth }) {
+function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth, countMarksWithOnlyCompetences }) {
   if (!mark) { return; }
 
   const { theme } = useAppContext();
@@ -24,7 +24,7 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth })
       borderColor: outline ? dark : theme.colors.surfaceOutline,
       borderRadius: 10,
       marginVertical: 5,
-      marginTop: mark.isEffective ? 5 : 10,
+      marginTop: !mark.isEffective || mark.onlyHasCompetences && !countMarksWithOnlyCompetences ? 10 : 5,
       flexDirection: 'row',
       alignItems: 'center',
       padding: 10,
@@ -126,9 +126,8 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth })
 
       {/* Is effective ? */}
       <CustomTag
-        title={mark.isEffective ? "" : "Non significative"}
-        style={mark.isEffective ? { paddingHorizontal: 0, paddingVertical: 0 } : {}}
-        color={theme.colors.error}
+        title={!mark.isEffective ? "Non significative" : mark.onlyHasCompetences && !countMarksWithOnlyCompetences ? "Désactivée" : ""}
+        color={!mark.isEffective ? theme.colors.error : mark.onlyHasCompetences && !countMarksWithOnlyCompetences ? theme.colors.primary : null}
         secondaryTag={mark.defaultIsEffective != mark.isEffective && (
           <WrenchIcon size={15} color={'white'}/>
         )}

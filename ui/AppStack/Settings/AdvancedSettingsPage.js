@@ -1,7 +1,7 @@
 import { memo, useEffect } from "react";
 import useState from "react-usestateref";
-import { View, Text } from "react-native";
-import { MoonIcon, SunIcon } from "lucide-react-native";
+import { View, Text, Switch } from "react-native";
+import { LandPlotIcon, MoonIcon, SunIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -10,6 +10,8 @@ import CustomSection from "../../components/CustomSection";
 import { useAppContext } from "../../../util/AppContext";
 import { Themes } from "../../../util/Styles";
 import CustomTextArea from "../../components/CustomTextArea";
+import AppData from "../../../core/AppData";
+import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
 
 
 // Theme switcher
@@ -118,6 +120,12 @@ function AdvancedSettingsPage({ globalDisplayUpdater, updateGlobalDisplay, navig
   function updateScreen() { setForceUpdate(!forceUpdate); }
   useEffect(updateScreen, [globalDisplayUpdater]);
 
+  // Competences
+  const [countCompetences, setCountCompetences] = useState(false);
+  useEffect(() => {
+    AppData.getPreference("countMarksWithOnlyCompetences").then(setCountCompetences);
+  }, [globalDisplayUpdater, forceUpdate]);
+
   return (
     <CustomModal
       title={"Paramètres avancés"}
@@ -129,6 +137,25 @@ function AdvancedSettingsPage({ globalDisplayUpdater, updateGlobalDisplay, navig
             viewStyle={{ marginTop: 0 }}
           />
           <ThemeSwitcher/>
+
+          <CustomSection
+            title={"Calcul des moyennes"}
+          />
+          <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>Certaines notes ne comportent pas de valeur numérique, ce paramètres permet de les compter dans la moyenne grâce à la notation de leurs compétences.</Text>
+          <CustomSimpleInformationCard
+            content={"Compter les compétences"}
+            icon={<LandPlotIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
+            rightIcon={(
+              <Switch
+                value={countCompetences}
+                onValueChange={async (value) => {
+                  await AppData.setPreference("countMarksWithOnlyCompetences", value);
+                  await AppData.recalculateAverageHistory(currentAccount.id);
+                  updateGlobalDisplay();
+                }}
+              />
+            )}
+          />
 
           {/* Add here future settings */}
         </View>

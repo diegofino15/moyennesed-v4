@@ -604,7 +604,12 @@ class AppData {
           }
         }
         if (totalCompetenceCount > 0) {
-          markValue = Math.round(totalCompetenceValue / totalCompetenceCount);
+          markValue = Math.round(totalCompetenceValue / totalCompetenceCount) - 1;
+          markValueOn = 3;
+          markValueStr = `${markValue}`;
+
+          markHasValue = true;
+          isMarkEffective = true;
           markOnlyHasCompetences = true;
         }
       }
@@ -626,7 +631,7 @@ class AppData {
 
         date: markDate,
         title: markTitle,
-        type: mark.typeDevoir,
+        type: capitalizeWords(mark.typeDevoir),
         defaultIsEffective: isMarkEffective,
         hasValue: markHasValue,
 
@@ -873,6 +878,11 @@ class AppData {
   }
   // Calculate all averages
   static async _refreshAverages(givenPeriod, averageDate, updateMarkGeneralInfluence, updateMarkSubjectAverageInfluence, updateMarkSubSubjectAverageInfluence) {
+    // Preferences
+    const countMarksWithOnlyCompetences = await this.getPreference(
+      "countMarksWithOnlyCompetences",
+    );
+    
     // Calculates the straight average for any given subject
     function _calculateSubjectAverage(subject, getMark, averageDate, customUpdateMarkSubjectAverageInfluence) {
       let nbOfCountedMarks = 0;
@@ -885,7 +895,13 @@ class AppData {
       subject.marks.forEach((markID) => {
         const mark = getMark(markID);
         if (mark.hasValue && mark.isEffective) {
-          if (mark.valueOn) {
+          if (mark.onlyHasCompetences) {
+            if (countMarksWithOnlyCompetences) {
+              sumOfMarks += (mark.value / mark.valueOn * 20) * mark.coefficient;
+              coefOfMarks += mark.coefficient;
+              nbOfCountedMarks += 1;
+            }
+          } else if (mark.valueOn) {
             sumOfMarks += (mark.value / mark.valueOn) * 20 * mark.coefficient;
             coefOfMarks += mark.coefficient;
             if (mark.classValue) {
@@ -1130,15 +1146,18 @@ class AppData {
       Object.values(givenPeriod.subjectGroups).forEach((subjectGroup) => {
         subjectGroup.averageHistory = [];
         subjectGroup.hasAverage = false;
+        subjectGroup.average = undefined;
       });
       Object.values(givenPeriod.subjects).forEach((subject) => {
         subject.averageHistory = [];
         subject.marks = [];
         subject.hasAverage = false;
+        subject.average = undefined;
         Object.values(subject.subSubjects).forEach((subSubject) => {
           subSubject.averageHistory = [];
           subSubject.marks = [];
           subSubject.hasAverage = false;
+          subSubject.average = undefined;
         });
       });
 
@@ -1156,6 +1175,11 @@ class AppData {
           let subSubject = subject.subSubjects[mark.subSubjectID];
           subSubject.marks.push(markID);
         }
+
+        // Reset influences
+        givenPeriod.marks[markID].generalAverageInfluence = undefined;
+        givenPeriod.marks[markID].subjectAverageInfluence = undefined;
+        givenPeriod.marks[markID].subSubjectAverageInfluence = undefined;
 
         await this._refreshAverages(
           givenPeriod,
