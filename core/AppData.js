@@ -587,11 +587,26 @@ class AppData {
 
       // Determine if the mark has a value or is empty
       let markHasValue = true;
+      let markOnlyHasCompetences = false;
       if (!markValueOn) {
         isMarkEffective = false;
         markHasValue = false;
         markValueStr = "--";
         markValueOn = 20;
+
+        // Loop through the competences and do a rounded average
+        let totalCompetenceValue = 0;
+        let totalCompetenceCount = 0;
+        for (const competence of markCompetences) {
+          if (competence.value > 0) {
+            totalCompetenceValue += competence.value;
+            totalCompetenceCount++;
+          }
+        }
+        if (totalCompetenceCount > 0) {
+          markValue = Math.round(totalCompetenceValue / totalCompetenceCount);
+          markOnlyHasCompetences = true;
+        }
       }
       if (isNaN(markValue)) { markHasValue = false; }
 
@@ -611,12 +626,14 @@ class AppData {
 
         date: markDate,
         title: markTitle,
+        type: mark.typeDevoir,
         defaultIsEffective: isMarkEffective,
         hasValue: markHasValue,
 
         defaultCoefficient: markCoefficient,
 
         competences: markCompetences,
+        onlyHasCompetences: markOnlyHasCompetences,
 
         valueStr: markValueStr,
         value: markValue,

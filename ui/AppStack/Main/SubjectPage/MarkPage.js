@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, Text, Platform, Dimensions, Switch } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { CalendarIcon,ChevronDownIcon,LandPlotIcon, MegaphoneIcon, MegaphoneOffIcon, MinusIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
+import { CalendarIcon,ChevronDownIcon,LandPlotIcon, MegaphoneIcon, MegaphoneOffIcon, MinusIcon, PenToolIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as DropdownMenu from 'zeego/dropdown-menu'
 
@@ -258,6 +258,18 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
               }]}>{formatDate2(mark.date)}</Text>
             )}
           />
+          {mark.type && (
+            <CustomSimpleInformationCard
+              icon={<PenToolIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
+              content={"Type"}
+              rightIcon={(
+                <Text style={[theme.fonts.bodyLarge, {
+                  color: theme.colors.onSurfaceDisabled,
+                }]}>{mark.type}</Text>
+              )}
+              style={{ marginTop: 10 }}
+            />
+          )}
 
           {/* Competences */}
           {mark.competences.length > 0 && (
@@ -278,12 +290,12 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
                       <View style={{
                         width: 30,
                         height: 20,
-                        backgroundColor: theme.colors.success, // To adapt
+                        backgroundColor: competence.value <= 0 ? theme.colors.onSurfaceDisabled : competence.value == 1 ? theme.colors.error : competence.value == 2 ? "#FFC300" : competence.value == 3 ? theme.colors.primary : theme.colors.success, // To adapt
                         borderRadius: 5,
                         marginRight: 5,
                       }}/>
                       <Text style={theme.fonts.bodyMedium}>{
-                        "Acquis" // To adapt
+                        competence.value <= 0 ? "N/A" : competence.value == 1 ? "Maîtrise insuffisante" : competence.value == 2 ? "Maîtrise fragile" : competence.value == 3 ? "Maîtrise satisfaisante" : "Très bonne maîtrise"
                       }</Text>
                     </View>
                   )}

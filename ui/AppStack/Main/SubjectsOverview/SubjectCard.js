@@ -100,14 +100,36 @@ function EmbeddedSubjectCard({
               scrollEnabled={false}
               showsHorizontalScrollIndicator={false}
               data={subject.sortedMarks}
+              contentContainerStyle={{
+                alignItems: "center"
+              }}
               renderItem={({ item }) => {
                 const mark = getMark(item);
-                return (
+                return !mark.onlyHasCompetences ? (
                   <Text style={[theme.fonts.headlineMedium, {
                     color: 'black',
                     opacity: mark.isEffective ? 1 : 0.2,
                     fontFamily: "Numbers-Regular",
                   }]}>{formatMark(mark)}</Text>
+                ) : (
+                  <View style={{
+                    borderRadius: 5,
+                    backgroundColor: theme.colors.surface,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    padding: 2,
+                    height: 16,
+                  }}>
+                    {mark.competences.map(competence => (
+                      <View key={competence.id} style={{
+                        backgroundColor: competence.value <= 0 ? theme.colors.onSurfaceDisabled : competence.value == 1 ? theme.colors.error : competence.value == 2 ? "#FFC300" : competence.value == 3 ? theme.colors.primary : theme.colors.success, // To adapt
+                        borderRadius: 5,
+                        width: 10,
+                        height: 10,
+                        margin: 1,
+                      }}/>
+                    ))}
+                  </View>
                 );
               }}
               ItemSeparatorComponent={<View style={{ width: 12.5 }}/>} 
