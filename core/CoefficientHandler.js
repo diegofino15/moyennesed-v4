@@ -71,7 +71,11 @@ class CoefficientHandler {
   }
 
   // MARKS //
-  static marksKeywords = {};
+  static marksKeywords = {
+    "eval": 1.25, "controle": 1.25, "devoir": 1.25,
+    "dst": 2.0,
+    "tp": 0.75, "qcm": 0.75, "dm": 0.75, "maison": 0.75, "travail": 0.75, "activite": 0.75,
+  };
   static chooseMarkCoefficient(rawMarkTitle) {
     var chosenCoefficient = 1;
     

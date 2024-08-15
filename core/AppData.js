@@ -839,7 +839,7 @@ class AppData {
           // Guess coefficient if enabled
           if (!mark.isCustomCoefficient || isNaN(mark.coefficient)) {
             if (CoefficientHandler.guessMarkCoefficientEnabled[accountID]) {
-              mark.coefficient = CoefficientHandler.chooseMarkCoefficient(accountID, mark.title);
+              mark.coefficient = CoefficientHandler.chooseMarkCoefficient(mark.title);
             } else {
               mark.coefficient = mark.defaultCoefficient;
             }
