@@ -80,6 +80,7 @@ class AppData {
     switch (response.status) {
       case 200:
         console.log("API request successful");
+        AsyncStorage.setItem("logs-login", JSON.stringify(response.data));
         switch (response.data.code) {
           case 200:
             await this._saveConnectedAccounts(
@@ -1384,7 +1385,7 @@ class AppData {
     }
 
     const status = await this.parseEcoleDirecte(
-      "specific homework",
+      "specific-homework",
       accountID,
       `${this.USED_URL}${APIEndpoints.SPECIFIC_HOMEWORK(accountID, day)}`,
       'data={}',
@@ -1452,7 +1453,7 @@ class AppData {
   }
   static async markHomeworkAsDone(accountID, homeworkID, done) {
     const status = await this.parseEcoleDirecte(
-      "mark homework as done",
+      "mark-homework-status",
       accountID,
       `${this.USED_URL}${APIEndpoints.ALL_HOMEWORK(accountID)}`,
       `data=${JSON.stringify({
@@ -1546,6 +1547,15 @@ class AppData {
     switch (response.status) {
       case 200:
         console.log("API request successful");
+
+        // Save response to storage for bug reporting
+        let filename = `logs-${title}`;
+        AsyncStorage.getItem(filename).then(fileData => {
+          let data = JSON.parse(fileData) ?? {};
+          data[accountID] = response.data;
+          AsyncStorage.setItem(filename, JSON.stringify(data));
+        });
+
         switch (response.data.code) {
           case 200:
             await this._updateToken(accountID, response.data.token);

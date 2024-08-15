@@ -13,9 +13,10 @@ import SettingsPage from './Settings/SettingsPage';
 import ProfilePage from './Settings/Profile/ProfilePage';
 import CoefficientsPage from './Settings/Pages/CoefficientsPage';
 import AdvancedSettingsPage from './Settings/Pages/AdvancedSettingsPage';
+import AdsInformationPage from './Settings/Pages/AdsInformationPage';
+import BugReportPage from './Settings/Pages/BugReportPage';
 
 import AppData from '../../core/AppData';
-import AdsInformationPage from './Settings/Pages/AdsInformationPage';
 
 
 // Create stack for navigation
@@ -264,6 +265,16 @@ function SettingsStack({ refreshLogin, isConnected, isConnecting, globalDisplayU
           animation: 'slide_from_right',
         }}
         component={AdsInformationPage}
+      />
+
+      {/* Bug reporting page */}
+      <Stack.Screen
+        name="BugReportPage"
+        options={{
+          headerShown: false,
+          animation: 'slide_from_right',
+        }}
+        component={BugReportPage}
       />
     </Stack.Navigator>
   );

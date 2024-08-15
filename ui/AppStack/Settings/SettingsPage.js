@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 import { View, Text, Platform, Dimensions } from "react-native";
-import { BadgeHelpIcon, FileXIcon, HandHelpingIcon, KeyIcon, ScaleIcon, Settings2Icon, WeightIcon } from "lucide-react-native";
+import { BadgeHelpIcon, BugIcon, FileXIcon, HandHelpingIcon, KeyIcon, ScaleIcon, Settings2Icon, WeightIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
@@ -111,6 +111,15 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDis
                 )}/>
               </View>
             )}
+          />
+
+          {/* Bug report */}
+          <CustomSection title={"Un problème ?"}/>
+          <CustomSimpleSectionButton
+            title={"Signaler un bug"}
+            textStyle={{ color: theme.colors.error }}
+            icon={<BugIcon size={20} color={theme.colors.error}/>}
+            onPress={() => navigation.navigate('BugReportPage', { presentation: 'modal' })}
           />
 
           {/* Dev options */}
