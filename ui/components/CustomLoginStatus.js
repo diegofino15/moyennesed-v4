@@ -3,12 +3,12 @@ import { PressableScale } from "react-native-pressable-scale";
 import { MoreHorizontalIcon, XIcon, RefreshCcwIcon, UserCheckIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 
-import HapticsHandler from "../../../core/HapticsHandler";
-import { useAppContext } from "../../../util/AppContext";
+import HapticsHandler from "../../core/HapticsHandler";
+import { useAppContext } from "../../util/AppContext";
 
 
 // Login status
-function LoginStatus({ isConnected, isConnecting, refreshLogin, style, windowWidth }) {
+function CustomLoginStatus({ isConnected, isConnecting, refreshLogin, style, windowWidth }) {
   const { theme } = useAppContext();
   
   const [color, setColor] = useState(theme.colors.primary);
@@ -76,4 +76,4 @@ function LoginStatus({ isConnected, isConnecting, refreshLogin, style, windowWid
   );
 }
 
-export default LoginStatus;
+export default CustomLoginStatus;

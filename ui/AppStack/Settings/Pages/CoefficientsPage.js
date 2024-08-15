@@ -3,14 +3,14 @@ import { View, Text, Switch } from "react-native";
 import { ChevronsUpDownIcon, CornerDownRightIcon, SparklesIcon, UserRoundIcon, Wand2Icon } from "lucide-react-native";
 import useState from "react-usestateref";
 
-import CustomModal from "../../components/CustomModal";
-import CustomSection from "../../components/CustomSection";
-import CustomChooser from "../../components/CustomChooser";
-import CustomInformationCard from "../../components/CustomInformationCard";
-import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
-import CoefficientHandler from "../../../core/CoefficientHandler";
-import AppData from "../../../core/AppData";
-import { useAppContext } from "../../../util/AppContext";
+import CustomModal from "../../../components/CustomModal";
+import CustomSection from "../../../components/CustomSection";
+import CustomChooser from "../../../components/CustomChooser";
+import CustomInformationCard from "../../../components/CustomInformationCard";
+import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
+import CoefficientHandler from "../../../../core/CoefficientHandler";
+import AppData from "../../../../core/AppData";
+import { useAppContext } from "../../../../util/AppContext";
 
 
 // Settings page

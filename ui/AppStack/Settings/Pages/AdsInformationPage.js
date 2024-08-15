@@ -39,13 +39,19 @@ function AdsInformationPage({ navigation }) {
     const { username } = JSON.parse(await AsyncStorage.getItem("credentials"));
     setHashedUsername(hashString(username));
 
-    const votePoll = firestore().collection("votes").doc("add-paid-accounts");
-    const yesVoters = votePoll.collection("yes-voters");
-    const noVoters = votePoll.collection("no-voters");
-    const alreadyVoted = (await yesVoters.doc(hashedUsernameRef.current).get()).exists || (await noVoters.doc(hashedUsernameRef.current).get()).exists;
+    try {
+      const votePoll = firestore().collection("votes").doc("add-paid-accounts");
+      const yesVoters = votePoll.collection("yes-voters");
+      const noVoters = votePoll.collection("no-voters");
+      const alreadyVoted = (await yesVoters.doc(hashedUsernameRef.current).get()).exists || (await noVoters.doc(hashedUsernameRef.current).get()).exists;
 
-    await AsyncStorage.setItem("votes", JSON.stringify({ ...votes, votedForAddPaidAccounts: alreadyVoted }));
-    setHasAlreadyVoted(alreadyVoted);
+      await AsyncStorage.setItem("votes", JSON.stringify({ ...votes, votedForAddPaidAccounts: alreadyVoted }));
+      setHasAlreadyVoted(alreadyVoted);
+    } catch (e) {
+      setHasAlreadyVoted(true);
+      console.warn("Unable to parse voting status");
+      console.warn(e);
+    }
 
     setIsLoading(false);
   }
@@ -53,15 +59,22 @@ function AdsInformationPage({ navigation }) {
   // Vote
   const [confirmingVote, setConfirmingVote] = useState(false);
   const [hasVoted, setHasVoted] = useState(false);
+  const [errorConfirmingVote, setErrorConfirmingVote] = useState(false);
   async function submitVote(answer) {
     setConfirmingVote(true);
     const votePoll = firestore().collection("votes").doc("add-paid-accounts");
-    if (answer) {
-      await votePoll.collection("yes-voters").doc(hashedUsernameRef.current).set({});
-    } else {
-      await votePoll.collection("no-voters").doc(hashedUsernameRef.current).set({});
+    try {
+      if (answer) {
+        await votePoll.collection("yes-voters").doc(hashedUsernameRef.current).set({});
+      } else {
+        await votePoll.collection("no-voters").doc(hashedUsernameRef.current).set({});
+      }
+      await AsyncStorage.setItem("votes", JSON.stringify({ ...JSON.parse(await AsyncStorage.getItem("votes") ?? "{}"), votedForAddPaidAccounts: true }));
+    } catch (e) {
+      setErrorConfirmingVote(true);
+      console.warn("Unable to submit vote");
+      console.warn(e);
     }
-    await AsyncStorage.setItem("votes", JSON.stringify({ ...JSON.parse(await AsyncStorage.getItem("votes") ?? "{}"), votedForAddPaidAccounts: true }));
     setHasVoted(true);
     setConfirmingVote(false);
   }
@@ -151,6 +164,8 @@ function AdsInformationPage({ navigation }) {
                       }}>
                         {confirmingVote ? (
                           <ActivityIndicator size={30} color={theme.colors.onSurfaceDisabled}/>
+                        ) : errorConfirmingVote ? (
+                          <Text style={[theme.fonts.labelMedium, { textAlign: "center" }]}>Une erreur est survenue</Text>
                         ) : hasVoted ? (
                           <Text style={[theme.fonts.labelMedium, { textAlign: "center" }]}>Merci</Text>
                         ) : (

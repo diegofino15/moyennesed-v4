@@ -6,7 +6,7 @@ import useState from "react-usestateref";
 
 import CustomModal from "../../components/CustomModal";
 import CustomSection from "../../components/CustomSection";
-import LoginStatus from "./LoginStatus";
+import CustomLoginStatus from "../../components/CustomLoginStatus";
 import CustomSectionButton from "../../components/CustomSectionButton";
 import CustomSimpleSectionButton from "../../components/CustomSimpleSectionButton";
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
@@ -41,7 +41,7 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDis
         <View>
           {/* Login status */}
           <CustomSection title={"Compte"} marginTop={0}/>
-          <LoginStatus isConnected={isConnected} isConnecting={isConnecting} refreshLogin={refreshLogin} style={{ marginBottom: 10 }} windowWidth={windowWidth}/>
+          <CustomLoginStatus isConnected={isConnected} isConnecting={isConnecting} refreshLogin={refreshLogin} style={{ marginBottom: 10 }} windowWidth={windowWidth}/>
           
           {/* Profile */}
           <CustomSectionButton

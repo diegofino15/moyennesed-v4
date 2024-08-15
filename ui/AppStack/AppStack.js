@@ -11,11 +11,11 @@ import HomeworkInformationPage from './Main/Homework/HomeworkInformationPage';
 
 import SettingsPage from './Settings/SettingsPage';
 import ProfilePage from './Settings/Profile/ProfilePage';
-import CoefficientsPage from './Settings/CoefficientsPage';
-import AdvancedSettingsPage from './Settings/AdvancedSettingsPage';
+import CoefficientsPage from './Settings/Pages/CoefficientsPage';
+import AdvancedSettingsPage from './Settings/Pages/AdvancedSettingsPage';
 
 import AppData from '../../core/AppData';
-import AdsInformationPage from './Main/MarksOverview/AdsInformationPage';
+import AdsInformationPage from './Settings/Pages/AdsInformationPage';
 
 
 // Create stack for navigation

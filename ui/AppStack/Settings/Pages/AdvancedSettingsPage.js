@@ -5,13 +5,13 @@ import { LandPlotIcon, MoonIcon, SunIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CustomModal from "../../components/CustomModal";
-import CustomSection from "../../components/CustomSection";
-import { useAppContext } from "../../../util/AppContext";
-import { Themes } from "../../../util/Styles";
-import CustomTextArea from "../../components/CustomTextArea";
-import AppData from "../../../core/AppData";
-import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
+import CustomModal from "../../../components/CustomModal";
+import CustomSection from "../../../components/CustomSection";
+import CustomTextArea from "../../../components/CustomTextArea";
+import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
+import { useAppContext } from "../../../../util/AppContext";
+import { Themes } from "../../../../util/Styles";
+import AppData from "../../../../core/AppData";
 
 
 // Theme switcher
