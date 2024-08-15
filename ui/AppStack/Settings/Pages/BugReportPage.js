@@ -65,6 +65,7 @@ function BugReportPage({ navigation }) {
     const loginLogs = JSON.parse(await AsyncStorage.getItem("logs-login"));
     const marksLogs = JSON.parse(await AsyncStorage.getItem("logs-marks"));
     const homeworkLogs = JSON.parse(await AsyncStorage.getItem("logs-homework"));    
+    anonymiseLogs(loginLogs, marksLogs, homeworkLogs);
 
     const bugReportsCollection = firestore().collection("bugReports");
     try {
@@ -88,6 +89,53 @@ function BugReportPage({ navigation }) {
     }
 
     setIsSendingBugReport(false);
+  }
+
+  // Anonymise the logs before sending them
+  function anonymiseLogs(loginLogs, marksLogs, homeworkLogs) {
+    // Login logs
+    loginLogs.data?.accounts?.forEach(account => {
+      account.email = "";
+      account.identifiant = "";
+      account.prenom = "Jack";
+      account.nom = "Sparrow";
+      account.particule = "";
+      if (account.profile) {
+        account.profile.photo = "";
+        account.profile.telPortable = "";
+        account.profile.email = "";
+        if (account.profile.eleves) {
+          account.profile.eleves.forEach((eleve, index) => {
+            eleve.prenom = `Enfant ${index}`;
+            eleve.nom = "Sparrow";
+            eleve.photo = "";
+          });
+        }
+      }
+    });
+
+    // Marks logs
+    Object.keys(marksLogs ?? {}).forEach(key => {
+      marksLogs[key].data?.periodes?.forEach(period => {
+        if (period.ensembleMatieres) {
+          period.ensembleMatieres.nomPP = "";
+          period.ensembleMatieres.nomCE = "";
+          period.ensembleMatieres.disciplines?.forEach(subject => {
+            subject.professeurs?.forEach((professor, index) => {
+              professor.nom = `M. Professeur ${index}`;
+            });
+          });
+        }
+      });
+      if (marksLogs[key].data?.LSUN) {
+        marksLogs[key].data.LSUN = {};
+      }
+    });
+
+    // Homework logs
+    Object.keys(homeworkLogs ?? {}).forEach(key => {
+      // TODO
+    });
   }
 
   // Window width (for ipads)
