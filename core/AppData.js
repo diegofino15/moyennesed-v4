@@ -672,6 +672,7 @@ class AppData {
           [],
           1,
         );
+        periods[periodID].subjectsNotInSubjectGroup.push(subjectID);
       }
       periods[periodID].subjects[subjectID].marks.push(id);
       periods[periodID].subjects[subjectID].sortedMarks.push(id);
