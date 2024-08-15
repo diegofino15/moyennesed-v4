@@ -300,9 +300,21 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
                   subtitle={competence.description}
                   icon={<LandPlotIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
                   textStyle={{ width: windowWidth - 90 }}
-                  style={{ marginBottom: 10 }}
+                  style={{ marginBottom: 25, overflow: "visible" }}
                   additionalObject={(
-                    <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5, alignSelf: "flex-end" }}>
+                    <View style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      position: 'absolute',
+                      right: -5,
+                      bottom: -20,
+                      backgroundColor: theme.colors.surface,
+                      borderWidth: 2,
+                      borderColor: theme.colors.surfaceOutline,
+                      borderRadius: 10,
+                      paddingHorizontal: 5,
+                      paddingVertical: 3,
+                    }}>
                       <View style={{
                         width: 30,
                         height: 20,
