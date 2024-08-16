@@ -34,7 +34,9 @@ function CustomInformationCard({
       }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {icon}
-          <Text style={[theme.fonts.bodyMedium, { marginLeft: 10, height: 22 }]}>{title}</Text>
+          <Text style={[theme.fonts.bodyMedium, {
+            marginLeft: 10,
+          }]}>{title}</Text>
         </View>
         {onPress && <ArrowRightIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
       </View>

@@ -170,58 +170,6 @@ function EmbeddedMarksPage({
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <CornerDownRightIcon size={30} color={theme.colors.onSurface} style={{ marginRight: 5 }}/>
               <CustomSimpleInformationCard
-                content={"Vous êtes au..."}
-                icon={<UserRoundIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
-                rightIcon={(
-                  <CustomChooser
-                    defaultItem={(
-                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={[theme.fonts.labelLarge, { marginRight: 5 }]}>{CoefficientHandler.choosenProfiles[showMarksAccount.id] ?? "Choisir..."}</Text>
-                        <ChevronsUpDownIcon size={20} color={theme.colors.onSurface}/>
-                      </View>
-                    )}
-                    selected={CoefficientHandler.choosenProfiles[showMarksAccount.id]}
-                    setSelected={async (profile) => {
-                      await CoefficientHandler.setChoosenProfile(showMarksAccount.id, profile);
-                      await AppData.recalculateAverageHistory(showMarksAccount.id);
-                      updateGlobalDisplay();
-                    }}
-                    items={Object.keys(CoefficientHandler.profiles).map(key => {
-                      return {
-                        id: key,
-                        title: key,
-                      }
-                    })}
-                  />
-                )}
-                style={{ marginTop: 5, flexGrow: 1 }}
-              />
-            </View>
-          )}
-          {/* <CustomSection
-            title={"Paramètres automatiques"}
-            viewStyle={{ marginTop: 0 }}
-            textAreaStyle={{ backgroundColor: theme.colors.background }}
-          />
-
-          <CustomSimpleInformationCard
-            content={"Devine coefficient matières"}
-            icon={<Wand2Icon size={20} color={theme.colors.primary}/>}
-            rightIcon={(
-              <Switch
-                value={CoefficientHandler.guessSubjectCoefficientEnabled[showMarksAccount.id]}
-                onValueChange={async (value) => {
-                  await CoefficientHandler.setGuessSubjectCoefficientEnabled(showMarksAccount.id, value);
-                  await AppData.recalculateAverageHistory(showMarksAccount.id);
-                  updateGlobalDisplay();
-                }}
-              />
-            )}
-          />
-          {CoefficientHandler.guessSubjectCoefficientEnabled[showMarksAccount.id] && (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <CornerDownRightIcon size={30} color={theme.colors.onSurface} style={{ marginRight: 5 }}/>
-              <CustomSimpleInformationCard
                 content={"Niveau"}
                 icon={<UserRoundIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
                 rightIcon={(
@@ -250,14 +198,6 @@ function EmbeddedMarksPage({
               />
             </View>
           )}
-          <CustomLink
-            title={"Plus d'infos"}
-            icon={<InfoIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
-            linkIcon={<ArrowRightIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
-            onPress={() => navigation.navigate('SettingsStack', { openCoefficientsPage: true })}
-            style={{ marginTop: 10 }}
-          />
-          <CustomSection textAreaStyle={{ paddingHorizontal: 0 }} viewStyle={{ marginTop: 0 }}/> */}
         </View>
       )}
 

@@ -8,7 +8,6 @@ import Constants from "expo-constants";
 
 import HomeworkDay from "./HomeworkDay";
 import CustomSeparator from "../../../components/CustomSeparator";
-import CustomInformationCard from "../../../components/CustomInformationCard";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import AppData from "../../../../core/AppData";
 import { useAppContext } from "../../../../util/AppContext";

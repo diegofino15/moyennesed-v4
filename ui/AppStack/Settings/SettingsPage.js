@@ -94,25 +94,6 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDis
             )}
           />
 
-          {/* Write a comment ? */}
-          <CustomSection title={"Soutenir"}/>
-          <CustomTextArea
-            children={(
-              <View>
-                <Text style={[theme.fonts.labelLarge, {
-                  textAlign: 'justify',
-                  marginBottom: 10,
-                }]}>Aimez-vous l'application ? Vous pouvez la soutenir en écrivant un commentaire !</Text>
-                <CustomLink title="Écrire un commentaire" link={Platform.select({
-                  ios: 'https://apps.apple.com/app/apple-store/id6446418445?action=write-review',
-                  android: 'https://play.google.com/store/apps/details?id=me.diegof.moyennesed&showAllReviews=true',
-                })} icon={(
-                  <HandHelpingIcon size={20} color={theme.colors.onSurfaceDisabled}/>
-                )}/>
-              </View>
-            )}
-          />
-
           {/* Bug report */}
           <CustomSection title={"Un problème ?"}/>
           <CustomSimpleSectionButton
@@ -130,6 +111,25 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDis
               />
             )}
             style={{ marginTop: 10 }}
+          />
+
+          {/* Write a comment ? */}
+          <CustomSection title={"Soutenir"}/>
+          <CustomTextArea
+            children={(
+              <View>
+                <Text style={[theme.fonts.labelLarge, {
+                  textAlign: 'justify',
+                  marginBottom: 10,
+                }]}>Aimez-vous l'application ? Vous pouvez la soutenir en écrivant un commentaire !</Text>
+                <CustomLink title="Écrire un commentaire" link={Platform.select({
+                  ios: 'https://apps.apple.com/app/apple-store/id6446418445?action=write-review',
+                  android: 'https://play.google.com/store/apps/details?id=me.diegof.moyennesed&showAllReviews=true',
+                })} icon={(
+                  <HandHelpingIcon size={20} color={theme.colors.onSurfaceDisabled}/>
+                )}/>
+              </View>
+            )}
           />
 
           {/* Dev options */}

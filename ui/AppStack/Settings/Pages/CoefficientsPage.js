@@ -48,7 +48,7 @@ function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigatio
                 textAreaStyle={{ height: 22 }}
               />
               <CustomSimpleInformationCard
-                content={"Devine coefficient notes"}
+                content={"Devine coef. notes"}
                 icon={<Wand2Icon size={20} color={theme.colors.primary}/>}
                 rightIcon={(
                   <Switch
@@ -63,7 +63,7 @@ function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigatio
                 style={{ marginBottom: 10 }}
               />
               <CustomSimpleInformationCard
-                content={"Devine coefficient matières"}
+                content={"Devine coef. matières"}
                 icon={<Wand2Icon size={20} color={theme.colors.primary}/>}
                 rightIcon={(
                   <Switch
