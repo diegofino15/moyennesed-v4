@@ -2,18 +2,19 @@ import { useEffect } from "react";
 import useState from "react-usestateref";
 import { View, Text, ActivityIndicator, Platform, TextInput } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { CalendarIcon, CheckIcon, ChevronDownIcon, ChevronUpIcon, CircleIcon, DownloadIcon, ExternalLinkIcon, FileIcon, GraduationCapIcon } from "lucide-react-native";
+import { CalendarIcon, CheckIcon, ChevronDownIcon, ChevronsUpDownIcon, ChevronUpIcon, CircleIcon, DownloadIcon, ExternalLinkIcon, FileIcon, GraduationCapIcon } from "lucide-react-native";
 import Animated, { useAnimatedStyle, withTiming } from "react-native-reanimated";
 import FileViewer from "react-native-file-viewer";
 import RNFS from "react-native-fs";
 
 import CustomSeparator from "../../../components/CustomSeparator";
 import CustomChooser from "../../../components/CustomChooser";
-import { formatDate2, asyncExpectedResult } from "../../../../util/Utils";
+import AppData from "../../../../core/AppData";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
-import AppData from "../../../../core/AppData";
 import { useAppContext } from "../../../../util/AppContext";
+import { formatDate2, asyncExpectedResult } from "../../../../util/Utils";
+import CustomSection from "../../../components/CustomSection";
 
 
 // Attachment
@@ -169,6 +170,9 @@ function HomeworkCard({
     }
   });
 
+  // Show session content or todo
+  const [showSessionContent, setShowSessionContent] = useState(false);
+
   return (
     <View style={{
       marginVertical: 5,
@@ -254,6 +258,26 @@ function HomeworkCard({
           padding: 10,
           width: windowWidth - 40,
         }} onLayout={onLayout}>
+          <CustomSection
+            marginTop={0}
+            textAreaStyle={{ backgroundColor: theme.colors.surface, alignSelf: "flex-end", height: undefined }}
+            titleObj={(
+              <CustomChooser
+                items={[
+                  { id: 0, title: "À faire" },
+                  { id: 1, title: "Contenu de séance" },
+                ]}
+                setSelected={(value) => setShowSessionContent(value == 1)}
+                defaultItem={(
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text style={[theme.fonts.labelMedium, { color: theme.colors.primary }]}>{showSessionContent ? "Contenu de séance" : "À faire"}</Text>
+                    <ChevronsUpDownIcon size={15} color={theme.colors.primary}/>
+                  </View>
+                )}
+              />
+            )}
+          />
+
           {/* What to do */}
           {Platform.select({ ios: (
             <TextInput
@@ -261,9 +285,12 @@ function HomeworkCard({
               multiline
               editable={false}
               scrollEnabled={false}
-            >{specificHomework?.todo}</TextInput>
+            >{showSessionContent ? specificHomework?.sessionContent : specificHomework?.todo}</TextInput>
           ), android: (
-            <Text style={theme.fonts.bodyMedium} selectable>{specificHomework?.todo}</Text>
+            <Text
+              style={theme.fonts.bodyMedium}
+              selectable
+            >{showSessionContent ? specificHomework?.sessionContent : specificHomework?.todo}</Text>
           ) })}
 
           {/* Files */}

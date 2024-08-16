@@ -4,7 +4,7 @@ import { useAppContext } from "../../util/AppContext";
 
 
 // Settings section
-function CustomSection({ title, rightIcon, marginTop=20, textAreaStyle={}, textStyle={}, lineStyle={}, viewStyle={} }) {
+function CustomSection({ title, titleObj, rightIcon, marginTop=20, textAreaStyle={}, textStyle={}, lineStyle={}, viewStyle={} }) {
   const { theme } = useAppContext();
   
   return (
@@ -30,7 +30,7 @@ function CustomSection({ title, rightIcon, marginTop=20, textAreaStyle={}, textS
         paddingHorizontal: 10,
         ...textAreaStyle,
       }}>
-        <Text style={[theme.fonts.labelMedium, textStyle]}>{title}</Text>
+        {titleObj ? titleObj : <Text style={[theme.fonts.labelMedium, textStyle]}>{title}</Text>}
       </View>
       {rightIcon && (
         <View style={{
