@@ -56,6 +56,7 @@ function CustomLoginStatus({ isConnected, isConnecting, refreshLogin, style, win
       </View>
 
       <PressableScale onPress={() => {
+        if (isConnecting) { return; }
         HapticsHandler.vibrate("light");
         refreshLogin().then(() => HapticsHandler.vibrate("light"));
       }} style={{
