@@ -171,7 +171,7 @@ function BugReportPage({ navigation }) {
               icon={<SearchCodeIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
               rightIcon={(
                 <CustomChooser
-                  title={"Choisir"}
+                  title={"Choisir un type de bug"}
                   selected={selectedBugType}
                   setSelected={setSelectedBugType}
                   items={Object.values(bugTypes)}
