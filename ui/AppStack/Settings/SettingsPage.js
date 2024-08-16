@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 import { View, Text, Platform, Dimensions } from "react-native";
-import { BadgeHelpIcon, BugIcon, FileXIcon, HandHelpingIcon, KeyIcon, ScaleIcon, Settings2Icon, WeightIcon } from "lucide-react-native";
+import { BadgeHelpIcon, BugIcon, FileXIcon, HandHelpingIcon, KeyIcon, MailIcon, ScaleIcon, Settings2Icon, WeightIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
@@ -120,6 +120,16 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDis
             textStyle={{ color: theme.colors.error }}
             icon={<BugIcon size={20} color={theme.colors.error}/>}
             onPress={() => navigation.navigate('BugReportPage', { presentation: 'modal' })}
+          />
+          <CustomTextArea
+            children={(
+              <CustomLink
+                icon={<MailIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
+                title={"Envoyer un mail"}
+                link={"mailto:moyennesed@gmail.com"}
+              />
+            )}
+            style={{ marginTop: 10 }}
           />
 
           {/* Dev options */}
