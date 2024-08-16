@@ -66,8 +66,8 @@ function BugReportPage({ navigation }) {
     const homeworkLogs = JSON.parse(await AsyncStorage.getItem("logs-homework"));    
     anonymiseLogs(loginLogs, marksLogs, homeworkLogs);
 
-    const bugReportsCollection = firestore().collection("bugReports");
     try {
+      const bugReportsCollection = firestore().collection("bugReports");
       await bugReportsCollection.doc(username).set({
         date: new Date(),
         type: selectedBugType,
