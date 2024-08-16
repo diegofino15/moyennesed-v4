@@ -75,7 +75,7 @@ function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAt
           left: -10,
         }}>
           <Text style={[theme.fonts.labelLarge, { color: theme.colors.primary, height: 25 }]}>{
-            formatDate2(day, true)
+            formatDate2(day, true, true)
           }</Text>
         </View>
         

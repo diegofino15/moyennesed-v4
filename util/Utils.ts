@@ -1,5 +1,6 @@
 import { Linking, Alert } from "react-native";
 import { htmlToText } from "html-to-text";
+import moment, { Moment } from 'moment';
 var Buffer = require('buffer/').Buffer;
 
 
@@ -53,8 +54,13 @@ const monthsNames = [
   "Novembre",
   "Décembre",
 ];
-function formatDate2(givenDate: string, tellIfNear: boolean = false): string {
-  const date = new Date(givenDate);
+function formatDate2(givenDate: string, tellIfNear: boolean = false, isFrLocale: boolean = false): string {
+  var date: Date;
+  if (isFrLocale) {
+    date = moment(givenDate, "DD-MM-YYYY", "fr").toDate();
+  } else {
+    date = new Date(givenDate);
+  }
 
   if (tellIfNear) {
     const now = new Date();

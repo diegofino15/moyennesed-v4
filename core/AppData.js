@@ -1,6 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import RNFS from "react-native-fs";
 import axios from "axios";
+import moment from 'moment';
+
 
 import { capitalizeWords, formatDate3, getLatestDate, parseHtmlData } from "../util/Utils";
 import ColorsHandler from "./ColorsHandler";
@@ -1325,7 +1327,7 @@ class AppData {
         abstractHomework.days[day].push(finalHomework.id);
 
         // Add homework to corresponding week
-        let dateObj = new Date(day);
+        let dateObj = moment(day, 'DD-MM-YYYY', 'fr'); // TODO: fix this looking at the formatting of EcoleDirecte homework days
 
         let startOfWeek = new Date(dateObj);
         startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + (startOfWeek.getDay() === 0 ? -6 : 1));

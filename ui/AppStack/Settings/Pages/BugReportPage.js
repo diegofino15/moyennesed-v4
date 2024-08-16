@@ -133,7 +133,7 @@ function BugReportPage({ navigation }) {
 
     // Homework logs
     Object.keys(homeworkLogs ?? {}).forEach(key => {
-      // TODO
+      // TODO: anonymise logs
     });
   }
 
