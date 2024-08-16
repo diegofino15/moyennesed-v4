@@ -142,8 +142,6 @@ function MarksOverview({
         {/* Period chooser */}
         <View style={{
           alignItems: 'flex-end',
-          position: 'absolute',
-          right: 0,
         }}>
           <CustomChooser
             title="Sélectionnez une période"
@@ -155,10 +153,10 @@ function MarksOverview({
             getItemForSelected={(periodID) => <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text style={[theme.fonts.labelMedium, {
                 color: theme.colors.primary,
-                width: Dimensions.get('window').width - 190,
                 textAlign: 'right',
+                width: Dimensions.get("window").width - 225,
               }]}>{periods[periodID]?.title}</Text>
-              <ChevronsUpDownIcon size={16} color={theme.colors.primary} style={{ marginLeft: 5 }} />
+              <ChevronsUpDownIcon size={20} color={theme.colors.primary} style={{ marginLeft: 5 }} />
             </View>}
             selected={selectedPeriod}
             setSelected={setSelectedPeriod}
