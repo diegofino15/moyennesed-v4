@@ -404,7 +404,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
               </>
             ) : null}
 
-            {/* Deactivate mark */}
+            {/* Disable mark */}
             <CustomSection title={"Autre"}/>
             {mark.onlyHasCompetences && (
               <>
