@@ -14,7 +14,7 @@ import { useAppContext } from "../../util/AppContext";
 
 // Places an ad on top of a component
 function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) {
-  const { theme, canServeAds } = useAppContext();
+  const { theme, canServeAds, isAdsHandlerLoaded } = useAppContext();
   
   // Show the ad ?
   const [canShowContent, setCanShowContent, canShowContentRef] = useState(false);
@@ -25,7 +25,7 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
   const [loadingAd, setLoadingAd] = useState(true);
 
   // Check if ad should be shown
-  useEffect(() => { checkIfAdShouldBeShown(); }, [canServeAds]);
+  useEffect(() => { checkIfAdShouldBeShown(); }, [isAdsHandlerLoaded]);
   async function checkIfAdShouldBeShown() {
     if (rewardedAd) { return; }
     const lastAdTime = await AsyncStorage.getItem('lastAdTime');
@@ -34,7 +34,7 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
       setCanShowContent(true);
       setCanShowAverage(true);
       AsyncStorage.setItem("lastAdTime", Date.now().toString());
-    } else if (Date.now() - parseInt(lastAdTime) < AD_COOLDOWN) {
+    } else if (Date.now() - parseInt(lastAdTime) < AD_COOLDOWN || isAdsHandlerLoaded && !canServeAds) {
       console.log("Ad cooldown not finished");
       setCanShowAverage(true);
       setCanShowContent(true);

@@ -40,17 +40,23 @@ class AdsHandler {
   }
 
   // Complete function
-  static async setupAdmob({ checkForConsent=true, setCanServeAds}){  
-    if (checkForConsent) {
-      await this.askForAdChoices();
+  static async setupAdmob({ checkForConsent=true, setCanServeAds, setIsAdsHandlerLoaded }){  
+    try {
+      if (checkForConsent) {
+        await this.askForAdChoices();
+      }
+  
+      // Init Admob
+      await this.initAds();
+
+      if (checkForConsent) {
+        setCanServeAds(true);
+      }
+    } catch (e) {
+      console.warn("Error while setting up Admob");
     }
 
-    // Init Admob
-    await this.initAds();
-
-    if (checkForConsent) {
-      setCanServeAds(true);
-    }
+    setIsAdsHandlerLoaded(true);
   }
 
   // Reset choices

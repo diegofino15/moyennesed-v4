@@ -9,13 +9,15 @@ export const AppContext = createContext({
 });
 export const useAppContext = () => useContext(AppContext);
 
-export function AppContextProvider({ loggedIn, autoTheme, savedTheme, _canServeAds, children }) {
+export function AppContextProvider({ loggedIn, autoTheme, savedTheme, _isAdsHandlerLoaded, _canServeAds, children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(loggedIn);
   const [theme, changeTheme] = useState(savedTheme);
   const [isAutoTheme, setIsAutoTheme] = useState(autoTheme);
 
   const [canServeAds, setCanServeAds] = useState(_canServeAds);
   useEffect(() => setCanServeAds(_canServeAds), [_canServeAds]);
+  const [isAdsHandlerLoaded, setIsAdsHandlerLoaded] = useState(_isAdsHandlerLoaded);
+  useEffect(() => setIsAdsHandlerLoaded(_isAdsHandlerLoaded), [_isAdsHandlerLoaded]);
 
   return (
     <AppContext.Provider value={{
@@ -25,7 +27,9 @@ export function AppContextProvider({ loggedIn, autoTheme, savedTheme, _canServeA
       changeTheme,
       isAutoTheme: isAutoTheme,
       setIsAutoTheme,
+
       canServeAds: canServeAds,
+      isAdsHandlerLoaded: isAdsHandlerLoaded,
     }}>
       <PaperProvider theme={theme}>
         {children}

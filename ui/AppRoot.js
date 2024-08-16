@@ -36,6 +36,7 @@ function AppRoot() {
 
   // Context
   const [canServeAds, setCanServeAds] = useState(false);
+  const [isAdsHandlerLoaded, setIsAdsHandlerLoaded] = useState(false);
 
   // Prepare function
   useEffect(() => { prepare(); }, []);
@@ -69,7 +70,7 @@ function AppRoot() {
       await CoefficientHandler.load();
     }
     
-    AdsHandler.setupAdmob({ checkForConsent: true, setCanServeAds: setCanServeAds });
+    AdsHandler.setupAdmob({ checkForConsent: true, setCanServeAds: setCanServeAds, setIsAdsHandlerLoaded: setIsAdsHandlerLoaded });
     setIsLoaded(true);
   }
 
@@ -80,6 +81,7 @@ function AppRoot() {
       autoTheme={isAutoTheme}
       savedTheme={theme}
       _canServeAds={canServeAds}
+      _isAdsHandlerLoaded={isAdsHandlerLoaded}
     >
       <GlobalStack
         cameFromAuthStack={cameFromAuthStack}
