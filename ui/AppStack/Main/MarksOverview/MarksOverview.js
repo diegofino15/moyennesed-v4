@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import { View, Text, FlatList, Dimensions, ScrollView } from "react-native";
 import { HelpCircleIcon, ChevronsUpDownIcon, Users2Icon, DraftingCompassIcon, TrendingUpIcon, EyeIcon, EyeOffIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
 import RecentMarkCard from "./RecentMarkCard";
@@ -22,6 +21,7 @@ function MarksOverview({
   accountID,
   selectedPeriod, setSelectedPeriod,
   latestCurrentPeriod, setLatestCurrentPeriod,
+  periods,
 
   isLoading,
   gotMarks,
@@ -37,41 +37,33 @@ function MarksOverview({
   const [oldAccountID, setOldAccountID] = useState(accountID);
 
   // Get periods of student and choose which to display
-  const [periods, setPeriods, periodsRef] = useState({});
   useEffect(() => {
-    console.log("Updated display !")
-    AsyncStorage.getItem("marks").then(async (data) => {
-      var cacheData = {};
-      if (data) { cacheData = JSON.parse(data); }
-      if (accountID in cacheData) {
-        setPeriods(cacheData[accountID].data);
-
-        // Choose period that isn't finished
-        let shownPeriod = null;
-        let periodValues = Object.values(periodsRef.current);
-        for (let i = 0; i < periodValues.length; i++) {
-          if (!periodValues[i].isFinished) {
-            shownPeriod = i;
-            break;
-          }
+    if (Object.keys(periods).length) {
+      // Choose period that isn't finished
+      let shownPeriod = null;
+      let periodValues = Object.values(periods);
+      for (let i = 0; i < periodValues.length; i++) {
+        if (!periodValues[i].isFinished) {
+          shownPeriod = i;
+          break;
         }
-        if (shownPeriod == null) { shownPeriod = periodValues.length - 1; }
-        
-        let newSelectedPeriod = Object.keys(periodsRef.current)[shownPeriod];
-        if (latestCurrentPeriod != newSelectedPeriod) {
-          setSelectedPeriod(newSelectedPeriod);
-          setLatestCurrentPeriod(newSelectedPeriod);
-        }
+      }
+      if (shownPeriod == null) { shownPeriod = periodValues.length - 1; }
+      
+      let newSelectedPeriod = Object.keys(periods)[shownPeriod];
+      if (latestCurrentPeriod != newSelectedPeriod) {
+        setSelectedPeriod(newSelectedPeriod);
+        setLatestCurrentPeriod(newSelectedPeriod);
+      }
 
-        // Save first display marks
-        if (firstDisplayMarksRef.current.length == 0 || accountID != oldAccountID) {
-          setFirstDisplayMarks(Object.keys(Object.values(periodsRef.current)[shownPeriod].marks));
-          setOldAccountID(accountID);
-        }
-      } else { setPeriods({}); }
-    });
-  }, [accountID, globalDisplayUpdater]);
-
+      // Save first display marks
+      if (firstDisplayMarksRef.current.length == 0 || accountID != oldAccountID) {
+        setFirstDisplayMarks(Object.keys(Object.values(periods)[shownPeriod].marks));
+        setOldAccountID(accountID);
+      }
+    } 
+  }, [periods, globalDisplayUpdater]);
+  
   // Show average or evolution graph
   const scrollViewRef = useRef(null);
   const [showEvolution, setShowEvolution] = useState(false);

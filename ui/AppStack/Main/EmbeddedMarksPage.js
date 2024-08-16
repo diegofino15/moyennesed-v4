@@ -2,18 +2,19 @@ import { useEffect } from "react";
 import useState from "react-usestateref";
 import { Text, View } from "react-native";
 import { CornerDownRightIcon, InfoIcon, Wand2Icon, UserRoundIcon, ChevronsUpDownIcon, AlertTriangleIcon } from "lucide-react-native";
+import { PressableScale } from "react-native-pressable-scale";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import ChildChooser from "./ChildChooser";
+import HomeworkStatus from "./Homework/HomeworkStatus";
 import MarksOverview from "./MarksOverview/MarksOverview";
 import SubjectsOverview from "./SubjectsOverview/SubjectsOverview";
-import HapticsHandler from "../../../core/HapticsHandler";
-import AppData from "../../../core/AppData";
-import HomeworkStatus from "./Homework/HomeworkStatus";
 import CustomSection from "../../components/CustomSection";
-import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
-import CoefficientHandler from "../../../core/CoefficientHandler";
 import CustomChooser from "../../components/CustomChooser";
-import { PressableScale } from "react-native-pressable-scale";
+import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
+import AppData from "../../../core/AppData";
+import HapticsHandler from "../../../core/HapticsHandler";
+import CoefficientHandler from "../../../core/CoefficientHandler";
 import { useAppContext } from "../../../util/AppContext";
 
 
@@ -114,6 +115,18 @@ function EmbeddedMarksPage({
   const [showGuessParametersWarning, setShowGuessParametersWarning] = useState({});
   useEffect(() => { AppData.showGuessParametersWarning = (accountID) => setShowGuessParametersWarning({...showGuessParametersWarning, [accountID]: true}) }, []);
 
+  // Get periods of student (and update at every change)
+  const [periods, setPeriods] = useState({});
+  useEffect(() => {
+    AsyncStorage.getItem("marks").then(async (data) => {
+      var cacheData = {};
+      if (data) { cacheData = JSON.parse(data); }
+      if (showMarksAccount.id in cacheData) {
+        setPeriods(cacheData[showMarksAccount.id].data);
+      } else { setPeriods({}); }
+    });
+  }, [showMarksAccount.id, globalDisplayUpdater]);
+
   return (
     <View>
       {mainAccount.accountType == "P" && <ChildChooser
@@ -121,6 +134,8 @@ function EmbeddedMarksPage({
         showMarksAccount={showMarksAccount}
         setShowMarksAccount={setShowMarksAccount}
       />}
+
+      {/* Warning showing when guess parameters have been automatically set */}
       {showGuessParametersWarning[showMarksAccount.id] && (
         <View style={{ marginHorizontal: 20, marginBottom: 20 }}>
           <PressableScale style={{
@@ -245,11 +260,14 @@ function EmbeddedMarksPage({
           <CustomSection textAreaStyle={{ paddingHorizontal: 0 }} viewStyle={{ marginTop: 0 }}/> */}
         </View>
       )}
+
+      {/* Global average and recent marks */}
       <MarksOverview
         accountID={showMarksAccount.id}
         selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod}
         latestCurrentPeriod={latestCurrentPeriod} setLatestCurrentPeriod={setLatestCurrentPeriod}
-        
+        periods={periods}
+
         isLoading={isConnecting || gettingMarksForID[showMarksAccount.id]}
         gotMarks={gotMarksForID[showMarksAccount.id]}
         errorGettingMarks={errorGettingMarksForID[showMarksAccount.id]}
@@ -257,6 +275,8 @@ function EmbeddedMarksPage({
         globalDisplayUpdater={globalDisplayUpdater}
         navigation={navigation}
       />
+
+      {/* Exams and homework overview */}
       {latestCurrentPeriod == selectedPeriod && (
         <View>
           <CustomSection
@@ -275,6 +295,7 @@ function EmbeddedMarksPage({
         </View>
       )}
 
+      {/* Subjects */}
       <CustomSection
         title={"Matières"}
         viewStyle={{ marginHorizontal: 20, top: 15 }}
@@ -285,6 +306,7 @@ function EmbeddedMarksPage({
         accountID={showMarksAccount.id}
         selectedPeriod={selectedPeriod}
         latestCurrentPeriod={latestCurrentPeriod}
+        periods={periods}
         gotHomework={gotHomeworkForID[showMarksAccount.id]}
         globalDisplayUpdater={globalDisplayUpdater}
         navigation={navigation}

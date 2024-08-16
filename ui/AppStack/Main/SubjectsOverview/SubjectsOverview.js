@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { Dimensions, Text, View } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import SubjectCard from "./SubjectCard";
-import { formatAverage } from "../../../../util/Utils";
 import AppData from "../../../../core/AppData";
+import { formatAverage } from "../../../../util/Utils";
 import { useAppContext } from "../../../../util/AppContext";
 
 
@@ -14,24 +13,13 @@ function SubjectsOverview({
   accountID,
   selectedPeriod,
   latestCurrentPeriod,
+  periods,
   gotHomework,
   globalDisplayUpdater,
   navigation,
 }) {
   const { theme } = useAppContext();
   
-  // Get periods of student
-  const [periods, setPeriods] = useState({});
-  useEffect(() => {
-    AsyncStorage.getItem("marks").then(async (data) => {
-      var cacheData = {};
-      if (data) { cacheData = JSON.parse(data); }
-      if (accountID in cacheData) {
-        setPeriods(cacheData[accountID].data);
-      } else { setPeriods({}); }
-    });
-  }, [accountID, globalDisplayUpdater]);
-
   // Get if subject has exam
   const [subjectHasExam, setSubjectHasExam] = useState({});
   const [countMarksWithOnlyCompetences, setCountMarksWithOnlyCompetences] = useState(false);
