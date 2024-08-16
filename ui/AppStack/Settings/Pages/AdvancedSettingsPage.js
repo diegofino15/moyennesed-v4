@@ -12,6 +12,7 @@ import CustomSimpleInformationCard from "../../../components/CustomSimpleInforma
 import { useAppContext } from "../../../../util/AppContext";
 import { Themes } from "../../../../util/Styles";
 import AppData from "../../../../core/AppData";
+import HapticsHandler from "../../../../core/HapticsHandler";
 
 
 // Theme switcher
@@ -126,6 +127,12 @@ function AdvancedSettingsPage({ globalDisplayUpdater, updateGlobalDisplay, navig
     AppData.getPreference("countMarksWithOnlyCompetences").then(setCountCompetences);
   }, [globalDisplayUpdater, forceUpdate]);
 
+  // Vibrations
+  const [enableVibrations, setEnableVibrations] = useState(HapticsHandler.enableVibrations);
+  useEffect(() => {
+    AppData.getPreference("enableVibrations").then(setEnableVibrations);
+  }, [globalDisplayUpdater, forceUpdate]);
+
   return (
     <CustomModal
       title={"Paramètres avancés"}
@@ -151,6 +158,23 @@ function AdvancedSettingsPage({ globalDisplayUpdater, updateGlobalDisplay, navig
                 onValueChange={async (value) => {
                   await AppData.setPreference("countMarksWithOnlyCompetences", value);
                   await AppData.recalculateAverageHistory(currentAccount.id);
+                  updateGlobalDisplay();
+                }}
+              />
+            )}
+          />
+
+          <CustomSection
+            title={"Préférences"}
+          />
+          <CustomSimpleInformationCard
+            content={"Activer les vibrations"}
+            icon={<LandPlotIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
+            rightIcon={(
+              <Switch
+                value={enableVibrations}
+                onValueChange={async (value) => {
+                  await HapticsHandler.toggle(value);
                   updateGlobalDisplay();
                 }}
               />

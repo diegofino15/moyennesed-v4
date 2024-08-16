@@ -1518,12 +1518,12 @@ class AppData {
     preferences[key] = value;
     await this._setAllPreferences(preferences);
   }
-  static async getPreference(key) {
+  static async getPreference(key, defValue=false) {
     const preferences = await this._getAllPreferences();
     if (key in preferences) {
       return preferences[key];
     } else {
-      preferences[key] = false; // Default value for all preferences
+      preferences[key] = defValue; // Default value for all preferences
       await this._setAllPreferences(preferences);
     }
     return preferences[key];
