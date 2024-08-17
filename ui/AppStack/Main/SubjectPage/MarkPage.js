@@ -254,9 +254,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
               icon={<CalendarIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
               content={"Date"}
               rightIcon={(
-                <Text style={[theme.fonts.bodyLarge, {
-                  color: theme.colors.onSurfaceDisabled,
-                }]}>{formatDate2(mark.date)}</Text>
+                <Text style={theme.fonts.bodyLarge}>{formatDate2(mark.date)}</Text>
               )}
             />
             {mark.type && (
@@ -265,7 +263,6 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
                 content={"Type"}
                 rightIcon={(
                   <Text style={[theme.fonts.bodyLarge, {
-                    color: theme.colors.onSurfaceDisabled,
                     width: windowWidth - 150,
                     textAlign: "right",
                   }]}>{mark.type}</Text>
@@ -292,7 +289,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
                     content={competence.title}
                     subtitle={competence.description}
                     icon={<LandPlotIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
-                    textStyle={{ width: windowWidth - 90 }}
+                    textStyle={{ width: windowWidth - 90, ...theme.fonts.bodyLarge }}
                     style={{ marginBottom: 25, overflow: "visible" }}
                     additionalObject={(
                       <PressableScale style={{

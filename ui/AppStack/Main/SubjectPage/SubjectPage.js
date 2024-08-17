@@ -450,6 +450,7 @@ function SubjectPage({
                 key={index}
                 icon={<GraduationCapIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
                 content={teacher}
+                textStyle={theme.fonts.bodyLarge}
                 style={{ marginVertical: 5 }}
               />
             ))}

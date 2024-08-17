@@ -25,7 +25,7 @@ function CustomSimpleInformationCard({ icon, rightIcon, content, style, textStyl
           alignItems: 'center',
         }}>
           {icon}
-          <Text style={[theme.fonts.bodyLarge, {
+          <Text style={[theme.fonts.labelLarge, {
             marginLeft: 10,
             ...textStyle,
           }]} numberOfLines={nof}>{content}</Text>

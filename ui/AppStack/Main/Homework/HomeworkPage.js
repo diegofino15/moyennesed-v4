@@ -64,6 +64,7 @@ function HomeworkFileAttachment({ accountID, file, windowWidth }) {
             content={file.title}
             textStyle={{
               width: windowWidth - 130,
+              ...theme.fonts.bodyLarge,
             }}
 
             rightIcon={(
@@ -269,7 +270,7 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
             icon={<SwatchBookIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
             content={"Matière"}
             rightIcon={(
-              <Text style={[theme.fonts.labelLarge, {
+              <Text style={[theme.fonts.bodyLarge, {
                 marginLeft: 5,
               }]} numberOfLines={1}>{homework.subjectTitle}</Text>
             )}
@@ -280,7 +281,7 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
             icon={<CalendarIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
             content={"Pour le"}
             rightIcon={(
-              <Text style={theme.fonts.labelLarge}>{formatDate2(homework.dateFor, false, true)}</Text>
+              <Text style={theme.fonts.bodyLarge}>{formatDate2(homework.dateFor, false, true)}</Text>
             )}
             style={{ marginBottom: 10 }}
           />
@@ -288,7 +289,7 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
           {homework.isExam && (
             <CustomSimpleInformationCard
               icon={<AlertTriangleIcon size={25} color={theme.colors.error}/>}
-              content={"Controle"}
+              content={"Evaluation"}
               textStyle={{ color: theme.colors.error }}
               style={{
                 borderWidth: 2,
@@ -362,7 +363,7 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
                 icon={<CalendarIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
                 content={"Donné le"}
                 rightIcon={(
-                  <Text style={theme.fonts.labelLarge}>{formatDate2(homework.dateGiven)}</Text>
+                  <Text style={theme.fonts.bodyLarge}>{formatDate2(homework.dateGiven)}</Text>
                 )}
                 style={{ marginBottom: 10 }}
               />
@@ -371,7 +372,7 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
                 icon={<GraduationCapIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
                 content={"Donné par"}
                 rightIcon={(
-                  <Text style={[theme.fonts.labelLarge, {
+                  <Text style={[theme.fonts.bodyLarge, {
                     marginLeft: 5,
                   }]} numberOfLines={1}>{specificHomework?.givenBy ?? "--"}</Text>
                 )}

@@ -177,7 +177,7 @@ function BugReportPage({ navigation }) {
                   items={Object.values(bugTypes)}
                   defaultItem={(
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <Text style={[theme.fonts.labelLarge, { marginRight: 5 }]}>{bugTypes[selectedBugType].title}</Text>
+                      <Text style={[theme.fonts.bodyLarge, { marginRight: 5 }]}>{bugTypes[selectedBugType].title}</Text>
                       <ChevronsUpDownIcon size={20} color={theme.colors.onSurface}/>
                     </View>
                   )}

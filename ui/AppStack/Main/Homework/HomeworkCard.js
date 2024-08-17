@@ -59,7 +59,7 @@ function HomeworkCard({
         }}>
           <Text style={[theme.fonts.bodyMedium, {
             color: theme.colors.error,
-          }]}>CONTRÔLE</Text>
+          }]}>EVALUATION</Text>
         </View>
       )}
       

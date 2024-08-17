@@ -128,6 +128,7 @@ function ProfilePage({ route, navigation }) {
                   <CustomSimpleInformationCard
                     icon={<GraduationCapIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
                     content={currentAccount?.grade}
+                    textStyle={theme.fonts.bodyLarge}
                     style={{ marginBottom: 10 }}
                   />
                 )}
@@ -140,6 +141,7 @@ function ProfilePage({ route, navigation }) {
                     <UserRoundCogIcon size={25} color={theme.colors.onSurfaceDisabled}/>
                   )}
                   content={currentAccount?.accountType == "E" ? currentAccount?.school : "Élèves associés"}
+                  textStyle={theme.fonts.bodyLarge}
                 />
                 {currentAccount?.accountType == "P" && Object.keys(currentAccount?.children).map(childID => {
                   const child = currentAccount?.children[childID];

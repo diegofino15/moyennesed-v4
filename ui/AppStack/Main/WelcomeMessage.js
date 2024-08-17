@@ -27,7 +27,7 @@ function WelcomeMessage({ currentAccount }) {
         "Plus que quelques jours avant le week-end...",
         "Pense juste pas au bac et tout va bien",
         "Allez, pense aux grandes vacances c'est pas si loin...",
-        "Déjà des contrôles toutes les semaines...",
+        "Déjà des évaluations toutes les semaines...",
 
         `Quelques nouvelles notes pour ${currentConnectedAccount.gender == "M" ? "monsieur" : "madame"} ?`,
         `Tu seras ${currentConnectedAccount.gender == "M" ? "premier" : "première"} de classe un jour t'inquiète 🔥`,

@@ -46,7 +46,7 @@ function HomeworkInformationPage({ globalDisplayUpdater, navigation, route }) {
                 top: -30,
               }}
             />
-            <Text style={[theme.fonts.titleMedium, { width: '90%', textAlign: 'center', top: -100 }]}>Comment sont trouvés les contrôles ?</Text>
+            <Text style={[theme.fonts.titleMedium, { width: '90%', textAlign: 'center', top: -100 }]}>Comment sont trouvés les évaluations ?</Text>
           </View>
           
           {/* Text */}
@@ -55,13 +55,13 @@ function HomeworkInformationPage({ globalDisplayUpdater, navigation, route }) {
             top: -90,
           }}>
             <CustomInformationCard
-              title="Il peut manquer certains contrôles"
-              description={`Certains professeurs ne cochent pas la case "contrôle", l'app ne les détectera pas.`}
+              title="Il peut manquer certaines évaluations"
+              description={`Certains professeurs ne cochent pas la case "évaluation", l'app ne les détectera pas.`}
               error={true}
               icon={<AlertTriangleIcon size={20} color={theme.colors.error}/>}
               style={{ marginBottom: 20 }}
             />
-            <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>L'app récupère vos devoirs et détecte si un contrôle est prévu pour chaque matière dans les 3 prochaines semaines.</Text>
+            <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>L'app récupère vos devoirs et détecte si une évaluation est prévue pour chaque matière dans les 3 prochaines semaines.</Text>
             <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 30 }]}>Ils sont mis à jour en temps réel.</Text>
             <Text style={[theme.fonts.labelMedium, { fontFamily: 'Text-Italic' }]}>Dernière mise à jour : {formatDate(lastDateUpdated)}</Text>
           </View>

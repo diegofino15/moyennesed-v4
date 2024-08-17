@@ -142,7 +142,7 @@ function EmbeddedSubjectCard({
         {/* Has exam */}
         {hasExam && (
           <CustomTag
-            title={"Alerte contrôle"}
+            title={"Alerte évaluation"}
             icon={<AlertOctagonIcon size={15} color={'white'}/>}
             color={theme.colors.error}
             secondaryTag={hasExam.length > 1 && <Text style={[theme.fonts.labelMedium, { color: 'white', height: 22 }]}>{hasExam.length}</Text>}

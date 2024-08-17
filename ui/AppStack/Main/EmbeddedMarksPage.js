@@ -178,7 +178,7 @@ function EmbeddedMarksPage({
                   <CustomChooser
                     defaultItem={(
                       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={[theme.fonts.labelLarge, { marginRight: 5 }]}>{CoefficientHandler.choosenProfiles[showMarksAccount.id] ?? "Choisir..."}</Text>
+                        <Text style={[theme.fonts.bodyLarge, { marginRight: 5 }]}>{CoefficientHandler.choosenProfiles[showMarksAccount.id] ?? "Choisir..."}</Text>
                         <ChevronsUpDownIcon size={20} color={theme.colors.onSurface}/>
                       </View>
                     )}
@@ -222,7 +222,7 @@ function EmbeddedMarksPage({
       {latestCurrentPeriod == selectedPeriod && (
         <View>
           <CustomSection
-            title={"Devoirs & Contrôles"}
+            title={"Devoirs & Evaluations"}
             viewStyle={{ marginHorizontal: 20 }}
             marginTop={10}
             textAreaStyle={{ backgroundColor: theme.colors.background }}

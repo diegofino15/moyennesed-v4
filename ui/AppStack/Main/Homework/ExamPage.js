@@ -40,7 +40,7 @@ function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, updateGloba
 
   return (
     <CustomModal
-      title={`Contrôles - ${subjectTitle}`}
+      title={`Evaluations - ${subjectTitle}`}
       titleStyle={{ color: 'black' }}
       goBackFunction={() => navigation.pop()}
       onlyShowBackButtonOnAndroid

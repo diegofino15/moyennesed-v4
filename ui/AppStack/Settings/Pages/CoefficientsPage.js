@@ -86,7 +86,7 @@ function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigatio
                       <CustomChooser
                         defaultItem={(
                           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={[theme.fonts.labelLarge, { marginRight: 5 }]}>{CoefficientHandler.choosenProfiles[account.id] ?? "Choisir..."}</Text>
+                            <Text style={[theme.fonts.bodyLarge, { marginRight: 5 }]}>{CoefficientHandler.choosenProfiles[account.id] ?? "Choisir..."}</Text>
                             <ChevronsUpDownIcon size={20} color={theme.colors.onSurface}/>
                           </View>
                         )}
