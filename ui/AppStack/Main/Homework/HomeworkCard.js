@@ -96,7 +96,7 @@ function HomeworkCard({
             }}>
               <Text style={[theme.fonts.bodyMedium, {
                 color: "black",
-              }]} numberOfLines={2}>{specificHomework.todo} TODO et il y a aussi d'autres choses à faire, la liste est longue. Exercice 1, page 265, cahier numéro 5.</Text>
+              }]} numberOfLines={2}>{specificHomework.todo}</Text>
             </View>
           )}
         </PressableScale>
