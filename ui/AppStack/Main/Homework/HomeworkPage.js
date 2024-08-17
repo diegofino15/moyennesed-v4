@@ -361,7 +361,7 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
               {/* When was it given */}
               <CustomSimpleInformationCard
                 icon={<CalendarIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
-                content={"Donné le"}
+                content={"Saisi le"}
                 rightIcon={(
                   <Text style={theme.fonts.bodyLarge}>{formatDate2(homework.dateGiven)}</Text>
                 )}
@@ -370,7 +370,7 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
               {/* Who gave it */}
               <CustomSimpleInformationCard
                 icon={<GraduationCapIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
-                content={"Donné par"}
+                content={"Saisi par"}
                 rightIcon={(
                   <Text style={[theme.fonts.bodyLarge, {
                     marginLeft: 5,
