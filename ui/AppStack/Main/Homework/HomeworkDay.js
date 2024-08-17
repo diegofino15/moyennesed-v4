@@ -1,68 +1,77 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
-import { ActivityIndicator, Text, View } from "react-native";
-import { AlertTriangleIcon, RefreshCcwIcon } from "lucide-react-native";
-import { PressableScale } from "react-native-pressable-scale";
+import { ActivityIndicator, Dimensions, Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import moment from 'moment';
 
 import HomeworkCard from "./HomeworkCard";
-import { formatDate2, formatDate3 } from "../../../../util/Utils";
 import AppData from "../../../../core/AppData";
+import { formatDate2, wait } from "../../../../util/Utils";
 import { useAppContext } from "../../../../util/AppContext";
 
 
 // Homework day
-function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAtDisplay=false, canLoad=true, windowWidth }) {
+function HomeworkDay({ accountID, day, homeworks, canAutoLoad=true, isCurrentIndex, markAsLoaded, globalDisplayUpdater, updateGlobalDisplay, navigation }) {
   const { theme } = useAppContext();
-  
-  const [manualRefreshing, setManualRefreshing] = useState(false);
 
-  const [gettingSpecificHomeworks, setGettingSpecificHomeworks] = useState(false);
-  const [errorGettingSpecificHomeworks, setErrorGettingSpecificHomeworks] = useState(false);
-  const [waitingToLoad, setWaitingToLoad] = useState(false);
-
+  // Auto-load the specific homeworks
   const [specificHomeworks, setSpecificHomeworks] = useState({});
-
-  async function loadSpecificHomework(forceCache=false) {
-    if (!canLoad) { return; }
-    
-    setErrorGettingSpecificHomeworks(false);
-    setGettingSpecificHomeworks(true);
-    const { status, data, date } = await AppData.getSpecificHomeworkForDay(accountID, day, manualRefreshing, forceCache);
-    if (status == 1) {
-      setSpecificHomeworks(data);
-      setWaitingToLoad(false);
-    } else if (status == 0) {
-      setWaitingToLoad(true);
-    } else {
-      setErrorGettingSpecificHomeworks(true);
-      setWaitingToLoad(false);
+  const [isLoading, setIsLoading] = useState(false);
+  async function getCacheSpecificHomeworks() {
+    const data = await AsyncStorage.getItem("specific-homework");
+    if (data) {
+      const cacheData = JSON.parse(data);
+      if (accountID in cacheData && day in cacheData[accountID].days) {
+        setSpecificHomeworks(cacheData[accountID].homeworks);
+        return 1;
+      }
     }
-    setGettingSpecificHomeworks(false);
+    return -1;
   }
-
-  useEffect(() => {
-    async function getSpecificHomeworks() {
-      if (specificHomeworks[Object.keys(homeworks)[0]] && !manualRefreshing) { return; }
-
-      await loadSpecificHomework(!loadAtDisplay);
-      if (manualRefreshing) { setManualRefreshing(false); }
+  async function loadSpecificHomeworks(onlyIfCache=false) {
+    // Check if specific homework is in cache
+    var status = await getCacheSpecificHomeworks();
+    if (status == 1 && isCurrentIndex) { markAsLoaded(); }
+    if (status == 1 || onlyIfCache || isLoading) {
+      return;
     }
-    getSpecificHomeworks();
-  }, [manualRefreshing, canLoad]);
 
+    if (!isCurrentIndex) { return; }
+    
+    // Fetch specific homework
+    setIsLoading(true);
+    await wait(2000);
+    status = await AppData.getSpecificHomeworkForDay(accountID, day);
+    if (status == 1) { await getCacheSpecificHomeworks(); }
+    setIsLoading(false);
+    updateGlobalDisplay();
+
+    if (isCurrentIndex) { markAsLoaded(); }
+  }
+  useEffect(() => {
+    // Auto-load if homework due in less than 3 days
+    const now = new Date();
+    const dayDate = moment(day, 'DD-MM-YYYY', 'fr').toDate();
+    const diff = dayDate.getDate() - now.getDate();
+    if (diff < 2 && canAutoLoad) {
+      loadSpecificHomeworks(false);
+    } else {
+      loadSpecificHomeworks(true);
+    }
+  }, [globalDisplayUpdater, isCurrentIndex]);
+  
   return (
     <View style={{
       paddingHorizontal: 10,
       paddingTop: 10,
-      paddingBottom: 0,
-      width: windowWidth - 20,
+      paddingBottom: 5,
+      width: Dimensions.get('window').width - 20,
       backgroundColor: theme.colors.surface,
       borderRadius: 10,
     }}>
       <View style={{
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
         paddingRight: 12.5,
         marginBottom: 10,
       }}>
@@ -78,28 +87,20 @@ function HomeworkDay({ accountID, day, homeworks, loadAtDisplay=false, openAllAt
             formatDate2(day, true, true)
           }</Text>
         </View>
-        
-        <PressableScale onPress={() => { if (!gettingSpecificHomeworks) { setManualRefreshing(true); } }}>
-          {gettingSpecificHomeworks || manualRefreshing ? (
-            <ActivityIndicator size={25} color={theme.colors.onSurfaceDisabled}/>
-          ) : errorGettingSpecificHomeworks ? (
-            <AlertTriangleIcon size={25} color={theme.colors.error}/>
-          ) : !waitingToLoad && (
-            <RefreshCcwIcon size={25} color={theme.colors.onSurfaceDisabled}/>
-          )}
-        </PressableScale>
+        {isLoading && (
+          <ActivityIndicator size={25} color={theme.colors.onSurfaceDisabled}/>
+        )}
       </View>
 
-      {Object.values(homeworks).map(exam => (
+      {Object.values(homeworks).map(homework => (
         <HomeworkCard
-          key={exam.id}
+          key={homework.id}
           accountID={accountID}
-          abstractHomework={exam}
-          specificHomework={specificHomeworks[exam.id] ?? {}}
-          loadSpecificHomework={loadSpecificHomework}
-          isAlreadyLoading={gettingSpecificHomeworks}
-          openAtDisplay={openAllAtDisplay}
-          windowWidth={windowWidth}
+          cacheHomework={homework}
+          specificHomework={specificHomeworks[homework.id] ?? null}
+          isLoading={isLoading}
+          updateGlobalDisplay={updateGlobalDisplay}
+          navigation={navigation}
         />
       ))}
     </View>

@@ -14,7 +14,7 @@ import { useAppContext } from "../../../../util/AppContext";
 
 
 // Exam page
-function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
+function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
   const { theme } = useAppContext();
   
   const { accountID, _errorGettingHomework } = route.params;
@@ -38,16 +38,20 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
   // Refresh next homeworks
   const [refreshing, setRefreshing] = useState(false);
   const [errorGettingHomework, setErrorGettingHomework] = useState(_errorGettingHomework);
-  async function refreshNextExams() {
+  async function refreshUpcomingHomework() {
     if (!isConnected) { return; }
     
     HapticsHandler.vibrate("light");
     setRefreshing(true);
-    setErrorGettingHomework((await AppData.getAllHomework(accountID)) != 1);
+    const status = await AppData.getAllHomework(accountID);
+    setErrorGettingHomework(status != 1);
     setRefreshing(false);
     updateGlobalDisplay();
     HapticsHandler.vibrate("light");
   }
+
+  // Load the homeworks one by one
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
     <View style={{
@@ -64,7 +68,7 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
         refreshControl={(
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={refreshNextExams}
+            onRefresh={refreshUpcomingHomework}
             tintColor={theme.colors.onBackground}
           />
         )}
@@ -76,14 +80,18 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
           overflow: 'visible',
           zIndex: 0,
         }}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <View style={{ marginBottom: 50 }}>
             <HomeworkDay
               accountID={accountID}
               day={item}
               homeworks={abstractHomeworks.days[item]}
-              canLoad={isConnected && !isConnecting}
-              windowWidth={Dimensions.get('window').width}
+              canAutoLoad={isConnected && !isConnecting}
+              isCurrentIndex={index == currentIndex}
+              markAsLoaded={() => setCurrentIndex(currentIndex + 1)}
+              globalDisplayUpdater={globalDisplayUpdater}
+              updateGlobalDisplay={updateGlobalDisplay}
+              navigation={navigation}
             />
           </View>
         )}
@@ -104,7 +112,6 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
         )}
         renderSectionFooter={() => (
           <CustomSeparator style={{
-            width: '100%',
             backgroundColor: theme.colors.surfaceOutline,
             marginBottom: 15,
           }}/>
@@ -172,7 +179,7 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
           backgroundColor: theme.colors.surface,
           padding: 5,
           borderRadius: 10,
-        }} onPress={refreshNextExams}>
+        }} onPress={refreshUpcomingHomework}>
           {refreshing || isConnecting ? (
             <ActivityIndicator size={30} color={theme.colors.onSurface}/>
           ) : !isConnected ? (
@@ -186,4 +193,4 @@ function HomeworksPage({ isConnected, isConnecting, globalDisplayUpdater, update
   );
 }
 
-export default HomeworksPage;
+export default UpcomingHomeworkPage;

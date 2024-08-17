@@ -5,7 +5,8 @@ import MainPage from './Main/MainPage';
 import MarkPage from './Main/SubjectPage/MarkPage';
 import SubjectPage from './Main/SubjectPage/SubjectPage';
 import MarksInformationPage from './Main/MarksOverview/MarksInformationPage';
-import HomeworksPage from './Main/Homework/HomeworksPage';
+import UpcomingHomeworkPage from './Main/Homework/UpcomingHomeworkPage';
+import HomeworkPage from './Main/Homework/HomeworkPage';
 import ExamPage from './Main/Homework/ExamPage';
 import HomeworkInformationPage from './Main/Homework/HomeworkInformationPage';
 
@@ -88,17 +89,37 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
 
       {/* Homeworks */}
       <Stack.Screen
-        name="HomeworksPage"
+        name="UpcomingHomeworkPage"
         options={{ headerShown: false }}
         initialParams={{
           accountID: 0,
           _errorGettingHomework: false,
         }}
       >
-        {(props) => <HomeworksPage
+        {(props) => <UpcomingHomeworkPage
           {...props}
           isConnected={isConnected}
           isConnecting={isConnecting}
+          globalDisplayUpdater={globalDisplayUpdater}
+          updateGlobalDisplay={updateGlobalDisplay}
+        />}
+      </Stack.Screen>
+      <Stack.Screen
+        name="HomeworkPage"
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
+        initialParams={{
+          accountID: 0,
+          cacheHomework: null,
+          cacheSpecificHomework: null,
+        }}
+      >
+        {(props) => <HomeworkPage
+          {...props}
+          isConnected={isConnected}
           globalDisplayUpdater={globalDisplayUpdater}
           updateGlobalDisplay={updateGlobalDisplay}
         />}

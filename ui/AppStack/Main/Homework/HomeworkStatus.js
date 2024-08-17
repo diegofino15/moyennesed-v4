@@ -71,7 +71,7 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
         paddingVertical: 5,
         paddingLeft: 10,
         paddingRight: 5,
-      }} onPress={() => { navigation.navigate("HomeworksPage", { accountID, _errorGettingHomework: errorGettingHomework }); }}>
+      }} onPress={() => { navigation.navigate("UpcomingHomeworkPage", { accountID, _errorGettingHomework: errorGettingHomework }); }}>
         <Text style={[theme.fonts.labelMedium, { marginRight: 5, height: 22 }]}>Travail à faire</Text>
         <ArrowRightIcon size={20} color={theme.colors.onSurfaceDisabled}/>
       </PressableScale>

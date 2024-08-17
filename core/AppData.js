@@ -1363,32 +1363,8 @@ class AppData {
 
     return 1;
   }
-  static async getSpecificHomeworkForDay(accountID, day, forceRefresh=false, forceCache=false) {
-    if (!forceRefresh) {
-      const data = await AsyncStorage.getItem("specific-homework");
-      if (data) {
-        const cacheData = JSON.parse(data);
-        if (accountID in cacheData && day in cacheData[accountID].days) {          
-          // Check if homework more than 12 hours old
-          if (new Date() - new Date(cacheData[accountID].days[day].date) < 12 * 60 * 60 * 1000 || forceCache) {
-            const listOfSpecificHomeworks = cacheData[accountID].days[day].homeworkIDs.map(homeworkID => cacheData[accountID].homeworks[homeworkID]);
-            let specificHomeworks = {};
-            listOfSpecificHomeworks.forEach(homework => {
-              specificHomeworks[homework.id] = homework;
-            });
-            
-            return {
-              status: 1,
-              data: specificHomeworks,
-              date: cacheData[accountID].days[day].date,
-            };
-          }
-        }
-      }
-      if (forceCache) { return { status: 0 }; }
-    }
-
-    const status = await this.parseEcoleDirecte(
+  static async getSpecificHomeworkForDay(accountID, day) {
+    return this.parseEcoleDirecte(
       "specific-homework",
       accountID,
       `${this.USED_URL}${APIEndpoints.SPECIFIC_HOMEWORK(accountID, day)}`,
@@ -1397,9 +1373,6 @@ class AppData {
         return await this.saveSpecificHomeworkForDay(accountID, data);
       }
     );
-    
-    if (status == 1) { return await this.getSpecificHomeworkForDay(accountID, day); }
-    else { return { status: -1 }; }
   }
   static async saveSpecificHomeworkForDay(accountID, homeworks) {
     const day = homeworks.date;
