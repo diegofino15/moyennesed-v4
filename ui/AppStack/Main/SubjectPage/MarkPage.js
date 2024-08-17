@@ -304,6 +304,8 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
                         borderRadius: 10,
                         paddingHorizontal: 5,
                         paddingVertical: 3,
+                        shadowOpacity: 0.5,
+                        shadowOffset: { width: 0, height: 0 },
                       }}>
                         <View style={{
                           width: 30,

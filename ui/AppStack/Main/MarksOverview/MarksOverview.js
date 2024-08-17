@@ -59,7 +59,7 @@ function MarksOverview({
       }
       setShownPeriod(shownPeriod);
     }
-  }, [globalDisplayUpdater]);
+  }, [globalDisplayUpdater, periods]);
 
   useEffect(() => {
     if (Object.keys(periods).length) {

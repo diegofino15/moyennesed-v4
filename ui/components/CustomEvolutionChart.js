@@ -42,11 +42,11 @@ function CustomEvolutionChart({ listOfValues, showClassValues, color, lightColor
             borderRadius: 10,
           }}>
             <Text style={[theme.fonts.headlineSmall, {
-              color: 'black',
+              color: theme.colors.background,
               fontSize: 15,
             }]}>{point?.extraData?.formattedValue}</Text>
             <Text style={[theme.fonts.labelMedium, {
-              color: 'black',
+              color: theme.colors.background,
               fontSize: 13,
             }]}>{point?.extraData?.formattedDate}</Text>
           </View>
@@ -85,7 +85,7 @@ function CustomEvolutionChart({ listOfValues, showClassValues, color, lightColor
           }}>
             <Users2Icon size={15} color="black"/>
             <Text style={[theme.fonts.headlineSmall, {
-              color: 'black',
+              color: theme.colors.background,
               fontSize: 15,
             }]}> : {point?.extraData?.formattedValue}</Text>
           </View>

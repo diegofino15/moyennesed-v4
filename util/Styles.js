@@ -38,7 +38,7 @@ class Themes {
       backdrop: '#FFF',
   
       surface: '#ECECEC',
-      surfaceOutline: '#E7EDF2',
+      surfaceOutline: '#ECECEC',
       onSurface: '#000',
       onSurfaceDisabled: '#888',
   
