@@ -26,6 +26,7 @@ function HomeworkFileAttachment({ accountID, file, windowWidth }) {
   
   const [isDownloading, setIsDownloading] = useState(false);
   async function openAttachment() {
+    if (isDownloading) { return; }
     setIsDownloading(true);
     const { promise, localFile } = await AppData.downloadHomeworkFile(accountID, file);
     promise.then(() => {
