@@ -27,14 +27,16 @@ function MarksOverview({
   gotMarks,
   errorGettingMarks,
   
-  globalDisplayUpdater,
+  globalDisplayUpdater, manualUpdater,
   navigation,
 }) {
   const { theme } = useAppContext();
   
   // List of marks present at first display, used to show new marks
   const [firstDisplayMarks, setFirstDisplayMarks, firstDisplayMarksRef] = useState([]);
+  const [_shownPeriod, setShownPeriod] = useState(0);
   const [oldAccountID, setOldAccountID] = useState(accountID);
+  const [oldManualUpdater, setOldManualUpdater] = useState(manualUpdater);
 
   // Get periods of student and choose which to display
   useEffect(() => {
@@ -55,14 +57,20 @@ function MarksOverview({
         setSelectedPeriod(newSelectedPeriod);
         setLatestCurrentPeriod(newSelectedPeriod);
       }
+      setShownPeriod(shownPeriod);
+    }
+  }, [globalDisplayUpdater]);
 
+  useEffect(() => {
+    if (Object.keys(periods).length) {
       // Save first display marks
-      if (firstDisplayMarksRef.current.length == 0 || accountID != oldAccountID) {
-        setFirstDisplayMarks(Object.keys(Object.values(periods)[shownPeriod].marks));
+      if (firstDisplayMarksRef.current.length == 0 || accountID != oldAccountID || manualUpdater != oldManualUpdater) {
+        setFirstDisplayMarks(Object.keys(Object.values(periods)[_shownPeriod].marks));
         setOldAccountID(accountID);
+        setOldManualUpdater(manualUpdater);
       }
-    } 
-  }, [periods, globalDisplayUpdater]);
+    }
+  }, [periods]);
   
   // Show average or evolution graph
   const scrollViewRef = useRef(null);
