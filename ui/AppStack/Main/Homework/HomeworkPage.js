@@ -189,10 +189,12 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
     // Fetch specific homework
     setIsLoading(true);
     const status = await AppData.getSpecificHomeworkForDay(accountID, homework.dateFor);
-    if (status == 1) { await getCacheSpecificHomework(); }
-    setErrorLoading(status != 1);
+    if (status == 1) {
+      await getCacheSpecificHomework();
+      updateGlobalDisplay();
+    }
+    else { setErrorLoading(true); }
     setIsLoading(false);
-    updateGlobalDisplay();
   }
   useEffect(() => { loadSpecificHomework(); }, [globalDisplayUpdater]);
 
@@ -283,11 +285,7 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
           />
 
           {/* Content */}
-          {isLoading ? (
-            <ActivityIndicator size={30} color={theme.colors.onSurfaceDisabled} style={{
-              marginTop: 100,
-            }}/>
-          ) : errorLoading ? (
+          {errorLoading ? (
             <View style={{
               marginTop: 100,
               alignItems: 'center'
@@ -298,6 +296,10 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
               </View>
               <Text style={theme.fonts.labelMedium}>Impossible de charger le devoir</Text>
             </View>
+          ) : !specificHomework ? (
+            <ActivityIndicator size={30} color={theme.colors.onSurfaceDisabled} style={{
+              marginTop: 100,
+            }}/>
           ) : (
             <>
               {/* Todo */}

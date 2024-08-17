@@ -115,7 +115,7 @@ function CustomModal({
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
             ...(Platform.select({ ios: {}, android: headerStyle }))
-          }} tint={theme.dark ? "light" : "dark"} intensity={Platform.select({ ios: 50, android: 0 })}>
+          }} tint="light" intensity={Platform.select({ ios: 50, android: 0 })}>
             <View style={{ height: 45 }}/>
             {titleObject ? titleObject : <Text style={[theme.fonts.titleSmall, { height: 30, ...titleStyle }]}>{title}</Text>}
           </BlurView>

@@ -106,7 +106,7 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater,
             marginVertical: 15,
             top: -15,
             alignSelf: 'center',
-          }} tint="dark" intensity={50}>
+          }} tint={theme.dark ? "dark" : "light"} intensity={50}>
             <Text style={[theme.fonts.bodyLarge, { height: 25 }]}>{title}</Text>
           </BlurView>
         )}
