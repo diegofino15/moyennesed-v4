@@ -64,6 +64,7 @@ function HomeworkFileAttachment({ accountID, file, windowWidth }) {
             textStyle={{
               width: windowWidth - 130,
             }}
+
             rightIcon={(
               <View style={{
                 marginRight: 5,
@@ -77,7 +78,11 @@ function HomeworkFileAttachment({ accountID, file, windowWidth }) {
                 )}
               </View>
             )}
-            style={{ marginVertical: 5 }}
+            style={{
+              marginVertical: 5,
+              borderWidth: 2,
+              borderColor: theme.colors.surfaceOutline,
+            }}
           />
         </PressableScale>
       )}
@@ -170,8 +175,6 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
     return -1;
   }
   async function loadSpecificHomework(force=false) {
-    if (!isConnected) { return; }
-    
     // Check if specific homework is in cache
     if (!force) {
       let status = await getCacheSpecificHomework();
@@ -180,6 +183,8 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
         return;
       }
     }
+
+    if (!isConnected) { return; }
     
     // Fetch specific homework
     setIsLoading(true);
@@ -276,25 +281,6 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
             )}
             style={{ marginBottom: 10 }}
           />
-          {/* When was it given */}
-          <CustomSimpleInformationCard
-            icon={<CalendarIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
-            content={"Donné le"}
-            rightIcon={(
-              <Text style={theme.fonts.labelLarge}>{formatDate2(homework.dateGiven)}</Text>
-            )}
-            style={{ marginBottom: 10 }}
-          />
-          {/* Who gave it */}
-          <CustomSimpleInformationCard
-            icon={<GraduationCapIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
-            content={"Donné par"}
-            rightIcon={(
-              <Text style={[theme.fonts.labelLarge, {
-                marginLeft: 5,
-              }]} numberOfLines={1}>{specificHomework?.givenBy ?? "--"}</Text>
-            )}
-          />
 
           {/* Content */}
           {isLoading ? (
@@ -321,11 +307,15 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
               <Text style={[theme.fonts.bodyLarge, { textAlign: "justify" }]}>{specificHomework?.todo}</Text>
 
               {/* Session content */}
-              <CustomSection
-                title={"Contenu de séance"}
-                marginTop={50}
-              />
-              <Text style={[theme.fonts.bodyLarge, { textAlign: "justify" }]}>{specificHomework?.sessionContent}</Text>
+              {specificHomework?.sessionContent && (
+                <>
+                  <CustomSection
+                    title={"Contenu de séance"}
+                    marginTop={50}
+                  />
+                  <Text style={[theme.fonts.bodyLarge, { textAlign: "justify" }]}>{specificHomework?.sessionContent}</Text>
+                </>
+              )}
 
               {/* File attachments */}
               {specificHomework?.files.length > 0 && (
@@ -345,8 +335,37 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
                 </>
               )}
 
+
+              <CustomSection
+                title={"Plus d'infos"}
+              />
+
+              {/* When was it given */}
+              <CustomSimpleInformationCard
+                icon={<CalendarIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
+                content={"Donné le"}
+                rightIcon={(
+                  <Text style={theme.fonts.labelLarge}>{formatDate2(homework.dateGiven)}</Text>
+                )}
+                style={{ marginBottom: 10 }}
+              />
+              {/* Who gave it */}
+              <CustomSimpleInformationCard
+                icon={<GraduationCapIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
+                content={"Donné par"}
+                rightIcon={(
+                  <Text style={[theme.fonts.labelLarge, {
+                    marginLeft: 5,
+                  }]} numberOfLines={1}>{specificHomework?.givenBy ?? "--"}</Text>
+                )}
+              />
+
               {/* Info */}
-              <Text style={[theme.fonts.labelMedium, { fontFamily: 'Text-Italic', marginTop: 10 }]}>Dernière mise à jour : {formatDate(lastTimeUpdatedSpecificHomework)}</Text>
+              <Text style={[theme.fonts.labelMedium, {
+                fontFamily: 'Text-Italic',
+                marginTop: 10,
+                marginBottom: 50,
+              }]}>Dernière mise à jour : {formatDate(lastTimeUpdatedSpecificHomework)}</Text>
             </>
           )}
         </View>
