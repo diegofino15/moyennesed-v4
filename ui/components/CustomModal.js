@@ -123,20 +123,27 @@ function CustomModal({
         )}
 
         {/* Back button */}
-        {goBackFunction && !isBackButtonInScrollView && (Platform.OS == "android" || !onlyShowBackButtonOnAndroid) && <PressableScale style={{
-          position: 'absolute',
-          left: 12,
-          top: 12,
-          borderWidth: 2,
-          borderColor: theme.colors.surfaceOutline,
-          backgroundColor: theme.colors.surface,
-          padding: 5,
-          borderRadius: 10,
-          zIndex: 1,
-          ...goBackButtonStyle,
-        }} onPress={goBackFunction}>
-          <ChevronLeftIcon size={30} color={theme.colors.onSurface}/>
-        </PressableScale>}
+        {goBackFunction && !isBackButtonInScrollView && (Platform.OS == "android" || !onlyShowBackButtonOnAndroid) && (
+          <PressableScale style={{
+            position: 'absolute',
+            left: 7,
+            top: 7,
+            borderRadius: 10,
+            padding: 7,
+            zIndex: 1,
+          }} onPress={goBackFunction}>
+            <BlurView style={{
+              borderRadius: 10,
+              overflow: "hidden",
+              padding: 5,
+              backgroundColor: title || titleObject ? null : theme.colors.surface,
+              borderWidth: title || titleObject ? 0 : 2,
+              borderColor: theme.colors.surfaceOutline,
+            }} tint="dark" intensity={30}>
+              <ChevronLeftIcon size={30} color={title || titleObject ? 'black' : theme.colors.onSurface}/>
+            </BlurView>
+          </PressableScale>
+        )}
 
         {/* Right icon */}
         {rightIcon && <PressableScale style={{
