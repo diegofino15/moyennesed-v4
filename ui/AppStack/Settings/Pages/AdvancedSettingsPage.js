@@ -151,6 +151,7 @@ function AdvancedSettingsPage({ globalDisplayUpdater, updateGlobalDisplay, navig
           <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>Certaines notes ne comportent pas de valeur numérique, ce paramètres permet de les compter dans la moyenne grâce à la notation de leurs compétences.</Text>
           <CustomSimpleInformationCard
             content={"Compter les compétences"}
+            textStyle={theme.fonts.bodyLarge}
             icon={<LandPlotIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
             rightIcon={(
               <Switch
@@ -169,6 +170,7 @@ function AdvancedSettingsPage({ globalDisplayUpdater, updateGlobalDisplay, navig
           />
           <CustomSimpleInformationCard
             content={"Activer les vibrations"}
+            textStyle={theme.fonts.bodyLarge}
             icon={<LandPlotIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
             rightIcon={(
               <Switch

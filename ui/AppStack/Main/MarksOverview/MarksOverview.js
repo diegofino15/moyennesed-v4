@@ -70,7 +70,7 @@ function MarksOverview({
         setOldManualUpdater(manualUpdater);
       }
     }
-  }, [periods]);
+  }, [periods, manualUpdater]);
   
   // Show average or evolution graph
   const scrollViewRef = useRef(null);

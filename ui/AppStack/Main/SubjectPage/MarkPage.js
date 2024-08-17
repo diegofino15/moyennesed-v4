@@ -411,6 +411,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
                 <CustomSimpleInformationCard
                   icon={<LandPlotIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
                   content={"Compter les compétences"}
+                  textStyle={theme.fonts.bodyLarge}
                   subtitle={"Paramètre global"}
                   rightIcon={(
                     <Switch
