@@ -143,6 +143,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
           {...props}
           isConnected={isConnected}
           globalDisplayUpdater={globalDisplayUpdater}
+          updateGlobalDisplay={updateGlobalDisplay}
         />}
       </Stack.Screen>
 

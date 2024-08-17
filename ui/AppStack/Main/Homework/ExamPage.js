@@ -8,7 +8,7 @@ import CustomModal from "../../../components/CustomModal";
 import { useAppContext } from "../../../../util/AppContext";
 
 // Exam page
-function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, navigation, route }) {
+function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
   const { theme } = useAppContext();
   
   const {
@@ -38,17 +38,15 @@ function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, navigation,
     });
   }, [globalDisplayUpdater]);
 
-  const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
- 
   return (
     <CustomModal
       title={`Contrôles - ${subjectTitle}`}
+      titleStyle={{ color: 'black' }}
       goBackFunction={() => navigation.pop()}
       onlyShowBackButtonOnAndroid
       goBackButtonStyle={{ opacity: 0.6 }}
       headerStyle={{ backgroundColor: theme.colors.error }}
       horizontalPadding={10}
-      setWidth={setWindowWidth}
       children={(
         <View style={{ backgroundColor: theme.colors.backdrop }}>
           {Object.keys(abstractExams).map(day => (
@@ -59,10 +57,10 @@ function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, navigation,
                 accountID={accountID}
                 day={day}
                 homeworks={abstractExams[day]}
-                loadAtDisplay
-                openAllAtDisplay
-                canLoad={isConnected && !isConnecting}
-                windowWidth={windowWidth}
+                forceAutoLoad={isConnected && !isConnecting}
+                navigation={navigation}
+                globalDisplayUpdater={globalDisplayUpdater}
+                updateGlobalDisplay={updateGlobalDisplay}
               />
             </View>
           ))}

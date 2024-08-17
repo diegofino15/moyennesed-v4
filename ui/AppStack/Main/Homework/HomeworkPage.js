@@ -284,6 +284,20 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
             )}
             style={{ marginBottom: 10 }}
           />
+          {/* Is exam ? */}
+          {homework.isExam && (
+            <CustomSimpleInformationCard
+              icon={<AlertTriangleIcon size={25} color={theme.colors.error}/>}
+              content={"Controle"}
+              textStyle={{ color: theme.colors.error }}
+              style={{
+                borderWidth: 2,
+                borderColor: theme.colors.error,
+                backgroundColor: theme.colors.backdrop,
+                marginBottom: 10,
+              }}
+            />
+          )}
 
           {/* Content */}
           {errorLoading ? (
