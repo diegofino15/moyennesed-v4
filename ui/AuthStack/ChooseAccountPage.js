@@ -71,7 +71,7 @@ function ChooseAccountPage({ navigation }) {
 
           {/* Confirm selection */}
           <CustomButton
-            title={<Text style={theme.fonts.bodyLarge}>Confirmer</Text>}
+            title={<Text style={[theme.fonts.bodyLarge, { color: theme.colors.onPrimary }]}>Confirmer</Text>}
             onPress={confirmSelection}
             style={{ marginTop: 20 }}
           />
