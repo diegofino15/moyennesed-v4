@@ -83,7 +83,7 @@ function CustomEvolutionChart({ listOfValues, showClassValues, color, lightColor
             alignItems: 'center',
             marginVertical: 5,
           }}>
-            <Users2Icon size={15} color="black"/>
+            <Users2Icon size={15} color={theme.colors.background}/>
             <Text style={[theme.fonts.headlineSmall, {
               color: theme.colors.background,
               fontSize: 15,

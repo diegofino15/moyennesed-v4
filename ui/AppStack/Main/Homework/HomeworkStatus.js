@@ -39,7 +39,7 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
                 color: isGettingHomework ? theme.colors.primary : gotHomework ? theme.colors.success : theme.colors.error,
                 marginRight: 5,
                 height: 22,
-            }]}>{isGettingHomework ? "Chargement..." : gotHomework ? "À jour" : errorGettingHomework ? "Erreur" : "Pas à jour"}</Text>
+            }]}>{isGettingHomework ? "Chargement" : gotHomework ? "À jour" : errorGettingHomework ? "Erreur" : "Pas à jour"}</Text>
             {(!isGettingHomework) && <HelpCircleIcon size={20} color={gotHomework ? theme.colors.success : theme.colors.error}/>}
           </PressableScale>
         )}

@@ -53,29 +53,31 @@ function StartPage({ navigation }) {
             <Text style={[theme.fonts.labelLarge, { width: '80%', textAlign: 'center', top: -10 }]}>Rapide. Efficace. Vos moyennes en un clin d'oeil.</Text>
           </View>
           
-          {/* Login button */}
-          <CustomButton
-            title={<Text style={[theme.fonts.bodyLarge, { height: 25, color: theme.colors.onPrimary }]}>Se connecter avec ÉcoleDirecte</Text>}
-            onPress={() => navigation.navigate("LoginPage")}
-            style={{ paddingHorizontal: 0 }}
-          />
+          <View style={{ bottom: 10, position: 'absolute', width: '100%' }}>
+            {/* Login button */}
+            <CustomButton
+              title={<Text style={[theme.fonts.bodyLarge, { height: 25, color: theme.colors.onPrimary }]}>Se connecter avec ÉcoleDirecte</Text>}
+              onPress={() => navigation.navigate("LoginPage")}
+              style={{ paddingHorizontal: 0 }}
+            />
 
-          {/* Footer */}
-          <View style={{ alignItems: 'center' }}>
-            <Text style={[
-              theme.fonts.labelMedium,
-              { marginTop: 10, textAlign: 'center', width: '80%' }
-            ]}>Vous devez disposer d'un compte ÉcoleDirecte pour vous connecter.</Text>
-            <View style={{ width: 5, height: 5, backgroundColor: theme.colors.onSurfaceDisabled, borderRadius: 5, margin: 10 }}/>
-            <PressableScale onPress={() => openLink("https://moyennesed.dfino.dev/privacy-policy.html")}>
-              <View style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-                <ScaleIcon size={15} color={theme.colors.onSurfaceDisabled}/>
-                <Text style={[theme.fonts.labelSmall, { marginLeft: 5 }]}>Conditions d'utilisation</Text>
-              </View>
-            </PressableScale>
+            {/* Footer */}
+            <View style={{ alignItems: 'center' }}>
+              <Text style={[
+                theme.fonts.labelMedium,
+                { marginTop: 10, textAlign: 'center', width: '80%' }
+              ]}>Vous devez disposer d'un compte ÉcoleDirecte pour vous connecter.</Text>
+              <View style={{ width: 5, height: 5, backgroundColor: theme.colors.onSurfaceDisabled, borderRadius: 5, margin: 10 }}/>
+              <PressableScale onPress={() => openLink("https://moyennesed.dfino.dev/privacy-policy.html")}>
+                <View style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                  <ScaleIcon size={15} color={theme.colors.onSurfaceDisabled}/>
+                  <Text style={[theme.fonts.labelSmall, { marginLeft: 5 }]}>Conditions d'utilisation</Text>
+                </View>
+              </PressableScale>
+            </View>
           </View>
         </SafeAreaView>
       </View>

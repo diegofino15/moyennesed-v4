@@ -78,8 +78,11 @@ function CustomConfirmModal({
         <SafeAreaView style={{
           marginHorizontal: 20,
           marginBottom: useSafeAreaInsets().bottom + 20,
+          // marginTop: useSafeAreaInsets().top + 20,
+          height: '100%',
+          justifyContent: 'space-between',
         }}>
-          {specialTip && (
+          {specialTip ? (
             <AnimatedCard
               key={-2}
               visible={visible}
@@ -98,43 +101,45 @@ function CustomConfirmModal({
                 </View>
               )}
               style={{
-                position: 'absolute',
-                bottom: Dimensions.get('window').height - 250,
-                width: '100%',
+                top: useSafeAreaInsets().top + 40,
               }}
               reverse
             />
-          )}
-          <AnimatedCard
-            key={-1}
-            visible={visible}
-            delay={0}
-            child={(
-              <PressableScale key={1} style={{
-                borderWidth: 2,
-                borderColor: theme.colors.surfaceOutline,
-                backgroundColor: theme.colors.surface,
-                borderRadius: 10,
-                padding: 5,
-                width: 35,
-                height: 35,
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: 5,
-                left: Dimensions.get('window').width - 75,
-              }} onPress={exitModal}>
-                <XIcon size={20} color={theme.colors.onSurfaceDisabled}/>
-              </PressableScale>
-            )}
-          />
-          {children.map((child, index) => (
+          ) : <View/>}
+
+
+          <View>
             <AnimatedCard
-              key={index}
+              key={-1}
               visible={visible}
-              delay={(index + 1) * 50}
-              child={child}
+              delay={0}
+              child={(
+                <PressableScale key={1} style={{
+                  borderWidth: 2,
+                  borderColor: theme.colors.surfaceOutline,
+                  backgroundColor: theme.colors.surface,
+                  borderRadius: 10,
+                  padding: 5,
+                  width: 35,
+                  height: 35,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: 5,
+                  left: Dimensions.get('window').width - 75,
+                }} onPress={exitModal}>
+                  <XIcon size={20} color={theme.colors.onSurfaceDisabled}/>
+                </PressableScale>
+              )}
             />
-          ))}
+            {children.map((child, index) => (
+              <AnimatedCard
+                key={index}
+                visible={visible}
+                delay={(index + 1) * 50}
+                child={child}
+              />
+            ))}
+          </View>
         </SafeAreaView>
       </BlurView>
     </Modal>

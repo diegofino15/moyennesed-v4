@@ -37,12 +37,12 @@ yarn-error.*
 # Builds
 *.ipa
 
-# local env files
-*.local
-
 # Bare workflow
 ios/
 android/
+
+# local env files
+*.local
 
 # Confidential files
 google-services.json

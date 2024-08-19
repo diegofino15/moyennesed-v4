@@ -216,7 +216,7 @@ function DoubleAuthPopup({ navigation, isLoggedIn, setIsLoggedIn }) {
               {/* Confirm */}
               <CustomButton
                 title={isConfirmingChoice ? (
-                  <ActivityIndicator size={24} color={theme.colors.onSurface}/>
+                  <ActivityIndicator size={24} color={theme.colors.onPrimary}/>
                 ) : errorConfirmingChoice ? (
                   <Text style={[theme.fonts.bodyLarge, { color: theme.colors.onPrimary }]}>Une erreur est survenue</Text>
                 ) : (
