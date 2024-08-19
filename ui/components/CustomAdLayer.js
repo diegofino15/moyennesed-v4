@@ -32,7 +32,7 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
       console.log("First time opening app, no ad");
       setCanShowContent(true);
       setCanShowAverage(true);
-      AsyncStorage.setItem("lastAdTime", (Date.now() - 7 * 24 * 60 * 60 * 1000).toString());
+      AsyncStorage.setItem("lastAdTime", (Date.now() + 7 * 24 * 60 * 60 * 1000).toString());
     } else if (Date.now() - parseInt(lastAdTime) < AD_COOLDOWN || isAdsHandlerLoaded && !canServeAds) {
       console.log("Ad cooldown not finished");
       setCanShowAverage(true);
