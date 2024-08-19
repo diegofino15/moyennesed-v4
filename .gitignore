@@ -41,3 +41,6 @@ android/
 # Confidential files
 google-services.json
 GoogleService-Info.plist
+
+# Builds
+*.ipa
