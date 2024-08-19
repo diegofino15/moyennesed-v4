@@ -2,12 +2,11 @@ import { useEffect } from "react";
 import useState from "react-usestateref";
 import { Platform, View, Text, ActivityIndicator } from "react-native";
 import { TestIds, RewardedAd, AdEventType, RewardedAdEventType } from "react-native-google-mobile-ads";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { HelpCircleIcon, VideoIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { BlurView } from "expo-blur";
-import { HelpCircleIcon, VideoIcon } from "lucide-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CustomChooser from "./CustomChooser";
 import AdsHandler from "../../core/AdsHandler";
 import { useAppContext } from "../../util/AppContext";
 
@@ -20,7 +19,7 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
   const [canShowContent, setCanShowContent, canShowContentRef] = useState(false);
   
   // Ad objects
-  const AD_COOLDOWN = 12 * 60 * 60 * 1000;
+  const AD_COOLDOWN = 24 * 60 * 60 * 1000; // 24h
   const [rewardedAd, setRewardedAd, rewardedAdRef] = useState(null);
   const [loadingAd, setLoadingAd] = useState(true);
 
@@ -29,11 +28,11 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
   async function checkIfAdShouldBeShown() {
     if (rewardedAd) { return; }
     const lastAdTime = await AsyncStorage.getItem('lastAdTime');
-    if (lastAdTime == null) {
+    if (lastAdTime == null) { // Don't show ads for a week
       console.log("First time opening app, no ad");
       setCanShowContent(true);
       setCanShowAverage(true);
-      AsyncStorage.setItem("lastAdTime", Date.now().toString());
+      AsyncStorage.setItem("lastAdTime", (Date.now() - 7 * 24 * 60 * 60 * 1000).toString());
     } else if (Date.now() - parseInt(lastAdTime) < AD_COOLDOWN || isAdsHandlerLoaded && !canServeAds) {
       console.log("Ad cooldown not finished");
       setCanShowAverage(true);

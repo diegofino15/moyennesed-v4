@@ -140,7 +140,7 @@ function CustomModal({
               borderWidth: title || titleObject ? 0 : 2,
               borderColor: theme.colors.surfaceOutline,
             }} tint="dark" intensity={30}>
-              <ChevronLeftIcon size={30} color={title || titleObject ? 'black' : theme.colors.onSurface}/>
+              <ChevronLeftIcon size={30} color={(title || titleObject) && headerStyle ? 'black' : theme.colors.onSurface}/>
             </BlurView>
           </PressableScale>
         )}
