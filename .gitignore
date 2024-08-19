@@ -28,11 +28,17 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# local env files
-*.local
-
 # typescript
 *.tsbuildinfo
+
+
+### CUSTOM ###
+
+# Builds
+*.ipa
+
+# local env files
+*.local
 
 # Bare workflow
 ios/
@@ -41,6 +47,3 @@ android/
 # Confidential files
 google-services.json
 GoogleService-Info.plist
-
-# Builds
-*.ipa
