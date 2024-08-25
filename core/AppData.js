@@ -1,8 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import RNFS from "react-native-fs";
 import axios from "axios";
-import moment from 'moment';
-
+import dayjs from "dayjs";
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
 
 import { capitalizeWords, formatDate3, getLatestDate, parseHtmlData } from "../util/Utils";
 import ColorsHandler from "./ColorsHandler";
@@ -434,7 +435,7 @@ class AppData {
       let periodSubjects = {};
       let periodSubjectGroups = {};
       let periodSortedSubjectGroups = [];
-      for (const subject of period.ensembleMatieres.disciplines) {
+      for (const subject of period.ensembleMatieres?.disciplines ?? []) {
         if (subject.groupeMatiere) {
           // Is a SubjectGroup
           // Check if already exists
@@ -463,7 +464,7 @@ class AppData {
           }
 
           let subjectTeachers = [];
-          for (const teacher of subject.professeurs) {
+          for (const teacher of subject.professeurs ?? []) {
             subjectTeachers.push(teacher.nom);
           }
 
@@ -1327,7 +1328,7 @@ class AppData {
         abstractHomework.days[day].push(finalHomework.id);
 
         // Add homework to corresponding week
-        let dateObj = moment(day, 'DD-MM-YYYY', 'fr'); // TODO: fix this looking at the formatting of EcoleDirecte homework days
+        let dateObj = dayjs(day, 'DD-MM-YYYY', 'fr'); // TODO: fix this looking at the formatting of EcoleDirecte homework days
 
         let startOfWeek = new Date(dateObj);
         startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + (startOfWeek.getDay() === 0 ? -6 : 1));

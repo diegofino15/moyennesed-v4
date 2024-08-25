@@ -2,7 +2,9 @@ import { useEffect } from "react";
 import useState from "react-usestateref";
 import { ActivityIndicator, Dimensions, Text, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import moment from 'moment';
+import dayjs from "dayjs";
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
 
 import HomeworkCard from "./HomeworkCard";
 import AppData from "../../../../core/AppData";
@@ -52,7 +54,7 @@ function HomeworkDay({ accountID, day, homeworks, canAutoLoad=true, forceAutoLoa
   useEffect(() => {
     // Auto-load if homework due in less than 3 days
     const now = new Date();
-    const dayDate = moment(day, 'DD-MM-YYYY', 'fr').toDate();
+    const dayDate = dayjs(day, 'DD-MM-YYYY', 'fr').toDate();
     const diff = dayDate.getDate() - now.getDate();
     if (diff < 2 && canAutoLoad || forceAutoLoad) {
       loadSpecificHomeworks(false);

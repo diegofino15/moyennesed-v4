@@ -1,4 +1,5 @@
 import { View, SafeAreaView, Text, Dimensions } from 'react-native';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from 'expo-linear-gradient';
 import { PressableScale } from 'react-native-pressable-scale';
 import { ScaleIcon } from 'lucide-react-native';
@@ -53,7 +54,7 @@ function StartPage({ navigation }) {
             <Text style={[theme.fonts.labelLarge, { width: '80%', textAlign: 'center', top: -10 }]}>Rapide. Efficace. Vos moyennes en un clin d'oeil.</Text>
           </View>
           
-          <View style={{ bottom: 10, position: 'absolute', width: '100%' }}>
+          <View style={{ bottom: useSafeAreaInsets().bottom + 10, position: 'absolute', width: '100%' }}>
             {/* Login button */}
             <CustomButton
               title={<Text style={[theme.fonts.bodyLarge, { height: 25, color: theme.colors.onPrimary }]}>Se connecter avec ÉcoleDirecte</Text>}
