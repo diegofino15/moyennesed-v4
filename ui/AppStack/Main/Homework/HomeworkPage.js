@@ -66,7 +66,6 @@ function HomeworkFileAttachment({ accountID, file, windowWidth }) {
               width: windowWidth - 130,
               ...theme.fonts.bodyLarge,
             }}
-
             rightIcon={(
               <View style={{
                 marginRight: 5,

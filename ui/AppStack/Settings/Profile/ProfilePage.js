@@ -127,8 +127,11 @@ function ProfilePage({ route, navigation }) {
                 {currentAccount?.accountType == "E" && (
                   <CustomSimpleInformationCard
                     icon={<GraduationCapIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
-                    content={currentAccount?.grade}
-                    textStyle={theme.fonts.bodyLarge}
+                    content={`${currentAccount?.grade} Au lycéé saint jean de cluse dans le 7e`}
+                    textStyle={{
+                      ...theme.fonts.bodyLarge,
+                      width: windowWidth - 100,
+                    }}
                     style={{ marginBottom: 10 }}
                   />
                 )}
@@ -141,7 +144,10 @@ function ProfilePage({ route, navigation }) {
                     <UserRoundCogIcon size={25} color={theme.colors.onSurfaceDisabled}/>
                   )}
                   content={currentAccount?.accountType == "E" ? currentAccount?.school : "Élèves associés"}
-                  textStyle={theme.fonts.bodyLarge}
+                  textStyle={{
+                    ...theme.fonts.bodyLarge,
+                    width: windowWidth - 100,
+                  }}
                 />
                 {currentAccount?.accountType == "P" && Object.keys(currentAccount?.children).map(childID => {
                   const child = currentAccount?.children[childID];
