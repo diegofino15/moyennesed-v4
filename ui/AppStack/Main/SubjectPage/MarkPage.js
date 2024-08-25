@@ -254,7 +254,10 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
               icon={<CalendarIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
               content={"Date"}
               rightIcon={(
-                <Text style={theme.fonts.bodyLarge}>{formatDate2(mark.date)}</Text>
+                <Text style={[theme.fonts.bodyLarge, {
+                  width: windowWidth - 150,
+                  textAlign: "right",
+                }]}>{formatDate2(mark.date)}</Text>
               )}
             />
             {mark.type && (

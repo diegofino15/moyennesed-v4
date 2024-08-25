@@ -271,7 +271,8 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
             content={"Matière"}
             rightIcon={(
               <Text style={[theme.fonts.bodyLarge, {
-                marginLeft: 5,
+                width: windowWidth - 170,
+                textAlign: "right",
               }]} numberOfLines={1}>{homework.subjectTitle}</Text>
             )}
             style={{ marginBottom: 10 }}
@@ -281,7 +282,10 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
             icon={<CalendarIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
             content={"Pour le"}
             rightIcon={(
-              <Text style={theme.fonts.bodyLarge}>{formatDate2(homework.dateFor, false, true)}</Text>
+              <Text style={[theme.fonts.bodyLarge, {
+                width: windowWidth - 160,
+                textAlign: "right",
+              }]}>{formatDate2(homework.dateFor, false, true)}</Text>
             )}
             style={{ marginBottom: 10 }}
           />
@@ -363,7 +367,10 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
                 icon={<CalendarIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
                 content={"Saisi le"}
                 rightIcon={(
-                  <Text style={theme.fonts.bodyLarge}>{formatDate2(homework.dateGiven)}</Text>
+                  <Text style={[theme.fonts.bodyLarge, {
+                    width: windowWidth - 160,
+                    textAlign: "right",
+                  }]}>{formatDate2(homework.dateGiven)}</Text>
                 )}
                 style={{ marginBottom: 10 }}
               />
@@ -373,8 +380,9 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
                 content={"Saisi par"}
                 rightIcon={(
                   <Text style={[theme.fonts.bodyLarge, {
-                    marginLeft: 5,
-                  }]} numberOfLines={1}>{specificHomework?.givenBy ?? "--"}</Text>
+                    width: windowWidth - 180,
+                    textAlign: "right",
+                  }]}>{specificHomework?.givenBy ?? "--"}</Text>
                 )}
               />
 
