@@ -68,9 +68,12 @@ function AppRoot() {
 
       await ColorsHandler.load();
       await CoefficientHandler.load();
+      
+      AdsHandler.setupAdmob({ checkForConsent: true, setCanServeAds: setCanServeAds, setIsAdsHandlerLoaded: setIsAdsHandlerLoaded });
+    } else {
+      AdsHandler.setupAdmob({ checkForConsent: false, setCanServeAds: setCanServeAds, setIsAdsHandlerLoaded: setIsAdsHandlerLoaded });
     }
     
-    AdsHandler.setupAdmob({ checkForConsent: true, setCanServeAds: setCanServeAds, setIsAdsHandlerLoaded: setIsAdsHandlerLoaded });
     setIsLoaded(true);
   }
 

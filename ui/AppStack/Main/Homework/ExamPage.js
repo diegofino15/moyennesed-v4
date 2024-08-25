@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
-import { View, Dimensions, Platform } from "react-native";
+import { View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import HomeworkDay from "./HomeworkDay";
 import CustomModal from "../../../components/CustomModal";
 import { useAppContext } from "../../../../util/AppContext";
+
 
 // Exam page
 function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
@@ -57,7 +58,7 @@ function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, updateGloba
                 accountID={accountID}
                 day={day}
                 homeworks={abstractExams[day]}
-                forceAutoLoad={isConnected && !isConnecting}
+                autoLoad={isConnected && !isConnecting}
                 navigation={navigation}
                 globalDisplayUpdater={globalDisplayUpdater}
                 updateGlobalDisplay={updateGlobalDisplay}

@@ -50,9 +50,6 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater,
     HapticsHandler.vibrate("light");
   }
 
-  // Load the homeworks one by one
-  const [currentIndex, setCurrentIndex] = useState(0);
-
   return (
     <View style={{
       backgroundColor: theme.colors.backdrop,
@@ -80,15 +77,12 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater,
           overflow: 'visible',
           zIndex: 0,
         }}
-        renderItem={({ item, index }) => (
+        renderItem={({ item }) => (
           <View style={{ marginBottom: 50 }}>
             <HomeworkDay
               accountID={accountID}
               day={item}
               homeworks={abstractHomeworks.days[item]}
-              canAutoLoad={isConnected && !isConnecting}
-              isCurrentIndex={index == currentIndex}
-              markAsLoaded={() => setCurrentIndex(currentIndex + 1)}
               globalDisplayUpdater={globalDisplayUpdater}
               updateGlobalDisplay={updateGlobalDisplay}
               navigation={navigation}

@@ -13,7 +13,7 @@ import { useAppContext } from "../../../../util/AppContext";
 
 
 // Homework day
-function HomeworkDay({ accountID, day, homeworks, canAutoLoad=true, forceAutoLoad=false, isCurrentIndex, markAsLoaded, globalDisplayUpdater, updateGlobalDisplay, navigation }) {
+function HomeworkDay({ accountID, day, homeworks, autoLoad=false, globalDisplayUpdater, updateGlobalDisplay, navigation }) {
   const { theme } = useAppContext();
 
   // Auto-load the specific homeworks
@@ -33,35 +33,21 @@ function HomeworkDay({ accountID, day, homeworks, canAutoLoad=true, forceAutoLoa
   async function loadSpecificHomeworks(onlyIfCache=false) {
     // Check if specific homework is in cache
     var status = await getCacheSpecificHomeworks();
-    if (status == 1 && isCurrentIndex) { markAsLoaded(); }
     if (status == 1 || onlyIfCache || isLoading) {
       return;
     }
 
-    if (!isCurrentIndex && !forceAutoLoad) { return; }
-    
     // Fetch specific homework
     setIsLoading(true);
     await wait(2000);
     status = await AppData.getSpecificHomeworkForDay(accountID, day);
     if (status == 1) {
       await getCacheSpecificHomeworks();
-      if (isCurrentIndex) { markAsLoaded(); }
       updateGlobalDisplay();
     }
     setIsLoading(false);
   }
-  useEffect(() => {
-    // Auto-load if homework due in less than 3 days
-    const now = new Date();
-    const dayDate = dayjs(day, 'DD-MM-YYYY', 'fr').toDate();
-    const diff = dayDate.getDate() - now.getDate();
-    if (diff < 2 && canAutoLoad || forceAutoLoad) {
-      loadSpecificHomeworks(false);
-    } else {
-      loadSpecificHomeworks(true);
-    }
-  }, [globalDisplayUpdater, isCurrentIndex]);
+  useEffect(() => { loadSpecificHomeworks(!autoLoad); }, [globalDisplayUpdater]);
   
   return (
     <View style={{
