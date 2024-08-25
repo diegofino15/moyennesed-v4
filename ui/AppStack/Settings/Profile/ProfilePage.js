@@ -127,7 +127,7 @@ function ProfilePage({ route, navigation }) {
                 {currentAccount?.accountType == "E" && (
                   <CustomSimpleInformationCard
                     icon={<GraduationCapIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
-                    content={`${currentAccount?.grade} Au lycéé saint jean de cluse dans le 7e`}
+                    content={currentAccount?.grade}
                     textStyle={{
                       ...theme.fonts.bodyLarge,
                       width: windowWidth - 100,
