@@ -36,6 +36,7 @@ yarn-error.*
 
 # Builds
 *.ipa
+*.aab
 
 # Bare workflow
 ios/
