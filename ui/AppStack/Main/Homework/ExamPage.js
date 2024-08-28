@@ -9,7 +9,7 @@ import { useAppContext } from "../../../../util/AppContext";
 
 
 // Exam page
-function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
+function ExamPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
   const { theme } = useAppContext();
   
   const {
@@ -58,7 +58,6 @@ function ExamPage({ isConnected, isConnecting, globalDisplayUpdater, updateGloba
                 accountID={accountID}
                 day={day}
                 homeworks={abstractExams[day]}
-                autoLoad={isConnected && !isConnecting}
                 navigation={navigation}
                 globalDisplayUpdater={globalDisplayUpdater}
                 updateGlobalDisplay={updateGlobalDisplay}

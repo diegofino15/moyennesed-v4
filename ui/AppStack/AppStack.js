@@ -141,7 +141,6 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
       >
         {(props) => <ExamPage
           {...props}
-          isConnected={isConnected}
           globalDisplayUpdater={globalDisplayUpdater}
           updateGlobalDisplay={updateGlobalDisplay}
         />}
