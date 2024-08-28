@@ -1,7 +1,6 @@
 import { memo, useEffect } from "react";
 import { View, Text, Platform, Dimensions } from "react-native";
-import { BadgeHelpIcon, BugIcon, FileXIcon, HandHelpingIcon, KeyIcon, MailIcon, ScaleIcon, Settings2Icon, WeightIcon } from "lucide-react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { BadgeHelpIcon, BugIcon, HandHelpingIcon, MailIcon, ScaleIcon, Settings2Icon, WeightIcon } from "lucide-react-native";
 import useState from "react-usestateref";
 
 import CustomModal from "../../components/CustomModal";
@@ -131,32 +130,6 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDis
               </View>
             )}
           />
-
-          {/* Dev options */}
-          {__DEV__ && (
-            <>
-              <CustomSection title={"Dev options"}/>
-              <CustomLink
-                title={"Clear cache"}
-                onPress={AppData.eraseCacheData}
-                icon={<FileXIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
-                style={{ marginBottom: 10 }}
-              />
-              <CustomLink
-                title={"Reset preferences"}
-                onPress={() => AppData.resetPreferences(currentAccount, updateGlobalDisplay)}
-                icon={<Settings2Icon size={20} color={theme.colors.onSurfaceDisabled}/>}
-                style={{ marginBottom: 10 }}
-              />
-              <CustomLink
-                title={"Clear double auth tokens"}
-                onPress={() => { AsyncStorage.removeItem("double-auth-tokens"); }}
-                icon={<KeyIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
-                style={{ marginBottom: 10 }}
-              />
-            </>
-          )}
-
           <View style={{ height: 100 }}/> 
         </View>
       )}

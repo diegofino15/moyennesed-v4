@@ -1570,15 +1570,8 @@ class AppData {
     CoefficientHandler.erase();
     await AsyncStorage.clear();
   }
-  static async resetPreferences(account, updateGlobalDisplay) {
-    await AsyncStorage.multiRemove([
-      "customData",
-      "colors",
-      "preferences",
-      "coefficient-profiles",
-    ]);
-    ColorsHandler.customColors = {};
-    CoefficientHandler.erase();
+  static async resetCoefficients(account, updateGlobalDisplay) {
+    await AsyncStorage.removeItem("customData");
     if (account.accountType == "E") { await this.recalculateAverageHistory(account.id); }
     else {
       for (const childID in account.children) {

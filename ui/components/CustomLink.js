@@ -7,7 +7,7 @@ import { useAppContext } from "../../util/AppContext";
 
 
 // Custom link
-function CustomLink({ title, icon, link, linkIcon, onPress, style }) {
+function CustomLink({ title, icon, link, linkIcon, onPress, style, textStyle }) {
   const { theme } = useAppContext();
   
   return (
@@ -18,7 +18,7 @@ function CustomLink({ title, icon, link, linkIcon, onPress, style }) {
       ...style,
     }} onPress={() => onPress ? onPress() : openLink(link)}>
       {icon ? icon : <LinkIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
-      <Text style={[theme.fonts.bodyLarge, { marginLeft: 10 }]}>{title}</Text>
+      <Text style={[theme.fonts.bodyLarge, { marginLeft: 10, ...textStyle }]}>{title}</Text>
       {linkIcon ? linkIcon : <ArrowBigRightDashIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
     </PressableScale>
   );

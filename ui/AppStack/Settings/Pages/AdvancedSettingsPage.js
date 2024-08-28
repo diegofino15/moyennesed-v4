@@ -1,7 +1,7 @@
 import { memo, useEffect } from "react";
 import useState from "react-usestateref";
 import { View, Text, Switch } from "react-native";
-import { LandPlotIcon, MoonIcon, SunIcon } from "lucide-react-native";
+import { ArrowBigRightDashIcon, LandPlotIcon, MoonIcon, SunIcon, TrashIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -13,6 +13,8 @@ import { useAppContext } from "../../../../util/AppContext";
 import { Themes } from "../../../../util/Styles";
 import AppData from "../../../../core/AppData";
 import HapticsHandler from "../../../../core/HapticsHandler";
+import CustomLink from "../../../components/CustomLink";
+import CustomSeparator from "../../../components/CustomSeparator";
 
 
 // Theme switcher
@@ -180,6 +182,35 @@ function AdvancedSettingsPage({ globalDisplayUpdater, updateGlobalDisplay, navig
                   updateGlobalDisplay();
                 }}
               />
+            )}
+          />
+
+          <CustomSection
+            title={"Avancé"}
+          />
+          <CustomTextArea
+            children={(
+              <>
+                <CustomLink
+                  title={"Effacer les coefficients"}
+                  textStyle={{ color: theme.colors.error }}
+                  icon={<TrashIcon size={20} color={theme.colors.error}/>}
+                  linkIcon={<ArrowBigRightDashIcon size={20} color={theme.colors.error}/>}
+                  onPress={() => AppData.resetCoefficients(currentAccount, updateGlobalDisplay)}
+                />
+                <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginTop: 10 }]}>Retirer tous les coefficients personnalisés de l'app.</Text>
+
+                <CustomSeparator style={{ backgroundColor: theme.colors.surfaceOutline, marginVertical: 10 }}/>
+
+                <CustomLink
+                  title={"Effacer le cache"}
+                  textStyle={{ color: theme.colors.error }}
+                  icon={<TrashIcon size={20} color={theme.colors.error}/>}
+                  linkIcon={<ArrowBigRightDashIcon size={20} color={theme.colors.error}/>}
+                  onPress={() => AppData.eraseCacheData()}
+                />
+                <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginTop: 10 }]}>Supprimer les données stockées sur l'appareil (ex: fichiers attachés aux devoirs, photo de profil...).</Text>
+              </>
             )}
           />
 
