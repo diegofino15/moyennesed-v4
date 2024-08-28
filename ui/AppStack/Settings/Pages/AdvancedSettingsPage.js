@@ -5,16 +5,16 @@ import { ArrowBigRightDashIcon, LandPlotIcon, MoonIcon, SunIcon, TrashIcon } fro
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import CustomLink from "../../../components/CustomLink";
 import CustomModal from "../../../components/CustomModal";
 import CustomSection from "../../../components/CustomSection";
 import CustomTextArea from "../../../components/CustomTextArea";
+import CustomSeparator from "../../../components/CustomSeparator";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import { useAppContext } from "../../../../util/AppContext";
 import { Themes } from "../../../../util/Styles";
 import AppData from "../../../../core/AppData";
 import HapticsHandler from "../../../../core/HapticsHandler";
-import CustomLink from "../../../components/CustomLink";
-import CustomSeparator from "../../../components/CustomSeparator";
 
 
 // Theme switcher
