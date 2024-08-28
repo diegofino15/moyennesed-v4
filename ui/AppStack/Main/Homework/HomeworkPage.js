@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { View, Platform, Dimensions, Text, Switch, ActivityIndicator } from "react-native";
-import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, DownloadIcon, ExternalLinkIcon, FileIcon, GraduationCapIcon, SwatchBookIcon, XIcon } from "lucide-react-native";
+import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, ChevronLeftIcon, DownloadIcon, ExternalLinkIcon, FileIcon, GraduationCapIcon, SwatchBookIcon, XIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { BlurView } from "expo-blur";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -216,6 +216,10 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
     );
   }
 
+  // Is todo or sessionContent collapsed
+  const [isTodoCollapsed, setIsTodoCollapsed] = useState(false);
+  const [isSessionContentCollapsed, setIsSessionContentCollapsed] = useState(false);
+
   // Get subject colors
   const { dark } = ColorsHandler.getSubjectColors(homework.subjectID);
   const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
@@ -324,8 +328,20 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
               {/* Todo */}
               <CustomSection
                 title={"À faire"}
+                rightIcon={(
+                  <PressableScale onPress={() => setIsTodoCollapsed(!isTodoCollapsed)} style={{
+                    backgroundColor: theme.colors.surface,
+                    borderRadius: 5,
+                  }}>
+                    {isTodoCollapsed ? (
+                      <ChevronLeftIcon size={25} color={theme.colors.onSurfaceDisabled}/>
+                    ) : (
+                      <ChevronDownIcon size={25} color={theme.colors.onSurfaceDisabled}/>
+                    )}
+                  </PressableScale>
+                )}
               />
-              <Text style={[theme.fonts.bodyLarge, { textAlign: "justify" }]}>{specificHomework?.todo}</Text>
+              {!isTodoCollapsed && (<Text style={[theme.fonts.bodyLarge, { textAlign: "justify" }]}>{specificHomework?.todo}</Text>)}
 
               {/* Session content */}
               {specificHomework?.sessionContent && (
@@ -333,8 +349,20 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
                   <CustomSection
                     title={"Contenu de séance"}
                     marginTop={50}
+                    rightIcon={(
+                      <PressableScale onPress={() => setIsSessionContentCollapsed(!isSessionContentCollapsed)} style={{
+                        backgroundColor: theme.colors.surface,
+                        borderRadius: 5,
+                      }}>
+                        {isSessionContentCollapsed ? (
+                          <ChevronLeftIcon size={25} color={theme.colors.onSurfaceDisabled}/>
+                        ) : (
+                          <ChevronDownIcon size={25} color={theme.colors.onSurfaceDisabled}/>
+                        )}
+                      </PressableScale>
+                    )}
                   />
-                  <Text style={[theme.fonts.bodyLarge, { textAlign: "justify" }]}>{specificHomework?.sessionContent}</Text>
+                  {!isSessionContentCollapsed && (<Text style={[theme.fonts.bodyLarge, { textAlign: "justify" }]}>{specificHomework?.sessionContent}</Text>)}
                 </>
               )}
 

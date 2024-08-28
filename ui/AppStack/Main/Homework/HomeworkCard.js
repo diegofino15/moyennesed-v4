@@ -84,21 +84,6 @@ function HomeworkCard({
             marginHorizontal: 10,
             marginVertical: 5,
           }]} numberOfLines={1}>{cacheHomework.subjectTitle}</Text>
-
-          {specificHomework && !isDone && (
-            <View style={{
-              backgroundColor: light,
-              width: Dimensions.get('window').width - 105,
-              borderRadius: 5,
-              paddingHorizontal: 5,
-              paddingVertical: 2,
-              maxHeight: 50,
-            }}>
-              <Text style={[theme.fonts.bodyMedium, {
-                color: "black",
-              }]} numberOfLines={2}>{specificHomework.todo}</Text>
-            </View>
-          )}
         </PressableScale>
 
         {/* Toggle done */}
