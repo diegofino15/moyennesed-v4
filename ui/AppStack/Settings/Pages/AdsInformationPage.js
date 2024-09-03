@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import useState from "react-usestateref";
 import { ActivityIndicator, Dimensions, Platform, Text, View } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
@@ -215,4 +215,4 @@ function AdsInformationPage({ navigation }) {
   );
 }
 
-export default AdsInformationPage;
+export default memo(AdsInformationPage);

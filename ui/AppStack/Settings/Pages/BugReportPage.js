@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import useState from "react-usestateref";
 import { ActivityIndicator, Dimensions, Platform, Text, View } from "react-native";
 import { ChevronsUpDownIcon, SearchCodeIcon } from "lucide-react-native";
@@ -236,4 +236,4 @@ function BugReportPage({ navigation }) {
   );
 }
 
-export default BugReportPage;
+export default memo(BugReportPage);

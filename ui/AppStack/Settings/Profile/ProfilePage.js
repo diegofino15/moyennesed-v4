@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { View, Text, Dimensions, ScrollView, Platform } from "react-native";
 import { ArrowDownUpIcon, CornerDownRightIcon, SchoolIcon, GraduationCapIcon, UserRoundCogIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
@@ -222,4 +222,4 @@ function ProfilePage({ route, navigation }) {
   );
 }
 
-export default ProfilePage;
+export default memo(ProfilePage);

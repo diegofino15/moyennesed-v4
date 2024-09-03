@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Platform, Dimensions, Text, Switch, ActivityIndicator } from "react-native";
 import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, ChevronLeftIcon, DownloadIcon, ExternalLinkIcon, FileIcon, GraduationCapIcon, SwatchBookIcon, XIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
@@ -170,6 +170,7 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
       if (accountID in cacheData && homework.dateFor in cacheData[accountID].days && homework.id in cacheData[accountID].homeworks) {          
         setSpecificHomework(cacheData[accountID].homeworks[homework.id]);
         setLastTimeUpdatedSpecificHomework(cacheData[accountID].days[homework.dateFor].date);
+        setErrorLoading(false);
         return 1;
       }
     }

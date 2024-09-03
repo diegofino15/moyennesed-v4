@@ -205,22 +205,27 @@ function MarksOverview({
                 </View>
               )}
               <PressableScale style={{
-                backgroundColor: theme.colors.primary,
-                borderRadius: 5,
                 marginTop: 5,
-                width: 30,
-                height: 30,
-                alignItems: 'center',
-                justifyContent: 'center',
+                backgroundColor: theme.colors.primary,
+                flexDirection: "row",
+                alignItems: "center",
+                paddingHorizontal: 10,
+                paddingVertical: 3,
+                borderRadius: 5,
               }} onPress={() => {
                 setShowEvolution(!showEvolution);
-                HapticsHandler.vibrate('light');
+                HapticsHandler.vibrate("light");
               }}>
                 {showEvolution ? (
-                  <DraftingCompassIcon size={20} color={theme.colors.background}/>
+                  <DraftingCompassIcon size={20} color={theme.colors.background} />
                 ) : (
-                  <TrendingUpIcon size={20} color={theme.colors.background}/>
+                  <TrendingUpIcon size={20} color={theme.colors.background} />
                 )}
+                <Text style={[theme.fonts.labelMedium, {
+                  color: theme.colors.background,
+                  marginLeft: 5,
+                  height: 22,
+                }]}>{showEvolution ? "Moyenne" : "Evolution"}</Text>
               </PressableScale>
             </View>
           )}
@@ -240,8 +245,7 @@ function MarksOverview({
             showsHorizontalScrollIndicator={false}
             scrollEnabled={false}
             style={{
-              marginTop: 30,
-              marginBottom: 20,
+              marginVertical: 20,
             }}
           >
             <View style={{

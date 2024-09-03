@@ -198,7 +198,7 @@ function AdvancedSettingsPage({ globalDisplayUpdater, updateGlobalDisplay, navig
                   linkIcon={<ArrowBigRightDashIcon size={20} color={theme.colors.error}/>}
                   onPress={() => AppData.resetCoefficients(currentAccount, updateGlobalDisplay)}
                 />
-                <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginTop: 10 }]}>Retirer tous les coefficients personnalisés de l'app.</Text>
+                <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginTop: 10 }]}>Remettre à 0 les coefficients, et les notes et matières désactivées.</Text>
 
                 <CustomSeparator style={{ backgroundColor: theme.colors.surfaceOutline, marginVertical: 10 }}/>
 

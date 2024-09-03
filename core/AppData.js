@@ -1160,11 +1160,13 @@ class AppData {
         subject.marks = [];
         subject.hasAverage = false;
         subject.average = undefined;
+        subject.isEffective = true;
         Object.values(subject.subSubjects).forEach((subSubject) => {
           subSubject.averageHistory = [];
           subSubject.marks = [];
           subSubject.hasAverage = false;
           subSubject.average = undefined;
+          subSubject.isEffective = true;
         });
       });
 
