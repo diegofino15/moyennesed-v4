@@ -17,7 +17,6 @@ import AdsHandler from "../core/AdsHandler";
 import ColorsHandler from "../core/ColorsHandler";
 import CoefficientHandler from "../core/CoefficientHandler";
 import AppData from "../core/AppData";
-import { wait } from "../util/Utils";
 
 
 // App Root
