@@ -9,7 +9,6 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@gorhom/bottom-sheet": "^4.6.1",
     "@react-native-async-storage/async-storage": "1.21.0",
     "@react-native-firebase/analytics": "^20.4.0",
     "@react-native-firebase/app": "^20.3.0",
@@ -67,8 +66,8 @@
     "@babel/plugin-transform-template-literals": "^7.24.1",
     "@babel/preset-env": "^7.24.4",
     "@react-native/babel-preset": "^0.74.81",
-    "expo-dev-client": "~3.3.12",
-    "@types/react": "~18.2.45"
+    "@types/react": "~18.2.45",
+    "expo-dev-client": "~3.3.12"
   },
   "private": true
 }
