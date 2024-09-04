@@ -90,7 +90,11 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
       {/* Homeworks */}
       <Stack.Screen
         name="UpcomingHomeworkPage"
-        options={{ headerShown: false }}
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
         initialParams={{
           accountID: 0,
           _errorGettingHomework: false,
