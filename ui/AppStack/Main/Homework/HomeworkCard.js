@@ -80,7 +80,7 @@ function HomeworkCard({
         }}>
           <Text style={[theme.fonts.bodyLarge, {
             color: 'black',
-            width: Dimensions.get('window').width - 125,
+            width: Dimensions.get('window').width - 145,
             marginHorizontal: 10,
             marginVertical: 5,
           }]} numberOfLines={1}>{cacheHomework.subjectTitle}</Text>

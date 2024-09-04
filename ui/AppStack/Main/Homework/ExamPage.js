@@ -47,7 +47,6 @@ function ExamPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
       onlyShowBackButtonOnAndroid
       goBackButtonStyle={{ opacity: 0.6 }}
       headerStyle={{ backgroundColor: theme.colors.error }}
-      horizontalPadding={10}
       children={(
         <View style={{ backgroundColor: theme.colors.backdrop }}>
           {Object.keys(abstractExams).map(day => (

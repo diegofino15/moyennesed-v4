@@ -235,17 +235,10 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
       setWidth={setWindowWidth}
       title={"Détails du devoir"}
       rightIconStyle={{ backgroundColor: undefined, borderWidth: 0, padding: 7 }}
-      rightIcon={(
-        <BlurView style={{
-          borderRadius: 10,
-          overflow: "hidden",
-        }} tint="dark" intensity={30}>
-          {isLoading ? (
-            <ActivityIndicator size={30} color={'black'}/>
-          ) : (
-            <MoreInfoPopup homework={homework} toggleDone={toggleDone} forceRefresh={() => loadSpecificHomework(true)}/>
-          )}
-        </BlurView>
+      rightIcon={isLoading ? (
+        <ActivityIndicator size={30} color={'black'}/>
+      ) : (
+        <MoreInfoPopup homework={homework} toggleDone={toggleDone} forceRefresh={() => loadSpecificHomework(true)}/>
       )}
       children={(
         <View style={{ backgroundColor: theme.colors.backdrop }}>

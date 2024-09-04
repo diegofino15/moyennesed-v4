@@ -19,7 +19,7 @@ function CustomModal({
   horizontalPadding=20,
   titleStyle,
   headerStyle,
-  goBackButtonStyle,
+  topHeaderPadding,
   rightIcon,
   rightIconOnPress,
   rightIconStyle,
@@ -106,7 +106,7 @@ function CustomModal({
           }}/>
           <BlurView style={{
             padding: 10,
-            paddingTop: 12,
+            paddingTop: topHeaderPadding ? topHeaderPadding + 5 : 12,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
@@ -114,7 +114,7 @@ function CustomModal({
             overflow: 'hidden',
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
-            ...(Platform.select({ ios: {}, android: headerStyle }))
+            ...(Platform.select({ ios: {}, android: headerStyle })),
           }} tint="light" intensity={Platform.select({ ios: 50, android: 0 })}>
             <View style={{ height: 45 }}/>
             {titleObject ? titleObject : <Text style={[theme.fonts.titleSmall, { height: 30, ...titleStyle }]}>{title}</Text>}
@@ -127,7 +127,7 @@ function CustomModal({
           <PressableScale style={{
             position: 'absolute',
             left: 7,
-            top: 7,
+            top: topHeaderPadding ? topHeaderPadding : 7,
             borderRadius: 10,
             padding: 7,
             zIndex: 1,
@@ -149,16 +149,17 @@ function CustomModal({
         {rightIcon && <PressableScale style={{
           position: 'absolute',
           right: 12,
-          top: 12,
-          borderWidth: 2,
-          borderColor: theme.colors.surfaceOutline,
-          backgroundColor: theme.colors.surface,
-          padding: 5,
+          top: topHeaderPadding ? topHeaderPadding + 5 : 12,
           borderRadius: 10,
           zIndex: 1,
           ...rightIconStyle,
         }} onPress={rightIconOnPress}>
-          {rightIcon}
+          <BlurView style={{
+            borderRadius: 10,
+            overflow: "hidden",
+          }} tint="dark" intensity={30}>
+            {rightIcon}
+          </BlurView>
         </PressableScale>}
       </View>
     </View>

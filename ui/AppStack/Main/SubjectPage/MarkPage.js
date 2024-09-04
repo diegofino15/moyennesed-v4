@@ -146,14 +146,7 @@ function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
       setWidth={setWindowWidth}
       title={"Détails de la note"}
       rightIconStyle={{ backgroundColor: undefined, borderWidth: 0, padding: 7 }}
-      rightIcon={(
-        <BlurView style={{
-          borderRadius: 10,
-          overflow: "hidden",
-        }} tint="dark" intensity={30}>
-          <MoreInfoPopup mark={mark} toggleIsEffective={toggleIsEffective}/>
-        </BlurView>
-      )}
+      rightIcon={<MoreInfoPopup mark={mark} toggleIsEffective={toggleIsEffective}/>}
       children={(
         <View style={{ backgroundColor: theme.colors.backdrop }}>
           {/* Top portion */}

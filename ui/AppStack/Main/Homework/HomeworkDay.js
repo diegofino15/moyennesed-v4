@@ -54,7 +54,7 @@ function HomeworkDay({ accountID, day, homeworks, autoLoad=false, globalDisplayU
       paddingHorizontal: 10,
       paddingTop: 10,
       paddingBottom: 5,
-      width: Dimensions.get('window').width - 20,
+      width: Dimensions.get('window').width - 40,
       backgroundColor: theme.colors.surface,
       borderRadius: 10,
     }}>

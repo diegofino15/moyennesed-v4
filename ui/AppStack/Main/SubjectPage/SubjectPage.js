@@ -200,14 +200,7 @@ function SubjectPage({
           <Text style={[theme.fonts.titleSmall, { color: "black", maxWidth: windowWidth - 70 }]} numberOfLines={1}>{shownSubject.title ?? "---"}</Text>
         </View>
       )}
-      rightIcon={(
-        <BlurView style={{
-          borderRadius: 10,
-          overflow: "hidden",
-        }} tint="dark" intensity={30}>
-          <MoreInfoPopup shownSubject={shownSubject} toggleIsEffective={toggleIsEffective}/>
-        </BlurView>
-      )}
+      rightIcon={<MoreInfoPopup shownSubject={shownSubject} toggleIsEffective={toggleIsEffective}/>}
       rightIconStyle={{ backgroundColor: undefined, borderWidth: 0, padding: 7 }}
       headerStyle={{ backgroundColor: dark }}
       style={{ paddingVertical: 0 }}
