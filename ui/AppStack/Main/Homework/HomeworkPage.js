@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
 import { View, Platform, Dimensions, Text, Switch, ActivityIndicator } from "react-native";
-import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, ChevronLeftIcon, DownloadIcon, ExternalLinkIcon, FileIcon, GraduationCapIcon, SwatchBookIcon, XIcon } from "lucide-react-native";
+import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, ChevronLeftIcon, GraduationCapIcon, SwatchBookIcon, XIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { BlurView } from "expo-blur";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import FileViewer from "react-native-file-viewer";
 import * as DropdownMenu from 'zeego/dropdown-menu'
-import * as RNFS from "react-native-fs";
 
 import CustomModal from "../../../components/CustomModal";
-import CustomChooser from "../../../components/CustomChooser";
 import CustomSection from "../../../components/CustomSection";
 import CustomSeparator from "../../../components/CustomSeparator";
+import CustomFileAttachment from "../../../components/CustomFileAttachment";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import AppData from "../../../../core/AppData";
 import ColorsHandler from "../../../../core/ColorsHandler";
@@ -19,77 +16,6 @@ import HapticsHandler from "../../../../core/HapticsHandler";
 import { useAppContext } from "../../../../util/AppContext";
 import { asyncExpectedResult, formatDate, formatDate2 } from "../../../../util/Utils";
 
-
-// File attachment
-function HomeworkFileAttachment({ accountID, file, windowWidth }) {
-  const { theme } = useAppContext();
-  
-  const [isDownloading, setIsDownloading] = useState(false);
-  async function openAttachment() {
-    if (isDownloading) { return; }
-    setIsDownloading(true);
-    const { promise, localFile } = await AppData.downloadHomeworkFile(accountID, file);
-    promise.then(() => {
-      FileViewer.open(localFile);
-      setIsDownloading(false);
-    });
-  }
-
-  const [fileExists, setFileExists] = useState(false);
-  useEffect(() => {
-    RNFS.exists(`${RNFS.DocumentDirectoryPath}/${file.title}`).then(setFileExists);
-  }, [isDownloading]);
-
-  return (
-    <CustomChooser
-      title={"Options"}
-      items={fileExists ? [{
-        title: "Supprimer le document",
-        key: 0,
-        destructive: true,
-      }] : []}
-      setSelected={() => {
-        RNFS.unlink(`${RNFS.DocumentDirectoryPath}/${file.title}`);
-        setFileExists(false);
-      }}
-      longPress
-      defaultItem={(
-        <PressableScale
-          onPress={() => openAttachment()}
-          onLongPress={fileExists ? () => {} : undefined}
-          key={file.id}
-        >
-          <CustomSimpleInformationCard
-            icon={<FileIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
-            content={file.title}
-            textStyle={{
-              width: windowWidth - 130,
-              ...theme.fonts.bodyLarge,
-            }}
-            rightIcon={(
-              <View style={{
-                marginRight: 5,
-              }}>
-                {fileExists ? (
-                  <ExternalLinkIcon size={20} color={theme.colors.onSurfaceDisabled}/>
-                ) : isDownloading ? (
-                  <ActivityIndicator size={20} color={theme.colors.onSurfaceDisabled}/>
-                ) : (
-                  <DownloadIcon size={20} color={theme.colors.onSurfaceDisabled}/>
-                )}
-              </View>
-            )}
-            style={{
-              marginVertical: 5,
-              borderWidth: 2,
-              borderColor: theme.colors.surfaceOutline,
-            }}
-          />
-        </PressableScale>
-      )}
-    />
-  );
-}
 
 // More info
 function MoreInfoPopup({ homework, toggleDone, forceRefresh }) {
@@ -368,7 +294,7 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
                     marginTop={50}
                   />
                   {specificHomework.files.map(file => (
-                    <HomeworkFileAttachment
+                    <CustomFileAttachment
                       key={file.id}
                       accountID={accountID}
                       file={file}

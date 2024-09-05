@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Text, ActivityIndicator, View, Dimensions, Platform, SectionList } from "react-native";
-import { AlertTriangleIcon, RefreshCcwIcon } from "lucide-react-native";
+import { AlertTriangleIcon, FilesIcon, RefreshCcwIcon } from "lucide-react-native";
 import { BlurView } from "expo-blur";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -10,6 +10,7 @@ import CustomSeparator from "../../../components/CustomSeparator";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import AppData from "../../../../core/AppData";
 import { useAppContext } from "../../../../util/AppContext";
+import { PressableScale } from "react-native-pressable-scale";
 
 
 // Exam page
@@ -38,7 +39,7 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater,
   const [refreshing, setRefreshing] = useState(false);
   const [errorGettingHomework, setErrorGettingHomework] = useState(_errorGettingHomework);
   async function refreshUpcomingHomework() {
-    if (!isConnected) { return; }
+    if (!isConnected || refreshing) { return; }
     
     HapticsHandler.vibrate("light");
     setRefreshing(true);
@@ -64,6 +65,23 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater,
             <RefreshCcwIcon size={25} color={theme.colors.onSurface}/>
           )}
         </View>
+      )}
+      otherIcon={(
+        <PressableScale style={{
+          position: 'absolute',
+          top: 15,
+          right: 12 + 50,
+          borderRadius: 10,
+          zIndex: 1,
+        }} onPress={() => navigation.navigate("FilesPage", { accountID })}>
+          <BlurView style={{
+            borderRadius: 10,
+            overflow: "hidden",
+            padding: 7,
+          }} tint="dark" intensity={30}>
+            <FilesIcon size={25} color={theme.colors.onSurface}/>
+          </BlurView>
+        </PressableScale>
       )}
       rightIconStyle={{ top: 15, right: 15 }}
       showScrollView={false}

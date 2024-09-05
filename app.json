@@ -58,7 +58,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "me.diegof.moyennesed",
-      "buildNumber": "5",
+      "buildNumber": "6",
       "userInterfaceStyle": "automatic",
       "googleServicesFile": "./GoogleService-Info.plist",
       "entitlements": {

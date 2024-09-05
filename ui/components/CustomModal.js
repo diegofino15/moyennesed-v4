@@ -26,6 +26,7 @@ function CustomModal({
   onlyShowBackButtonOnAndroid=false,
   isBackButtonInScrollView=false,
   showScrollView=true,
+  otherIcon,
   setWidth=()=>{},
   setHeight=()=>{},
 }) {
@@ -161,6 +162,8 @@ function CustomModal({
             {rightIcon}
           </BlurView>
         </PressableScale>}
+
+        {otherIcon}
       </View>
     </View>
   );

@@ -7,6 +7,7 @@ import SubjectPage from './Main/SubjectPage/SubjectPage';
 import MarksInformationPage from './Main/MarksOverview/MarksInformationPage';
 import UpcomingHomeworkPage from './Main/Homework/UpcomingHomeworkPage';
 import HomeworkPage from './Main/Homework/HomeworkPage';
+import FilesPage from './Main/Homework/FilesPage';
 import ExamPage from './Main/Homework/ExamPage';
 import HomeworkInformationPage from './Main/Homework/HomeworkInformationPage';
 
@@ -128,6 +129,18 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
           updateGlobalDisplay={updateGlobalDisplay}
         />}
       </Stack.Screen>
+      <Stack.Screen
+        name="FilesPage"
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
+        initialParams={{
+          accountID: 0,
+        }}
+        component={FilesPage}
+      />
       
       {/* Exams */}
       <Stack.Screen
