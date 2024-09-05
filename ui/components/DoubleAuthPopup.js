@@ -208,7 +208,7 @@ function DoubleAuthPopup({ navigation, isLoggedIn, setIsLoggedIn }) {
                       <CheckIcon size={18} color={theme.colors.onPrimary}/>
                     </View>
                   ) : (
-                    <CircleIcon size={28} color={theme.colors.surfaceOutline}/>
+                    <CircleIcon size={28} color={theme.dark ? theme.colors.surfaceOutline : theme.colors.backdrop}/>
                   )}
                 </PressableScale>
               ))}
