@@ -54,7 +54,11 @@ function MoreInfoPopup({ homework, toggleDone, forceRefresh }) {
             <DropdownMenu.ItemTitle>{`Code devoir : ${homework.id}`}</DropdownMenu.ItemTitle>
           </DropdownMenu.Item>
 
-          <DropdownMenu.Item key={2} destructive={homework.done} onSelect={toggleDone}>
+          <DropdownMenu.Item key={2} onSelect={forceRefresh}>
+            <DropdownMenu.ItemTitle>{"Actualiser"}</DropdownMenu.ItemTitle>
+          </DropdownMenu.Item>
+
+          <DropdownMenu.Item key={3} destructive={homework.done} onSelect={toggleDone}>
             <DropdownMenu.ItemIcon androidIconName={homework.done ? 'ic_delete' : 'ic_input_add'}/> 
             <DropdownMenu.ItemTitle>{homework.done ? "Marquer comme non fait" : "Marquer comme fait"}</DropdownMenu.ItemTitle>
           </DropdownMenu.Item>
