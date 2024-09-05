@@ -1330,7 +1330,7 @@ class AppData {
         abstractHomework.days[day].push(finalHomework.id);
 
         // Add homework to corresponding week
-        let dateObj = dayjs(day, 'DD-MM-YYYY', 'fr'); // TODO: fix this looking at the formatting of EcoleDirecte homework days
+        let dateObj = dayjs(day, 'YYYY-MM-DD', 'fr'); // TODO: fix this looking at the formatting of EcoleDirecte homework days
 
         let startOfWeek = new Date(dateObj);
         startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + (startOfWeek.getDay() === 0 ? -6 : 1));

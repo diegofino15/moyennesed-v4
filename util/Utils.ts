@@ -60,7 +60,7 @@ const monthsNames = [
 function formatDate2(givenDate: string, tellIfNear: boolean = false, isFrLocale: boolean = false): string {
   var date: Date;
   if (isFrLocale) {
-    date = dayjs(givenDate, "DD-MM-YYYY", "fr").toDate();
+    date = dayjs(givenDate, "YYYY-MM-DD", "fr").toDate();
   } else {
     date = new Date(givenDate);
   }
