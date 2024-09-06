@@ -27,6 +27,7 @@ function FilesPage({ navigation, route }) {
     <CustomModal
       title={"Fichiers"}
       goBackFunction={() => navigation.pop()}
+      onlyShowBackButtonOnAndroid
       setWidth={setWindowWidth}
       children={(
         <View>

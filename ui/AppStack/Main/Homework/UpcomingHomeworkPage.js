@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Text, ActivityIndicator, View, Dimensions, Platform, SectionList } from "react-native";
-import { AlertTriangleIcon, FilesIcon, RefreshCcwIcon } from "lucide-react-native";
+import { AlertTriangleIcon, FileDownIcon, RefreshCcwIcon } from "lucide-react-native";
 import { BlurView } from "expo-blur";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -79,7 +79,7 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater,
             overflow: "hidden",
             padding: 7,
           }} tint="dark" intensity={30}>
-            <FilesIcon size={25} color={theme.colors.onSurface}/>
+            <FileDownIcon size={25} color={theme.colors.onSurface}/>
           </BlurView>
         </PressableScale>
       )}

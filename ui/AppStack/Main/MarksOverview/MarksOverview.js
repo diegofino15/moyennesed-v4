@@ -132,7 +132,7 @@ function MarksOverview({
                       color: isLoading ? theme.colors.primary : gotMarks ? theme.colors.success : theme.colors.error,
                       marginRight: 5,
                       height: 22,
-                  }]}>{isLoading ? "Chargement" : gotMarks ? "À jour" : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
+                  }]}>{isLoading ? "Chargement" : gotMarks ? "A jour" : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
                   {(!isLoading) && <HelpCircleIcon size={20} color={gotMarks ? theme.colors.success : theme.colors.error}/>}
                 </PressableScale>
               )}
