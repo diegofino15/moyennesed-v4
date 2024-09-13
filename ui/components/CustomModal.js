@@ -158,6 +158,7 @@ function CustomModal({
           <BlurView style={{
             borderRadius: 10,
             overflow: "hidden",
+            padding: 2.5,
           }} tint="dark" intensity={30}>
             {rightIcon}
           </BlurView>

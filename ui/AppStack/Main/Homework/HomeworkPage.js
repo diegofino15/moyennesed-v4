@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, Platform, Dimensions, Text, Switch, ActivityIndicator } from "react-native";
-import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, ChevronLeftIcon, GraduationCapIcon, SwatchBookIcon, XIcon } from "lucide-react-native";
+import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, ChevronLeftIcon, EllipsisIcon, GraduationCapIcon, SwatchBookIcon, XIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as DropdownMenu from 'zeego/dropdown-menu'
@@ -22,7 +22,7 @@ function MoreInfoPopup({ homework, toggleDone, forceRefresh }) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
-        <ChevronDownIcon size={30} color={'black'}/>
+        <EllipsisIcon size={25} color={'black'}/>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         <DropdownMenu.Label>Plus d'infos</DropdownMenu.Label>
@@ -166,7 +166,7 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
       title={"Détails du devoir"}
       rightIconStyle={{ backgroundColor: undefined, borderWidth: 0, padding: 7 }}
       rightIcon={isLoading ? (
-        <ActivityIndicator size={30} color={'black'}/>
+        <ActivityIndicator size={25} color={'black'}/>
       ) : (
         <MoreInfoPopup homework={homework} toggleDone={toggleDone} forceRefresh={() => loadSpecificHomework(true)}/>
       )}

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import useState from "react-usestateref";
 import { Text, View, Dimensions, ScrollView, Platform } from "react-native";
-import { AlertTriangleIcon, ChevronDownIcon, ChevronRightIcon, DraftingCompassIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneOffIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
+import { AlertTriangleIcon, ChevronDownIcon, ChevronRightIcon, DraftingCompassIcon, EllipsisIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneOffIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { BlurView } from "expo-blur";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -28,7 +28,7 @@ function MoreInfoPopup({ shownSubject, toggleIsEffective }) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
-        <ChevronDownIcon size={30} color={'black'}/>
+        <EllipsisIcon size={25} color={'black'}/>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         <DropdownMenu.Label>Plus d'infos</DropdownMenu.Label>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, Text, Platform, Dimensions, Switch } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { CalendarIcon,ChevronDownIcon,LandPlotIcon, MegaphoneIcon, MegaphoneOffIcon, MessageSquareIcon, MinusIcon, PenToolIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
+import { CalendarIcon,ChevronDownIcon,EllipsisIcon,LandPlotIcon, MegaphoneIcon, MegaphoneOffIcon, MessageSquareIcon, MinusIcon, PenToolIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as DropdownMenu from 'zeego/dropdown-menu'
 
@@ -22,7 +22,7 @@ function MoreInfoPopup({ mark, toggleIsEffective }) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
-        <ChevronDownIcon size={30} color={'black'}/>
+        <EllipsisIcon size={25} color={'black'}/>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         <DropdownMenu.Label>Plus d'infos</DropdownMenu.Label>

@@ -1341,7 +1341,7 @@ class AppData {
         let key = `${startOfWeek.getFullYear()}-${startOfWeek.getMonth() + 1}-${startOfWeek.getDate()}/${endOfWeek.getFullYear()}-${endOfWeek.getMonth() + 1}-${endOfWeek.getDate()}`;
         abstractHomework.weeks[key] ??= {
           "id": key,
-          "title": `Semaine ${formatDate3(key.split("/")[0])}  -  ${formatDate3(key.split("/")[1])}`,
+          "title": `${formatDate3(key.split("/")[0])}  -  ${formatDate3(key.split("/")[1])}`,
           "data": [],
         };
         if (!abstractHomework.weeks[key].data.includes(day)) { 

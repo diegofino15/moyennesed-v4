@@ -56,7 +56,7 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater,
       goBackFunction={() => navigation.pop()}
       onlyShowBackButtonOnAndroid
       rightIcon={(
-        <View style={{ margin: 7, }}>
+        <View style={{ margin: 4.5, }}>
           {refreshing || isConnecting ? (
             <ActivityIndicator size={25} color={theme.colors.onSurface}/>
           ) : !isConnected ? (
