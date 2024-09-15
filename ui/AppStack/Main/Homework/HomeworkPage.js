@@ -3,10 +3,10 @@ import { View, Platform, Dimensions, Text, Switch, ActivityIndicator } from "rea
 import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, ChevronLeftIcon, EllipsisIcon, GraduationCapIcon, SwatchBookIcon, XIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as DropdownMenu from 'zeego/dropdown-menu'
 
 import CustomModal from "../../../components/CustomModal";
 import CustomSection from "../../../components/CustomSection";
+import CustomChooser from "../../../components/CustomChooser";
 import CustomSeparator from "../../../components/CustomSeparator";
 import CustomFileAttachment from "../../../components/CustomFileAttachment";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
@@ -16,58 +16,6 @@ import HapticsHandler from "../../../../core/HapticsHandler";
 import { useAppContext } from "../../../../util/AppContext";
 import { asyncExpectedResult, formatDate, formatDate2 } from "../../../../util/Utils";
 
-
-// More info
-function MoreInfoPopup({ homework, toggleDone, forceRefresh }) {
-  return (
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger>
-        <EllipsisIcon size={25} color={'black'}/>
-      </DropdownMenu.Trigger>
-      <DropdownMenu.Content>
-        <DropdownMenu.Label>Plus d'infos</DropdownMenu.Label>
-
-        {Platform.select({ ios: (
-          <>
-          <DropdownMenu.Item key={1}>
-            <DropdownMenu.ItemTitle>Code devoir</DropdownMenu.ItemTitle>
-            <DropdownMenu.ItemSubtitle>{`${homework.id}`}</DropdownMenu.ItemSubtitle>
-          </DropdownMenu.Item>
-
-          <DropdownMenu.Item key={2} onSelect={forceRefresh}>
-            <DropdownMenu.ItemIcon ios={{
-              name: 'arrow.clockwise',
-            }}/> 
-            <DropdownMenu.ItemTitle>{"Actualiser"}</DropdownMenu.ItemTitle>
-          </DropdownMenu.Item>
-
-          <DropdownMenu.Item key={3} destructive={homework.done} onSelect={toggleDone}>
-            <DropdownMenu.ItemIcon ios={{
-              name: homework.done ? 'xmark.circle' : 'checkmark.circle',
-            }}/> 
-            <DropdownMenu.ItemTitle>{homework.done ? "Marquer comme non fait" : "Marquer comme fait"}</DropdownMenu.ItemTitle>
-          </DropdownMenu.Item>
-          </>
-        ), android: (
-          <>
-          <DropdownMenu.Item key={1}>
-            <DropdownMenu.ItemTitle>{`Code devoir : ${homework.id}`}</DropdownMenu.ItemTitle>
-          </DropdownMenu.Item>
-
-          <DropdownMenu.Item key={2} onSelect={forceRefresh}>
-            <DropdownMenu.ItemTitle>{"Actualiser"}</DropdownMenu.ItemTitle>
-          </DropdownMenu.Item>
-
-          <DropdownMenu.Item key={3} destructive={homework.done} onSelect={toggleDone}>
-            <DropdownMenu.ItemIcon androidIconName={homework.done ? 'ic_delete' : 'ic_input_add'}/> 
-            <DropdownMenu.ItemTitle>{homework.done ? "Marquer comme non fait" : "Marquer comme fait"}</DropdownMenu.ItemTitle>
-          </DropdownMenu.Item>
-          </>
-        ) })}
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
-  );
-}
 
 // homework page
 function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
@@ -168,7 +116,20 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
       rightIcon={isLoading ? (
         <ActivityIndicator size={25} color={'black'}/>
       ) : (
-        <MoreInfoPopup homework={homework} toggleDone={toggleDone} forceRefresh={() => loadSpecificHomework(true)}/>
+        <CustomChooser
+          title={"Plus d'infos"}
+          defaultItem={<EllipsisIcon size={25} color={'black'}/>}
+          items={[
+            { title: "Code devoir", subtitle: `${homework.id}` },
+            { title: "Actualiser", onPress: () => loadSpecificHomework(true), icon: {
+              ios: 'arrow.clockwise',
+            } },
+            { title: isDone ? "Marquer comme non fait" : "Marquer comme fait", onPress: toggleDone, icon: {
+              ios: homework.done ? 'xmark.circle' : 'checkmark.circle',
+              android: homework.done ? 'ic_delete' : 'ic_input_add',
+            } },
+          ]}
+        />
       )}
       children={(
         <View style={{ backgroundColor: theme.colors.backdrop }}>

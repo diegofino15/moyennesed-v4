@@ -1,16 +1,15 @@
 import { useEffect, useRef } from "react";
 import useState from "react-usestateref";
 import { Text, View, Dimensions, ScrollView, Platform } from "react-native";
-import { AlertTriangleIcon, ChevronDownIcon, ChevronRightIcon, DraftingCompassIcon, EllipsisIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneOffIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
+import { AlertTriangleIcon, ChevronRightIcon, DraftingCompassIcon, EllipsisIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneOffIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { BlurView } from "expo-blur";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as DropdownMenu from 'zeego/dropdown-menu'
 
 import MarkCard from "./MarkCard";
 import SubjectColorPicker from "./SubjectColorPicker";
 import CustomModal from "../../../components/CustomModal";
 import CustomSection from "../../../components/CustomSection";
+import CustomChooser from "../../../components/CustomChooser";
 import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
 import CustomCoefficientPicker from "../../../components/CustomCoefficientPicker";
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
@@ -21,48 +20,6 @@ import CoefficientHandler from "../../../../core/CoefficientHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import AppData from "../../../../core/AppData";
-
-
-// More info
-function MoreInfoPopup({ shownSubject, toggleIsEffective }) {
-  return (
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger>
-        <EllipsisIcon size={25} color={'black'}/>
-      </DropdownMenu.Trigger>
-      <DropdownMenu.Content>
-        <DropdownMenu.Label>Plus d'infos</DropdownMenu.Label>
-
-        {Platform.select({ ios: (
-          <>
-          <DropdownMenu.Item key={1}>
-            <DropdownMenu.ItemTitle>Code matière</DropdownMenu.ItemTitle>
-            <DropdownMenu.ItemSubtitle>{`${shownSubject.id}${shownSubject.subID ? ` -> ${shownSubject.subID}` : ""}`}</DropdownMenu.ItemSubtitle>
-          </DropdownMenu.Item>
-
-          <DropdownMenu.Item key={2} destructive={shownSubject.isEffective} onSelect={toggleIsEffective}>
-            <DropdownMenu.ItemIcon ios={{
-              name: shownSubject.isEffective ? 'trash' : 'plus',
-            }}/> 
-            <DropdownMenu.ItemTitle>{shownSubject.isEffective ? "Désactiver cette matière" : "Activer cette matière"}</DropdownMenu.ItemTitle>
-          </DropdownMenu.Item>
-          </>
-        ), android: (
-          <>
-          <DropdownMenu.Item key={1}>
-            <DropdownMenu.ItemTitle>{`Code :  ${shownSubject.id}${shownSubject.subID ? ` -> ${shownSubject.subID}` : ""}`}</DropdownMenu.ItemTitle>
-          </DropdownMenu.Item>
-
-          <DropdownMenu.Item key={2} destructive={shownSubject.isEffective} onSelect={toggleIsEffective}>
-            <DropdownMenu.ItemIcon androidIconName={shownSubject.isEffective ? 'ic_delete' : 'ic_input_add'}/> 
-            <DropdownMenu.ItemTitle>{shownSubject.isEffective ? "Désactiver cette matière" : "Activer cette matière"}</DropdownMenu.ItemTitle>
-          </DropdownMenu.Item>
-          </>
-        ) })}
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
-  );
-}
 
 
 // Subject page
@@ -200,7 +157,16 @@ function SubjectPage({
           <Text style={[theme.fonts.titleSmall, { color: "black", maxWidth: windowWidth - 70 }]} numberOfLines={1}>{shownSubject.title ?? "---"}</Text>
         </View>
       )}
-      rightIcon={<MoreInfoPopup shownSubject={shownSubject} toggleIsEffective={toggleIsEffective}/>}
+      rightIcon={(
+        <CustomChooser
+          title={"Plus d'infos"}
+          defaultItem={<EllipsisIcon size={25} color={'black'}/>}
+          items={[
+            { title: "Code matière", subtitle: `${shownSubject.id}${shownSubject.subID ? ` -> ${shownSubject.subID}` : ""}` },
+            { title: shownSubject.isEffective ? "Désactiver cette matière" : "Activer cette matière", onPress: toggleIsEffective, destructive: shownSubject.isEffective },
+          ]}
+        />
+      )}
       rightIconStyle={{ backgroundColor: undefined, borderWidth: 0, padding: 7 }}
       headerStyle={{ backgroundColor: dark }}
       style={{ paddingVertical: 0 }}
