@@ -3,6 +3,7 @@ import { Text, ActivityIndicator, View, Dimensions, Platform, SectionList } from
 import { AlertTriangleIcon, FileDownIcon, RefreshCcwIcon } from "lucide-react-native";
 import { BlurView } from "expo-blur";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from "expo-constants";
 
 import HomeworkDay from "./HomeworkDay";
 import CustomModal from "../../../components/CustomModal";
@@ -50,11 +51,14 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater,
     HapticsHandler.vibrate("light");
   }
 
+  const [windowHeight, setWindowHeight] = useState(0);
+  
   return (
     <CustomModal
       title={"Travail à faire"}
       goBackFunction={() => navigation.pop()}
       onlyShowBackButtonOnAndroid
+      setHeight={setWindowHeight}
       rightIcon={(
         <View style={{ margin: 4.5, }}>
           {refreshing || isConnecting ? (
@@ -87,6 +91,9 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater,
       showScrollView={false}
       children={(<></>)}
       rightIconOnPress={refreshUpcomingHomework}
+      headerStyle={{
+        backgroundColor: Platform.select({ android: theme.colors.surface })
+      }}
       childrenOutsideScrollView={(
         <SectionList
           showsVerticalScrollIndicator={false}
@@ -96,7 +103,7 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater,
             backgroundColor: theme.colors.backdrop,
             padding: 20,
             overflow: 'visible',
-            zIndex: 0,
+            height: windowHeight - Constants.statusBarHeight - 67,
           }}
           renderItem={({ item }) => (
             <View style={{ marginBottom: 50 }}>
