@@ -91,9 +91,9 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater,
       showScrollView={false}
       children={(<></>)}
       rightIconOnPress={refreshUpcomingHomework}
-      headerStyle={{
-        backgroundColor: Platform.select({ android: theme.colors.surface })
-      }}
+      // headerStyle={{
+      //   backgroundColor: Platform.select({ android: theme.colors.surface })
+      // }}
       childrenOutsideScrollView={(
         <SectionList
           showsVerticalScrollIndicator={false}

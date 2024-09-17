@@ -50,8 +50,7 @@ function CustomLoginStatus({ isConnected, isConnecting, refreshLogin, style, win
           <Text style={[theme.fonts.bodyLarge, {
             marginLeft: 10,
             color: color,
-
-          }]}>{isConnected ? "Connecté" : isConnecting ? "Connexion en cours..." : "Non connecté"}</Text>
+          }]}>{isConnected ? 'Connecté' : isConnecting ? "Connexion en cours..." : 'Non connecté'}</Text>
         </View>
       </View>
 

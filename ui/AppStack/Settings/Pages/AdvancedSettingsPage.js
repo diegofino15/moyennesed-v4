@@ -215,6 +215,7 @@ function AdvancedSettingsPage({ globalDisplayUpdater, updateGlobalDisplay, navig
           />
 
           {/* Add here future settings */}
+          <View style={{ height: 100 }}/>
         </View>
       )}
     />

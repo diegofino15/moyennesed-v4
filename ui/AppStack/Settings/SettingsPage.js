@@ -46,7 +46,7 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDis
           <CustomSectionButton
             icon={currentAccount?.accountType == "E" && <CustomProfilePhoto accountID={currentAccount.id} size={70}/>}
             title={`${currentAccount?.firstName} ${currentAccount?.lastName}`}
-            description="Paramètres du profil"
+            description='Paramètres du profil'
             onPress={() => navigation.navigate("ProfilePage", { currentAccount: currentAccount })}
             wrapperStyle={{ marginBottom: 10 }}
           />

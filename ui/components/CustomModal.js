@@ -115,6 +115,7 @@ function CustomModal({
             overflow: 'hidden',
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
+            backgroundColor: Platform.select({ android: theme.colors.surface }),
             ...(Platform.select({ ios: {}, android: headerStyle })),
           }} tint="light" intensity={Platform.select({ ios: 50, android: 0 })}>
             <View style={{ height: 45 }}/>
