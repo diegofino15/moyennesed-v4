@@ -156,7 +156,7 @@ function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, 
           {/* Subject */}
           <CustomSimpleInformationCard
             icon={<SwatchBookIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
-            content={"Matière"}
+            content={'Matière'}
             rightIcon={(
               <Text style={[theme.fonts.bodyLarge, {
                 width: windowWidth - 170,
