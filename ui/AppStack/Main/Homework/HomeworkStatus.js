@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import { ArrowRightIcon, HelpCircleIcon } from "lucide-react-native";
+import { ArrowRightIcon, HelpCircleIcon, NotebookPenIcon } from "lucide-react-native";
 
 import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
 import { useAppContext } from "../../../../util/AppContext";
@@ -59,7 +59,10 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
         height: 45,
       }} onPress={() => { navigation.navigate("UpcomingHomeworkPage", { accountID, _errorGettingHomework: errorGettingHomework }); }}>
         <View/>
-        <Text style={theme.fonts.bodyLarge}>Travail à faire</Text>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <NotebookPenIcon size={20} color={theme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
+          <Text style={theme.fonts.bodyLarge}>Travail à faire</Text>
+        </View>
         <ArrowRightIcon size={20} color={theme.colors.onSurfaceDisabled}/>
       </PressableScale>
     </View>
