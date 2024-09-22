@@ -91,9 +91,6 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater,
       showScrollView={false}
       children={(<></>)}
       rightIconOnPress={refreshUpcomingHomework}
-      // headerStyle={{
-      //   backgroundColor: Platform.select({ android: theme.colors.surface })
-      // }}
       childrenOutsideScrollView={(
         <SectionList
           showsVerticalScrollIndicator={false}
@@ -102,7 +99,7 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater,
           style={{
             backgroundColor: theme.colors.backdrop,
             padding: 20,
-            overflow: 'visible',
+            overflow: Platform.select({ ios: 'visible', android: 'hidden' }),
             height: windowHeight - Constants.statusBarHeight - 67,
           }}
           renderItem={({ item }) => (
