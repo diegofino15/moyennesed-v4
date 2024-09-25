@@ -153,14 +153,19 @@ class AppData {
   // Save all data from ÉcoleDirecte to cache
   static async _saveConnectedAccounts(loginData, token) {
     var connectedAccounts = {};
+    const supportedAccountTypes = ["E", "1"] // Student and parent
 
     // Loop trough connected accounts
     for (const account of loginData.accounts) {
-      var ID = `${account.id}`;
-      var accountType = account.typeCompte == "E" ? "E" : "P"; // E = student | 1 = parent
-      var firstName = capitalizeWords(account.prenom);
-      var lastName = account.nom.toUpperCase();
-      var gender;
+      let ID = `${account.id}`;
+      if (!supportedAccountTypes.includes(account.typeCompte)) {
+        console.warn(`Unsupported account type : ${account.typeCompte}`);
+        continue;
+      }
+      let accountType = account.typeCompte == "E" ? "E" : "P"; // E = student | 1 = parent
+      let firstName = capitalizeWords(account.prenom);
+      let lastName = account.nom.toUpperCase();
+      let gender;
 
       // Student account
       if (accountType == "E") {
