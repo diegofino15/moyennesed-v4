@@ -1,11 +1,11 @@
 import { View, Text } from "react-native";
 
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom little information card
 function CustomSimpleInformationCard({ icon, rightIcon, content, style, textStyle, nof, subtitle=null, additionalObject }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   return (
     <View style={{

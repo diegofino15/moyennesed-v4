@@ -9,12 +9,14 @@ dayjs.extend(customParseFormat);
 import HomeworkCard from "./HomeworkCard";
 import AppData from "../../../../core/AppData";
 import { formatDate2, wait } from "../../../../util/Utils";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Homework day
-function HomeworkDay({ accountID, day, homeworks, autoLoad=false, globalDisplayUpdater, updateGlobalDisplay, navigation }) {
-  const { theme } = useAppContext();
+function HomeworkDay({ accountID, day, homeworks, autoLoad=false, navigation }) {
+  const { theme } = useGlobalAppContext();
+  const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
 
   // Auto-load the specific homeworks
   const [specificHomeworks, setSpecificHomeworks] = useState({});
@@ -88,7 +90,6 @@ function HomeworkDay({ accountID, day, homeworks, autoLoad=false, globalDisplayU
           cacheHomework={homework}
           specificHomework={specificHomeworks[homework.id] ?? null}
           isLoading={isLoading}
-          updateGlobalDisplay={updateGlobalDisplay}
           navigation={navigation}
         />
       ))}

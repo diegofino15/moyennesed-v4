@@ -7,12 +7,12 @@ import LottieView from 'lottie-react-native';
 
 import CustomButton from '../components/CustomButton';
 import { openLink } from "../../util/Utils";
-import { useAppContext } from '../../util/AppContext';
+import { useGlobalAppContext } from '../../util/GlobalAppContext';
 
 
 // Main start page
 function StartPage({ navigation }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
 
   return (
     <LinearGradient colors={[

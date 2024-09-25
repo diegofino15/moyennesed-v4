@@ -7,7 +7,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import { XIcon } from "lucide-react-native";
 
 import CustomSection from "./CustomSection";
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Animated card
@@ -59,7 +59,7 @@ function CustomConfirmModal({
   children,
   specialTip,
 }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   return (
     <Modal

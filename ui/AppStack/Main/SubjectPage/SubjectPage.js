@@ -15,7 +15,8 @@ import CustomCoefficientPicker from "../../../components/CustomCoefficientPicker
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import { asyncExpectedResult, formatAverage } from "../../../../util/Utils";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 import CoefficientHandler from "../../../../core/CoefficientHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import ColorsHandler from "../../../../core/ColorsHandler";
@@ -24,12 +25,11 @@ import AppData from "../../../../core/AppData";
 
 // Subject page
 function SubjectPage({
-  globalDisplayUpdater,
-  updateGlobalDisplay,
   route,
   navigation,
 }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
+  const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
   
   const { accountID, cacheSubject, cacheMark } = route.params;
 
@@ -446,7 +446,6 @@ function SubjectPage({
               visible={showChangeColorModal}
               exitModal={() => setShowChangeColorModal(false)}
               initialValue={dark}
-              updateGlobalDisplay={updateGlobalDisplay}
               windowWidth={windowWidth}
             />
           )}

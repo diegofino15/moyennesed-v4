@@ -19,13 +19,14 @@ import AdsInformationPage from './Settings/Pages/AdsInformationPage';
 import BugReportPage from './Settings/Pages/BugReportPage';
 
 import AppData from '../../core/AppData';
+import { AppStackContextProvider } from '../../util/AppStackContext';
 
 
 // Create stack for navigation
 const Stack = createNativeStackNavigator();
 
 // Main page stack
-function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay }) {
+function MainStack({ refreshLogin, isConnected, isConnecting }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -40,14 +41,13 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
           refreshLogin={refreshLogin}
           isConnected={isConnected}
           isConnecting={isConnecting}
-          globalDisplayUpdater={globalDisplayUpdater}
-          updateGlobalDisplay={updateGlobalDisplay}
         />}
       </Stack.Screen>
 
       {/* Info pages */}
       <Stack.Screen
         name="MarksInformationPage"
+        component={MarksInformationPage}
         options={{
           presentation: 'modal',
           headerShown: false,
@@ -56,14 +56,10 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         initialParams={{
           lastDateUpdated: null,
         }}
-      >
-        {(props) => <MarksInformationPage
-          {...props}
-          globalDisplayUpdater={globalDisplayUpdater}
-        />}
-      </Stack.Screen>
+      />
       <Stack.Screen
         name="HomeworkInformationPage"
+        component={HomeworkInformationPage}
         options={{
           presentation: 'modal',
           headerShown: false,
@@ -72,20 +68,15 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         initialParams={{
           lastDateUpdated: null,
         }}
-      >
-        {(props) => <HomeworkInformationPage
-          {...props}
-          globalDisplayUpdater={globalDisplayUpdater}
-        />}
-      </Stack.Screen>
+      />
       <Stack.Screen
         name="AdsInformationPage"
+        component={AdsInformationPage}
         options={{
           presentation: 'modal',
           headerShown: false,
           animation: 'fade_from_bottom',
         }}
-        component={AdsInformationPage}
       />
 
       {/* Homeworks */}
@@ -105,8 +96,6 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
           {...props}
           isConnected={isConnected}
           isConnecting={isConnecting}
-          globalDisplayUpdater={globalDisplayUpdater}
-          updateGlobalDisplay={updateGlobalDisplay}
         />}
       </Stack.Screen>
       <Stack.Screen
@@ -125,12 +114,11 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         {(props) => <HomeworkPage
           {...props}
           isConnected={isConnected}
-          globalDisplayUpdater={globalDisplayUpdater}
-          updateGlobalDisplay={updateGlobalDisplay}
         />}
       </Stack.Screen>
       <Stack.Screen
         name="FilesPage"
+        component={FilesPage}
         options={{
           presentation: 'modal',
           headerShown: false,
@@ -139,12 +127,12 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
         initialParams={{
           accountID: 0,
         }}
-        component={FilesPage}
       />
       
       {/* Exams */}
       <Stack.Screen
         name="ExamPage"
+        component={ExamPage}
         options={{
           presentation: 'modal',
           headerShown: false,
@@ -155,17 +143,12 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
           subjectTitle: null,
           examIDs: [],
         }}
-      >
-        {(props) => <ExamPage
-          {...props}
-          globalDisplayUpdater={globalDisplayUpdater}
-          updateGlobalDisplay={updateGlobalDisplay}
-        />}
-      </Stack.Screen>
+      />
 
       {/* Subjects */}
       <Stack.Screen
         name="SubjectStack"
+        component={SubjectStack}
         options={{
           presentation: 'modal',
           headerShown: false,
@@ -176,59 +159,43 @@ function MainStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdat
           cacheSubject: {},
           cacheMark: null,
         }}
-      >
-        {(props) => <SubjectStack
-          {...props}
-          globalDisplayUpdater={globalDisplayUpdater}
-          updateGlobalDisplay={updateGlobalDisplay}
-        />}
-      </Stack.Screen>
+      />
     </Stack.Navigator>
   );
 }
 
-function SubjectStack({ globalDisplayUpdater, updateGlobalDisplay, route }) {
+function SubjectStack({ route }) {
   const { accountID, cacheSubject, cacheMark } = route.params;
   
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="SubjectPage"
+        component={SubjectPage}
         options={{
           presentation: 'modal',
           headerShown: false,
           animation: 'fade_from_bottom',
         }}
         initialParams={{ accountID, cacheSubject, cacheMark }}
-      >
-        {(props) => <SubjectPage
-          {...props}
-          globalDisplayUpdater={globalDisplayUpdater}
-          updateGlobalDisplay={updateGlobalDisplay}
-        />}
-      </Stack.Screen>
+      />
 
       <Stack.Screen
         name="MarkPage"
+        component={MarkPage}
         options={{
           headerShown: false,
           animation: 'slide_from_right',
         }}
         initialParams={{ accountID, cacheMark }}
-      >
-        {(props) => <MarkPage
-          {...props}
-          globalDisplayUpdater={globalDisplayUpdater}
-          updateGlobalDisplay={updateGlobalDisplay}
-        />}
-      </Stack.Screen>
+      />
     </Stack.Navigator>
   );
 }
 
 
 // Profile page stack
-function SettingsStack({ refreshLogin, isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, route }) {
+function SettingsStack({ refreshLogin, isConnected, isConnecting, route }) {
   const { openCoefficientsPage } = route.params;
   
   return (
@@ -248,7 +215,6 @@ function SettingsStack({ refreshLogin, isConnected, isConnecting, globalDisplayU
           refreshLogin={refreshLogin}
           isConnected={isConnected}
           isConnecting={isConnecting}
-          updateGlobalDisplay={updateGlobalDisplay}
         />}
       </Stack.Screen>
 
@@ -265,6 +231,7 @@ function SettingsStack({ refreshLogin, isConnected, isConnecting, globalDisplayU
       {/* Coefficients page */}
       <Stack.Screen
         name="CoefficientsPage"
+        component={CoefficientsPage}
         options={{
           headerShown: false,
           animation: 'slide_from_right',
@@ -272,28 +239,17 @@ function SettingsStack({ refreshLogin, isConnected, isConnecting, globalDisplayU
         initialParams={{
           currentAccount: null,
         }}
-      >
-        {(props) => <CoefficientsPage
-          {...props}
-          updateGlobalDisplay={updateGlobalDisplay}
-          globalDisplayUpdater={globalDisplayUpdater}
-        />}
-      </Stack.Screen>
+      />
 
       {/* Advanced settings page */}
       <Stack.Screen
         name="AdvancedSettingsPage"
+        component={AdvancedSettingsPage}
         options={{
           headerShown: false,
           animation: 'slide_from_right',
         }}
-      >
-        {(props) => <AdvancedSettingsPage
-          {...props}
-          updateGlobalDisplay={updateGlobalDisplay}
-          globalDisplayUpdater={globalDisplayUpdater}
-        />}
-      </Stack.Screen>
+      />
 
       {/* Ads information page */}
       <Stack.Screen
@@ -339,48 +295,41 @@ function AppStack({ route, cameFromAuthStack }) {
     return successful;
   }
 
-  // Update all displays when changing averages (ex: update opened subject
-  // page when marks are updated and a new mark appears)
-  const [globalDisplayUpdater, setGlobalDisplayUpdater] = useState(0);
-  function updateGlobalDisplay() { setGlobalDisplayUpdater(globalDisplayUpdater + 1); }
-  
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="MainStack"
-        options={{ headerShown: false }}
-      >
-        {(props) => <MainStack
-          {...props}
-          refreshLogin={refreshLogin}
-          isConnected={isConnected}
-          isConnecting={isConnecting}
-          globalDisplayUpdater={globalDisplayUpdater}
-          updateGlobalDisplay={updateGlobalDisplay}
-        />}
-      </Stack.Screen>
+    <AppStackContextProvider>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="MainStack"
+          options={{ headerShown: false }}
+        >
+          {(props) => <MainStack
+            {...props}
+            refreshLogin={refreshLogin}
+            isConnected={isConnected}
+            isConnecting={isConnecting}
+          />}
+        </Stack.Screen>
 
-      <Stack.Screen
-        name="SettingsStack"
-        options={{
-          headerShown: false,
-          presentation: 'modal',
-          animation: 'fade_from_bottom',
-        }}
-        initialParams={{
-          openCoefficientsPage: false,
-        }}
-      >
-        {(props) => <SettingsStack
-          {...props}
-          refreshLogin={refreshLogin}
-          isConnected={isConnected}
-          isConnecting={isConnecting}
-          globalDisplayUpdater={globalDisplayUpdater}
-          updateGlobalDisplay={updateGlobalDisplay}
-        />}
-      </Stack.Screen>
-    </Stack.Navigator>
+        <Stack.Screen
+          name="SettingsStack"
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'fade_from_bottom',
+          }}
+          initialParams={{
+            openCoefficientsPage: false,
+          }}
+        >
+          {(props) => <SettingsStack
+            {...props}
+            refreshLogin={refreshLogin}
+            isConnected={isConnected}
+            isConnecting={isConnecting}
+          />}
+        </Stack.Screen>
+      </Stack.Navigator>
+    </AppStackContextProvider>
   );
 }
 

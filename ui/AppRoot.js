@@ -10,7 +10,7 @@ import AuthStack from "./AuthStack/AuthStack";
 import AppStack from "./AppStack/AppStack";
 import DoubleAuthPopup from "./components/DoubleAuthPopup";
 import { Themes, initFontsAndThemes } from "../util/Styles";
-import { AppContextProvider, useAppContext } from "../util/AppContext";
+import { GlobalAppContextProvider, useGlobalAppContext } from "../util/GlobalAppContext";
 import { initFirebaseAppCheck } from "../util/firebase/firebaseAppCheck";
 import { setupNotifications } from "../util/firebase/firebaseCloudMessaging";
 import AdsHandler from "../core/AdsHandler";
@@ -78,7 +78,7 @@ function AppRoot() {
 
   if (!isLoaded) { return null; }
   return (
-    <AppContextProvider
+    <GlobalAppContextProvider
       loggedIn={isLoggedIn}
       autoTheme={isAutoTheme}
       savedTheme={theme}
@@ -89,7 +89,7 @@ function AppRoot() {
         cameFromAuthStack={cameFromAuthStack}
         setCameFromAuthStack={setCameFromAuthStack}
       />
-    </AppContextProvider>
+    </GlobalAppContextProvider>
   );
 }
 
@@ -97,7 +97,7 @@ function AppRoot() {
 // Global stack
 const Stack = createNativeStackNavigator();
 function GlobalStack({ cameFromAuthStack, setCameFromAuthStack }) {
-  const { theme, changeTheme, isAutoTheme, isLoggedIn, setIsLoggedIn } = useAppContext();
+  const { theme, changeTheme, isAutoTheme, isLoggedIn, setIsLoggedIn } = useGlobalAppContext();
 
   // Auto-change theme
   const colorScheme = useColorScheme();

@@ -13,13 +13,15 @@ import CustomSimpleInformationCard from "../../../components/CustomSimpleInforma
 import AppData from "../../../../core/AppData";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 import { asyncExpectedResult, formatDate, formatDate2 } from "../../../../util/Utils";
 
 
 // homework page
-function HomeworkPage({ isConnected, globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
-  const { theme } = useAppContext();
+function HomeworkPage({ isConnected, navigation, route }) {
+  const { theme } = useGlobalAppContext();
+  const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
   
   const { accountID, cacheHomework, cacheSpecificHomework } = route.params;
 

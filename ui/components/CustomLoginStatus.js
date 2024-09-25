@@ -4,12 +4,12 @@ import { MoreHorizontalIcon, XIcon, RefreshCcwIcon, UserCheckIcon } from "lucide
 import { useEffect, useState } from "react";
 
 import HapticsHandler from "../../core/HapticsHandler";
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Login status
 function CustomLoginStatus({ isConnected, isConnecting, refreshLogin, style, windowWidth }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   const [color, setColor] = useState(theme.colors.primary);
   const [lightColor, setLightColor] = useState(theme.colors.primaryLight);

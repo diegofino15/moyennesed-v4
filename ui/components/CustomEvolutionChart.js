@@ -3,12 +3,12 @@ import { Users2Icon } from "lucide-react-native";
 import LineChart from 'react-native-simple-line-chart';
 
 import { formatAverage, formatDate3 } from "../../util/Utils";
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom evolution chart
 function CustomEvolutionChart({ listOfValues, showClassValues, color, lightColor, activeColor, height, windowWidth }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   return (
     <LineChart

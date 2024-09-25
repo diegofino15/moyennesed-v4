@@ -1,12 +1,12 @@
 import { View } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom button
 function CustomButton({ title, onPress, rightIcon, style }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   return (
     <PressableScale style={{

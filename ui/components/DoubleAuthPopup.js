@@ -12,12 +12,12 @@ import CustomSeparator from "./CustomSeparator";
 import { parseHtmlData } from "../../util/Utils";
 import AppData from "../../core/AppData";
 import HapticsHandler from "../../core/HapticsHandler";
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Double auth popup
 function DoubleAuthPopup({ navigation, isLoggedIn, setIsLoggedIn }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   // Is loading
   const [isLoading, setIsLoading] = useState(false);

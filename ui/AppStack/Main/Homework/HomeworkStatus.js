@@ -3,12 +3,12 @@ import { PressableScale } from "react-native-pressable-scale";
 import { ArrowRightIcon, HelpCircleIcon, NotebookPenIcon } from "lucide-react-native";
 
 import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 
 
 // Homework status
 function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettingHomework, navigation }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
 
   return (
     <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20 }}>

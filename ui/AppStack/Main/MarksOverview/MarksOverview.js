@@ -13,7 +13,8 @@ import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChan
 import HapticsHandler from "../../../../core/HapticsHandler";
 import AdsHandler from "../../../../core/AdsHandler";
 import { formatAverage } from "../../../../util/Utils";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Marks overview
@@ -27,10 +28,11 @@ function MarksOverview({
   gotMarks,
   errorGettingMarks,
   
-  globalDisplayUpdater, manualUpdater,
+  manualUpdater,
   navigation,
 }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
+  const { globalDisplayUpdater } = useAppStackContext();
   
   // List of marks present at first display, used to show new marks
   const [firstDisplayMarks, setFirstDisplayMarks, firstDisplayMarksRef] = useState([]);

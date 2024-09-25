@@ -3,13 +3,13 @@ import { MD3DarkTheme, PaperProvider } from 'react-native-paper';
 
 
 // Context needed to switch from AppStack to AuthStack
-export const AppContext = createContext({
+export const GlobalAppContext = createContext({
   isLoggedIn: Boolean,
   theme: MD3DarkTheme,
 });
-export const useAppContext = () => useContext(AppContext);
+export const useGlobalAppContext = () => useContext(GlobalAppContext);
 
-export function AppContextProvider({ loggedIn, autoTheme, savedTheme, _isAdsHandlerLoaded, _canServeAds, children }) {
+export function GlobalAppContextProvider({ loggedIn, autoTheme, savedTheme, _isAdsHandlerLoaded, _canServeAds, children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(loggedIn);
   const [theme, changeTheme] = useState(savedTheme);
   const [isAutoTheme, setIsAutoTheme] = useState(autoTheme);
@@ -20,7 +20,7 @@ export function AppContextProvider({ loggedIn, autoTheme, savedTheme, _isAdsHand
   useEffect(() => setIsAdsHandlerLoaded(_isAdsHandlerLoaded), [_isAdsHandlerLoaded]);
 
   return (
-    <AppContext.Provider value={{
+    <GlobalAppContext.Provider value={{
       isLoggedIn: isLoggedIn,
       setIsLoggedIn,
       theme: theme,
@@ -34,6 +34,6 @@ export function AppContextProvider({ loggedIn, autoTheme, savedTheme, _isAdsHand
       <PaperProvider theme={theme}>
         {children}
       </PaperProvider>
-    </AppContext.Provider>
+    </GlobalAppContext.Provider>
   );
 }

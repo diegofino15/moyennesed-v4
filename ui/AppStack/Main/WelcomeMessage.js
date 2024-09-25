@@ -3,12 +3,12 @@ import { Platform } from "react-native";
 
 import AppData from "../../../core/AppData";
 import CustomChangingText from "../../components/CustomChangingText";
-import { useAppContext } from "../../../util/AppContext";
+import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 
 
 // Welcome message
 function WelcomeMessage({ currentAccount }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   // Get random message
   const [welcomeMessage, setWelcomeMessage] = useState("");

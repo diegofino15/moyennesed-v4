@@ -5,14 +5,14 @@ import { PressableScale } from "react-native-pressable-scale";
 import CustomTag from "../../../components/CustomTag";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import { formatDate3, formatMark } from "../../../../util/Utils";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 
 
 // Mark card
 function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth, countMarksWithOnlyCompetences }) {
   if (!mark) { return; }
 
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
 
   // Get subject colors
   const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);

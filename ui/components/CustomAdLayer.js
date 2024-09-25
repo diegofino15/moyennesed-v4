@@ -8,12 +8,12 @@ import { BlurView } from "expo-blur";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import AdsHandler from "../../core/AdsHandler";
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Places an ad on top of a component
 function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) {
-  const { theme, canServeAds, isAdsHandlerLoaded } = useAppContext();
+  const { theme, canServeAds, isAdsHandlerLoaded } = useGlobalAppContext();
   
   // Show the ad ?
   const [canShowContent, setCanShowContent, canShowContentRef] = useState(false);

@@ -6,7 +6,7 @@ import CustomModal from "../components/CustomModal";
 import CustomTextInput from "../components/CustomTextInput";
 import CustomButton from "../components/CustomButton";
 import CustomInformationCard from "../components/CustomInformationCard";
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 import { openLink } from "../../util/Utils";
 import AppData from "../../core/AppData";
 import HapticsHandler from "../../core/HapticsHandler";
@@ -16,7 +16,7 @@ import CustomDynamicLoginChooser from "./CustomDynamicLoginChooser";
 // Login page
 function LoginPage({ navigation }) {
   // Show AppStack once logged-in
-  const { theme, setIsLoggedIn } = useAppContext();
+  const { theme, setIsLoggedIn } = useGlobalAppContext();
 
   // Username and password
   const [username, setUsername] = useState('');

@@ -4,12 +4,12 @@ import { PencilRulerIcon, TrashIcon, Wand2Icon, WeightIcon, WrenchIcon, XIcon } 
 
 import CustomTag from "./CustomTag";
 import CustomSimpleInformationCard from "./CustomSimpleInformationCard";
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom coefficient picker
 function CustomCoefficientPicker({ coefficient, setCoefficient, resetCoefficient, isCustom, isGuessed, openGuessParametersPage, dark, style }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   const [tempCoefficient, setTempCoefficient] = useState(coefficient.toString().replace(".", ","));
   useEffect(() => { setTempCoefficient(coefficient.toString().replace(".", ",")) }, [coefficient]);

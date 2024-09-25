@@ -15,14 +15,14 @@ import CustomProfilePhoto from "../../../components/CustomProfilePhoto";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import CustomButton from "../../../components/CustomButton";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import AppData from "../../../../core/AppData";
 import HapticsHandler from "../../../../core/HapticsHandler";
 
 
 // Profile settings page
 function ProfilePage({ route, navigation }) {
-  const { theme, setIsLoggedIn, setIsAutoTheme } = useAppContext();
+  const { theme, setIsLoggedIn, setIsAutoTheme } = useGlobalAppContext();
   
   // Currently selected account
   const { currentAccount } = route.params;

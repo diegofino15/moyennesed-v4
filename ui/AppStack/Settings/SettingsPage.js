@@ -12,12 +12,12 @@ import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import CustomTextArea from "../../components/CustomTextArea";
 import CustomLink from "../../components/CustomLink";
 import AppData from "../../../core/AppData";
-import { useAppContext } from "../../../util/AppContext";
+import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 
 
 // Settings page
-function SettingsPage({ refreshLogin, isConnected, isConnecting, updateGlobalDisplay, navigation, route }) {
-  const { theme } = useAppContext();
+function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation, route }) {
+  const { theme } = useGlobalAppContext();
   
   const { openCoefficientsPage } = route.params;
   

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Animated } from "react-native";
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom changing item
 function CustomAnimatedChangeableItem({ item, animationTime, updaters=[] }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   const [shownItem, setShownItem] = useState(item);
   useEffect(() => { changeShownItem(); }, [...updaters, theme.dark]);

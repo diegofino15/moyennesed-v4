@@ -6,7 +6,8 @@ import { CheckIcon, CircleIcon } from "lucide-react-native";
 import AppData from "../../../../core/AppData";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 import { asyncExpectedResult } from "../../../../util/Utils";
 
 
@@ -16,10 +17,10 @@ function HomeworkCard({
   cacheHomework,
   specificHomework,
   isLoading,
-  updateGlobalDisplay,
   navigation,
 }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
+  const { updateGlobalDisplay } = useAppStackContext();
   
   // Get subject
   const { light, dark } = ColorsHandler.getSubjectColors(cacheHomework.subjectID);

@@ -4,12 +4,12 @@ import { PressableScale } from "react-native-pressable-scale";
 import CustomSeparator from "../../components/CustomSeparator";
 import HapticsHandler from "../../../core/HapticsHandler";
 import AppData from "../../../core/AppData";
-import { useAppContext } from "../../../util/AppContext";
+import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 
 
 // Child chooser
 function ChildChooser({ mainAccount, showMarksAccount, setShowMarksAccount }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   return (
     <View style={{

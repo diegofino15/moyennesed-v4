@@ -2,12 +2,12 @@ import { View, Text, Platform } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { ArrowRightIcon } from "lucide-react-native";
 
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom simple section button
 function CustomSimpleSectionButton({ title, icon, onPress, style, textStyle }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   return (
     <PressableScale style={{

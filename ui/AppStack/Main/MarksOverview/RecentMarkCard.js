@@ -7,12 +7,12 @@ import ColorsHandler from "../../../../core/ColorsHandler";
 import { formatDate2 } from "../../../../util/Utils";
 import CustomChangingText from "../../../components/CustomChangingText";
 import CustomTag from "../../../components/CustomTag";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 
 
 // Date text
 function InfoText({ subjectTitle, subSubjectTitle, date }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   const [showDate, setShowDate, showDateRef] = useState(false);
   async function toggleShowDate() { setShowDate(!showDateRef.current); }
@@ -31,7 +31,7 @@ function InfoText({ subjectTitle, subSubjectTitle, date }) {
 
 // Recent mark card
 function RecentMarkCard({ accountID, mark, getSubject, showNewLabel=false, navigation }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
   

@@ -4,12 +4,12 @@ import RNFS from "react-native-fs";
 
 import CustomModal from "../../../components/CustomModal";
 import CustomFileAttachment from '../../../components/CustomFileAttachment';
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 
 
 // Page that shows all the downloaded files from the homework
 function FilesPage({ navigation, route }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   const { accountID } = route.params;
 

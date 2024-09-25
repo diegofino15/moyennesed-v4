@@ -3,12 +3,12 @@ import { PressableScale } from "react-native-pressable-scale";
 import { LinkIcon, ArrowBigRightDashIcon } from "lucide-react-native";
 
 import { openLink } from "../../util/Utils";
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom link
 function CustomLink({ title, icon, link, linkIcon, onPress, style, textStyle }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   return (
     <PressableScale style={{

@@ -5,13 +5,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import HomeworkDay from "./HomeworkDay";
 import CustomModal from "../../../components/CustomModal";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Exam page
-function ExamPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
-  const { theme } = useAppContext();
-  
+function ExamPage({ updateGlobalDisplay, navigation, route }) {
+  const { theme } = useGlobalAppContext();
+  const { globalDisplayUpdater } = useAppStackContext();
+
   const {
     accountID,
     subjectTitle,
@@ -58,8 +60,6 @@ function ExamPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route
                 day={day}
                 homeworks={abstractExams[day]}
                 navigation={navigation}
-                globalDisplayUpdater={globalDisplayUpdater}
-                updateGlobalDisplay={updateGlobalDisplay}
               />
             </View>
           ))}

@@ -4,13 +4,13 @@ import { ChevronDownIcon } from "lucide-react-native";
 import * as DropdownMenu from 'zeego/dropdown-menu'
 import firestore from '@react-native-firebase/firestore';
 
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 import { capitalizeWords } from "../../util/Utils";
 
 
 // Chooser used to test bug reports directly in the app
 function CustomDynamicLoginChooser({ setSelected }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   // Dynamically loaded documents
   const [documents, setDocuments] = useState({

@@ -1,12 +1,12 @@
 import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom tag (used on mark cards)
 function CustomTag({ icon, title, color, onPress, secondaryTag, secondaryTagOnPress, secondaryTagStyle, textStyle, onBottom=false, onLeft=false, offset=10, shadow=false, style, mainStyle }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   return (
     <View style={{

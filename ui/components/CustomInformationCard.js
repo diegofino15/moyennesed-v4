@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { ArrowRightIcon } from "lucide-react-native";
 
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom information card
@@ -14,7 +14,7 @@ function CustomInformationCard({
   error=false,
   style,
 }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   return (
     <PressableScale onPress={onPress} activeScale={onPress ? 0.95 : 1} style={{

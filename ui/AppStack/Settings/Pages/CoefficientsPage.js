@@ -10,12 +10,14 @@ import CustomInformationCard from "../../../components/CustomInformationCard";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import CoefficientHandler from "../../../../core/CoefficientHandler";
 import AppData from "../../../../core/AppData";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Settings page
-function CoefficientsPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
-  const { theme } = useAppContext();
+function CoefficientsPage({ navigation, route }) {
+  const { theme } = useGlobalAppContext();
+  const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
   
   // Currently selected account
   const { currentAccount } = route.params;

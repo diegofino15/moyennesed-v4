@@ -11,7 +11,8 @@ import CustomSection from "../../../components/CustomSection";
 import CustomTextArea from "../../../components/CustomTextArea";
 import CustomSeparator from "../../../components/CustomSeparator";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 import { Themes } from "../../../../util/Styles";
 import AppData from "../../../../core/AppData";
 import HapticsHandler from "../../../../core/HapticsHandler";
@@ -19,7 +20,7 @@ import HapticsHandler from "../../../../core/HapticsHandler";
 
 // Theme switcher
 function ThemeSwitcher() {
-  const { theme, changeTheme, isAutoTheme, setIsAutoTheme } = useAppContext();
+  const { theme, changeTheme, isAutoTheme, setIsAutoTheme } = useGlobalAppContext();
 
   function ThemeButton({ title, icon, background, borderColor, onPress }) {
     return (
@@ -112,8 +113,9 @@ function ThemeSwitcher() {
 }
 
 // Settings page
-function AdvancedSettingsPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
-  const { theme } = useAppContext();
+function AdvancedSettingsPage({ navigation, route }) {
+  const { theme } = useGlobalAppContext();
+  const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
   
   // Currently selected account
   const { currentAccount } = route.params;

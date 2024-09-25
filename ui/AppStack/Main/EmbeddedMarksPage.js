@@ -15,7 +15,8 @@ import CustomSimpleInformationCard from "../../components/CustomSimpleInformatio
 import AppData from "../../../core/AppData";
 import HapticsHandler from "../../../core/HapticsHandler";
 import CoefficientHandler from "../../../core/CoefficientHandler";
-import { useAppContext } from "../../../util/AppContext";
+import { useGlobalAppContext } from "../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../util/AppStackContext";
 
 
 // Embedded mark page
@@ -26,11 +27,10 @@ function EmbeddedMarksPage({
   isConnecting,
   manualRefreshing,
   setManualRefreshing,
-  globalDisplayUpdater,
-  updateGlobalDisplay,
   navigation,
 }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
+  const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
   
   // Select a student account to get marks from
   const [showMarksAccount, setShowMarksAccount] = useState({});
@@ -214,7 +214,7 @@ function EmbeddedMarksPage({
         gotMarks={gotMarksForID[showMarksAccount.id]}
         errorGettingMarks={errorGettingMarksForID[showMarksAccount.id]}
         
-        globalDisplayUpdater={globalDisplayUpdater} manualUpdater={manualUpdater}
+        manualUpdater={manualUpdater}
         navigation={navigation}
       />
 
@@ -250,7 +250,6 @@ function EmbeddedMarksPage({
         latestCurrentPeriod={latestCurrentPeriod}
         periods={periods}
         gotHomework={gotHomeworkForID[showMarksAccount.id]}
-        globalDisplayUpdater={globalDisplayUpdater}
         navigation={navigation}
       />
     </View>

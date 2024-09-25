@@ -2,7 +2,7 @@ import { ArrowRightIcon } from "lucide-react-native";
 import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom section button
@@ -15,7 +15,7 @@ function CustomSectionButton({
   wrapperStyle,
   style,
 }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   return (
     <View style={{

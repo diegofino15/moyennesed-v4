@@ -1,11 +1,11 @@
 import { View, Text, TextInput } from "react-native";
 
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom big text input
 function CustomBigTextInput({ title, placeholder, value, setValue, windowWidth, controller, maxLength, height, style, textStyle }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   return (
     <View style={{

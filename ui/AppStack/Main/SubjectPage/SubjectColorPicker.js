@@ -7,7 +7,8 @@ import ColorPicker, { Preview, Panel1, HueSlider } from "reanimated-color-picker
 import CustomConfirmModal from "../../../components/CustomConfirmModal";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 
 // Subject color picker
 function SubjectColorPicker({
@@ -15,10 +16,10 @@ function SubjectColorPicker({
   visible,
   exitModal,
   initialValue,
-  updateGlobalDisplay,
   windowWidth,
 }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
+  const { updateGlobalDisplay } = useAppStackContext();
   
   const [color, setColor] = useState(initialValue);
   function onSelectColor({ hex }) {

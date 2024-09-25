@@ -5,7 +5,7 @@ import { ChevronLeftIcon } from "lucide-react-native";
 import { BlurView } from "expo-blur";
 import Constants from "expo-constants";
 
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom modal
@@ -30,7 +30,7 @@ function CustomModal({
   setWidth=()=>{},
   setHeight=()=>{},
 }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   const [windowHeight, setWindowHeight] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);

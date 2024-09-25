@@ -7,7 +7,7 @@ import CustomModal from "../components/CustomModal";
 import CustomSectionButton from "../components/CustomSectionButton";
 import CustomProfilePhoto from "../components/CustomProfilePhoto";
 import CustomButton from "../components/CustomButton";
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 import AppData from "../../core/AppData";
 import HapticsHandler from "../../core/HapticsHandler";
 
@@ -15,7 +15,7 @@ import HapticsHandler from "../../core/HapticsHandler";
 // Choose account page
 function ChooseAccountPage({ navigation }) {
   // Show AppStack once logged-in
-  const { theme, setIsLoggedIn } = useAppContext();
+  const { theme, setIsLoggedIn } = useGlobalAppContext();
   
   // Get connected accounts from local storage
   const [accounts, setAccounts] = useState({});

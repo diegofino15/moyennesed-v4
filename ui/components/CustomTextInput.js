@@ -3,7 +3,7 @@ import { View, TextInput, Platform } from 'react-native';
 import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
 import { PressableScale } from 'react-native-pressable-scale';
 
-import { useAppContext } from '../../util/AppContext';
+import { useGlobalAppContext } from '../../util/GlobalAppContext';
 
 
 // Custom text input
@@ -21,7 +21,7 @@ function CustomTextInput({
   controller,
   windowWidth,
 }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   const [showContent, setShowContent] = useState(!secureTextEntry);
 

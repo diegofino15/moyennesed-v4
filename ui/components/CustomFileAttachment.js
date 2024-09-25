@@ -8,12 +8,12 @@ import * as RNFS from "react-native-fs";
 import CustomChooser from "./CustomChooser";
 import CustomSimpleInformationCard from "./CustomSimpleInformationCard";
 import AppData from "../../core/AppData";
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // File attachment
 function CustomFileAttachment({ accountID, file, windowWidth, deleteButton=false, onDelete }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   const [isDownloading, setIsDownloading] = useState(false);
   async function openAttachment() {

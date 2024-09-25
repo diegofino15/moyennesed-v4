@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Text, ActivityIndicator, View, Dimensions, Platform, SectionList } from "react-native";
 import { AlertTriangleIcon, FileDownIcon, RefreshCcwIcon } from "lucide-react-native";
+import { PressableScale } from "react-native-pressable-scale";
 import { BlurView } from "expo-blur";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
@@ -10,13 +11,14 @@ import CustomModal from "../../../components/CustomModal";
 import CustomSeparator from "../../../components/CustomSeparator";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import AppData from "../../../../core/AppData";
-import { useAppContext } from "../../../../util/AppContext";
-import { PressableScale } from "react-native-pressable-scale";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Exam page
-function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
-  const { theme } = useAppContext();
+function UpcomingHomeworkPage({ isConnected, isConnecting, navigation, route }) {
+  const { theme } = useGlobalAppContext();
+  const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
   
   const { accountID, _errorGettingHomework } = route.params;
 
@@ -108,8 +110,6 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, globalDisplayUpdater,
                 accountID={accountID}
                 day={item}
                 homeworks={abstractHomeworks.days[item]}
-                globalDisplayUpdater={globalDisplayUpdater}
-                updateGlobalDisplay={updateGlobalDisplay}
                 navigation={navigation}
               />
             </View>

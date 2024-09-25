@@ -9,12 +9,12 @@ import CustomChooser from "../../components/CustomChooser";
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import HapticsHandler from "../../../core/HapticsHandler";
 import AppData from "../../../core/AppData";
-import { useAppContext } from "../../../util/AppContext";
+import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 
 
 // Main page
-function MainPage({ refreshLogin, isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay, route, navigation }) {
-  const { theme } = useAppContext();
+function MainPage({ refreshLogin, isConnected, isConnecting, route, navigation }) {
+  const { theme } = useGlobalAppContext();
   
   // Connected main account (parent / student)
   const { newAccountID } = route.params; 
@@ -100,8 +100,6 @@ function MainPage({ refreshLogin, isConnected, isConnecting, globalDisplayUpdate
           isConnecting={isConnecting}
           manualRefreshing={manualRefreshing}
           setManualRefreshing={setManualRefreshing}
-          globalDisplayUpdater={globalDisplayUpdater}
-          updateGlobalDisplay={updateGlobalDisplay}
           navigation={navigation}
         />
       </SafeAreaView>

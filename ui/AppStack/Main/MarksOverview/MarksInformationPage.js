@@ -7,12 +7,14 @@ import CustomModal from "../../../components/CustomModal";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import { formatDate } from "../../../../util/Utils";
 import AppData from "../../../../core/AppData";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Information page
-function MarksInformationPage({ globalDisplayUpdater, navigation, route }) {
-  const { theme } = useAppContext();
+function MarksInformationPage({ navigation, route }) {
+  const { theme } = useGlobalAppContext();
+  const { globalDisplayUpdater } = useAppStackContext();
   
   const { accountID } = route.params;
   

@@ -1,11 +1,11 @@
 import { View, Text } from "react-native";
 
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Settings section
 function CustomSection({ title, titleObj, rightIcon, marginTop=20, textAreaStyle={}, textStyle={}, lineStyle={}, viewStyle={} }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   return (
     <View style={{

@@ -5,7 +5,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import CustomTag from "../../../components/CustomTag";
 import { formatAverage, formatMark } from "../../../../util/Utils";
 import ColorsHandler from "../../../../core/ColorsHandler";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 
 
 // Embedded subject card
@@ -17,7 +17,7 @@ function EmbeddedSubjectCard({
   countMarksWithOnlyCompetences,
   navigation,
 }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   const { light, dark } = ColorsHandler.getSubjectColors(subject.id)
   

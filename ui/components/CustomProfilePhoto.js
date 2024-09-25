@@ -5,12 +5,12 @@ import { UserRoundIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import AppData from "../../core/AppData";
-import { useAppContext } from "../../util/AppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom profile photo
 function CustomProfilePhoto({ accountID, onPress, size=60, style, hasOtherPressAction=false }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   // Auto-update photo
   const [photo, setPhoto] = useState(null);

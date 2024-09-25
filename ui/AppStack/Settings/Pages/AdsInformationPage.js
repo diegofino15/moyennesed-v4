@@ -11,14 +11,14 @@ import CustomSection from "../../../components/CustomSection";
 import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
 import CustomTextArea from "../../../components/CustomTextArea";
 import CustomButton from "../../../components/CustomButton";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { hashString } from "../../../../util/Utils";
 import AdsHandler from "../../../../core/AdsHandler";
 
 
 // Ad information page
 function AdsInformationPage({ navigation }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   const [_hashedUsername, setHashedUsername, hashedUsernameRef] = useState(null);
 

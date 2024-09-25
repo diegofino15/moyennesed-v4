@@ -12,12 +12,12 @@ import CustomButton from "../../../components/CustomButton";
 import CustomChooser from "../../../components/CustomChooser";
 import CustomBigTextInput from "../../../components/CustomBigTextInput";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 
 
 // Ad information page
 function BugReportPage({ navigation }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
 
   const [username, setUsername] = useState(null);
   

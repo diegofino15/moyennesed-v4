@@ -3,12 +3,12 @@ import { ChevronRightIcon } from "lucide-react-native";
 
 import CustomConfirmModal from "../../../components/CustomConfirmModal";
 import CustomButton from "../../../components/CustomButton";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 
 
 // Disconnect modal
 function DisconnectModal({ isDisconnecting, setIsDisconnecting, disconnect }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   return (
     <CustomConfirmModal

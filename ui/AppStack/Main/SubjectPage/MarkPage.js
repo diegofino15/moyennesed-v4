@@ -10,15 +10,17 @@ import CustomChooser from "../../../components/CustomChooser";
 import CustomCoefficientPicker from "../../../components/CustomCoefficientPicker";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import { asyncExpectedResult, formatAverage, formatDate2, formatMark } from "../../../../util/Utils";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 import CoefficientHandler from "../../../../core/CoefficientHandler";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import AppData from "../../../../core/AppData";
 
 
 // Mark page
-function MarkPage({ globalDisplayUpdater, updateGlobalDisplay, navigation, route }) {
-  const { theme } = useAppContext();
+function MarkPage({ navigation, route }) {
+  const { theme } = useGlobalAppContext();
+  const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
   
   const { accountID, cacheMark } = route.params;
 

@@ -5,7 +5,8 @@ import { PressableScale } from "react-native-pressable-scale";
 import SubjectCard from "./SubjectCard";
 import AppData from "../../../../core/AppData";
 import { formatAverage } from "../../../../util/Utils";
-import { useAppContext } from "../../../../util/AppContext";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Subjects overview
@@ -15,10 +16,10 @@ function SubjectsOverview({
   latestCurrentPeriod,
   periods,
   gotHomework,
-  globalDisplayUpdater,
   navigation,
 }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
+  const { globalDisplayUpdater } = useAppStackContext();
   
   // Get if subject has exam
   const [subjectHasExam, setSubjectHasExam] = useState({});

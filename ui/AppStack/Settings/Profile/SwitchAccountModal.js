@@ -8,12 +8,12 @@ import CustomInformationCard from "../../../components/CustomInformationCard";
 import CustomProfilePhoto from "../../../components/CustomProfilePhoto";
 import CustomSectionButton from "../../../components/CustomSectionButton";
 import CustomSeparator from '../../../components/CustomSeparator';
-import { useAppContext } from '../../../../util/AppContext';
+import { useGlobalAppContext } from '../../../../util/GlobalAppContext';
 
 
 // Switch accounts modal
 function SwitchAccountModal({ isSwitchingAccount, setIsSwitchingAccount, switchAccount, selectedAccount }) {
-  const { theme } = useAppContext();
+  const { theme } = useGlobalAppContext();
   
   // Get available accounts
   const [availableAccounts, setAvailableAccounts] = useState({});
