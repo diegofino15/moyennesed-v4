@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 import { View, Text, Platform, Dimensions } from "react-native";
-import { BadgeHelpIcon, BugIcon, HandHelpingIcon, MailIcon, ScaleIcon, Settings2Icon, WeightIcon } from "lucide-react-native";
+import { BadgeHelpIcon, BugIcon, GithubIcon, HandHelpingIcon, MailIcon, ScaleIcon, Settings2Icon, WeightIcon } from "lucide-react-native";
 import useState from "react-usestateref";
 
 import CustomModal from "../../components/CustomModal";
@@ -88,6 +88,15 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation, rou
                 <CustomLink title="Site officiel ÉcoleDirecte" link={"https://www.ecoledirecte.com/"} style={{ marginBottom: 10 }}/>
                 <CustomLink title="Conditions d'utilisation" link={"https://moyennesed.dfino.dev/privacy-policy.html"} icon={(
                   <ScaleIcon size={20} color={theme.colors.onSurfaceDisabled}/>
+                )}/>
+
+                <Text style={[theme.fonts.labelLarge, {
+                  textAlign: 'justify',
+                  marginTop: 20,
+                  marginBottom: 10,
+                }]}>Intéressé.e ? Vous pouvez voir le code complet de l'app sur GitHub.</Text>
+                <CustomLink title="Projet GitHub" link={"https://github.com/diegofino15/moyennesed-v4.git"} icon={(
+                  <GithubIcon size={20} color={theme.colors.onSurfaceDisabled}/>
                 )}/>
               </View>
             )}
