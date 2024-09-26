@@ -11,19 +11,20 @@ MoyennesED est une application mobile conçue pour permettre aux élèves de con
   - [x] Graphiques de l'évolution des moyennes (générale, par matière, par sous-matière)
 - [x] Récupération des devoirs (nouveau)
   - [x] Détection des évaluations
-  - [x] Statut fait/non fait syncronisé avec ÉcoleDirecte
+  - [x] Statut fait/non fait synchronisé avec ÉcoleDirecte
+  - [x] Fichiers attachés téléchargeables
 
 ## ⚛️ Fonctionnement
 Structure : **JavaScript** avec **React Native** et **Expo**  
-L'application imite le fonctionnement du site web [ÉcoleDirecte](https://www.ecoledirecte.com) pour se connecter, récupérer une clé de connexion, et ensuite récupérer les notes et les devoirs de l'élève automatiquement.  
+L'application imite le fonctionnement du site web [ÉcoleDirecte](https://www.ecoledirecte.com) pour se connecter, récupérer une clé de connexion, et ensuite récupérer les notes et les devoirs de l'élève automatiquement. Aucune information personnelle ne passe par d'autres serveurs, seuls les signalements de bugs sont stockés sur [Firebase](https://firebase.google.com).    
 Cette application est conçue pour les élèves n'ayant pas accès à leurs moyennes sur l'application officielle, ou pour les parents afin de suivre les résultats de leurs enfants.
 
 ## La v4 ?
 Encore une fois, l'app a entièrement été réécrite de zéro, avec une structure plus claire et simple à étendre dans le futur, pour ajouter des nouvelles fonctionnalités. L'app est plus rapide que jamais, plus fluide, plus ergonimique, et devrait avoir encore moins de bugs !
 
 ## Développement
-Si vous souhaitez participer au développement de l'application et ajouter de nouvelles fonctionnalités, régler de bugs... le code complet de l'application est disponible.
-Vous avez besoin d'avoir **NodeJS**.
+Si vous souhaitez participer au développement de l'application et ajouter de nouvelles fonctionnalités, régler des bugs... le code complet de l'application est disponible.
+Vous avez besoin d'avoir **NodeJS** et **React Native** avec **Expo**.
 
 Commencez par cloner le projet :
 ```bash
