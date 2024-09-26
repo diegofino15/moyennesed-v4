@@ -1397,8 +1397,8 @@ class AppData {
       const finalHomework = {
         id: homework.id,
         givenBy: homework.nomProf,
-        todo: parseHtmlData(homework.aFaire?.contenu),
-        sessionContent: parseHtmlData(homework.aFaire?.contenuDeSeance?.contenu),
+        todo: parseHtmlData(homework.aFaire?.contenu).trim(),
+        sessionContent: parseHtmlData(homework.aFaire?.contenuDeSeance?.contenu).trim(),
         files: homework.aFaire?.documents?.map(document => {
           return {
             id: document.id,
