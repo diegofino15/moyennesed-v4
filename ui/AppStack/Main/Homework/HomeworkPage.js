@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, Platform, Dimensions, Text, Switch, ActivityIndicator } from "react-native";
-import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, ChevronLeftIcon, EllipsisIcon, GraduationCapIcon, SwatchBookIcon, XIcon } from "lucide-react-native";
+import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, ChevronLeftIcon, EllipsisIcon, GraduationCapIcon, LibraryIcon, ListTodoIcon, SwatchBookIcon, XIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -213,43 +213,84 @@ function HomeworkPage({ isConnected, navigation, route }) {
           ) : (
             <>
               {/* Todo */}
-              <CustomSection
-                title={"À faire"}
-                rightIcon={(
-                  <PressableScale onPress={() => setIsTodoCollapsed(!isTodoCollapsed)} style={{
-                    backgroundColor: theme.colors.surface,
+              <PressableScale style={{
+                marginTop: 20,
+                backgroundColor: theme.colors.surface,
+                borderWidth: 2,
+                borderColor: theme.colors.surfaceOutline,
+                borderRadius: 10,
+                paddingHorizontal: 15,
+                paddingVertical: 10,
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }} onPress={() => setIsTodoCollapsed(!isTodoCollapsed)}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <ListTodoIcon size={25} color={theme.colors.onSurfaceDisabled} style={{ marginRight: 10 }}/>
+                  <Text style={theme.fonts.bodyLarge}>À faire</Text>
+                </View>
+
+                {isTodoCollapsed ? (
+                  <ChevronLeftIcon size={25} color={theme.colors.onSurfaceDisabled}/>
+                ) : (
+                  <ChevronDownIcon size={25} color={theme.colors.onSurfaceDisabled}/>
+                )}
+              </PressableScale>
+              {!isTodoCollapsed && (
+                <View style={{ flexDirection: "row", alignItems: "flex-start", marginTop: 20 }}>
+                  <View style={{
+                    marginRight: 10,
+                    width: 4,
                     borderRadius: 5,
-                  }}>
-                    {isTodoCollapsed ? (
+                    backgroundColor: theme.colors.surfaceOutline,
+                    height: '100%',
+                  }}/>
+                  <Text style={[theme.fonts.bodyLarge, {
+                    textAlign: "justify",
+                    width: windowWidth - 54,
+                  }]}>{specificHomework?.todo}</Text>
+                </View>
+              )}
+
+              {/* Session content */}
+              {specificHomework?.sessionContent && (
+                <>
+                  <PressableScale style={{
+                    marginTop: 20,
+                    backgroundColor: theme.colors.surface,
+                    borderWidth: 2,
+                    borderColor: theme.colors.surfaceOutline,
+                    borderRadius: 10,
+                    paddingHorizontal: 15,
+                    paddingVertical: 10,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }} onPress={() => setIsSessionContentCollapsed(!isSessionContentCollapsed)}>
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                      <LibraryIcon size={25} color={theme.colors.onSurfaceDisabled} style={{ marginRight: 10 }}/>
+                      <Text style={theme.fonts.bodyLarge}>Contenu de séance</Text>
+                    </View>
+
+                    {isSessionContentCollapsed ? (
                       <ChevronLeftIcon size={25} color={theme.colors.onSurfaceDisabled}/>
                     ) : (
                       <ChevronDownIcon size={25} color={theme.colors.onSurfaceDisabled}/>
                     )}
                   </PressableScale>
-                )}
-              />
-              {!isTodoCollapsed && (<Text style={[theme.fonts.bodyLarge, { textAlign: "justify" }]}>{specificHomework?.todo}</Text>)}
-
-              {/* Session content */}
-              {specificHomework?.sessionContent && (
-                <>
-                  <CustomSection
-                    title={"Contenu de séance"}
-                    marginTop={50}
-                    rightIcon={(
-                      <PressableScale onPress={() => setIsSessionContentCollapsed(!isSessionContentCollapsed)} style={{
-                        backgroundColor: theme.colors.surface,
+                  {!isSessionContentCollapsed && (
+                    <View style={{ flexDirection: "row", alignItems: "flex-start", marginTop: 20 }}>
+                      <View style={{
+                        marginRight: 10,
+                        width: 4,
                         borderRadius: 5,
-                      }}>
-                        {isSessionContentCollapsed ? (
-                          <ChevronLeftIcon size={25} color={theme.colors.onSurfaceDisabled}/>
-                        ) : (
-                          <ChevronDownIcon size={25} color={theme.colors.onSurfaceDisabled}/>
-                        )}
-                      </PressableScale>
-                    )}
-                  />
-                  {!isSessionContentCollapsed && (<Text style={[theme.fonts.bodyLarge, { textAlign: "justify" }]}>{specificHomework?.sessionContent}</Text>)}
+                        backgroundColor: theme.colors.surfaceOutline,
+                        height: '100%',
+                      }}/>
+                      <Text style={[theme.fonts.bodyLarge, {
+                        textAlign: "justify",
+                        width: windowWidth - 54,
+                      }]}>{specificHomework?.sessionContent}</Text>
+                    </View>
+                  )}
                 </>
               )}
 
@@ -258,7 +299,6 @@ function HomeworkPage({ isConnected, navigation, route }) {
                 <>
                   <CustomSection
                     title={"Fichiers attachés"}
-                    marginTop={50}
                   />
                   {specificHomework.files.map(file => (
                     <CustomFileAttachment
