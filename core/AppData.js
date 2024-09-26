@@ -158,7 +158,7 @@ class AppData {
     // Loop trough connected accounts
     for (const account of loginData.accounts) {
       let ID = `${account.id}`;
-      if (!supportedAccountTypes.includes(account.typeCompte)) {
+      if (!supportedAccountTypes.includes(`${account.typeCompte}`)) {
         console.warn(`Unsupported account type : ${account.typeCompte}`);
         continue;
       }
