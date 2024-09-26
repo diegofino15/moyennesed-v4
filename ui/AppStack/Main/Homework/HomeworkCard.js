@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, Dimensions } from "react-native";
+import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { CheckIcon, CircleIcon } from "lucide-react-native";
 
@@ -17,6 +17,7 @@ function HomeworkCard({
   cacheHomework,
   specificHomework,
   isLoading,
+  windowWidth,
   navigation,
 }) {
   const { theme } = useGlobalAppContext();
@@ -81,7 +82,7 @@ function HomeworkCard({
         }}>
           <Text style={[theme.fonts.bodyLarge, {
             color: 'black',
-            width: Dimensions.get('window').width - 145,
+            width: windowWidth - 145,
             marginHorizontal: 10,
             marginVertical: 5,
           }]} numberOfLines={1}>{cacheHomework.subjectTitle}</Text>

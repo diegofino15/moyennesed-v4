@@ -10,7 +10,7 @@ import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Exam page
-function ExamPage({ updateGlobalDisplay, navigation, route }) {
+function ExamPage({ navigation, route }) {
   const { theme } = useGlobalAppContext();
   const { globalDisplayUpdater } = useAppStackContext();
 
@@ -41,9 +41,12 @@ function ExamPage({ updateGlobalDisplay, navigation, route }) {
     });
   }, [globalDisplayUpdater]);
 
+  const [windowWidth, setWindowWidth] = useState(0);
+
   return (
     <CustomModal
       title={`Evaluations - ${subjectTitle}`}
+      setWidth={setWindowWidth}
       titleStyle={{ color: 'black' }}
       goBackFunction={() => navigation.pop()}
       onlyShowBackButtonOnAndroid
@@ -59,6 +62,7 @@ function ExamPage({ updateGlobalDisplay, navigation, route }) {
                 accountID={accountID}
                 day={day}
                 homeworks={abstractExams[day]}
+                windowWidth={windowWidth}
                 navigation={navigation}
               />
             </View>

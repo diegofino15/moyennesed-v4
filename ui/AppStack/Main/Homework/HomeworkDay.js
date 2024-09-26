@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
-import { ActivityIndicator, Dimensions, Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -14,7 +14,7 @@ import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Homework day
-function HomeworkDay({ accountID, day, homeworks, autoLoad=false, navigation }) {
+function HomeworkDay({ accountID, day, homeworks, autoLoad=false, windowWidth, navigation }) {
   const { theme } = useGlobalAppContext();
   const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
 
@@ -56,7 +56,7 @@ function HomeworkDay({ accountID, day, homeworks, autoLoad=false, navigation }) 
       paddingHorizontal: 10,
       paddingTop: 10,
       paddingBottom: 5,
-      width: Dimensions.get('window').width - 40,
+      width: windowWidth - 40,
       backgroundColor: theme.colors.surface,
       borderRadius: 10,
     }}>
@@ -90,6 +90,7 @@ function HomeworkDay({ accountID, day, homeworks, autoLoad=false, navigation }) 
           cacheHomework={homework}
           specificHomework={specificHomeworks[homework.id] ?? null}
           isLoading={isLoading}
+          windowWidth={windowWidth}
           navigation={navigation}
         />
       ))}

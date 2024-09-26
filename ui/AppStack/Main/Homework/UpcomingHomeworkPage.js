@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Text, ActivityIndicator, View, Dimensions, Platform, SectionList } from "react-native";
+import { Text, ActivityIndicator, View, Platform, SectionList } from "react-native";
 import { AlertTriangleIcon, FileDownIcon, RefreshCcwIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { BlurView } from "expo-blur";
@@ -53,6 +53,7 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, navigation, route }) 
     HapticsHandler.vibrate("light");
   }
 
+  const [windowWidth, setWindowWidth] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
   
   return (
@@ -61,6 +62,7 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, navigation, route }) 
       goBackFunction={() => navigation.pop()}
       onlyShowBackButtonOnAndroid
       setHeight={setWindowHeight}
+      setWidth={setWindowWidth}
       rightIcon={(
         <View style={{ margin: 4.5, }}>
           {refreshing || isConnecting ? (
@@ -103,6 +105,7 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, navigation, route }) 
             padding: 20,
             overflow: Platform.select({ ios: 'visible', android: 'hidden' }),
             height: windowHeight - Constants.statusBarHeight - 67,
+            width: windowWidth,
           }}
           renderItem={({ item }) => (
             <View style={{ marginBottom: 50 }}>
@@ -110,6 +113,7 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, navigation, route }) 
                 accountID={accountID}
                 day={item}
                 homeworks={abstractHomeworks.days[item]}
+                windowWidth={windowWidth}
                 navigation={navigation}
               />
             </View>
@@ -138,7 +142,7 @@ function UpcomingHomeworkPage({ isConnected, isConnecting, navigation, route }) 
           ListFooterComponent={() => (
             <View style={{
               left: -10,
-              width: Dimensions.get('window').width,
+              width: windowWidth,
               height: 100,
               top: -20,
               backgroundColor: theme.colors.backdrop,
