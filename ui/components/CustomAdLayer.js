@@ -7,7 +7,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import { BlurView } from "expo-blur";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import AdsHandler from "../../core/AdsHandler";
+import AdsHandler from "../../src/core/AdsHandler";
 import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 
 

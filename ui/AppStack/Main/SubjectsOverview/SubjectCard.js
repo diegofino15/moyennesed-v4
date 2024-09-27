@@ -4,7 +4,7 @@ import { PressableScale } from "react-native-pressable-scale";
 
 import CustomTag from "../../../components/CustomTag";
 import { formatAverage, formatMark } from "../../../../src/util/Utils";
-import ColorsHandler from "../../../../core/ColorsHandler";
+import ColorsHandler from "../../../../src/core/ColorsHandler";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 
 

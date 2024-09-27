@@ -18,7 +18,7 @@ import AdvancedSettingsPage from './Settings/Pages/AdvancedSettingsPage';
 import AdsInformationPage from './Settings/Pages/AdsInformationPage';
 import BugReportPage from './Settings/Pages/BugReportPage';
 
-import AppData from '../../core/AppData';
+import AppData from '../../src/core/AppData';
 import { AppStackContextProvider } from '../../src/util/AppStackContext';
 
 

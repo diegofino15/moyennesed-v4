@@ -3,7 +3,7 @@ import useState from "react-usestateref";
 import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 
-import ColorsHandler from "../../../../core/ColorsHandler";
+import ColorsHandler from "../../../../src/core/ColorsHandler";
 import { formatDate2 } from "../../../../src/util/Utils";
 import CustomChangingText from "../../../components/CustomChangingText";
 import CustomTag from "../../../components/CustomTag";

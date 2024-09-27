@@ -14,7 +14,7 @@ import CustomSimpleInformationCard from "../../../components/CustomSimpleInforma
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 import { useAppStackContext } from "../../../../src/util/AppStackContext";
 import { Themes } from "../../../../src/util/Styles";
-import AppData from "../../../../core/AppData";
+import AppData from "../../../../src/core/AppData";
 import HapticsHandler from "../../../../core/HapticsHandler";
 
 

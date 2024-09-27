@@ -10,7 +10,7 @@ import CustomModal from "./CustomModal";
 import CustomButton from "./CustomButton";
 import CustomSeparator from "./CustomSeparator";
 import { parseHtmlData } from "../../src/util/Utils";
-import AppData from "../../core/AppData";
+import AppData from "../../src/core/AppData";
 import HapticsHandler from "../../core/HapticsHandler";
 import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 

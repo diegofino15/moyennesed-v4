@@ -6,7 +6,7 @@ import LottieView from "lottie-react-native";
 import CustomModal from "../../../components/CustomModal";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import { formatDate } from "../../../../src/util/Utils";
-import AppData from "../../../../core/AppData";
+import AppData from "../../../../src/core/AppData";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 import { useAppStackContext } from "../../../../src/util/AppStackContext";
 

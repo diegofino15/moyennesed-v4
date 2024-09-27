@@ -8,7 +8,7 @@ import CustomSectionButton from "../components/CustomSectionButton";
 import CustomProfilePhoto from "../components/CustomProfilePhoto";
 import CustomButton from "../components/CustomButton";
 import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
-import AppData from "../../core/AppData";
+import AppData from "../../src/core/AppData";
 import HapticsHandler from "../../core/HapticsHandler";
 
 

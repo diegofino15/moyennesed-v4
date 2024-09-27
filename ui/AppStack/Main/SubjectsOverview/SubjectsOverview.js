@@ -3,7 +3,7 @@ import { Dimensions, Text, View } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 
 import SubjectCard from "./SubjectCard";
-import AppData from "../../../../core/AppData";
+import AppData from "../../../../src/core/AppData";
 import { formatAverage } from "../../../../src/util/Utils";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 import { useAppStackContext } from "../../../../src/util/AppStackContext";

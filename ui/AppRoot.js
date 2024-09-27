@@ -13,10 +13,10 @@ import { Themes, initFontsAndThemes } from "../src/util/Styles";
 import { GlobalAppContextProvider, useGlobalAppContext } from "../src/util/GlobalAppContext";
 import { initFirebaseAppCheck } from "../src/util/firebase/firebaseAppCheck";
 import { setupNotifications } from "../src/util/firebase/firebaseCloudMessaging";
-import AdsHandler from "../core/AdsHandler";
-import ColorsHandler from "../core/ColorsHandler";
+import AdsHandler from "../src/core/AdsHandler";
+import ColorsHandler from "../src/core/ColorsHandler";
 import CoefficientHandler from "../core/CoefficientHandler";
-import AppData from "../core/AppData";
+import AppData from "../src/core/AppData";
 
 
 // App Root

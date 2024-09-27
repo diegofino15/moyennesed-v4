@@ -13,8 +13,8 @@ import { asyncExpectedResult, formatAverage, formatDate2, formatMark } from "../
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 import { useAppStackContext } from "../../../../src/util/AppStackContext";
 import CoefficientHandler from "../../../../core/CoefficientHandler";
-import ColorsHandler from "../../../../core/ColorsHandler";
-import AppData from "../../../../core/AppData";
+import ColorsHandler from "../../../../src/core/ColorsHandler";
+import AppData from "../../../../src/core/AppData";
 
 
 // Mark page

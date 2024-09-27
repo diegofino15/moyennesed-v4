@@ -13,7 +13,7 @@ import CustomTextArea from "../../../components/CustomTextArea";
 import CustomButton from "../../../components/CustomButton";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 import { hashString } from "../../../../src/util/Utils";
-import AdsHandler from "../../../../core/AdsHandler";
+import AdsHandler from "../../../../src/core/AdsHandler";
 
 
 // Ad information page

@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 
-import { capitalizeWords, formatDate3, getLatestDate, parseHtmlData } from "../src/util/Utils";
+import { capitalizeWords, formatDate3, getLatestDate, parseHtmlData } from "../util/Utils";
 import ColorsHandler from "./ColorsHandler";
 import CoefficientHandler from "./CoefficientHandler";
 

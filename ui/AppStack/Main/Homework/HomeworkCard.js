@@ -3,8 +3,8 @@ import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { CheckIcon, CircleIcon } from "lucide-react-native";
 
-import AppData from "../../../../core/AppData";
-import ColorsHandler from "../../../../core/ColorsHandler";
+import AppData from "../../../../src/core/AppData";
+import ColorsHandler from "../../../../src/core/ColorsHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 import { useAppStackContext } from "../../../../src/util/AppStackContext";

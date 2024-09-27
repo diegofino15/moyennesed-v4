@@ -11,7 +11,7 @@ import CustomSimpleSectionButton from "../../components/CustomSimpleSectionButto
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import CustomTextArea from "../../components/CustomTextArea";
 import CustomLink from "../../components/CustomLink";
-import AppData from "../../../core/AppData";
+import AppData from "../../../src/core/AppData";
 import { useGlobalAppContext } from "../../../src/util/GlobalAppContext";
 
 
