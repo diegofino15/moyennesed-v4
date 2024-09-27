@@ -6,13 +6,13 @@ import LottieView from "lottie-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firestore from '@react-native-firebase/firestore';
 
-import CustomModal from "../../../../src/ui/components/CustomModal";
-import CustomSection from "../../../../src/ui/components/CustomSection";
-import CustomButton from "../../../../src/ui/components/CustomButton";
-import CustomChooser from "../../../../src/ui/components/CustomChooser";
-import CustomBigTextInput from "../../../../src/ui/components/CustomBigTextInput";
-import CustomSimpleInformationCard from "../../../../src/ui/components/CustomSimpleInformationCard";
-import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
+import CustomModal from "../../../../ui/components/CustomModal";
+import CustomSection from "../../../../ui/components/CustomSection";
+import CustomButton from "../../../../ui/components/CustomButton";
+import CustomChooser from "../../../../ui/components/CustomChooser";
+import CustomBigTextInput from "../../../../ui/components/CustomBigTextInput";
+import CustomSimpleInformationCard from "../../../../ui/components/CustomSimpleInformationCard";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 
 
 // Ad information page

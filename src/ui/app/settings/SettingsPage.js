@@ -3,16 +3,16 @@ import { View, Text, Platform, Dimensions } from "react-native";
 import { BadgeHelpIcon, BugIcon, GithubIcon, HandHelpingIcon, MailIcon, ScaleIcon, Settings2Icon, WeightIcon } from "lucide-react-native";
 import useState from "react-usestateref";
 
-import CustomModal from "../../../src/ui/components/CustomModal";
-import CustomSection from "../../../src/ui/components/CustomSection";
-import CustomLoginStatus from "../../../src/ui/components/CustomLoginStatus";
-import CustomSectionButton from "../../../src/ui/components/CustomSectionButton";
-import CustomSimpleSectionButton from "../../../src/ui/components/CustomSimpleSectionButton";
-import CustomProfilePhoto from "../../../src/ui/components/CustomProfilePhoto";
-import CustomTextArea from "../../../src/ui/components/CustomTextArea";
-import CustomLink from "../../../src/ui/components/CustomLink";
-import AppData from "../../../src/core/AppData";
-import { useGlobalAppContext } from "../../../src/util/GlobalAppContext";
+import CustomModal from "../../components/CustomModal";
+import CustomSection from "../../components/CustomSection";
+import CustomLoginStatus from "../../components/CustomLoginStatus";
+import CustomSectionButton from "../../components/CustomSectionButton";
+import CustomSimpleSectionButton from "../../components/CustomSimpleSectionButton";
+import CustomProfilePhoto from "../../components/CustomProfilePhoto";
+import CustomTextArea from "../../components/CustomTextArea";
+import CustomLink from "../../components/CustomLink";
+import AppData from "../../../core/AppData";
+import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 
 
 // Settings page

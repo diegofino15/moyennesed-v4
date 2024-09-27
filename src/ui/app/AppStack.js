@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react'; 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MainPage from '../../../ui/AppStack/Main/MainPage';
-import MarkPage from '../../../ui/AppStack/Main/SubjectPage/MarkPage';
-import SubjectPage from '../../../ui/AppStack/Main/SubjectPage/SubjectPage';
-import MarksInformationPage from '../../../ui/AppStack/Main/MarksOverview/MarksInformationPage';
-import UpcomingHomeworkPage from '../../../ui/AppStack/Main/Homework/UpcomingHomeworkPage';
-import HomeworkPage from '../../../ui/AppStack/Main/Homework/HomeworkPage';
-import FilesPage from '../../../ui/AppStack/Main/Homework/FilesPage';
-import ExamPage from '../../../ui/AppStack/Main/Homework/ExamPage';
-import HomeworkInformationPage from '../../../ui/AppStack/Main/Homework/HomeworkInformationPage';
+import MainPage from './main/MainPage';
+import MarkPage from './main/subject-page/MarkPage';
+import SubjectPage from './main/subject-page/SubjectPage';
+import MarksInformationPage from './main/marks-overview/MarksInformationPage';
+import UpcomingHomeworkPage from './main/homework/UpcomingHomeworkPage';
+import HomeworkPage from './main/homework/HomeworkPage';
+import FilesPage from './main/homework/FilesPage';
+import ExamPage from './main/homework/ExamPage';
+import HomeworkInformationPage from './main/homework/HomeworkInformationPage';
 
-import SettingsPage from './Settings/SettingsPage';
-import ProfilePage from './Settings/Pages/Profile/ProfilePage';
-import CoefficientsPage from './Settings/Pages/CoefficientsPage';
-import AdvancedSettingsPage from './Settings/Pages/AdvancedSettingsPage';
-import AdsInformationPage from './Settings/Pages/AdsInformationPage';
-import BugReportPage from './Settings/Pages/BugReportPage';
+import SettingsPage from './settings/SettingsPage';
+import ProfilePage from './settings/pages/profile/ProfilePage';
+import CoefficientsPage from './settings/pages/CoefficientsPage';
+import AdvancedSettingsPage from './settings/pages/AdvancedSettingsPage';
+import AdsInformationPage from './settings/pages/AdsInformationPage';
+import BugReportPage from './settings/pages/BugReportPage';
 
 import AppData from '../../core/AppData';
 import { AppStackContextProvider } from '../../util/AppStackContext';

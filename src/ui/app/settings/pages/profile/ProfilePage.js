@@ -9,15 +9,15 @@ import useState from "react-usestateref";
 
 import DisconnectModal from "./DisconnectModal";
 import SwitchAccountModal from "./SwitchAccountModal";
-import CustomSection from "../../../../../src/ui/components/CustomSection";
-import CustomModal from "../../../../../src/ui/components/CustomModal";
-import CustomProfilePhoto from "../../../../../src/ui/components/CustomProfilePhoto";
-import CustomInformationCard from "../../../../../src/ui/components/CustomInformationCard";
-import CustomSimpleInformationCard from "../../../../../src/ui/components/CustomSimpleInformationCard";
-import CustomButton from "../../../../../src/ui/components/CustomButton";
-import { useGlobalAppContext } from "../../../../../src/util/GlobalAppContext";
-import AppData from "../../../../../src/core/AppData";
-import HapticsHandler from "../../../../../src/core/HapticsHandler";
+import CustomSection from "../../../../../ui/components/CustomSection";
+import CustomModal from "../../../../../ui/components/CustomModal";
+import CustomProfilePhoto from "../../../../../ui/components/CustomProfilePhoto";
+import CustomInformationCard from "../../../../../ui/components/CustomInformationCard";
+import CustomSimpleInformationCard from "../../../../../ui/components/CustomSimpleInformationCard";
+import CustomButton from "../../../../../ui/components/CustomButton";
+import { useGlobalAppContext } from "../../../../../util/GlobalAppContext";
+import AppData from "../../../../../core/AppData";
+import HapticsHandler from "../../../../../core/HapticsHandler";
 
 
 // Profile settings page

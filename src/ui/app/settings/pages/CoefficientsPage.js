@@ -3,15 +3,15 @@ import { View, Text, Switch } from "react-native";
 import { ChevronsUpDownIcon, CornerDownRightIcon, SparklesIcon, UserRoundIcon, Wand2Icon } from "lucide-react-native";
 import useState from "react-usestateref";
 
-import CustomModal from "../../../../src/ui/components/CustomModal";
-import CustomSection from "../../../../src/ui/components/CustomSection";
-import CustomChooser from "../../../../src/ui/components/CustomChooser";
-import CustomInformationCard from "../../../../src/ui/components/CustomInformationCard";
-import CustomSimpleInformationCard from "../../../../src/ui/components/CustomSimpleInformationCard";
-import CoefficientHandler from "../../../../src/core/CoefficientHandler";
-import AppData from "../../../../src/core/AppData";
-import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
-import { useAppStackContext } from "../../../../src/util/AppStackContext";
+import CustomModal from "../../../components/CustomModal";
+import CustomSection from "../../../components/CustomSection";
+import CustomChooser from "../../../components/CustomChooser";
+import CustomInformationCard from "../../../components/CustomInformationCard";
+import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
+import CoefficientHandler from "../../../../core/CoefficientHandler";
+import AppData from "../../../../core/AppData";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Settings page

@@ -6,14 +6,14 @@ import LottieView from "lottie-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firestore from '@react-native-firebase/firestore';
 
-import CustomModal from "../../../../src/ui/components/CustomModal";
-import CustomSection from "../../../../src/ui/components/CustomSection";
-import CustomAnimatedChangeableItem from "../../../../src/ui/components/CustomAnimatedChangeableItem";
-import CustomTextArea from "../../../../src/ui/components/CustomTextArea";
-import CustomButton from "../../../../src/ui/components/CustomButton";
-import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
-import { hashString } from "../../../../src/util/Utils";
-import AdsHandler from "../../../../src/core/AdsHandler";
+import CustomModal from "../../../../ui/components/CustomModal";
+import CustomSection from "../../../../ui/components/CustomSection";
+import CustomAnimatedChangeableItem from "../../../../ui/components/CustomAnimatedChangeableItem";
+import CustomTextArea from "../../../../ui/components/CustomTextArea";
+import CustomButton from "../../../../ui/components/CustomButton";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { hashString } from "../../../../util/Utils";
+import AdsHandler from "../../../../core/AdsHandler";
 
 
 // Ad information page

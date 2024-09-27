@@ -3,12 +3,12 @@ import { View, Text } from "react-native";
 import { CheckCircleIcon, ChevronRightIcon, SquareMousePointerIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CustomConfirmModal from "../../../../../src/ui/components/CustomConfirmModal";
-import CustomInformationCard from "../../../../../src/ui/components/CustomInformationCard";
-import CustomProfilePhoto from "../../../../../src/ui/components/CustomProfilePhoto";
-import CustomSectionButton from "../../../../../src/ui/components/CustomSectionButton";
-import CustomSeparator from '../../../../../src/ui/components/CustomSeparator';
-import { useGlobalAppContext } from '../../../../../src/util/GlobalAppContext';
+import CustomConfirmModal from "../../../../../ui/components/CustomConfirmModal";
+import CustomInformationCard from "../../../../../ui/components/CustomInformationCard";
+import CustomProfilePhoto from "../../../../../ui/components/CustomProfilePhoto";
+import CustomSectionButton from "../../../../../ui/components/CustomSectionButton";
+import CustomSeparator from '../../../../../ui/components/CustomSeparator';
+import { useGlobalAppContext } from '../../../../../util/GlobalAppContext';
 
 
 // Switch accounts modal
