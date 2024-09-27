@@ -17,8 +17,8 @@ import CustomSimpleInformationCard from "../../../components/CustomSimpleInforma
 import { asyncExpectedResult, formatAverage } from "../../../../src/util/Utils";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 import { useAppStackContext } from "../../../../src/util/AppStackContext";
-import CoefficientHandler from "../../../../core/CoefficientHandler";
-import HapticsHandler from "../../../../core/HapticsHandler";
+import CoefficientHandler from "../../../../src/core/CoefficientHandler";
+import HapticsHandler from "../../../../src/core/HapticsHandler";
 import ColorsHandler from "../../../../src/core/ColorsHandler";
 import AppData from "../../../../src/core/AppData";
 

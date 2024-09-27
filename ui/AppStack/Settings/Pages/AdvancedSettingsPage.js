@@ -15,7 +15,7 @@ import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 import { useAppStackContext } from "../../../../src/util/AppStackContext";
 import { Themes } from "../../../../src/util/Styles";
 import AppData from "../../../../src/core/AppData";
-import HapticsHandler from "../../../../core/HapticsHandler";
+import HapticsHandler from "../../../../src/core/HapticsHandler";
 
 
 // Theme switcher

@@ -9,7 +9,7 @@ import CustomInformationCard from "../components/CustomInformationCard";
 import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 import { openLink } from "../../src/util/Utils";
 import AppData from "../../src/core/AppData";
-import HapticsHandler from "../../core/HapticsHandler";
+import HapticsHandler from "../../src/core/HapticsHandler";
 import CustomDynamicLoginChooser from "./CustomDynamicLoginChooser";
 
 

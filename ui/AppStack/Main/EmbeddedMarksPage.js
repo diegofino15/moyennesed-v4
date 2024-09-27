@@ -13,8 +13,8 @@ import CustomSection from "../../components/CustomSection";
 import CustomChooser from "../../components/CustomChooser";
 import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
 import AppData from "../../../src/core/AppData";
-import HapticsHandler from "../../../core/HapticsHandler";
-import CoefficientHandler from "../../../core/CoefficientHandler";
+import HapticsHandler from "../../../src/core/HapticsHandler";
+import CoefficientHandler from "../../../src/core/CoefficientHandler";
 import { useGlobalAppContext } from "../../../src/util/GlobalAppContext";
 import { useAppStackContext } from "../../../src/util/AppStackContext";
 

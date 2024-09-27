@@ -10,7 +10,7 @@ import CustomChooser from "../../../components/CustomChooser";
 import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
 import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
-import HapticsHandler from "../../../../core/HapticsHandler";
+import HapticsHandler from "../../../../src/core/HapticsHandler";
 import AdsHandler from "../../../../src/core/AdsHandler";
 import { formatAverage } from "../../../../src/util/Utils";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";

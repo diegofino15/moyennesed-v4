@@ -12,7 +12,7 @@ import CustomFileAttachment from "../../../components/CustomFileAttachment";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import AppData from "../../../../src/core/AppData";
 import ColorsHandler from "../../../../src/core/ColorsHandler";
-import HapticsHandler from "../../../../core/HapticsHandler";
+import HapticsHandler from "../../../../src/core/HapticsHandler";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 import { useAppStackContext } from "../../../../src/util/AppStackContext";
 import { asyncExpectedResult, formatDate, formatDate2 } from "../../../../src/util/Utils";

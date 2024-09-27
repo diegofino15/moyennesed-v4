@@ -6,7 +6,7 @@ import ColorPicker, { Preview, Panel1, HueSlider } from "reanimated-color-picker
 
 import CustomConfirmModal from "../../../components/CustomConfirmModal";
 import ColorsHandler from "../../../../src/core/ColorsHandler";
-import HapticsHandler from "../../../../core/HapticsHandler";
+import HapticsHandler from "../../../../src/core/HapticsHandler";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 import { useAppStackContext } from "../../../../src/util/AppStackContext";
 

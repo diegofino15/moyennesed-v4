@@ -5,7 +5,7 @@ import { CheckIcon, CircleIcon } from "lucide-react-native";
 
 import AppData from "../../../../src/core/AppData";
 import ColorsHandler from "../../../../src/core/ColorsHandler";
-import HapticsHandler from "../../../../core/HapticsHandler";
+import HapticsHandler from "../../../../src/core/HapticsHandler";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 import { useAppStackContext } from "../../../../src/util/AppStackContext";
 import { asyncExpectedResult } from "../../../../src/util/Utils";

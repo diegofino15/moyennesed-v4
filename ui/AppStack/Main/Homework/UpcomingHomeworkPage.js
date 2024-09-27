@@ -9,7 +9,7 @@ import Constants from "expo-constants";
 import HomeworkDay from "./HomeworkDay";
 import CustomModal from "../../../components/CustomModal";
 import CustomSeparator from "../../../components/CustomSeparator";
-import HapticsHandler from "../../../../core/HapticsHandler";
+import HapticsHandler from "../../../../src/core/HapticsHandler";
 import AppData from "../../../../src/core/AppData";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 import { useAppStackContext } from "../../../../src/util/AppStackContext";

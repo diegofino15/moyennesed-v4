@@ -15,7 +15,7 @@ import { initFirebaseAppCheck } from "../src/util/firebase/firebaseAppCheck";
 import { setupNotifications } from "../src/util/firebase/firebaseCloudMessaging";
 import AdsHandler from "../src/core/AdsHandler";
 import ColorsHandler from "../src/core/ColorsHandler";
-import CoefficientHandler from "../core/CoefficientHandler";
+import CoefficientHandler from "../src/core/CoefficientHandler";
 import AppData from "../src/core/AppData";
 
 

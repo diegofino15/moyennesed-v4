@@ -7,7 +7,7 @@ import EmbeddedMarksPage from "./EmbeddedMarksPage";
 import WelcomeMessage from "./WelcomeMessage";
 import CustomChooser from "../../components/CustomChooser";
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
-import HapticsHandler from "../../../core/HapticsHandler";
+import HapticsHandler from "../../../src/core/HapticsHandler";
 import AppData from "../../../src/core/AppData";
 import { useGlobalAppContext } from "../../../src/util/GlobalAppContext";
 
