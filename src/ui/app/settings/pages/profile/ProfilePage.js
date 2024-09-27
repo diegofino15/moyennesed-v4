@@ -9,12 +9,12 @@ import useState from "react-usestateref";
 
 import DisconnectModal from "./DisconnectModal";
 import SwitchAccountModal from "./SwitchAccountModal";
-import CustomSection from "../../../../../ui/components/CustomSection";
-import CustomModal from "../../../../../ui/components/CustomModal";
-import CustomProfilePhoto from "../../../../../ui/components/CustomProfilePhoto";
-import CustomInformationCard from "../../../../../ui/components/CustomInformationCard";
-import CustomSimpleInformationCard from "../../../../../ui/components/CustomSimpleInformationCard";
-import CustomButton from "../../../../../ui/components/CustomButton";
+import CustomSection from "../../../../components/CustomSection";
+import CustomModal from "../../../../components/CustomModal";
+import CustomProfilePhoto from "../../../../components/CustomProfilePhoto";
+import CustomInformationCard from "../../../../components/CustomInformationCard";
+import CustomSimpleInformationCard from "../../../../components/CustomSimpleInformationCard";
+import CustomButton from "../../../../components/CustomButton";
 import { useGlobalAppContext } from "../../../../../util/GlobalAppContext";
 import AppData from "../../../../../core/AppData";
 import HapticsHandler from "../../../../../core/HapticsHandler";

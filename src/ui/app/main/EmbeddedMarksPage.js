@@ -9,14 +9,14 @@ import ChildChooser from "./ChildChooser";
 import HomeworkStatus from "./homework/HomeworkStatus";
 import MarksOverview from "./marks-overview/MarksOverview";
 import SubjectsOverview from "./subjects-overview/SubjectsOverview";
-import CustomSection from "../../../src/ui/components/CustomSection";
-import CustomChooser from "../../../src/ui/components/CustomChooser";
-import CustomSimpleInformationCard from "../../../src/ui/components/CustomSimpleInformationCard";
-import AppData from "../../../src/core/AppData";
-import HapticsHandler from "../../../src/core/HapticsHandler";
-import CoefficientHandler from "../../../src/core/CoefficientHandler";
-import { useGlobalAppContext } from "../../../src/util/GlobalAppContext";
-import { useAppStackContext } from "../../../src/util/AppStackContext";
+import CustomSection from "../../components/CustomSection";
+import CustomChooser from "../../components/CustomChooser";
+import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
+import AppData from "../../../core/AppData";
+import HapticsHandler from "../../../core/HapticsHandler";
+import CoefficientHandler from "../../../core/CoefficientHandler";
+import { useGlobalAppContext } from "../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../util/AppStackContext";
 
 
 // Embedded mark page

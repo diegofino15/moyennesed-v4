@@ -5,16 +5,16 @@ import { PressableScale } from "react-native-pressable-scale";
 import useState from "react-usestateref";
 
 import RecentMarkCard from "./RecentMarkCard";
-import CustomAdLayer from "../../../../src/ui/components/CustomAdLayer";
-import CustomChooser from "../../../../src/ui/components/CustomChooser";
-import CustomEvolutionChart from "../../../../src/ui/components/CustomEvolutionChart";
-import CustomAnimatedIndicator from "../../../../src/ui/components/CustomAnimatedIndicator";
-import CustomAnimatedChangeableItem from "../../../../src/ui/components/CustomAnimatedChangeableItem";
-import HapticsHandler from "../../../../src/core/HapticsHandler";
-import AdsHandler from "../../../../src/core/AdsHandler";
-import { formatAverage } from "../../../../src/util/Utils";
-import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
-import { useAppStackContext } from "../../../../src/util/AppStackContext";
+import CustomAdLayer from "../../../components/CustomAdLayer";
+import CustomChooser from "../../../components/CustomChooser";
+import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
+import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
+import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
+import HapticsHandler from "../../../../core/HapticsHandler";
+import AdsHandler from "../../../../core/AdsHandler";
+import { formatAverage } from "../../../../util/Utils";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Marks overview

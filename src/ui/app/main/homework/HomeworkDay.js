@@ -7,10 +7,10 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 
 import HomeworkCard from "./HomeworkCard";
-import AppData from "../../../../src/core/AppData";
-import { formatDate2, wait } from "../../../../src/util/Utils";
-import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
-import { useAppStackContext } from "../../../../src/util/AppStackContext";
+import AppData from "../../../../core/AppData";
+import { formatDate2, wait } from "../../../../util/Utils";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Homework day

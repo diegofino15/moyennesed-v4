@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Platform } from "react-native";
 
-import AppData from "../../../src/core/AppData";
-import CustomChangingText from "../../../src/ui/components/CustomChangingText";
-import { useGlobalAppContext } from "../../../src/util/GlobalAppContext";
+import AppData from "../../../core/AppData";
+import CustomChangingText from "../../components/CustomChangingText";
+import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 
 
 // Welcome message

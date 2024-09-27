@@ -3,12 +3,12 @@ import { View, Text, Dimensions, Platform } from "react-native";
 import { AlertTriangleIcon } from "lucide-react-native";
 import LottieView from "lottie-react-native";
 
-import CustomModal from "../../../../src/ui/components/CustomModal";
-import CustomInformationCard from "../../../../src/ui/components/CustomInformationCard";
-import { formatDate } from "../../../../src/util/Utils";
-import AppData from "../../../../src/core/AppData";
-import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
-import { useAppStackContext } from "../../../../src/util/AppStackContext";
+import CustomModal from "../../../components/CustomModal";
+import CustomInformationCard from "../../../components/CustomInformationCard";
+import { formatDate } from "../../../../util/Utils";
+import AppData from "../../../../core/AppData";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Information page

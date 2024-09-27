@@ -6,11 +6,11 @@ import LottieView from "lottie-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import firestore from '@react-native-firebase/firestore';
 
-import CustomModal from "../../../../ui/components/CustomModal";
-import CustomSection from "../../../../ui/components/CustomSection";
-import CustomAnimatedChangeableItem from "../../../../ui/components/CustomAnimatedChangeableItem";
-import CustomTextArea from "../../../../ui/components/CustomTextArea";
-import CustomButton from "../../../../ui/components/CustomButton";
+import CustomModal from "../../../components/CustomModal";
+import CustomSection from "../../../components/CustomSection";
+import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
+import CustomTextArea from "../../../components/CustomTextArea";
+import CustomButton from "../../../components/CustomButton";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { hashString } from "../../../../util/Utils";
 import AdsHandler from "../../../../core/AdsHandler";

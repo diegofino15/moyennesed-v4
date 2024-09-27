@@ -4,18 +4,18 @@ import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, ChevronLef
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CustomModal from "../../../../src/ui/components/CustomModal";
-import CustomSection from "../../../../src/ui/components/CustomSection";
-import CustomChooser from "../../../../src/ui/components/CustomChooser";
-import CustomSeparator from "../../../../src/ui/components/CustomSeparator";
-import CustomFileAttachment from "../../../../src/ui/components/CustomFileAttachment";
-import CustomSimpleInformationCard from "../../../../src/ui/components/CustomSimpleInformationCard";
-import AppData from "../../../../src/core/AppData";
-import ColorsHandler from "../../../../src/core/ColorsHandler";
-import HapticsHandler from "../../../../src/core/HapticsHandler";
-import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
-import { useAppStackContext } from "../../../../src/util/AppStackContext";
-import { asyncExpectedResult, formatDate, formatDate2 } from "../../../../src/util/Utils";
+import CustomModal from "../../../components/CustomModal";
+import CustomSection from "../../../components/CustomSection";
+import CustomChooser from "../../../components/CustomChooser";
+import CustomSeparator from "../../../components/CustomSeparator";
+import CustomFileAttachment from "../../../components/CustomFileAttachment";
+import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
+import AppData from "../../../../core/AppData";
+import ColorsHandler from "../../../../core/ColorsHandler";
+import HapticsHandler from "../../../../core/HapticsHandler";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
+import { asyncExpectedResult, formatDate, formatDate2 } from "../../../../util/Utils";
 
 
 // homework page

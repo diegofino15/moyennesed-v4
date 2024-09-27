@@ -4,9 +4,9 @@ import { View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import HomeworkDay from "./HomeworkDay";
-import CustomModal from "../../../../src/ui/components/CustomModal";
-import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
-import { useAppStackContext } from "../../../../src/util/AppStackContext";
+import CustomModal from "../../../components/CustomModal";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Exam page

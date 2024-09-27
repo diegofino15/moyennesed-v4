@@ -7,20 +7,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import MarkCard from "./MarkCard";
 import SubjectColorPicker from "./SubjectColorPicker";
-import CustomModal from "../../../../src/ui/components/CustomModal";
-import CustomSection from "../../../../src/ui/components/CustomSection";
-import CustomChooser from "../../../../src/ui/components/CustomChooser";
-import CustomEvolutionChart from "../../../../src/ui/components/CustomEvolutionChart";
-import CustomCoefficientPicker from "../../../../src/ui/components/CustomCoefficientPicker";
-import CustomAnimatedIndicator from "../../../../src/ui/components/CustomAnimatedIndicator";
-import CustomSimpleInformationCard from "../../../../src/ui/components/CustomSimpleInformationCard";
-import { asyncExpectedResult, formatAverage } from "../../../../src/util/Utils";
-import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
-import { useAppStackContext } from "../../../../src/util/AppStackContext";
-import CoefficientHandler from "../../../../src/core/CoefficientHandler";
-import HapticsHandler from "../../../../src/core/HapticsHandler";
-import ColorsHandler from "../../../../src/core/ColorsHandler";
-import AppData from "../../../../src/core/AppData";
+import CustomModal from "../../../components/CustomModal";
+import CustomSection from "../../../components/CustomSection";
+import CustomChooser from "../../../components/CustomChooser";
+import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
+import CustomCoefficientPicker from "../../../components/CustomCoefficientPicker";
+import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
+import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
+import { asyncExpectedResult, formatAverage } from "../../../../util/Utils";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
+import CoefficientHandler from "../../../../core/CoefficientHandler";
+import HapticsHandler from "../../../../core/HapticsHandler";
+import ColorsHandler from "../../../../core/ColorsHandler";
+import AppData from "../../../../core/AppData";
 
 
 // Subject page

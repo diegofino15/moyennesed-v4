@@ -4,17 +4,17 @@ import { PressableScale } from "react-native-pressable-scale";
 import { CalendarIcon, EllipsisIcon, LandPlotIcon, MegaphoneIcon, MegaphoneOffIcon, MessageSquareIcon, MinusIcon, PenToolIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CustomModal from "../../../../src/ui/components/CustomModal";
-import CustomSection from "../../../../src/ui/components/CustomSection";
-import CustomChooser from "../../../../src/ui/components/CustomChooser";
-import CustomCoefficientPicker from "../../../../src/ui/components/CustomCoefficientPicker";
-import CustomSimpleInformationCard from "../../../../src/ui/components/CustomSimpleInformationCard";
-import { asyncExpectedResult, formatAverage, formatDate2, formatMark } from "../../../../src/util/Utils";
-import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
-import { useAppStackContext } from "../../../../src/util/AppStackContext";
-import CoefficientHandler from "../../../../src/core/CoefficientHandler";
-import ColorsHandler from "../../../../src/core/ColorsHandler";
-import AppData from "../../../../src/core/AppData";
+import CustomModal from "../../../components/CustomModal";
+import CustomSection from "../../../components/CustomSection";
+import CustomChooser from "../../../components/CustomChooser";
+import CustomCoefficientPicker from "../../../components/CustomCoefficientPicker";
+import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
+import { asyncExpectedResult, formatAverage, formatDate2, formatMark } from "../../../../util/Utils";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
+import CoefficientHandler from "../../../../core/CoefficientHandler";
+import ColorsHandler from "../../../../core/ColorsHandler";
+import AppData from "../../../../core/AppData";
 
 
 // Mark page

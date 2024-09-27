@@ -1,8 +1,8 @@
 import { View, Text } from "react-native";
 import { ChevronRightIcon } from "lucide-react-native";
 
-import CustomConfirmModal from "../../../../../ui/components/CustomConfirmModal";
-import CustomButton from "../../../../../ui/components/CustomButton";
+import CustomConfirmModal from "../../../../components/CustomConfirmModal";
+import CustomButton from "../../../../components/CustomButton";
 import { useGlobalAppContext } from "../../../../../util/GlobalAppContext";
 
 

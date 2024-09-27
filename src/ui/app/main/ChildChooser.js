@@ -1,10 +1,10 @@
 import { View, Text, FlatList } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 
-import CustomSeparator from "../../../src/ui/components/CustomSeparator";
-import HapticsHandler from "../../../src/core/HapticsHandler";
-import AppData from "../../../src/core/AppData";
-import { useGlobalAppContext } from "../../../src/util/GlobalAppContext";
+import CustomSeparator from "../../components/CustomSeparator";
+import HapticsHandler from "../../../core/HapticsHandler";
+import AppData from "../../../core/AppData";
+import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 
 
 // Child chooser

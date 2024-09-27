@@ -3,12 +3,12 @@ import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { CheckIcon, CircleIcon } from "lucide-react-native";
 
-import AppData from "../../../../src/core/AppData";
-import ColorsHandler from "../../../../src/core/ColorsHandler";
-import HapticsHandler from "../../../../src/core/HapticsHandler";
-import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
-import { useAppStackContext } from "../../../../src/util/AppStackContext";
-import { asyncExpectedResult } from "../../../../src/util/Utils";
+import AppData from "../../../../core/AppData";
+import ColorsHandler from "../../../../core/ColorsHandler";
+import HapticsHandler from "../../../../core/HapticsHandler";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
+import { asyncExpectedResult } from "../../../../util/Utils";
 
 
 // Homework card

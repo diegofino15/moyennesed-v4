@@ -4,11 +4,11 @@ import { PressableScale } from "react-native-pressable-scale";
 import { TrashIcon } from "lucide-react-native";
 import ColorPicker, { Preview, Panel1, HueSlider } from "reanimated-color-picker";
 
-import CustomConfirmModal from "../../../../src/ui/components/CustomConfirmModal";
-import ColorsHandler from "../../../../src/core/ColorsHandler";
-import HapticsHandler from "../../../../src/core/HapticsHandler";
-import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
-import { useAppStackContext } from "../../../../src/util/AppStackContext";
+import CustomConfirmModal from "../../../components/CustomConfirmModal";
+import ColorsHandler from "../../../../core/ColorsHandler";
+import HapticsHandler from "../../../../core/HapticsHandler";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
 
 // Subject color picker
 function SubjectColorPicker({

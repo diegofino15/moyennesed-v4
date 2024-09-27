@@ -3,11 +3,11 @@ import { View, Text } from "react-native";
 import { CheckCircleIcon, ChevronRightIcon, SquareMousePointerIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CustomConfirmModal from "../../../../../ui/components/CustomConfirmModal";
-import CustomInformationCard from "../../../../../ui/components/CustomInformationCard";
-import CustomProfilePhoto from "../../../../../ui/components/CustomProfilePhoto";
-import CustomSectionButton from "../../../../../ui/components/CustomSectionButton";
-import CustomSeparator from '../../../../../ui/components/CustomSeparator';
+import CustomConfirmModal from "../../../../components/CustomConfirmModal";
+import CustomInformationCard from "../../../../components/CustomInformationCard";
+import CustomProfilePhoto from "../../../../components/CustomProfilePhoto";
+import CustomSectionButton from "../../../../components/CustomSectionButton";
+import CustomSeparator from '../../../../components/CustomSeparator';
 import { useGlobalAppContext } from '../../../../../util/GlobalAppContext';
 
 
