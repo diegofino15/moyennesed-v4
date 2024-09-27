@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
 
-import AuthStack from "../../ui/AuthStack/AuthStack";
+import AuthStack from "./auth/AuthStack";
 import AppStack from "./app/AppStack";
 import DoubleAuthPopup from "./components/DoubleAuthPopup";
 import { Themes, initFontsAndThemes } from "../util/Styles";

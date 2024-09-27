@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Text, View, ActivityIndicator } from "react-native";
-
 import { CheckIcon, CircleIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";

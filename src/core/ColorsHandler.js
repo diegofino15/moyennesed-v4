@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 // This class decides the color of each subject, that can be
 // changed in the settings
 class ColorsHandler {
