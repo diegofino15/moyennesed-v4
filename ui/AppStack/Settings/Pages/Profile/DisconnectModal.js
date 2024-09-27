@@ -1,9 +1,9 @@
 import { View, Text } from "react-native";
 import { ChevronRightIcon } from "lucide-react-native";
 
-import CustomConfirmModal from "../../../../src/ui/components/CustomConfirmModal";
-import CustomButton from "../../../../src/ui/components/CustomButton";
-import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
+import CustomConfirmModal from "../../../../../src/ui/components/CustomConfirmModal";
+import CustomButton from "../../../../../src/ui/components/CustomButton";
+import { useGlobalAppContext } from "../../../../../src/util/GlobalAppContext";
 
 
 // Disconnect modal

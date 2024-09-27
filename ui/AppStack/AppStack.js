@@ -12,7 +12,7 @@ import ExamPage from './Main/Homework/ExamPage';
 import HomeworkInformationPage from './Main/Homework/HomeworkInformationPage';
 
 import SettingsPage from './Settings/SettingsPage';
-import ProfilePage from './Settings/Profile/ProfilePage';
+import ProfilePage from './Settings/Pages/Profile/ProfilePage';
 import CoefficientsPage from './Settings/Pages/CoefficientsPage';
 import AdvancedSettingsPage from './Settings/Pages/AdvancedSettingsPage';
 import AdsInformationPage from './Settings/Pages/AdsInformationPage';
