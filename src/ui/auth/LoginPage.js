@@ -2,14 +2,14 @@ import { useState, useRef } from "react";
 import { View, Text, ActivityIndicator, Dimensions, Platform } from "react-native";
 import { AlertTriangleIcon, CircleUserRoundIcon, HelpCircleIcon, KeySquareIcon } from "lucide-react-native";
 
-import CustomModal from "../../src/ui/components/CustomModal";
-import CustomTextInput from "../../src/ui/components/CustomTextInput";
-import CustomButton from "../../src/ui/components/CustomButton";
-import CustomInformationCard from "../../src/ui/components/CustomInformationCard";
-import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
-import { openLink } from "../../src/util/Utils";
-import AppData from "../../src/core/AppData";
-import HapticsHandler from "../../src/core/HapticsHandler";
+import CustomModal from "../components/CustomModal";
+import CustomTextInput from "../components/CustomTextInput";
+import CustomButton from "../components/CustomButton";
+import CustomInformationCard from "../components/CustomInformationCard";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import { openLink } from "../../util/Utils";
+import AppData from "../../core/AppData";
+import HapticsHandler from "../../core/HapticsHandler";
 import CustomDynamicLoginChooser from "./CustomDynamicLoginChooser";
 
 
