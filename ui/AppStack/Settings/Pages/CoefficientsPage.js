@@ -10,8 +10,8 @@ import CustomInformationCard from "../../../components/CustomInformationCard";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import CoefficientHandler from "../../../../core/CoefficientHandler";
 import AppData from "../../../../core/AppData";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { useAppStackContext } from "../../../../util/AppStackContext";
+import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
+import { useAppStackContext } from "../../../../src/util/AppStackContext";
 
 
 // Settings page

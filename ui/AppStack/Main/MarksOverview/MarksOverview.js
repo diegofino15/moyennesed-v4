@@ -12,9 +12,9 @@ import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator
 import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import AdsHandler from "../../../../core/AdsHandler";
-import { formatAverage } from "../../../../util/Utils";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { useAppStackContext } from "../../../../util/AppStackContext";
+import { formatAverage } from "../../../../src/util/Utils";
+import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
+import { useAppStackContext } from "../../../../src/util/AppStackContext";
 
 
 // Marks overview

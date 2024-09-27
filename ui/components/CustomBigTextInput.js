@@ -1,6 +1,6 @@
 import { View, Text, TextInput } from "react-native";
 
-import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 
 
 // Custom big text input

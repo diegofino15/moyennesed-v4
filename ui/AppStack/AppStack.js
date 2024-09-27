@@ -19,7 +19,7 @@ import AdsInformationPage from './Settings/Pages/AdsInformationPage';
 import BugReportPage from './Settings/Pages/BugReportPage';
 
 import AppData from '../../core/AppData';
-import { AppStackContextProvider } from '../../util/AppStackContext';
+import { AppStackContextProvider } from '../../src/util/AppStackContext';
 
 
 // Create stack for navigation

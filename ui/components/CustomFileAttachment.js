@@ -8,7 +8,7 @@ import * as RNFS from "react-native-fs";
 import CustomChooser from "./CustomChooser";
 import CustomSimpleInformationCard from "./CustomSimpleInformationCard";
 import AppData from "../../core/AppData";
-import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 
 
 // File attachment

@@ -4,7 +4,7 @@ import { MoreHorizontalIcon, XIcon, RefreshCcwIcon, UserCheckIcon } from "lucide
 import { useEffect, useState } from "react";
 
 import HapticsHandler from "../../core/HapticsHandler";
-import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 
 
 // Login status

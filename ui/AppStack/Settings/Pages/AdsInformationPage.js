@@ -11,8 +11,8 @@ import CustomSection from "../../../components/CustomSection";
 import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
 import CustomTextArea from "../../../components/CustomTextArea";
 import CustomButton from "../../../components/CustomButton";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { hashString } from "../../../../util/Utils";
+import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
+import { hashString } from "../../../../src/util/Utils";
 import AdsHandler from "../../../../core/AdsHandler";
 
 

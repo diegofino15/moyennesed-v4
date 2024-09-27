@@ -4,8 +4,8 @@ import { PressableScale } from "react-native-pressable-scale";
 
 import CustomTag from "../../../components/CustomTag";
 import ColorsHandler from "../../../../core/ColorsHandler";
-import { formatDate3, formatMark } from "../../../../util/Utils";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { formatDate3, formatMark } from "../../../../src/util/Utils";
+import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 
 
 // Mark card

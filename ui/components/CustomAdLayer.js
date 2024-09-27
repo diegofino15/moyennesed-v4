@@ -8,7 +8,7 @@ import { BlurView } from "expo-blur";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import AdsHandler from "../../core/AdsHandler";
-import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 
 
 // Places an ad on top of a component

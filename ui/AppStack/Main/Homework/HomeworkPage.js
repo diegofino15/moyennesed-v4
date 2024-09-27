@@ -13,9 +13,9 @@ import CustomSimpleInformationCard from "../../../components/CustomSimpleInforma
 import AppData from "../../../../core/AppData";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { useAppStackContext } from "../../../../util/AppStackContext";
-import { asyncExpectedResult, formatDate, formatDate2 } from "../../../../util/Utils";
+import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
+import { useAppStackContext } from "../../../../src/util/AppStackContext";
+import { asyncExpectedResult, formatDate, formatDate2 } from "../../../../src/util/Utils";
 
 
 // homework page

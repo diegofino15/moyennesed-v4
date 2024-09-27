@@ -4,8 +4,8 @@ import { ChevronDownIcon } from "lucide-react-native";
 import * as DropdownMenu from 'zeego/dropdown-menu'
 import firestore from '@react-native-firebase/firestore';
 
-import { useGlobalAppContext } from "../../util/GlobalAppContext";
-import { capitalizeWords } from "../../util/Utils";
+import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
+import { capitalizeWords } from "../../src/util/Utils";
 
 
 // Chooser used to test bug reports directly in the app

@@ -5,10 +5,10 @@ import LottieView from "lottie-react-native";
 
 import CustomModal from "../../../components/CustomModal";
 import CustomInformationCard from "../../../components/CustomInformationCard";
-import { formatDate } from "../../../../util/Utils";
+import { formatDate } from "../../../../src/util/Utils";
 import AppData from "../../../../core/AppData";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { useAppStackContext } from "../../../../util/AppStackContext";
+import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
+import { useAppStackContext } from "../../../../src/util/AppStackContext";
 
 
 // Information page

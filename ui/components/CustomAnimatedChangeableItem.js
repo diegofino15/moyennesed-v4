@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Animated } from "react-native";
-import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 
 
 // Custom changing item

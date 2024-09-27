@@ -8,7 +8,7 @@ import CustomInformationCard from "../../../components/CustomInformationCard";
 import CustomProfilePhoto from "../../../components/CustomProfilePhoto";
 import CustomSectionButton from "../../../components/CustomSectionButton";
 import CustomSeparator from '../../../components/CustomSeparator';
-import { useGlobalAppContext } from '../../../../util/GlobalAppContext';
+import { useGlobalAppContext } from '../../../../src/util/GlobalAppContext';
 
 
 // Switch accounts modal

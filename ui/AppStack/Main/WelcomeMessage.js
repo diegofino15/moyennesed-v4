@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 
 import AppData from "../../../core/AppData";
 import CustomChangingText from "../../components/CustomChangingText";
-import { useGlobalAppContext } from "../../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../../src/util/GlobalAppContext";
 
 
 // Welcome message

@@ -3,7 +3,7 @@ import { ChevronRightIcon } from "lucide-react-native";
 
 import CustomConfirmModal from "../../../components/CustomConfirmModal";
 import CustomButton from "../../../components/CustomButton";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 
 
 // Disconnect modal

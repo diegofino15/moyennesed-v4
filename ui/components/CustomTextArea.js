@@ -1,6 +1,6 @@
 import { View } from "react-native";
 
-import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 
 
 // Custom text area

@@ -2,8 +2,8 @@ import { Text, View } from "react-native";
 import { Users2Icon } from "lucide-react-native";
 import LineChart from 'react-native-simple-line-chart';
 
-import { formatAverage, formatDate3 } from "../../util/Utils";
-import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import { formatAverage, formatDate3 } from "../../src/util/Utils";
+import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 
 
 // Custom evolution chart

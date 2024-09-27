@@ -4,10 +4,10 @@ import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 
 import ColorsHandler from "../../../../core/ColorsHandler";
-import { formatDate2 } from "../../../../util/Utils";
+import { formatDate2 } from "../../../../src/util/Utils";
 import CustomChangingText from "../../../components/CustomChangingText";
 import CustomTag from "../../../components/CustomTag";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 
 
 // Date text

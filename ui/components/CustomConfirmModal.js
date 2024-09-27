@@ -7,7 +7,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import { XIcon } from "lucide-react-native";
 
 import CustomSection from "./CustomSection";
-import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 
 
 // Animated card

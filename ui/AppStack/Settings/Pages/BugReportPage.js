@@ -12,7 +12,7 @@ import CustomButton from "../../../components/CustomButton";
 import CustomChooser from "../../../components/CustomChooser";
 import CustomBigTextInput from "../../../components/CustomBigTextInput";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 
 
 // Ad information page

@@ -4,9 +4,9 @@ import { PressableScale } from "react-native-pressable-scale";
 
 import SubjectCard from "./SubjectCard";
 import AppData from "../../../../core/AppData";
-import { formatAverage } from "../../../../util/Utils";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { useAppStackContext } from "../../../../util/AppStackContext";
+import { formatAverage } from "../../../../src/util/Utils";
+import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
+import { useAppStackContext } from "../../../../src/util/AppStackContext";
 
 
 // Subjects overview

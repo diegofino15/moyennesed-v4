@@ -4,7 +4,7 @@ import { PencilRulerIcon, TrashIcon, Wand2Icon, WeightIcon, WrenchIcon, XIcon } 
 
 import CustomTag from "./CustomTag";
 import CustomSimpleInformationCard from "./CustomSimpleInformationCard";
-import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 
 
 // Custom coefficient picker

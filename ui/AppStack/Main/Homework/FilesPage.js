@@ -4,7 +4,7 @@ import RNFS from "react-native-fs";
 
 import CustomModal from "../../../components/CustomModal";
 import CustomFileAttachment from '../../../components/CustomFileAttachment';
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 
 
 // Page that shows all the downloaded files from the homework

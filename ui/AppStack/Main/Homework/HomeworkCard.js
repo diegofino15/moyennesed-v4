@@ -6,9 +6,9 @@ import { CheckIcon, CircleIcon } from "lucide-react-native";
 import AppData from "../../../../core/AppData";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { useAppStackContext } from "../../../../util/AppStackContext";
-import { asyncExpectedResult } from "../../../../util/Utils";
+import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
+import { useAppStackContext } from "../../../../src/util/AppStackContext";
+import { asyncExpectedResult } from "../../../../src/util/Utils";
 
 
 // Homework card

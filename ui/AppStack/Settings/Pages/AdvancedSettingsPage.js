@@ -11,9 +11,9 @@ import CustomSection from "../../../components/CustomSection";
 import CustomTextArea from "../../../components/CustomTextArea";
 import CustomSeparator from "../../../components/CustomSeparator";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { useAppStackContext } from "../../../../util/AppStackContext";
-import { Themes } from "../../../../util/Styles";
+import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
+import { useAppStackContext } from "../../../../src/util/AppStackContext";
+import { Themes } from "../../../../src/util/Styles";
 import AppData from "../../../../core/AppData";
 import HapticsHandler from "../../../../core/HapticsHandler";
 

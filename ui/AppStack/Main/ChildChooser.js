@@ -4,7 +4,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import CustomSeparator from "../../components/CustomSeparator";
 import HapticsHandler from "../../../core/HapticsHandler";
 import AppData from "../../../core/AppData";
-import { useGlobalAppContext } from "../../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../../src/util/GlobalAppContext";
 
 
 // Child chooser

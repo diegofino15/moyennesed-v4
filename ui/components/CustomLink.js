@@ -2,8 +2,8 @@ import { Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { LinkIcon, ArrowBigRightDashIcon } from "lucide-react-native";
 
-import { openLink } from "../../util/Utils";
-import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import { openLink } from "../../src/util/Utils";
+import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 
 
 // Custom link

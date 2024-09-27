@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { normalizeString } from "../util/Utils";
+import { normalizeString } from "../src/util/Utils";
 
 
 /* This class contains all the logic needed to find the

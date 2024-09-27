@@ -15,8 +15,8 @@ import CustomSimpleInformationCard from "../../components/CustomSimpleInformatio
 import AppData from "../../../core/AppData";
 import HapticsHandler from "../../../core/HapticsHandler";
 import CoefficientHandler from "../../../core/CoefficientHandler";
-import { useGlobalAppContext } from "../../../util/GlobalAppContext";
-import { useAppStackContext } from "../../../util/AppStackContext";
+import { useGlobalAppContext } from "../../../src/util/GlobalAppContext";
+import { useAppStackContext } from "../../../src/util/AppStackContext";
 
 
 // Embedded mark page

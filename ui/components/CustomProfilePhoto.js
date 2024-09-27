@@ -5,7 +5,7 @@ import { UserRoundIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import AppData from "../../core/AppData";
-import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 
 
 // Custom profile photo

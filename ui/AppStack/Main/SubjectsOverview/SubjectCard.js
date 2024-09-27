@@ -3,9 +3,9 @@ import { AlertOctagonIcon, CornerDownRightIcon, MegaphoneOffIcon } from "lucide-
 import { PressableScale } from "react-native-pressable-scale";
 
 import CustomTag from "../../../components/CustomTag";
-import { formatAverage, formatMark } from "../../../../util/Utils";
+import { formatAverage, formatMark } from "../../../../src/util/Utils";
 import ColorsHandler from "../../../../core/ColorsHandler";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 
 
 // Embedded subject card

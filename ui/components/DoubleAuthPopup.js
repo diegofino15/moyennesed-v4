@@ -9,10 +9,10 @@ import axios from "axios";
 import CustomModal from "./CustomModal";
 import CustomButton from "./CustomButton";
 import CustomSeparator from "./CustomSeparator";
-import { parseHtmlData } from "../../util/Utils";
+import { parseHtmlData } from "../../src/util/Utils";
 import AppData from "../../core/AppData";
 import HapticsHandler from "../../core/HapticsHandler";
-import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 
 
 // Double auth popup
