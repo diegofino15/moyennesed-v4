@@ -3,7 +3,7 @@ import useState from "react-usestateref";
 import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 
-import CustomTag from "../../../../ui/components/CustomTag";
+import CustomTag from "../../../components/CustomTag";
 import CustomChangingText from "../../../components/CustomChangingText";
 import { formatDate2 } from "../../../../util/Utils";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";

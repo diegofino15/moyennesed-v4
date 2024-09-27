@@ -3,7 +3,7 @@ import { Dimensions, Platform, Text, View } from "react-native";
 import RNFS from "react-native-fs";
 
 import CustomModal from "../../../components/CustomModal";
-import CustomFileAttachment from '../../../../ui/components/CustomFileAttachment';
+import CustomFileAttachment from '../../../components/CustomFileAttachment';
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 
 
