@@ -41,7 +41,7 @@ function MarksInformationPage({ navigation, route }) {
           }}>
             <LottieView
               autoPlay
-              source={require('../../../../assets/lottie/about-marks.json')}
+              source={require('../../../../../assets/lottie/about-marks.json')}
               style={{
                 width: '90%',
                 height: windowWidth * 0.9,

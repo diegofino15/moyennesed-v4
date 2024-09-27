@@ -156,7 +156,7 @@ function BugReportPage({ navigation }) {
             <LottieView
               autoPlay
               loop
-              source={require('../../../../assets/lottie/bug-report.json')}
+              source={require('../../../../../assets/lottie/bug-report.json')}
               style={{
                 width: '70%',
                 height: windowWidth * 0.7,

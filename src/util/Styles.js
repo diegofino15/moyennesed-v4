@@ -56,16 +56,16 @@ class Themes {
 
 // Load all fonts used in the app
 const useFonts = async () => await loadAsync({
-  'Text-Regular': require('../assets/fonts/Poppins-Regular.ttf'),
-  'Text-Medium': require('../assets/fonts/Poppins-Medium.ttf'),
-  'Text-Bold': require('../assets/fonts/Poppins-Bold.ttf'),
-  'Text-Italic': require('../assets/fonts/Poppins-MediumItalic.ttf'),
+  'Text-Regular': require('../../assets/fonts/Poppins-Regular.ttf'),
+  'Text-Medium': require('../../assets/fonts/Poppins-Medium.ttf'),
+  'Text-Bold': require('../../assets/fonts/Poppins-Bold.ttf'),
+  'Text-Italic': require('../../assets/fonts/Poppins-MediumItalic.ttf'),
   
-  'MainTitle': require('../assets/fonts/Playball-Regular.ttf'),
+  'MainTitle': require('../../assets/fonts/Playball-Regular.ttf'),
 
-  'Numbers-Regular': require('../assets/fonts/Rubik-Regular.ttf'),
-  'Numbers-Medium': require('../assets/fonts/Rubik-Medium.ttf'),
-  'Numbers-Bold': require('../assets/fonts/Rubik-Bold.ttf'),
+  'Numbers-Regular': require('../../assets/fonts/Rubik-Regular.ttf'),
+  'Numbers-Medium': require('../../assets/fonts/Rubik-Medium.ttf'),
+  'Numbers-Bold': require('../../assets/fonts/Rubik-Bold.ttf'),
 });
 
 // Set all fonts in app

@@ -100,7 +100,7 @@ function AdsInformationPage({ navigation }) {
             <LottieView
               autoPlay
               loop={false}
-              source={require('../../../../assets/lottie/about-ads.json')}
+              source={require('../../../../../assets/lottie/about-ads.json')}
               style={{
                 width: '70%',
                 height: windowWidth * 0.7,

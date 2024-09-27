@@ -41,7 +41,7 @@ function HomeworkInformationPage({ navigation, route }) {
           }}>
             <LottieView
               autoPlay
-              source={require('../../../../assets/lottie/about-homework.json')}
+              source={require('../../../../../assets/lottie/about-homework.json')}
               style={{
                 width: '90%',
                 height: windowWidth * 0.9,
