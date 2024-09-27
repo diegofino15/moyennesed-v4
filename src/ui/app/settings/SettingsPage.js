@@ -19,14 +19,9 @@ import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation, route }) {
   const { theme } = useGlobalAppContext();
   
-  const { openCoefficientsPage } = route.params;
-  
   // Currently selected account
   const [currentAccount, setCurrentAccount] = useState({});
   useEffect(() => { AppData.getMainAccount().then(account => { setCurrentAccount(account); }); }, []);
-
-  // Auto-open coefficients page
-  useEffect(() => { if (openCoefficientsPage && currentAccount.id) { navigation.navigate('CoefficientsPage', { currentAccount, presentation: 'modal' }); } }, [currentAccount]);
 
   const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
 
@@ -57,7 +52,7 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation, rou
           <CustomSimpleSectionButton
             title={"Paramètres des coefficients"}
             icon={<WeightIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
-            onPress={() => navigation.navigate('CoefficientsPage', { currentAccount, presentation: 'modal' })}
+            onPress={() => navigation.navigate('CoefficientsPage', { presentation: 'modal' })}
             style={{ marginBottom: 10 }}
           />
 

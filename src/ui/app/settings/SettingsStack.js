@@ -23,9 +23,6 @@ function SettingsStack({ refreshLogin, isConnected, isConnecting, route }) {
           presentation: 'modal',
           headerShown: false,
         }}
-        initialParams={{
-          openCoefficientsPage,
-        }}
       >
         {(props) => <SettingsPage
           {...props}
@@ -52,9 +49,6 @@ function SettingsStack({ refreshLogin, isConnected, isConnecting, route }) {
         options={{
           headerShown: false,
           animation: 'slide_from_right',
-        }}
-        initialParams={{
-          currentAccount: null,
         }}
       />
 

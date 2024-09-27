@@ -15,12 +15,13 @@ import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Settings page
-function CoefficientsPage({ navigation, route }) {
+function CoefficientsPage({ navigation }) {
   const { theme } = useGlobalAppContext();
   const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
   
   // Currently selected account
-  const { currentAccount } = route.params;
+  const [currentAccount, setCurrentAccount] = useState({});
+  useEffect(() => { AppData.getMainAccount().then(account => { setCurrentAccount(account); }); }, []);
 
   // Update screen
   const [forceUpdate, setForceUpdate] = useState(false);
@@ -42,7 +43,7 @@ function CoefficientsPage({ navigation, route }) {
             style={{ borderColor: theme.colors.primary, marginTop: 20 }}
           />
 
-          {(currentAccount.accountType == "E" ? [currentAccount] : Object.values(currentAccount.children)).map(account => (
+          {(currentAccount.accountType == "E" ? [currentAccount] : Object.values(currentAccount.children ?? [])).map(account => (
             <View key={account.id}>
               <CustomSection
                 title={`${account.firstName} ${account.lastName}`}

@@ -11,6 +11,7 @@ import ExamPage from './homework/ExamPage';
 import HomeworkInformationPage from './homework/HomeworkInformationPage';
 
 import AdsInformationPage from '../settings/pages/AdsInformationPage';
+import CoefficientsPage from '../settings/pages/CoefficientsPage';
 
 
 // Create stack for navigation
@@ -180,6 +181,20 @@ function SubjectStack({ route }) {
           animation: 'slide_from_right',
         }}
         initialParams={{ accountID, cacheMark }}
+      />
+
+      {/* Coefficients page */}
+      <Stack.Screen
+        name="CoefficientsPage"
+        component={CoefficientsPage}
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
+        initialParams={{
+          currentAccount: null,
+        }}
       />
     </Stack.Navigator>
   );
