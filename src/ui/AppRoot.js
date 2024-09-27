@@ -6,17 +6,17 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
 
-import AuthStack from "./AuthStack/AuthStack";
-import AppStack from "./AppStack/AppStack";
+import AuthStack from "../../ui/AuthStack/AuthStack";
+import AppStack from "../../ui/AppStack/AppStack";
 import DoubleAuthPopup from "./components/DoubleAuthPopup";
-import { Themes, initFontsAndThemes } from "../src/util/Styles";
-import { GlobalAppContextProvider, useGlobalAppContext } from "../src/util/GlobalAppContext";
-import { initFirebaseAppCheck } from "../src/util/firebase/firebaseAppCheck";
-import { setupNotifications } from "../src/util/firebase/firebaseCloudMessaging";
-import AdsHandler from "../src/core/AdsHandler";
-import ColorsHandler from "../src/core/ColorsHandler";
-import CoefficientHandler from "../src/core/CoefficientHandler";
-import AppData from "../src/core/AppData";
+import { Themes, initFontsAndThemes } from "../util/Styles";
+import { GlobalAppContextProvider, useGlobalAppContext } from "../util/GlobalAppContext";
+import { initFirebaseAppCheck } from "../util/firebase/firebaseAppCheck";
+import { setupNotifications } from "../util/firebase/firebaseCloudMessaging";
+import AdsHandler from "../core/AdsHandler";
+import ColorsHandler from "../core/ColorsHandler";
+import CoefficientHandler from "../core/CoefficientHandler";
+import AppData from "../core/AppData";
 
 
 // App Root

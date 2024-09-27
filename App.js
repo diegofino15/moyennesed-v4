@@ -2,7 +2,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 
-import AppRoot from "./ui/AppRoot";
+import AppRoot from "./src/ui/AppRoot";
 
 
 // Keep SplashScreen

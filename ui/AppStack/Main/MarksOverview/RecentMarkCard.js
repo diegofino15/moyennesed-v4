@@ -5,8 +5,8 @@ import { PressableScale } from "react-native-pressable-scale";
 
 import ColorsHandler from "../../../../src/core/ColorsHandler";
 import { formatDate2 } from "../../../../src/util/Utils";
-import CustomChangingText from "../../../components/CustomChangingText";
-import CustomTag from "../../../components/CustomTag";
+import CustomChangingText from "../../../../src/ui/components/CustomChangingText";
+import CustomTag from "../../../../src/ui/components/CustomTag";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 
 

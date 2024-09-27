@@ -3,10 +3,10 @@ import { View, Text } from "react-native";
 import { CheckCircleIcon, CircleIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CustomModal from "../components/CustomModal";
-import CustomSectionButton from "../components/CustomSectionButton";
-import CustomProfilePhoto from "../components/CustomProfilePhoto";
-import CustomButton from "../components/CustomButton";
+import CustomModal from "../../src/ui/components/CustomModal";
+import CustomSectionButton from "../../src/ui/components/CustomSectionButton";
+import CustomProfilePhoto from "../../src/ui/components/CustomProfilePhoto";
+import CustomButton from "../../src/ui/components/CustomButton";
 import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
 import AppData from "../../src/core/AppData";
 import HapticsHandler from "../../src/core/HapticsHandler";

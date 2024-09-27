@@ -5,7 +5,7 @@ import { PressableScale } from 'react-native-pressable-scale';
 import { ScaleIcon } from 'lucide-react-native';
 import LottieView from 'lottie-react-native';
 
-import CustomButton from '../components/CustomButton';
+import CustomButton from '../../src/ui/components/CustomButton';
 import { openLink } from "../../src/util/Utils";
 import { useGlobalAppContext } from '../../src/util/GlobalAppContext';
 

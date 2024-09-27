@@ -4,8 +4,8 @@ import { PressableScale } from "react-native-pressable-scale";
 import { UserRoundIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import AppData from "../../src/core/AppData";
-import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
+import AppData from "../../core/AppData";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom profile photo

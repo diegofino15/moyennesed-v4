@@ -2,7 +2,7 @@ import { ArrowRightIcon } from "lucide-react-native";
 import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 
-import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom section button

@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { ArrowRightIcon, HelpCircleIcon, NotebookPenIcon } from "lucide-react-native";
 
-import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
+import CustomAnimatedChangeableItem from "../../../../src/ui/components/CustomAnimatedChangeableItem";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 
 

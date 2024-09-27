@@ -3,7 +3,7 @@ import { View, TextInput, Platform } from 'react-native';
 import { EyeIcon, EyeOffIcon } from 'lucide-react-native';
 import { PressableScale } from 'react-native-pressable-scale';
 
-import { useGlobalAppContext } from '../../src/util/GlobalAppContext';
+import { useGlobalAppContext } from '../../util/GlobalAppContext';
 
 
 // Custom text input

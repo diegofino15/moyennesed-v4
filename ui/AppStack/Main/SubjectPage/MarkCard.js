@@ -2,7 +2,7 @@ import { Platform, Text, View } from "react-native";
 import { ChevronRightIcon, Users2Icon, WrenchIcon, XIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 
-import CustomTag from "../../../components/CustomTag";
+import CustomTag from "../../../../src/ui/components/CustomTag";
 import ColorsHandler from "../../../../src/core/ColorsHandler";
 import { formatDate3, formatMark } from "../../../../src/util/Utils";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";

@@ -2,7 +2,7 @@ import { Dimensions, FlatList, Text, View } from "react-native";
 import { AlertOctagonIcon, CornerDownRightIcon, MegaphoneOffIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 
-import CustomTag from "../../../components/CustomTag";
+import CustomTag from "../../../../src/ui/components/CustomTag";
 import { formatAverage, formatMark } from "../../../../src/util/Utils";
 import ColorsHandler from "../../../../src/core/ColorsHandler";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";

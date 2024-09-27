@@ -5,12 +5,12 @@ import { ArrowBigRightDashIcon, LandPlotIcon, MoonIcon, SunIcon, TrashIcon } fro
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CustomLink from "../../../components/CustomLink";
-import CustomModal from "../../../components/CustomModal";
-import CustomSection from "../../../components/CustomSection";
-import CustomTextArea from "../../../components/CustomTextArea";
-import CustomSeparator from "../../../components/CustomSeparator";
-import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
+import CustomLink from "../../../../src/ui/components/CustomLink";
+import CustomModal from "../../../../src/ui/components/CustomModal";
+import CustomSection from "../../../../src/ui/components/CustomSection";
+import CustomTextArea from "../../../../src/ui/components/CustomTextArea";
+import CustomSeparator from "../../../../src/ui/components/CustomSeparator";
+import CustomSimpleInformationCard from "../../../../src/ui/components/CustomSimpleInformationCard";
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 import { useAppStackContext } from "../../../../src/util/AppStackContext";
 import { Themes } from "../../../../src/util/Styles";

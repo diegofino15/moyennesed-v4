@@ -5,7 +5,7 @@ import { ChevronLeftIcon } from "lucide-react-native";
 import { BlurView } from "expo-blur";
 import Constants from "expo-constants";
 
-import { useGlobalAppContext } from "../../src/util/GlobalAppContext";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom modal

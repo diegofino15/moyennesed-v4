@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Dimensions, Platform, Text, View } from "react-native";
 import RNFS from "react-native-fs";
 
-import CustomModal from "../../../components/CustomModal";
-import CustomFileAttachment from '../../../components/CustomFileAttachment';
+import CustomModal from "../../../../src/ui/components/CustomModal";
+import CustomFileAttachment from '../../../../src/ui/components/CustomFileAttachment';
 import { useGlobalAppContext } from "../../../../src/util/GlobalAppContext";
 
 
