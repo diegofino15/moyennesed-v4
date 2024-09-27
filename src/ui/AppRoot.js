@@ -7,7 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
 
 import AuthStack from "../../ui/AuthStack/AuthStack";
-import AppStack from "../../ui/AppStack/AppStack";
+import AppStack from "./app/AppStack";
 import DoubleAuthPopup from "./components/DoubleAuthPopup";
 import { Themes, initFontsAndThemes } from "../util/Styles";
 import { GlobalAppContextProvider, useGlobalAppContext } from "../util/GlobalAppContext";

@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'; 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MainPage from './Main/MainPage';
-import MarkPage from './Main/SubjectPage/MarkPage';
-import SubjectPage from './Main/SubjectPage/SubjectPage';
-import MarksInformationPage from './Main/MarksOverview/MarksInformationPage';
-import UpcomingHomeworkPage from './Main/Homework/UpcomingHomeworkPage';
-import HomeworkPage from './Main/Homework/HomeworkPage';
-import FilesPage from './Main/Homework/FilesPage';
-import ExamPage from './Main/Homework/ExamPage';
-import HomeworkInformationPage from './Main/Homework/HomeworkInformationPage';
+import MainPage from '../../../ui/AppStack/Main/MainPage';
+import MarkPage from '../../../ui/AppStack/Main/SubjectPage/MarkPage';
+import SubjectPage from '../../../ui/AppStack/Main/SubjectPage/SubjectPage';
+import MarksInformationPage from '../../../ui/AppStack/Main/MarksOverview/MarksInformationPage';
+import UpcomingHomeworkPage from '../../../ui/AppStack/Main/Homework/UpcomingHomeworkPage';
+import HomeworkPage from '../../../ui/AppStack/Main/Homework/HomeworkPage';
+import FilesPage from '../../../ui/AppStack/Main/Homework/FilesPage';
+import ExamPage from '../../../ui/AppStack/Main/Homework/ExamPage';
+import HomeworkInformationPage from '../../../ui/AppStack/Main/Homework/HomeworkInformationPage';
 
 import SettingsPage from './Settings/SettingsPage';
 import ProfilePage from './Settings/Pages/Profile/ProfilePage';
@@ -18,8 +18,8 @@ import AdvancedSettingsPage from './Settings/Pages/AdvancedSettingsPage';
 import AdsInformationPage from './Settings/Pages/AdsInformationPage';
 import BugReportPage from './Settings/Pages/BugReportPage';
 
-import AppData from '../../src/core/AppData';
-import { AppStackContextProvider } from '../../src/util/AppStackContext';
+import AppData from '../../core/AppData';
+import { AppStackContextProvider } from '../../util/AppStackContext';
 
 
 // Create stack for navigation
