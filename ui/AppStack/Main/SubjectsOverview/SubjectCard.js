@@ -43,13 +43,13 @@ function EmbeddedSubjectCard({
       flexDirection: 'row',
       alignItems: 'center',
     }}>
-      {subject.subID && (
+      {subject.subID ? (
         <CornerDownRightIcon
           size={40}
           color={theme.colors.onSurfaceDisabled}
           style={{ marginRight: 5 }}
         />
-      )}
+      ) : null}
 
       <PressableScale style={{
         backgroundColor: light,
@@ -86,7 +86,7 @@ function EmbeddedSubjectCard({
             alignItems: 'flex-end',
           }}>
             <Text style={[theme.fonts.headlineMedium, { color: 'black' }]}>{formatAverage(subject.average)}</Text>
-            {subject.average && <Text style={[theme.fonts.labelSmall, { color: 'black', fontFamily: "Numbers-Medium" }]}>/20</Text>}
+            {subject.average ? <Text style={[theme.fonts.labelSmall, { color: 'black', fontFamily: "Numbers-Medium" }]}>/20</Text> : null}
           </View>
         </View>
         
@@ -140,7 +140,7 @@ function EmbeddedSubjectCard({
         ) : null}
 
         {/* Has exam */}
-        {hasExam && (
+        {hasExam ? (
           <CustomTag
             title={"Alerte évaluation"}
             icon={<AlertOctagonIcon size={15} color={'white'}/>}
@@ -151,7 +151,7 @@ function EmbeddedSubjectCard({
             shadow
             style={{ paddingHorizontal: 10, paddingVertical: 3 }}
           />
-        )}
+        ) : null}
       </PressableScale>
     </View>
   );

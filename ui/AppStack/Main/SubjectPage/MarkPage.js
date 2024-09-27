@@ -136,7 +136,7 @@ function MarkPage({ navigation, route }) {
             </View>
 
             {/* Class value */}
-            {mark.classValue && (
+            {mark.classValue ? (
               <View style={{
                 position: "absolute",
                 top: 10,
@@ -161,7 +161,7 @@ function MarkPage({ navigation, route }) {
                   }]}> : {formatMark(mark, true)}</Text>
                 </PressableScale>
               </View>
-            )}
+            ) : null}
           </View>
 
           {/* Actual page */}
@@ -217,7 +217,7 @@ function MarkPage({ navigation, route }) {
                 }]}>{formatDate2(mark.date)}</Text>
               )}
             />
-            {mark.type && (
+            {mark.type ? (
               <CustomSimpleInformationCard
                 icon={<PenToolIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
                 content={"Type"}
@@ -229,15 +229,15 @@ function MarkPage({ navigation, route }) {
                 )}
                 style={{ marginTop: 10 }}
               />
-            )}
-            {mark.comment && (
+            ) : null}
+            {mark.comment ? (
               <CustomSimpleInformationCard
                 icon={<MessageSquareIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
                 content={"Commentaire"}
                 subtitle={mark.comment}
                 style={{ marginTop: 10 }}
               />
-            )}
+            ) : null}
 
             {/* Competences */}
             {mark.competences.length > 0 && (

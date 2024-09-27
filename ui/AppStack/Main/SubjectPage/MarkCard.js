@@ -73,7 +73,7 @@ function MarkCard({ mark, subjectTitle, openMarkDetails, outline, windowWidth, c
         width: windowWidth - 160,
       }}>
         <Text style={[theme.fonts.bodyMedium, { alignItems: 'center' }]} numberOfLines={2}>
-          {subjectTitle && <Text style={theme.fonts.labelMedium}>{subjectTitle} <ChevronRightIcon size={15} color={theme.colors.onSurfaceDisabled}/> </Text>}
+          {subjectTitle ? <Text style={theme.fonts.labelMedium}>{subjectTitle} <ChevronRightIcon size={15} color={theme.colors.onSurfaceDisabled}/> </Text> : null}
           {mark.title}
         </Text>
         

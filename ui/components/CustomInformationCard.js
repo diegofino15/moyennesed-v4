@@ -38,7 +38,7 @@ function CustomInformationCard({
             marginLeft: 10,
           }]}>{title}</Text>
         </View>
-        {onPress && <ArrowRightIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
+        {onPress ? <ArrowRightIcon size={20} color={theme.colors.onSurfaceDisabled}/> : null}
       </View>
       <Text style={[theme.fonts.labelMedium, { marginTop: 5 }]}>{description}</Text>
     </PressableScale>

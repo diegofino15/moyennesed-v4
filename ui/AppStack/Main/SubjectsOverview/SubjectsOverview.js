@@ -57,7 +57,7 @@ function SubjectsOverview({
                 alignItems: 'flex-end',
               }}>
                 <Text style={[theme.fonts.headlineMedium, { color: theme.colors.onSurfaceDisabled }]}>{formatAverage(subjectGroup.average)}</Text>
-                {subjectGroup.average && <Text style={[theme.fonts.labelSmall, { color: theme.colors.onSurfaceDisabled, fontFamily: "Numbers-Medium" }]}>/20</Text>}
+                {subjectGroup.average ? <Text style={[theme.fonts.labelSmall, { color: theme.colors.onSurfaceDisabled, fontFamily: "Numbers-Medium" }]}>/20</Text> : null}
               </View>
             </PressableScale>
             

@@ -152,8 +152,8 @@ function SubjectPage({
       titleObject={(
         <View style={{ flexDirection: "row", alignItems: "center", maxWidth: '100%', overflow: 'hidden', justifyContent: "flex-end", paddingHorizontal: 50, }}>
           {!isEffective && <MegaphoneOffIcon size={25} color={'black'} style={{ marginRight: 5 }}/>}
-          {shownSubject.subID && <Text style={[theme.fonts.titleSmall, { color: "black" }]} numberOfLines={1}>{mainSubject.title ?? "---"}</Text>}
-          {shownSubject.subID && <ChevronRightIcon size={25} color={"black"}/>}
+          {shownSubject.subID ? <Text style={[theme.fonts.titleSmall, { color: "black" }]} numberOfLines={1}>{mainSubject.title ?? "---"}</Text> : null}
+          {shownSubject.subID ? <ChevronRightIcon size={25} color={"black"}/> : null}
           <Text style={[theme.fonts.titleSmall, { color: "black", maxWidth: windowWidth - 70 }]} numberOfLines={1}>{shownSubject.title ?? "---"}</Text>
         </View>
       )}
@@ -250,7 +250,7 @@ function SubjectPage({
             </View>
 
             {/* Class average */}
-            {shownSubject?.classAverage && (
+            {shownSubject?.classAverage ? (
               <View style={{
                 position: "absolute",
                 top: 10,
@@ -295,7 +295,7 @@ function SubjectPage({
                   }]}> : {formatAverage(shownSubject?.classAverage)}</Text>
                 </PressableScale>
               </View>
-            )}
+            ) : null}
           </View>
 
           {/* Switch average & evolution */}
@@ -401,7 +401,7 @@ function SubjectPage({
             />
 
             {/* Teachers */}
-            {shownSubject.teachers && (
+            {shownSubject.teachers?.length > 0 && (
               <CustomSection title={`Professeur.e${shownSubject.teachers.length > 1 ? "s" : ""}`}/>
             )}
             {shownSubject.teachers?.map((teacher, index) => (
@@ -418,22 +418,21 @@ function SubjectPage({
             ))}
 
             {/* Marks */}
-            {marks && <CustomSection title={"Notes"} />}
-            {marks &&
-              shownSubject?.sortedMarks?.map((markID) => (
-                <MarkCard
-                  key={markID}
-                  mark={marks[markID]}
-                  subjectTitle={
-                    Object.keys(shownSubject.subSubjects).length > 0 &&
-                    shownSubject.subSubjects[marks[markID].subSubjectID].title
-                  }
-                  openMarkDetails={() => openMarkDetails(marks[markID])}
-                  outline={markID == cacheMark?.id}
-                  windowWidth={windowWidth}
-                  countMarksWithOnlyCompetences={countMarksWithOnlyCompetences}
-                />
-              ))}
+            {marks ? <CustomSection title={"Notes"} /> : null}
+            {marks ? shownSubject?.sortedMarks?.map((markID) => (
+              <MarkCard
+                key={markID}
+                mark={marks[markID]}
+                subjectTitle={
+                  Object.keys(shownSubject.subSubjects).length > 0 &&
+                  shownSubject.subSubjects[marks[markID].subSubjectID].title
+                }
+                openMarkDetails={() => openMarkDetails(marks[markID])}
+                outline={markID == cacheMark?.id}
+                windowWidth={windowWidth}
+                countMarksWithOnlyCompetences={countMarksWithOnlyCompetences}
+              />
+            )) : null}
           </View>
         </View>
       }

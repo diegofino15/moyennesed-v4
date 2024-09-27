@@ -25,9 +25,9 @@ function CustomChooser({
             item.onPress ? item.onPress() : setSelected(item.id)
           }} destructive={item.destructive} >
             {item.destructive && !item.hideDestructiveIcon && <DropdownMenu.ItemIcon ios={{ name: 'trash' }} androidIconName='ic_delete'/>}
-            {item.icon && <DropdownMenu.ItemIcon ios={{ name: item.icon.ios }} androidIconName={item.icon.android}/>}
-            <DropdownMenu.ItemTitle>{`${item.title}${item.subtitle && Platform.OS !== "ios" ? ` : ${item.subtitle}` : ""}`}</DropdownMenu.ItemTitle>
-            {item.subtitle && Platform.OS == "ios" && <DropdownMenu.ItemSubtitle>{item.subtitle}</DropdownMenu.ItemSubtitle>}
+            {item.icon ? <DropdownMenu.ItemIcon ios={{ name: item.icon.ios }} androidIconName={item.icon.android}/> : null}
+            <DropdownMenu.ItemTitle>{`${item.title}${item.subtitle ? Platform.OS !== "ios" ? ` : ${item.subtitle}` : "" : ""}`}</DropdownMenu.ItemTitle>
+            {item.subtitle ? Platform.OS == "ios" && <DropdownMenu.ItemSubtitle>{item.subtitle}</DropdownMenu.ItemSubtitle> : null}
           </DropdownMenu.Item>
         ))}
       </DropdownMenu.Content>

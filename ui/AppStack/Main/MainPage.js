@@ -69,7 +69,7 @@ function MainPage({ refreshLogin, isConnected, isConnecting, route, navigation }
         }}>
           <View style={{ flexDirection: 'column', width: Dimensions.get('window').width - 120 }}>
             <Text style={[theme.fonts.titleLarge, { fontSize: 22, height: 30 }]} numberOfLines={1}>Bonjour {currentAccount.firstName} !</Text>
-            {currentAccount.id && <WelcomeMessage currentAccount={currentAccount}/>}
+            {currentAccount.id ? <WelcomeMessage currentAccount={currentAccount}/> : null}
           </View>
 
           <CustomChooser

@@ -252,7 +252,7 @@ function HomeworkPage({ isConnected, navigation, route }) {
               )}
 
               {/* Session content */}
-              {specificHomework?.sessionContent && (
+              {specificHomework?.sessionContent ? (
                 <>
                   <PressableScale style={{
                     marginTop: 20,
@@ -292,7 +292,7 @@ function HomeworkPage({ isConnected, navigation, route }) {
                     </View>
                   )}
                 </>
-              )}
+              ) : null}
 
               {/* File attachments */}
               {specificHomework?.files.length > 0 && (
