@@ -161,7 +161,7 @@ function MarksOverview({
               <Text style={[theme.fonts.labelMedium, {
                 color: theme.colors.primary,
                 textAlign: 'right',
-                width: Dimensions.get("window").width - 225,
+                width: Dimensions.get("window").width - 245,
               }]}>{periods[periodID]?.title}</Text>
               <ChevronsUpDownIcon size={20} color={theme.colors.primary} style={{ marginLeft: 5 }} />
             </View>}
