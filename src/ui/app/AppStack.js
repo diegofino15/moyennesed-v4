@@ -65,7 +65,8 @@ function MainAndSettingsStack() {
   // Auto-get marks and homework for each connected account
   async function getMarks(accountID, manualRefreshing) {
     if (gotMarksForIDRef.current[accountID] && !manualRefreshing) { return; }
-    
+    if (gettingMarksForIDRef.current[accountID]) { return; }
+
     setGettingMarksForID({...gettingMarksForIDRef.current, [accountID]: true});
     const status = await AppData.getMarks(accountID);
     gotMarksForIDRef.current[accountID] = status == 1;
@@ -74,7 +75,8 @@ function MainAndSettingsStack() {
   }
   async function getHomework(accountID, manualRefreshing) {
     if (gotHomeworkForIDRef.current[accountID] && !manualRefreshing) { return; }
-    
+    if (gettingHomeworkForIDRef.current[accountID]) { return; }
+
     setGettingHomeworkForID({...gettingHomeworkForIDRef.current, [accountID]: true});
     const status = await AppData.getAllHomework(accountID);
     gotHomeworkForIDRef.current[accountID] = status == 1;
