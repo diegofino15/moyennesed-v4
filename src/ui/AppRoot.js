@@ -141,19 +141,14 @@ function GlobalStack({ cameFromAuthStack, setCameFromAuthStack }) {
         {/* Double auth popup */}
         <Stack.Screen
           name="DoubleAuthPopup"
+          component={DoubleAuthPopup}
           options={{
             headerShown: false,
             presentation: 'modal',
             animation: 'fade_from_bottom',
             gestureEnabled: false,
           }}
-        >
-          {(props) => <DoubleAuthPopup
-            {...props}
-            isLoggedIn={isLoggedIn}
-            setIsLoggedIn={setIsLoggedIn}
-          />}
-        </Stack.Screen>
+        />
       </Stack.Navigator>
     </>
   );

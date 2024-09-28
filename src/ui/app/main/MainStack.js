@@ -18,23 +18,17 @@ import CoefficientsPage from '../settings/pages/CoefficientsPage';
 const Stack = createNativeStackNavigator();
 
 // Main page stack
-function MainStack({ refreshLogin, isConnected, isConnecting }) {
+function MainStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="MainPage"
+        component={MainPage}
         options={{ headerShown: false }}
         initialParams={{
           newAccountID: 0, // Used to update app when switching accounts
         }}
-      >
-        {(props) => <MainPage
-          {...props}
-          refreshLogin={refreshLogin}
-          isConnected={isConnected}
-          isConnecting={isConnecting}
-        />}
-      </Stack.Screen>
+      />
 
       {/* Info pages */}
       <Stack.Screen
@@ -74,6 +68,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
       {/* Homeworks */}
       <Stack.Screen
         name="UpcomingHomeworkPage"
+        component={UpcomingHomeworkPage}
         options={{
           presentation: 'modal',
           headerShown: false,
@@ -83,15 +78,10 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
           accountID: 0,
           _errorGettingHomework: false,
         }}
-      >
-        {(props) => <UpcomingHomeworkPage
-          {...props}
-          isConnected={isConnected}
-          isConnecting={isConnecting}
-        />}
-      </Stack.Screen>
+      />
       <Stack.Screen
         name="HomeworkPage"
+        component={HomeworkPage}
         options={{
           presentation: 'modal',
           headerShown: false,
@@ -102,12 +92,7 @@ function MainStack({ refreshLogin, isConnected, isConnecting }) {
           cacheHomework: null,
           cacheSpecificHomework: null,
         }}
-      >
-        {(props) => <HomeworkPage
-          {...props}
-          isConnected={isConnected}
-        />}
-      </Stack.Screen>
+      />
       <Stack.Screen
         name="FilesPage"
         component={FilesPage}

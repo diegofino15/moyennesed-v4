@@ -22,15 +22,12 @@ import { useAppStackContext } from "../../../util/AppStackContext";
 // Embedded mark page
 function EmbeddedMarksPage({
   mainAccount,
-  refreshLogin,
-  isConnected,
-  isConnecting,
   manualRefreshing,
   setManualRefreshing,
   navigation,
 }) {
   const { theme } = useGlobalAppContext();
-  const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
+  const { refreshLogin, isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
   
   // Select a student account to get marks from
   const [showMarksAccount, setShowMarksAccount] = useState({});

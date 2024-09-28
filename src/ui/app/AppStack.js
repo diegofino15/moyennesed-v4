@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react'; 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MainStack from './main/MainStack';
 import SettingsStack from './settings/SettingsStack';
-import AppData from '../../core/AppData';
 import { AppStackContextProvider } from '../../util/AppStackContext';
 
 
@@ -15,40 +13,21 @@ const Stack = createNativeStackNavigator();
 function AppStack({ route, cameFromAuthStack }) {
   const { needToRefresh } = route.params;
   
-  // Login status
-  const [isConnected, setIsConnected] = useState(cameFromAuthStack);
-  const [isConnecting, setIsConnecting] = useState(false);
-
-  // Auto-login
-  useEffect(() => { if (!isConnected || needToRefresh) { refreshLogin(); } }, [needToRefresh]);
-  async function refreshLogin() {
-    console.log("Refreshing login...");
-    
-    setIsConnecting(true);
-    setIsConnected(false);
-    const successful = await AppData.refreshLogin();
-    setIsConnected(successful);
-    setIsConnecting(false);
-    return successful;
-  }
-
   return (
-    <AppStackContextProvider>
+    <AppStackContextProvider
+      needToRefresh={needToRefresh}
+      cameFromAuthStack={cameFromAuthStack}
+    >
       <Stack.Navigator>
         <Stack.Screen
           name="MainStack"
+          component={MainStack}
           options={{ headerShown: false }}
-        >
-          {(props) => <MainStack
-            {...props}
-            refreshLogin={refreshLogin}
-            isConnected={isConnected}
-            isConnecting={isConnecting}
-          />}
-        </Stack.Screen>
+        />
 
         <Stack.Screen
           name="SettingsStack"
+          component={SettingsStack}
           options={{
             headerShown: false,
             presentation: 'modal',
@@ -57,14 +36,7 @@ function AppStack({ route, cameFromAuthStack }) {
           initialParams={{
             openCoefficientsPage: false,
           }}
-        >
-          {(props) => <SettingsStack
-            {...props}
-            refreshLogin={refreshLogin}
-            isConnected={isConnected}
-            isConnecting={isConnecting}
-          />}
-        </Stack.Screen>
+        />
       </Stack.Navigator>
     </AppStackContextProvider>
   );

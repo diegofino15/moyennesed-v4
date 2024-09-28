@@ -16,9 +16,9 @@ import { useAppStackContext } from "../../../../util/AppStackContext";
 
 
 // Exam page
-function UpcomingHomeworkPage({ isConnected, isConnecting, navigation, route }) {
+function UpcomingHomeworkPage({ navigation, route }) {
   const { theme } = useGlobalAppContext();
-  const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
+  const { isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
   
   const { accountID, _errorGettingHomework } = route.params;
 

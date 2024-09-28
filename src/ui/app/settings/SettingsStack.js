@@ -12,25 +12,17 @@ import BugReportPage from './pages/BugReportPage';
 const Stack = createNativeStackNavigator();
 
 // Settings page stack
-function SettingsStack({ refreshLogin, isConnected, isConnecting, route }) {
-  const { openCoefficientsPage } = route.params;
-  
+function SettingsStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="SettingsPage"
+        component={SettingsPage}
         options={{
           presentation: 'modal',
           headerShown: false,
         }}
-      >
-        {(props) => <SettingsPage
-          {...props}
-          refreshLogin={refreshLogin}
-          isConnected={isConnected}
-          isConnecting={isConnecting}
-        />}
-      </Stack.Screen>
+      />
 
       {/* Profile page */}
       <Stack.Screen
@@ -65,21 +57,21 @@ function SettingsStack({ refreshLogin, isConnected, isConnecting, route }) {
       {/* Ads information page */}
       <Stack.Screen
         name="AdsInformationPage"
+        component={AdsInformationPage}
         options={{
           headerShown: false,
           animation: 'slide_from_right',
         }}
-        component={AdsInformationPage}
       />
 
       {/* Bug reporting page */}
       <Stack.Screen
         name="BugReportPage"
+        component={BugReportPage}
         options={{
           headerShown: false,
           animation: 'slide_from_right',
         }}
-        component={BugReportPage}
       />
     </Stack.Navigator>
   );

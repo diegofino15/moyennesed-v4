@@ -19,9 +19,9 @@ import { asyncExpectedResult, formatDate, formatDate2 } from "../../../../util/U
 
 
 // homework page
-function HomeworkPage({ isConnected, navigation, route }) {
+function HomeworkPage({ navigation, route }) {
   const { theme } = useGlobalAppContext();
-  const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
+  const { isConnected, globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
   
   const { accountID, cacheHomework, cacheSpecificHomework } = route.params;
 

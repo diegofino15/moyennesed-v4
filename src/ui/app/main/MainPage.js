@@ -10,11 +10,13 @@ import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import HapticsHandler from "../../../core/HapticsHandler";
 import AppData from "../../../core/AppData";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../util/AppStackContext";
 
 
 // Main page
-function MainPage({ refreshLogin, isConnected, isConnecting, route, navigation }) {
+function MainPage({ route, navigation }) {
   const { theme } = useGlobalAppContext();
+  const { isConnected } = useAppStackContext();
   
   // Connected main account (parent / student)
   const { newAccountID } = route.params; 
@@ -95,9 +97,6 @@ function MainPage({ refreshLogin, isConnected, isConnecting, route, navigation }
         {/* Marks overview */}
         <EmbeddedMarksPage
           mainAccount={currentAccount}
-          refreshLogin={refreshLogin}
-          isConnected={isConnected}
-          isConnecting={isConnecting}
           manualRefreshing={manualRefreshing}
           setManualRefreshing={setManualRefreshing}
           navigation={navigation}

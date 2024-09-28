@@ -16,7 +16,7 @@ import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 
 
 // Settings page
-function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation, route }) {
+function SettingsPage({ navigation }) {
   const { theme } = useGlobalAppContext();
   
   // Currently selected account
@@ -35,7 +35,7 @@ function SettingsPage({ refreshLogin, isConnected, isConnecting, navigation, rou
         <View>
           {/* Login status */}
           <CustomSection title={"Compte"} marginTop={0}/>
-          <CustomLoginStatus isConnected={isConnected} isConnecting={isConnecting} refreshLogin={refreshLogin} style={{ marginBottom: 10 }} windowWidth={windowWidth}/>
+          <CustomLoginStatus style={{ marginBottom: 10 }} windowWidth={windowWidth}/>
           
           {/* Profile */}
           <CustomSectionButton

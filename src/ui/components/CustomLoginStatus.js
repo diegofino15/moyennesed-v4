@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 
 import HapticsHandler from "../../core/HapticsHandler";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import { useAppStackContext } from "../../util/AppStackContext";
 
 
 // Login status
-function CustomLoginStatus({ isConnected, isConnecting, refreshLogin, style, windowWidth }) {
+function CustomLoginStatus({ style, windowWidth }) {
   const { theme } = useGlobalAppContext();
+  const { refreshLogin, isConnected, isConnecting } = useAppStackContext();
   
   const [color, setColor] = useState(theme.colors.primary);
   const [lightColor, setLightColor] = useState(theme.colors.primaryLight);
