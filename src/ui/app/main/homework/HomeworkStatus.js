@@ -31,14 +31,14 @@ function HomeworkStatus({ navigation }) {
             alignItems: 'center',
             paddingHorizontal: 10,
             height: 45,
-          }} onPress={() => { if (!isLoading) { navigation.navigate("HomeworkInformationPage"); } }}>
+          }} onPress={() => { navigation.navigate("HomeworkInformationPage"); }}>
             <Text style={[
               theme.fonts.labelMedium, {
                 color: errorGettingHomework ? theme.colors.error : sureGotHomework ? theme.colors.success : isLoading ? theme.colors.primary : theme.colors.error,
                 marginRight: 5,
                 height: 22,
             }]}>{errorGettingHomework ? "Erreur" : sureGotHomework ? "A jour" : isLoading ? "Chargement" : "Pas à jour"}</Text>
-            {(!isLoading) && <HelpCircleIcon size={20} color={gotHomework ? theme.colors.success : theme.colors.error}/>}
+            <HelpCircleIcon size={20} color={errorGettingHomework ? theme.colors.error : sureGotHomework ? theme.colors.success : isLoading ? theme.colors.primary : theme.colors.error}/>
           </PressableScale>
         )}
         animationTime={200}

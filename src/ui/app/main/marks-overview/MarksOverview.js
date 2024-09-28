@@ -126,14 +126,14 @@ function MarksOverview({
                   alignItems: 'center',
                   paddingVertical: 2,
                   paddingHorizontal: 5
-                }} onPress={() => { if (!isLoading) { navigation.navigate("MarksInformationPage"); } }} onLongPress={__DEV__ ? () => {} : undefined}>
+                }} onPress={() => { navigation.navigate("MarksInformationPage"); }} onLongPress={__DEV__ ? () => {} : undefined}>
                   <Text style={[
                     theme.fonts.labelMedium, {
                       color: errorGettingMarks ? theme.colors.error : sureGotMarks ? theme.colors.success : isLoading ? theme.colors.primary : theme.colors.error,
                       marginRight: 5,
                       height: 22,
                   }]}>{errorGettingMarks ? "Erreur" : sureGotMarks ? "A jour" : isLoading ? "Chargement" : "Pas à jour"}</Text>
-                  {(!isLoading) && <HelpCircleIcon size={20} color={gotMarks ? theme.colors.success : theme.colors.error}/>}
+                  <HelpCircleIcon size={20} color={errorGettingMarks ? theme.colors.error : sureGotMarks ? theme.colors.success : isLoading ? theme.colors.primary : theme.colors.error}/>
                 </PressableScale>
               )}
               animationTime={200}
