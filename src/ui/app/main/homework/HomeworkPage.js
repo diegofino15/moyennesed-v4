@@ -16,14 +16,16 @@ import HapticsHandler from "../../../../core/HapticsHandler";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
 import { asyncExpectedResult, formatDate, formatDate2 } from "../../../../util/Utils";
+import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
 
 
 // homework page
 function HomeworkPage({ navigation, route }) {
   const { theme } = useGlobalAppContext();
   const { isConnected, globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
-  
-  const { accountID, cacheHomework, cacheSpecificHomework } = route.params;
+  const { accountID } = useCurrentAccountContext();
+
+  const { cacheHomework, cacheSpecificHomework } = route.params;
 
   // Auto-update the cache homework
   const [homework, setHomework] = useState(cacheHomework);

@@ -7,18 +7,16 @@ import HomeworkDay from "./HomeworkDay";
 import CustomModal from "../../../components/CustomModal";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
+import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
 
 
 // Exam page
 function ExamPage({ navigation, route }) {
   const { theme } = useGlobalAppContext();
   const { globalDisplayUpdater } = useAppStackContext();
+  const { accountID } = useCurrentAccountContext();
 
-  const {
-    accountID,
-    subjectTitle,
-    examIDs,
-  } = route.params;
+  const { subjectTitle, examIDs } = route.params;
 
   // Get abstract exams (waiting for them to load)
   const [abstractExams, setAbstractExams] = useState({});

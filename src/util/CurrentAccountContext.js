@@ -24,7 +24,8 @@ export function CurrentAccountContextProvider({
   _accountID, setShowMarksAccount,
   mainAccount, updateMainAccount,
   _gotMarks, _isGettingMarks, _errorGettingMarks,
-  _gotHomework, _isGettingHomework, _errorGettingHomework,
+  _gotHomework, _isGettingHomework, _errorGettingHomework, getHomework,
+  manualRefreshing, setManualRefreshing,
 }) {
   // Which account is displayed
   const [accountID, setAccountID] = useState(_accountID);
@@ -51,7 +52,8 @@ export function CurrentAccountContextProvider({
       accountID, setShowMarksAccount, 
       mainAccount, updateMainAccount,
       gotMarks, isGettingMarks, errorGettingMarks,
-      gotHomework, isGettingHomework, errorGettingHomework,
+      gotHomework, isGettingHomework, errorGettingHomework, getHomework,
+      manualRefreshing, setManualRefreshing,
     }}>
       {children}
     </CurrentAccountContext.Provider>

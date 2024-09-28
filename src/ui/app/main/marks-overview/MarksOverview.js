@@ -27,9 +27,10 @@ function MarksOverview({
   navigation,
 }) {
   const { theme } = useGlobalAppContext();
-  const { isConnecting, globalDisplayUpdater } = useAppStackContext();
+  const { isConnected, isConnecting, globalDisplayUpdater } = useAppStackContext();
   const { accountID, gotMarks, isGettingMarks, errorGettingMarks } = useCurrentAccountContext();
-  var isLoading = isConnecting || isGettingMarks;
+  var isLoading = isConnecting || isGettingMarks || (isConnected && !gotMarks);
+  var sureGotMarks = gotMarks && !isGettingMarks;
 
   // List of marks present at first display, used to show which marks are new since last time the app was opened
   const [firstDisplayMarks, setFirstDisplayMarks, firstDisplayMarksRef] = useState([]);
@@ -117,9 +118,9 @@ function MarksOverview({
             <CustomAnimatedChangeableItem
               item={(
                 <PressableScale style={{
-                  backgroundColor: isLoading ? theme.colors.primaryLight : gotMarks ? theme.colors.successLight : theme.colors.errorLight,
+                  backgroundColor: errorGettingMarks ? theme.colors.errorLight : sureGotMarks ? theme.colors.successLight : isLoading ? theme.colors.primaryLight : theme.colors.errorLight,
                   borderWidth: 2,
-                  borderColor: isLoading ? theme.colors.primary : gotMarks ? theme.colors.success : theme.colors.error,
+                  borderColor: errorGettingMarks ? theme.colors.error : sureGotMarks ? theme.colors.success : isLoading ? theme.colors.primary : theme.colors.error,
                   borderRadius: 5,
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -128,17 +129,16 @@ function MarksOverview({
                 }} onPress={() => { if (!isLoading) { navigation.navigate("MarksInformationPage", { accountID }); } }} onLongPress={__DEV__ ? () => {} : undefined}>
                   <Text style={[
                     theme.fonts.labelMedium, {
-                      color: isLoading ? theme.colors.primary : gotMarks ? theme.colors.success : theme.colors.error,
+                      color: errorGettingMarks ? theme.colors.error : sureGotMarks ? theme.colors.success : isLoading ? theme.colors.primary : theme.colors.error,
                       marginRight: 5,
                       height: 22,
-                  }]}>{isLoading ? "Chargement" : gotMarks ? "A jour" : errorGettingMarks ? "Erreur" : "Pas à jour"}</Text>
+                  }]}>{errorGettingMarks ? "Erreur" : sureGotMarks ? "A jour" : isLoading ? "Chargement" : "Pas à jour"}</Text>
                   {(!isLoading) && <HelpCircleIcon size={20} color={gotMarks ? theme.colors.success : theme.colors.error}/>}
                 </PressableScale>
               )}
               animationTime={200}
               updaters={[
                 isLoading,
-                gotMarks,
                 errorGettingMarks,
               ]}
             />

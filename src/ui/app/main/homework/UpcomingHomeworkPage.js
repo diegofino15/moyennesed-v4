@@ -9,18 +9,16 @@ import Constants from "expo-constants";
 import HomeworkDay from "./HomeworkDay";
 import CustomModal from "../../../components/CustomModal";
 import CustomSeparator from "../../../components/CustomSeparator";
-import HapticsHandler from "../../../../core/HapticsHandler";
-import AppData from "../../../../core/AppData";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
+import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
 
 
 // Exam page
-function UpcomingHomeworkPage({ navigation, route }) {
+function UpcomingHomeworkPage({ navigation }) {
   const { theme } = useGlobalAppContext();
-  const { isConnected, isConnecting, globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
-  
-  const { accountID, _errorGettingHomework } = route.params;
+  const { isConnected, isConnecting, globalDisplayUpdater } = useAppStackContext();
+  const { accountID, isGettingHomework, errorGettingHomework, getHomework } = useCurrentAccountContext();
 
   // Get abstract homeworks (waiting for them to load)
   const [abstractHomeworks, setAbstractHomeworks] = useState({});
@@ -38,21 +36,6 @@ function UpcomingHomeworkPage({ navigation, route }) {
     });
   }, [globalDisplayUpdater]);
 
-  // Refresh next homeworks
-  const [refreshing, setRefreshing] = useState(false);
-  const [errorGettingHomework, setErrorGettingHomework] = useState(_errorGettingHomework);
-  async function refreshUpcomingHomework() {
-    if (!isConnected || refreshing) { return; }
-    
-    HapticsHandler.vibrate("light");
-    setRefreshing(true);
-    const status = await AppData.getAllHomework(accountID);
-    setErrorGettingHomework(status != 1);
-    setRefreshing(false);
-    updateGlobalDisplay();
-    HapticsHandler.vibrate("light");
-  }
-
   const [windowWidth, setWindowWidth] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
   
@@ -65,7 +48,7 @@ function UpcomingHomeworkPage({ navigation, route }) {
       setWidth={setWindowWidth}
       rightIcon={(
         <View style={{ margin: 4.5, }}>
-          {refreshing || isConnecting ? (
+          {isGettingHomework || isConnecting ? (
             <ActivityIndicator size={25} color={theme.colors.onSurface}/>
           ) : !isConnected ? (
             <AlertTriangleIcon size={25} color={theme.colors.error}/>
@@ -81,7 +64,7 @@ function UpcomingHomeworkPage({ navigation, route }) {
           right: 12 + 50,
           borderRadius: 10,
           zIndex: 1,
-        }} onPress={() => navigation.navigate("FilesPage", { accountID })}>
+        }} onPress={() => navigation.navigate("FilesPage")}>
           <BlurView style={{
             borderRadius: 10,
             overflow: "hidden",
@@ -94,7 +77,7 @@ function UpcomingHomeworkPage({ navigation, route }) {
       rightIconStyle={{ top: 15, right: 15 }}
       showScrollView={false}
       children={(<></>)}
-      rightIconOnPress={refreshUpcomingHomework}
+      rightIconOnPress={() => getHomework(accountID, true)}
       childrenOutsideScrollView={(
         <SectionList
           showsVerticalScrollIndicator={false}

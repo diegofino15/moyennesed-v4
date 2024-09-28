@@ -15,17 +15,16 @@ import CustomProfilePhoto from "../../../../components/CustomProfilePhoto";
 import CustomInformationCard from "../../../../components/CustomInformationCard";
 import CustomSimpleInformationCard from "../../../../components/CustomSimpleInformationCard";
 import CustomButton from "../../../../components/CustomButton";
-import { useGlobalAppContext } from "../../../../../util/GlobalAppContext";
 import AppData from "../../../../../core/AppData";
 import HapticsHandler from "../../../../../core/HapticsHandler";
+import { useGlobalAppContext } from "../../../../../util/GlobalAppContext";
+import { useCurrentAccountContext } from "../../../../../util/CurrentAccountContext";
 
 
 // Profile settings page
-function ProfilePage({ route, navigation }) {
+function ProfilePage({ navigation }) {
   const { theme, setIsLoggedIn, setIsAutoTheme } = useGlobalAppContext();
-  
-  // Currently selected account
-  const { currentAccount } = route.params;
+  const { mainAccount } = useCurrentAccountContext();
 
   // Switch account
   const [canSwitchAccounts, setCanSwitchAccounts] = useState(false);
@@ -34,7 +33,7 @@ function ProfilePage({ route, navigation }) {
     if (Object.keys(JSON.parse(jsonAccounts)).length > 1) { setCanSwitchAccounts(true); }
   }); }, []);
   async function switchAccount(newAccountID) {
-    if (newAccountID != currentAccount.id) {
+    if (newAccountID != mainAccount.id) {
       await AsyncStorage.setItem("selectedAccount", `${newAccountID}`);
       navigation.navigate("MainPage", { newAccountID: newAccountID });
       console.log(`Switched to account ${newAccountID} !`);
@@ -75,8 +74,8 @@ function ProfilePage({ route, navigation }) {
             position: 'absolute',
             overflow: 'hidden',
           }}>
-            <CustomProfilePhoto accountID={currentAccount.id} size={windowWidth} style={{ height: 280, top: -50 }}/>
-            <BlurView intensity={Platform.select({ ios: currentAccount?.photoURL ? 50 : 30, android: 100 })} tint="dark" style={{ width: '100%', height: 230, position: 'absolute', }}/>
+            <CustomProfilePhoto accountID={mainAccount.id} size={windowWidth} style={{ height: 280, top: -50 }}/>
+            <BlurView intensity={Platform.select({ ios: mainAccount?.photoURL ? 50 : 30, android: 100 })} tint="dark" style={{ width: '100%', height: 230, position: 'absolute', }}/>
           </View>
           
           {/* Actual page */}
@@ -99,14 +98,14 @@ function ProfilePage({ route, navigation }) {
                   paddingHorizontal: 10,
                   paddingVertical: 5,
                 }}>
-                  <Text style={[theme.fonts.bodyMedium, { height: 22, color: 'white' }]}>ID - {currentAccount?.id}</Text>
+                  <Text style={[theme.fonts.bodyMedium, { height: 22, color: 'white' }]}>ID - {mainAccount?.id}</Text>
                 </BlurView>
               </PressableScale>
 
               {/* Name */}
               <View style={{ position: 'absolute', bottom: 20, width: '80%', alignSelf: 'center' }}>
-                <Text style={[theme.fonts.titleMedium, { alignSelf: 'center', textAlign: 'center', color: 'white' }]}>{currentAccount?.firstName} {currentAccount?.lastName}</Text>
-                <Text style={[theme.fonts.labelLarge, { alignSelf: 'center', textAlign: 'center' }]}>{currentAccount?.accountType == "E" ? currentAccount?.grade : "Compte parent"}</Text>
+                <Text style={[theme.fonts.titleMedium, { alignSelf: 'center', textAlign: 'center', color: 'white' }]}>{mainAccount?.firstName} {mainAccount?.lastName}</Text>
+                <Text style={[theme.fonts.labelLarge, { alignSelf: 'center', textAlign: 'center' }]}>{mainAccount?.accountType == "E" ? mainAccount?.grade : "Compte parent"}</Text>
               </View>
             </LinearGradient>
 
@@ -124,10 +123,10 @@ function ProfilePage({ route, navigation }) {
                 left: -2,
               }}>
                 {/* Informations */}
-                {currentAccount?.accountType == "E" && (
+                {mainAccount?.accountType == "E" && (
                   <CustomSimpleInformationCard
                     icon={<GraduationCapIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
-                    content={currentAccount?.grade}
+                    content={mainAccount?.grade}
                     textStyle={{
                       ...theme.fonts.bodyLarge,
                       width: windowWidth - 100,
@@ -138,19 +137,19 @@ function ProfilePage({ route, navigation }) {
 
                 {/* Show children for parent accounts */}
                 <CustomSimpleInformationCard
-                  icon={currentAccount?.accountType == "E" ? (
+                  icon={mainAccount?.accountType == "E" ? (
                     <SchoolIcon size={25} color={theme.colors.onSurfaceDisabled}/>
                   ) : (
                     <UserRoundCogIcon size={25} color={theme.colors.onSurfaceDisabled}/>
                   )}
-                  content={currentAccount?.accountType == "E" ? currentAccount?.school : "Élèves associés"}
+                  content={mainAccount?.accountType == "E" ? mainAccount?.school : "Élèves associés"}
                   textStyle={{
                     ...theme.fonts.bodyLarge,
                     width: windowWidth - 100,
                   }}
                 />
-                {currentAccount?.accountType == "P" && Object.keys(currentAccount?.children).map(childID => {
-                  const child = currentAccount?.children[childID];
+                {mainAccount?.accountType == "P" && Object.keys(mainAccount?.children).map(childID => {
+                  const child = mainAccount?.children[childID];
                   return (
                     <View key={childID} style={{
                       flexDirection: 'row',
@@ -209,7 +208,7 @@ function ProfilePage({ route, navigation }) {
             isSwitchingAccount={isSwitchingAccount}
             setIsSwitchingAccount={setIsSwitchingAccount}
             switchAccount={switchAccount}
-            selectedAccount={currentAccount?.id}
+            selectedAccount={mainAccount?.id}
           />
           <DisconnectModal
             isDisconnecting={isDisconnecting}

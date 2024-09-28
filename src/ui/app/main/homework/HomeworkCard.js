@@ -79,7 +79,7 @@ function HomeworkCard({
           borderRadius: 10,
           alignItems: 'center',
         }} onPress={() => {
-          if (!isLoading) { navigation.navigate("HomeworkPage", { accountID, cacheHomework, cacheSpecificHomework: specificHomework }); }
+          if (!isLoading) { navigation.navigate("HomeworkPage", { cacheHomework, cacheSpecificHomework: specificHomework }); }
         }}>
           <Text style={[theme.fonts.bodyLarge, {
             color: 'black',

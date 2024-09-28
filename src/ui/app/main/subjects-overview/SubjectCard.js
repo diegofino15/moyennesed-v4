@@ -3,10 +3,9 @@ import { AlertOctagonIcon, CornerDownRightIcon, MegaphoneOffIcon } from "lucide-
 import { PressableScale } from "react-native-pressable-scale";
 
 import CustomTag from "../../../components/CustomTag";
-import { formatAverage, formatMark } from "../../../../util/Utils";
 import ColorsHandler from "../../../../core/ColorsHandler";
+import { formatAverage, formatMark } from "../../../../util/Utils";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
 
 
 // Embedded subject card
@@ -18,14 +17,12 @@ function EmbeddedSubjectCard({
   navigation,
 }) {
   const { theme } = useGlobalAppContext();
-  const { accountID } = useCurrentAccountContext();
-  
+
   const { light, dark } = ColorsHandler.getSubjectColors(subject.id)
   
   // Open subject page
   function openSubjectPage() {
     navigation.navigate("SubjectStack", {
-      accountID,
       cacheSubject: subject,
     });
   }
@@ -33,7 +30,6 @@ function EmbeddedSubjectCard({
   // Open exam page
   function openExamPage() {
     navigation.navigate("ExamPage", {
-      accountID,
       subjectTitle: subject.title,
       examIDs: hasExam,
     })

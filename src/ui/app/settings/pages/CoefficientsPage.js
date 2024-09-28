@@ -12,16 +12,14 @@ import CoefficientHandler from "../../../../core/CoefficientHandler";
 import AppData from "../../../../core/AppData";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
+import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
 
 
 // Settings page
 function CoefficientsPage({ navigation }) {
   const { theme } = useGlobalAppContext();
   const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
-  
-  // Currently selected account
-  const [currentAccount, setCurrentAccount] = useState({});
-  useEffect(() => { AppData.getMainAccount().then(account => { setCurrentAccount(account); }); }, []);
+  const { mainAccount } = useCurrentAccountContext();
 
   // Update screen
   const [forceUpdate, setForceUpdate] = useState(false);
@@ -34,7 +32,7 @@ function CoefficientsPage({ navigation }) {
       goBackFunction={() => navigation.pop()}
       children={(
         <View>
-          <Text style={[theme.fonts.labelLarge, { textAlign: 'justify'}]}>{currentAccount.accountType == "E" ? "Gérez comment MoyennesED choisit les coefficients de chacune de vos matières et de vos notes." : "Gérez comment sont choisis les coefficients des matières et des notes de vos enfants."}</Text>
+          <Text style={[theme.fonts.labelLarge, { textAlign: 'justify'}]}>{mainAccount.accountType == "E" ? "Gérez comment MoyennesED choisit les coefficients de chacune de vos matières et de vos notes." : "Gérez comment sont choisis les coefficients des matières et des notes de vos enfants."}</Text>
 
           <CustomInformationCard
             title={"Ajustage automatique"}
@@ -43,7 +41,7 @@ function CoefficientsPage({ navigation }) {
             style={{ borderColor: theme.colors.primary, marginTop: 20 }}
           />
 
-          {(currentAccount.accountType == "E" ? [currentAccount] : Object.values(currentAccount.children ?? [])).map(account => (
+          {(mainAccount.accountType == "E" ? [mainAccount] : Object.values(mainAccount.children ?? [])).map(account => (
             <View key={account.id}>
               <CustomSection
                 title={`${account.firstName} ${account.lastName}`}

@@ -9,14 +9,14 @@ import { formatDate } from "../../../../util/Utils";
 import AppData from "../../../../core/AppData";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
+import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
 
 
 // Information page
 function HomeworkInformationPage({ navigation, route }) {
   const { theme } = useGlobalAppContext();
   const { globalDisplayUpdater } = useAppStackContext();
-  
-  const { accountID } = route.params;
+  const { accountID } = useCurrentAccountContext();
   
   // Get last date updated marks
   const [lastDateUpdated, setLastDateUpdated] = useState(null);

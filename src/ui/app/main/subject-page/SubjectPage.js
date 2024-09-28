@@ -15,12 +15,13 @@ import CustomCoefficientPicker from "../../../components/CustomCoefficientPicker
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import { asyncExpectedResult, formatAverage } from "../../../../util/Utils";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { useAppStackContext } from "../../../../util/AppStackContext";
 import CoefficientHandler from "../../../../core/CoefficientHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import AppData from "../../../../core/AppData";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
+import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
 
 
 // Subject page
@@ -30,8 +31,9 @@ function SubjectPage({
 }) {
   const { theme } = useGlobalAppContext();
   const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
-  
-  const { accountID, cacheSubject, cacheMark } = route.params;
+  const { accountID } = useCurrentAccountContext();
+
+  const { cacheSubject, cacheMark } = route.params;
 
   // Refresh the shown subject in case of marks refresh
   const [mainSubject, setMainSubject] = useState({}); // Only used for subSubjects
@@ -57,7 +59,6 @@ function SubjectPage({
   // Open mark details
   function openMarkDetails(mark) {
     navigation.navigate("MarkPage", {
-      accountID,
       cacheMark: mark,
     });
   }

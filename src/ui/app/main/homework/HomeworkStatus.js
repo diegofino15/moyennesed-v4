@@ -11,9 +11,10 @@ import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext
 // Homework status
 function HomeworkStatus({ navigation }) {
   const { theme } = useGlobalAppContext();
-  const { isConnecting } = useAppStackContext();
+  const { isConnected, isConnecting } = useAppStackContext();
   const { accountID, gotHomework, isGettingHomework, errorGettingHomework } = useCurrentAccountContext();
-  var isLoading = isConnecting || isGettingHomework;
+  var isLoading = isConnecting || isGettingHomework || (isConnected && !gotHomework);
+  var sureGotHomework = gotHomework && !isGettingHomework;
 
   return (
     <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20 }}>
@@ -21,8 +22,8 @@ function HomeworkStatus({ navigation }) {
       <CustomAnimatedChangeableItem
         item={(
           <PressableScale style={{
-            backgroundColor: isLoading ? theme.colors.primaryLight : gotHomework ? theme.colors.successLight : theme.colors.errorLight,
-            borderColor: isLoading ? theme.colors.primary : gotHomework ? theme.colors.success : theme.colors.error,
+            backgroundColor: errorGettingHomework ? theme.colors.errorLight : sureGotHomework ? theme.colors.successLight : isLoading ? theme.colors.primaryLight : theme.colors.errorLight,
+            borderColor: errorGettingHomework ? theme.colors.error : sureGotHomework ? theme.colors.success : isLoading ? theme.colors.primary : theme.colors.error,
             borderWidth: 2,
             borderBottomLeftRadius: 10,
             borderTopLeftRadius: 10,
@@ -33,17 +34,16 @@ function HomeworkStatus({ navigation }) {
           }} onPress={() => { if (!isLoading) { navigation.navigate("HomeworkInformationPage", { accountID }); } }}>
             <Text style={[
               theme.fonts.labelMedium, {
-                color: isLoading ? theme.colors.primary : gotHomework ? theme.colors.success : theme.colors.error,
+                color: errorGettingHomework ? theme.colors.error : sureGotHomework ? theme.colors.success : isLoading ? theme.colors.primary : theme.colors.error,
                 marginRight: 5,
                 height: 22,
-            }]}>{isLoading ? "Chargement" : gotHomework ? "A jour" : errorGettingHomework ? "Erreur" : "Pas à jour"}</Text>
+            }]}>{errorGettingHomework ? "Erreur" : sureGotHomework ? "A jour" : isLoading ? "Chargement" : "Pas à jour"}</Text>
             {(!isLoading) && <HelpCircleIcon size={20} color={gotHomework ? theme.colors.success : theme.colors.error}/>}
           </PressableScale>
         )}
         animationTime={200}
         updaters={[
           isLoading,
-          gotHomework,
           errorGettingHomework,
         ]}
       />

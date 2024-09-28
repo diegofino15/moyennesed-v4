@@ -8,10 +8,8 @@ import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 
 
 // Page that shows all the downloaded files from the homework
-function FilesPage({ navigation, route }) {
+function FilesPage({ navigation }) {
   const { theme } = useGlobalAppContext();
-  
-  const { accountID } = route.params;
 
   // Get a list of the files
   const [files, setFiles] = useState([]);

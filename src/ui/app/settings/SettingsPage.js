@@ -11,18 +11,15 @@ import CustomSimpleSectionButton from "../../components/CustomSimpleSectionButto
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import CustomTextArea from "../../components/CustomTextArea";
 import CustomLink from "../../components/CustomLink";
-import AppData from "../../../core/AppData";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
+import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
 
 
 // Settings page
 function SettingsPage({ navigation }) {
   const { theme } = useGlobalAppContext();
+  const { mainAccount } = useCurrentAccountContext();
   
-  // Currently selected account
-  const [currentAccount, setCurrentAccount] = useState({});
-  useEffect(() => { AppData.getMainAccount().then(account => { setCurrentAccount(account); }); }, []);
-
   const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
 
   return (
@@ -39,10 +36,10 @@ function SettingsPage({ navigation }) {
           
           {/* Profile */}
           <CustomSectionButton
-            icon={currentAccount?.accountType == "E" && <CustomProfilePhoto accountID={currentAccount?.id} size={70}/>}
-            title={`${currentAccount?.firstName} ${currentAccount?.lastName}`}
+            icon={mainAccount?.accountType == "E" && <CustomProfilePhoto accountID={mainAccount?.id} size={70}/>}
+            title={`${mainAccount?.firstName} ${mainAccount?.lastName}`}
             description='Paramètres du profil'
-            onPress={() => navigation.navigate("ProfilePage", { currentAccount: currentAccount })}
+            onPress={() => navigation.navigate("ProfilePage")}
             wrapperStyle={{ marginBottom: 10 }}
           />
 
@@ -60,7 +57,7 @@ function SettingsPage({ navigation }) {
           <CustomSimpleSectionButton
             title={"Paramètres avancés"}
             icon={<Settings2Icon size={20} color={theme.colors.onSurfaceDisabled}/>}
-            onPress={() => navigation.navigate('AdvancedSettingsPage', { currentAccount, presentation: 'modal' })}
+            onPress={() => navigation.navigate('AdvancedSettingsPage', { presentation: 'modal' })}
             style={{ marginBottom: 10 }}
           />
 

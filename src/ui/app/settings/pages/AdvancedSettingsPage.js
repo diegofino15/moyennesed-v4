@@ -11,11 +11,12 @@ import CustomSection from "../../../components/CustomSection";
 import CustomTextArea from "../../../components/CustomTextArea";
 import CustomSeparator from "../../../components/CustomSeparator";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { useAppStackContext } from "../../../../util/AppStackContext";
-import { Themes } from "../../../../util/Styles";
 import AppData from "../../../../core/AppData";
 import HapticsHandler from "../../../../core/HapticsHandler";
+import { Themes } from "../../../../util/Styles";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
+import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
 
 
 // Theme switcher
@@ -113,12 +114,10 @@ function ThemeSwitcher() {
 }
 
 // Settings page
-function AdvancedSettingsPage({ navigation, route }) {
+function AdvancedSettingsPage({ navigation }) {
   const { theme } = useGlobalAppContext();
   const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
-  
-  // Currently selected account
-  const { currentAccount } = route.params;
+  const { mainAccount } = useCurrentAccountContext();
 
   // Update screen
   const [forceUpdate, setForceUpdate] = useState(false);
@@ -162,7 +161,12 @@ function AdvancedSettingsPage({ navigation, route }) {
                 value={countCompetences}
                 onValueChange={async (value) => {
                   await AppData.setPreference("countMarksWithOnlyCompetences", value);
-                  await AppData.recalculateAverageHistory(currentAccount.id);
+                  if (mainAccount.accountType == "E") { await AppData.recalculateAverageHistory(mainAccount.id); }
+                  else {
+                    for (const childID in mainAccount.children) {
+                      await AppData.recalculateAverageHistory(childID);
+                    }
+                  }
                   updateGlobalDisplay();
                 }}
               />
@@ -198,7 +202,7 @@ function AdvancedSettingsPage({ navigation, route }) {
                   textStyle={{ color: theme.colors.error }}
                   icon={<TrashIcon size={20} color={theme.colors.error}/>}
                   linkIcon={<ArrowBigRightDashIcon size={20} color={theme.colors.error}/>}
-                  onPress={() => AppData.resetCoefficients(currentAccount, updateGlobalDisplay)}
+                  onPress={() => AppData.resetCoefficients(mainAccount, updateGlobalDisplay)}
                 />
                 <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginTop: 10 }]}>Remettre à 0 les coefficients, et les notes et matières désactivées.</Text>
 

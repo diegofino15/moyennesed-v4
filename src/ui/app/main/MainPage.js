@@ -15,7 +15,7 @@ import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
 // Main page
 function MainPage({ route, navigation }) {
   const { theme } = useGlobalAppContext();
-  const { mainAccount, updateMainAccount } = useCurrentAccountContext();
+  const { mainAccount, updateMainAccount, manualRefreshing, setManualRefreshing } = useCurrentAccountContext();
 
   // Connected main account (parent / student)
   const { newAccountID } = route.params; 
@@ -38,9 +38,6 @@ function MainPage({ route, navigation }) {
     HapticsHandler.vibrate("light");
   }
 
-  // Manual refresh
-  const [manualRefreshing, setManualRefreshing] = useState(false);
-  
   return (
     <ScrollView
       bounces={true}
