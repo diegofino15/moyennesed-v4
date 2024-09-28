@@ -6,11 +6,11 @@ import CustomTag from "../../../components/CustomTag";
 import { formatAverage, formatMark } from "../../../../util/Utils";
 import ColorsHandler from "../../../../core/ColorsHandler";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
 
 
 // Embedded subject card
 function EmbeddedSubjectCard({
-  accountID,
   subject,
   getMark,
   hasExam,
@@ -18,6 +18,7 @@ function EmbeddedSubjectCard({
   navigation,
 }) {
   const { theme } = useGlobalAppContext();
+  const { accountID } = useCurrentAccountContext();
   
   const { light, dark } = ColorsHandler.getSubjectColors(subject.id)
   
@@ -159,7 +160,6 @@ function EmbeddedSubjectCard({
 
 // Main subject card
 function SubjectCard({
-  accountID,
   subject,
   getMark,
   hasExam,
@@ -169,7 +169,6 @@ function SubjectCard({
   return (
     <View style={{ marginTop: hasExam ? 10 : 0 }}>
       <EmbeddedSubjectCard
-        accountID={accountID}
         subject={subject}
         getMark={getMark}
         hasExam={hasExam}
@@ -181,7 +180,6 @@ function SubjectCard({
       {Object.values(subject.subSubjects).map((subSubject, index) => (
         <EmbeddedSubjectCard
           key={index}
-          accountID={accountID}
           subject={subSubject}
           getMark={getMark}
           countMarksWithOnlyCompetences={countMarksWithOnlyCompetences}

@@ -9,11 +9,11 @@ import HapticsHandler from "../../../../core/HapticsHandler";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
 import { asyncExpectedResult } from "../../../../util/Utils";
+import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
 
 
 // Homework card
 function HomeworkCard({
-  accountID,
   cacheHomework,
   specificHomework,
   isLoading,
@@ -22,6 +22,7 @@ function HomeworkCard({
 }) {
   const { theme } = useGlobalAppContext();
   const { updateGlobalDisplay } = useAppStackContext();
+  const { accountID } = useCurrentAccountContext();
   
   // Get subject
   const { light, dark } = ColorsHandler.getSubjectColors(cacheHomework.subjectID);

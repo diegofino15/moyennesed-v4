@@ -8,6 +8,7 @@ import CustomChangingText from "../../../components/CustomChangingText";
 import { formatDate2 } from "../../../../util/Utils";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import ColorsHandler from "../../../../core/ColorsHandler";
+import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
 
 
 // Date text
@@ -30,8 +31,9 @@ function InfoText({ subjectTitle, subSubjectTitle, date }) {
 
 
 // Recent mark card
-function RecentMarkCard({ accountID, mark, getSubject, showNewLabel=false, navigation }) {
+function RecentMarkCard({ mark, getSubject, showNewLabel=false, navigation }) {
   const { theme } = useGlobalAppContext();
+  const { accountID } = useCurrentAccountContext();
   
   const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
   

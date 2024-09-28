@@ -4,11 +4,16 @@ import { ArrowRightIcon, HelpCircleIcon, NotebookPenIcon } from "lucide-react-na
 
 import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../../util/AppStackContext";
+import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
 
 
 // Homework status
-function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettingHomework, navigation }) {
+function HomeworkStatus({ navigation }) {
   const { theme } = useGlobalAppContext();
+  const { isConnecting } = useAppStackContext();
+  const { accountID, gotHomework, isGettingHomework, errorGettingHomework } = useCurrentAccountContext();
+  var isLoading = isConnecting || isGettingHomework;
 
   return (
     <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20 }}>
@@ -16,8 +21,8 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
       <CustomAnimatedChangeableItem
         item={(
           <PressableScale style={{
-            backgroundColor: isGettingHomework ? theme.colors.primaryLight : gotHomework ? theme.colors.successLight : theme.colors.errorLight,
-            borderColor: isGettingHomework ? theme.colors.primary : gotHomework ? theme.colors.success : theme.colors.error,
+            backgroundColor: isLoading ? theme.colors.primaryLight : gotHomework ? theme.colors.successLight : theme.colors.errorLight,
+            borderColor: isLoading ? theme.colors.primary : gotHomework ? theme.colors.success : theme.colors.error,
             borderWidth: 2,
             borderBottomLeftRadius: 10,
             borderTopLeftRadius: 10,
@@ -25,19 +30,19 @@ function HomeworkStatus({ accountID, gotHomework, isGettingHomework, errorGettin
             alignItems: 'center',
             paddingHorizontal: 10,
             height: 45,
-          }} onPress={() => { if (!isGettingHomework) { navigation.navigate("HomeworkInformationPage", { accountID }); } }}>
+          }} onPress={() => { if (!isLoading) { navigation.navigate("HomeworkInformationPage", { accountID }); } }}>
             <Text style={[
               theme.fonts.labelMedium, {
-                color: isGettingHomework ? theme.colors.primary : gotHomework ? theme.colors.success : theme.colors.error,
+                color: isLoading ? theme.colors.primary : gotHomework ? theme.colors.success : theme.colors.error,
                 marginRight: 5,
                 height: 22,
-            }]}>{isGettingHomework ? "Chargement" : gotHomework ? "A jour" : errorGettingHomework ? "Erreur" : "Pas à jour"}</Text>
-            {(!isGettingHomework) && <HelpCircleIcon size={20} color={gotHomework ? theme.colors.success : theme.colors.error}/>}
+            }]}>{isLoading ? "Chargement" : gotHomework ? "A jour" : errorGettingHomework ? "Erreur" : "Pas à jour"}</Text>
+            {(!isLoading) && <HelpCircleIcon size={20} color={gotHomework ? theme.colors.success : theme.colors.error}/>}
           </PressableScale>
         )}
         animationTime={200}
         updaters={[
-          isGettingHomework,
+          isLoading,
           gotHomework,
           errorGettingHomework,
         ]}

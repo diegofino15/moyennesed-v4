@@ -303,7 +303,6 @@ function HomeworkPage({ navigation, route }) {
                   {specificHomework.files.map(file => (
                     <CustomFileAttachment
                       key={file.id}
-                      accountID={accountID}
                       file={file}
                       windowWidth={windowWidth}
                     />

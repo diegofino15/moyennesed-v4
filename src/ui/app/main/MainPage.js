@@ -8,20 +8,18 @@ import WelcomeMessage from "./WelcomeMessage";
 import CustomChooser from "../../components/CustomChooser";
 import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import HapticsHandler from "../../../core/HapticsHandler";
-import AppData from "../../../core/AppData";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
-import { useAppStackContext } from "../../../util/AppStackContext";
+import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
 
 
 // Main page
 function MainPage({ route, navigation }) {
   const { theme } = useGlobalAppContext();
-  const { isConnected } = useAppStackContext();
-  
+  const { mainAccount, updateMainAccount } = useCurrentAccountContext();
+
   // Connected main account (parent / student)
   const { newAccountID } = route.params; 
-  const [currentAccount, setCurrentAccount] = useState({ "accountType": "E" });
-  useEffect(() => { AppData.getMainAccount().then(account => { if (account) { setCurrentAccount(account); } }); }, [newAccountID, isConnected]);
+  useEffect(() => { updateMainAccount(); }, [newAccountID])
 
   // Switch account
   const [availableAccounts, setAvailableAccounts] = useState([]);
@@ -29,10 +27,10 @@ function MainPage({ route, navigation }) {
     if (!jsonAccounts) { return; }
     if (Object.keys(JSON.parse(jsonAccounts)).length > 1) {
       let accounts = JSON.parse(jsonAccounts);
-      delete accounts[currentAccount.id];
+      delete accounts[mainAccount.id];
       setAvailableAccounts(Object.values(accounts));
     }
-  }); }, [currentAccount.id]);
+  }); }, [mainAccount.id]);
   async function switchAccount(newAccountID) {
     await AsyncStorage.setItem("selectedAccount", `${newAccountID}`);
     navigation.navigate("MainPage", { newAccountID: newAccountID });
@@ -70,8 +68,8 @@ function MainPage({ route, navigation }) {
           marginHorizontal: 20,
         }}>
           <View style={{ flexDirection: 'column', width: Dimensions.get('window').width - 120 }}>
-            <Text style={[theme.fonts.titleLarge, { fontSize: 22, height: 30 }]} numberOfLines={1}>Bonjour {currentAccount.firstName} !</Text>
-            {currentAccount.id ? <WelcomeMessage currentAccount={currentAccount}/> : null}
+            <Text style={[theme.fonts.titleLarge, { fontSize: 22, height: 30 }]} numberOfLines={1}>Bonjour {mainAccount.firstName} !</Text>
+            {mainAccount.id ? <WelcomeMessage/> : null}
           </View>
 
           <CustomChooser
@@ -82,25 +80,20 @@ function MainPage({ route, navigation }) {
             }})}
             defaultItem={(
               <CustomProfilePhoto
-                accountID={currentAccount.id}
+                accountID={mainAccount.id}
                 size={70}
                 onPress={() => navigation.navigate("SettingsStack")}
                 hasOtherPressAction={availableAccounts.length >= 1}
               />
             )}
-            selected={currentAccount.id}
+            selected={mainAccount.id}
             setSelected={switchAccount}
             longPress
           />
         </View>
 
         {/* Marks overview */}
-        <EmbeddedMarksPage
-          mainAccount={currentAccount}
-          manualRefreshing={manualRefreshing}
-          setManualRefreshing={setManualRefreshing}
-          navigation={navigation}
-        />
+        <EmbeddedMarksPage navigation={navigation}/>
       </SafeAreaView>
     </ScrollView>
   );

@@ -11,12 +11,14 @@ import AppData from "../../../../core/AppData";
 import { formatDate2, wait } from "../../../../util/Utils";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
+import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
 
 
 // Homework day
-function HomeworkDay({ accountID, day, homeworks, autoLoad=false, windowWidth, navigation }) {
+function HomeworkDay({ day, homeworks, autoLoad=false, windowWidth, navigation }) {
   const { theme } = useGlobalAppContext();
   const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
+  const { accountID } = useCurrentAccountContext();
 
   // Auto-load the specific homeworks
   const [specificHomeworks, setSpecificHomeworks] = useState({});
@@ -86,7 +88,6 @@ function HomeworkDay({ accountID, day, homeworks, autoLoad=false, windowWidth, n
       {Object.values(homeworks).map(homework => (
         <HomeworkCard
           key={homework.id}
-          accountID={accountID}
           cacheHomework={homework}
           specificHomework={specificHomeworks[homework.id] ?? null}
           isLoading={isLoading}

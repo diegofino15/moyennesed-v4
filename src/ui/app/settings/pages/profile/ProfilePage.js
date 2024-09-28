@@ -75,7 +75,7 @@ function ProfilePage({ route, navigation }) {
             position: 'absolute',
             overflow: 'hidden',
           }}>
-            <CustomProfilePhoto accountID={currentAccount?.id} size={windowWidth} style={{ height: 280, top: -50 }}/>
+            <CustomProfilePhoto accountID={currentAccount.id} size={windowWidth} style={{ height: 280, top: -50 }}/>
             <BlurView intensity={Platform.select({ ios: currentAccount?.photoURL ? 50 : 30, android: 100 })} tint="dark" style={{ width: '100%', height: 230, position: 'absolute', }}/>
           </View>
           

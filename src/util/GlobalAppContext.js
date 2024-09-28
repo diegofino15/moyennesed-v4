@@ -4,8 +4,12 @@ import { MD3DarkTheme, PaperProvider } from 'react-native-paper';
 
 // Context needed to switch from AppStack to AuthStack
 export const GlobalAppContext = createContext({
-  isLoggedIn: Boolean,
-  theme: MD3DarkTheme,
+  isLoggedIn: Boolean, setIsLoggedIn: Function,
+  theme: MD3DarkTheme, changeTheme: Function,
+  isAutoTheme: Boolean, setIsAutoTheme: Function,
+
+  canServeAds: Boolean,
+  isAdsHandlerLoaded: Boolean,
 });
 export const useGlobalAppContext = () => useContext(GlobalAppContext);
 

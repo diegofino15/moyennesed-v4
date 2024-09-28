@@ -5,6 +5,10 @@ import AppData from '../core/AppData';
 
 // Context needed to update all the app's screens when needed
 export const AppStackContext = createContext({
+  isConnected: Boolean,
+  isConnecting: Boolean,
+  refreshLogin: Function,
+  
   globalDisplayUpdater: Number,
   updateGlobalDisplay: Function
 });

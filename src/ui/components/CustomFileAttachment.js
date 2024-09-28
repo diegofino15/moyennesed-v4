@@ -9,11 +9,13 @@ import CustomChooser from "./CustomChooser";
 import CustomSimpleInformationCard from "./CustomSimpleInformationCard";
 import AppData from "../../core/AppData";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import { useCurrentAccountContext } from "../../util/CurrentAccountContext";
 
 
 // File attachment
-function CustomFileAttachment({ accountID, file, windowWidth, deleteButton=false, onDelete }) {
+function CustomFileAttachment({ file, windowWidth, deleteButton=false, onDelete }) {
   const { theme } = useGlobalAppContext();
+  const { accountID } = useCurrentAccountContext();
   
   const [isDownloading, setIsDownloading] = useState(false);
   async function openAttachment() {

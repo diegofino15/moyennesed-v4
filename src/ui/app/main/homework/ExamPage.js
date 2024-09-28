@@ -59,7 +59,6 @@ function ExamPage({ navigation, route }) {
               marginBottom: 50,
             }}>
               <HomeworkDay
-                accountID={accountID}
                 day={day}
                 homeworks={abstractExams[day]}
                 windowWidth={windowWidth}

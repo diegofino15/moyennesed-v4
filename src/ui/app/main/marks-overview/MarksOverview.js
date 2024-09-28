@@ -15,26 +15,23 @@ import AdsHandler from "../../../../core/AdsHandler";
 import { formatAverage } from "../../../../util/Utils";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
+import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
 
 
 // Marks overview
 function MarksOverview({
-  accountID,
   selectedPeriod, setSelectedPeriod,
   latestCurrentPeriod, setLatestCurrentPeriod,
   periods,
-
-  isLoading,
-  gotMarks,
-  errorGettingMarks,
-  
   manualUpdater,
   navigation,
 }) {
   const { theme } = useGlobalAppContext();
-  const { globalDisplayUpdater } = useAppStackContext();
-  
-  // List of marks present at first display, used to show new marks
+  const { isConnecting, globalDisplayUpdater } = useAppStackContext();
+  const { accountID, gotMarks, isGettingMarks, errorGettingMarks } = useCurrentAccountContext();
+  var isLoading = isConnecting || isGettingMarks;
+
+  // List of marks present at first display, used to show which marks are new since last time the app was opened
   const [firstDisplayMarks, setFirstDisplayMarks, firstDisplayMarksRef] = useState([]);
   const [_shownPeriod, setShownPeriod] = useState(0);
   const [oldAccountID, setOldAccountID] = useState(accountID);
@@ -288,7 +285,6 @@ function MarksOverview({
           renderItem={({ item }) => {
             return (
             <RecentMarkCard
-              accountID={accountID}
               mark={periods[selectedPeriod].marks[item]}
               getSubject={() => periods[selectedPeriod].subjects[periods[selectedPeriod].marks[item].subjectID]}
               showNewLabel={selectedPeriod == latestCurrentPeriod && !firstDisplayMarks.includes(`${item}`)}

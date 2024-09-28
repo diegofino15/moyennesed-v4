@@ -39,7 +39,7 @@ function SettingsPage({ navigation }) {
           
           {/* Profile */}
           <CustomSectionButton
-            icon={currentAccount?.accountType == "E" && <CustomProfilePhoto accountID={currentAccount.id} size={70}/>}
+            icon={currentAccount?.accountType == "E" && <CustomProfilePhoto accountID={currentAccount?.id} size={70}/>}
             title={`${currentAccount?.firstName} ${currentAccount?.lastName}`}
             description='Paramètres du profil'
             onPress={() => navigation.navigate("ProfilePage", { currentAccount: currentAccount })}

@@ -49,7 +49,6 @@ function FilesPage({ navigation, route }) {
               {files.map((file, index) => (
                 <CustomFileAttachment
                   key={index}
-                  accountID={accountID}
                   file={{title: file.name}}
                   deleteButton
                   onDelete={() => getDownloadedFiles()}

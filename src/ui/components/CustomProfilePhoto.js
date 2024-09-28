@@ -11,7 +11,7 @@ import { useGlobalAppContext } from "../../util/GlobalAppContext";
 // Custom profile photo
 function CustomProfilePhoto({ accountID, onPress, size=60, style, hasOtherPressAction=false }) {
   const { theme } = useGlobalAppContext();
-  
+
   // Auto-update photo
   const [photo, setPhoto] = useState(null);
   useEffect(() => {
@@ -40,14 +40,14 @@ function CustomProfilePhoto({ accountID, onPress, size=60, style, hasOtherPressA
   }, [accountID]);
 
   // Parse photo
-  async function getPhoto(accountID, callback) {
+  async function getPhoto(id, callback) {
     // Get photo URL
-    const account = await AppData.getSpecificAccount(accountID);
+    const account = await AppData.getSpecificAccount(id);
     const photoURL = account.photoURL;
 
     // Fetch photo
     if (photoURL) {
-      console.log(`Refreshing profile photo for account ${accountID}...`);
+      console.log(`Refreshing profile photo for account ${id}...`);
       const response = await fetch(`https:${photoURL}`, { headers: { 'Referer': `http:${photoURL}`, 'Host': 'doc1.ecoledirecte.com' } });
       let blob = await response.blob(); // Works for some reason
       let fileReaderInstance = new FileReader();

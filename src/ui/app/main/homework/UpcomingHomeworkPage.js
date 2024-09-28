@@ -110,7 +110,6 @@ function UpcomingHomeworkPage({ navigation, route }) {
           renderItem={({ item }) => (
             <View style={{ marginBottom: 50 }}>
               <HomeworkDay
-                accountID={accountID}
                 day={item}
                 homeworks={abstractHomeworks.days[item]}
                 windowWidth={windowWidth}

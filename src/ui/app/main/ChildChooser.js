@@ -5,11 +5,13 @@ import CustomSeparator from "../../components/CustomSeparator";
 import HapticsHandler from "../../../core/HapticsHandler";
 import AppData from "../../../core/AppData";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
+import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
 
 
 // Child chooser
-function ChildChooser({ mainAccount, showMarksAccount, setShowMarksAccount }) {
+function ChildChooser() {
   const { theme } = useGlobalAppContext();
+  const { accountID, setShowMarksAccount, mainAccount } = useCurrentAccountContext();
   
   return (
     <View style={{
@@ -29,7 +31,7 @@ function ChildChooser({ mainAccount, showMarksAccount, setShowMarksAccount }) {
             <PressableScale
               key={item}
               onPress={() => {
-                if (showMarksAccount.id != item) {
+                if (accountID != item) {
                   setShowMarksAccount(childAccount);
                   AppData.setSelectedChildAccount(childAccount.id);
                   HapticsHandler.vibrate("light");
@@ -39,12 +41,12 @@ function ChildChooser({ mainAccount, showMarksAccount, setShowMarksAccount }) {
               <View style={{
                 paddingHorizontal: 20,
                 paddingVertical: 10,
-                backgroundColor: showMarksAccount.id == item ? theme.colors.primary : theme.colors.background,
+                backgroundColor: accountID == item ? theme.colors.primary : theme.colors.background,
                 borderRadius: 10,
               }}>
                 <Text style={[
                   theme.fonts.labelLarge,
-                  { color: showMarksAccount.id == item ? theme.colors.onPrimary : theme.colors.onSurfaceDisabled, height: 25 }
+                  { color: accountID == item ? theme.colors.onPrimary : theme.colors.onSurfaceDisabled, height: 25 }
                 ]}>{childAccount.firstName}</Text>
               </View>
             </PressableScale>

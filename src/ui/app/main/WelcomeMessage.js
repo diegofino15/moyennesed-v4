@@ -4,11 +4,13 @@ import { Platform } from "react-native";
 import AppData from "../../../core/AppData";
 import CustomChangingText from "../../components/CustomChangingText";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
+import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
 
 
 // Welcome message
-function WelcomeMessage({ currentAccount }) {
+function WelcomeMessage() {
   const { theme } = useGlobalAppContext();
+  const { mainAccount } = useCurrentAccountContext();
   
   // Get random message
   const [welcomeMessage, setWelcomeMessage] = useState("");
@@ -54,7 +56,7 @@ function WelcomeMessage({ currentAccount }) {
   }
 
   // Update on account change
-  useEffect(() => { getWelcomeMessage().then(message => setWelcomeMessage(message)); }, [currentAccount.id]);
+  useEffect(() => { getWelcomeMessage().then(message => setWelcomeMessage(message)); }, [mainAccount.id]);
 
   return (
     <CustomChangingText

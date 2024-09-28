@@ -7,19 +7,19 @@ import AppData from "../../../../core/AppData";
 import { formatAverage } from "../../../../util/Utils";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
+import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
 
 
 // Subjects overview
 function SubjectsOverview({
-  accountID,
   selectedPeriod,
   latestCurrentPeriod,
   periods,
-  gotHomework,
   navigation,
 }) {
   const { theme } = useGlobalAppContext();
   const { globalDisplayUpdater } = useAppStackContext();
+  const { accountID, gotHomework } = useCurrentAccountContext();
   
   // Get if subject has exam
   const [subjectHasExam, setSubjectHasExam] = useState({});
@@ -73,7 +73,6 @@ function SubjectsOverview({
             {subjectGroup.subjects.map(subjectID => {
               return <SubjectCard
                 key={subjectID}
-                accountID={accountID}
                 subject={periods[selectedPeriod].subjects[subjectID]}
                 getMark={(markID) => periods[selectedPeriod].marks[markID]}
                 hasExam={selectedPeriod == latestCurrentPeriod ? subjectHasExam[subjectID] : undefined}
@@ -106,7 +105,6 @@ function SubjectsOverview({
           {Object.values(periods[selectedPeriod]?.subjectsNotInSubjectGroup ?? {}).map(subjectID => {
             return <SubjectCard
               key={subjectID}
-              accountID={accountID}
               subject={periods[selectedPeriod].subjects[subjectID]}
               getMark={(markID) => periods[selectedPeriod].marks[markID]}
               hasExam={selectedPeriod == latestCurrentPeriod ? subjectHasExam[subjectID] : undefined}
