@@ -16,6 +16,10 @@ export const CurrentAccountContext = createContext({
   gotHomework: Boolean,
   isGettingHomework: Boolean,
   errorGettingHomework: Boolean,
+  getHomework: Function,
+
+  manualRefreshing: Boolean,
+  setManualRefreshing: Function,
 });
 export const useCurrentAccountContext = () => useContext(CurrentAccountContext);
 

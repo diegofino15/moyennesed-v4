@@ -67,10 +67,6 @@ function MainStack() {
           headerShown: false,
           animation: 'fade_from_bottom',
         }}
-        initialParams={{
-          accountID: 0,
-          _errorGettingHomework: false,
-        }}
       />
       <Stack.Screen
         name="HomeworkPage"

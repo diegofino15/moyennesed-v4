@@ -126,7 +126,7 @@ function MarksOverview({
                   alignItems: 'center',
                   paddingVertical: 2,
                   paddingHorizontal: 5
-                }} onPress={() => { if (!isLoading) { navigation.navigate("MarksInformationPage", { accountID }); } }} onLongPress={__DEV__ ? () => {} : undefined}>
+                }} onPress={() => { if (!isLoading) { navigation.navigate("MarksInformationPage"); } }} onLongPress={__DEV__ ? () => {} : undefined}>
                   <Text style={[
                     theme.fonts.labelMedium, {
                       color: errorGettingMarks ? theme.colors.error : sureGotMarks ? theme.colors.success : isLoading ? theme.colors.primary : theme.colors.error,

@@ -22,7 +22,7 @@ import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext
 function MarkPage({ navigation, route }) {
   const { theme } = useGlobalAppContext();
   const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
-  const { accountID } = useCurrentAccountContext();
+  const { accountID, mainAccount } = useCurrentAccountContext();
 
   const { cacheMark } = route.params;
 
@@ -380,7 +380,12 @@ function MarkPage({ navigation, route }) {
                       value={countMarksWithOnlyCompetences}
                       onValueChange={async (value) => {
                         await AppData.setPreference("countMarksWithOnlyCompetences", value);
-                        await AppData.recalculateAverageHistory(accountID);
+                        if (mainAccount.accountType == "E") { await AppData.recalculateAverageHistory(mainAccount.id); }
+                        else {
+                          for (const childID in mainAccount.children) {
+                            await AppData.recalculateAverageHistory(childID);
+                          }
+                        }
                         updateGlobalDisplay();
                       }}
                       disabled={!mark.hasValue}

@@ -12,7 +12,7 @@ import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext
 function HomeworkStatus({ navigation }) {
   const { theme } = useGlobalAppContext();
   const { isConnected, isConnecting } = useAppStackContext();
-  const { accountID, gotHomework, isGettingHomework, errorGettingHomework } = useCurrentAccountContext();
+  const { gotHomework, isGettingHomework, errorGettingHomework } = useCurrentAccountContext();
   var isLoading = isConnecting || isGettingHomework || (isConnected && !gotHomework);
   var sureGotHomework = gotHomework && !isGettingHomework;
 
@@ -31,7 +31,7 @@ function HomeworkStatus({ navigation }) {
             alignItems: 'center',
             paddingHorizontal: 10,
             height: 45,
-          }} onPress={() => { if (!isLoading) { navigation.navigate("HomeworkInformationPage", { accountID }); } }}>
+          }} onPress={() => { if (!isLoading) { navigation.navigate("HomeworkInformationPage"); } }}>
             <Text style={[
               theme.fonts.labelMedium, {
                 color: errorGettingHomework ? theme.colors.error : sureGotHomework ? theme.colors.success : isLoading ? theme.colors.primary : theme.colors.error,
@@ -62,7 +62,7 @@ function HomeworkStatus({ navigation }) {
         paddingHorizontal: 10,
         marginLeft: 5,
         height: 45,
-      }} onPress={() => { navigation.navigate("UpcomingHomeworkPage", { accountID, _errorGettingHomework: errorGettingHomework }); }}>
+      }} onPress={() => { navigation.navigate("UpcomingHomeworkPage"); }}>
         <View/>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <NotebookPenIcon size={20} color={theme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
