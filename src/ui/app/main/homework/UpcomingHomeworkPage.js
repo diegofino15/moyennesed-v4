@@ -42,10 +42,9 @@ function UpcomingHomeworkPage({ navigation }) {
   return (
     <CustomModal
       title={"Travail à faire"}
-      goBackFunction={() => navigation.pop()}
-      onlyShowBackButtonOnAndroid
       setHeight={setWindowHeight}
       setWidth={setWindowWidth}
+      topHeaderPadding={Constants.statusBarHeight}
       rightIcon={(
         <View style={{ margin: 4.5, }}>
           {isGettingHomework || isConnecting ? (
@@ -60,7 +59,7 @@ function UpcomingHomeworkPage({ navigation }) {
       otherIcon={(
         <PressableScale style={{
           position: 'absolute',
-          top: 15,
+          top: Constants.statusBarHeight + 10,
           right: 12 + 50,
           borderRadius: 10,
           zIndex: 1,
@@ -74,7 +73,7 @@ function UpcomingHomeworkPage({ navigation }) {
           </BlurView>
         </PressableScale>
       )}
-      rightIconStyle={{ top: 15, right: 15 }}
+      rightIconStyle={{ top: Constants.statusBarHeight + 10, right: 15 }}
       showScrollView={false}
       children={(<></>)}
       rightIconOnPress={() => getHomework(accountID, true)}
@@ -89,6 +88,7 @@ function UpcomingHomeworkPage({ navigation }) {
             overflow: Platform.select({ ios: 'visible', android: 'hidden' }),
             height: windowHeight - Constants.statusBarHeight - 67,
             width: windowWidth,
+            marginTop: Constants.statusBarHeight,
           }}
           renderItem={({ item }) => (
             <View style={{ marginBottom: 50 }}>
