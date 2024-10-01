@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { View, Text, FlatList, Dimensions, ScrollView } from "react-native";
-import { HelpCircleIcon, ChevronsUpDownIcon, Users2Icon, DraftingCompassIcon, TrendingUpIcon, EyeIcon, EyeOffIcon } from "lucide-react-native";
+import { ChevronsUpDownIcon, Users2Icon, DraftingCompassIcon, TrendingUpIcon, EyeIcon, EyeOffIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import useState from "react-usestateref";
 
@@ -9,13 +9,13 @@ import CustomAdLayer from "../../../components/CustomAdLayer";
 import CustomChooser from "../../../components/CustomChooser";
 import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
-import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import AdsHandler from "../../../../core/AdsHandler";
 import { formatAverage } from "../../../../util/Utils";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
 import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
+import MarksStatus from "./MarksStatus";
 
 
 // Marks overview
@@ -27,10 +27,8 @@ function MarksOverview({
   navigation,
 }) {
   const { theme } = useGlobalAppContext();
-  const { isConnected, isConnecting, globalDisplayUpdater } = useAppStackContext();
-  const { accountID, gotMarks, isGettingMarks, errorGettingMarks } = useCurrentAccountContext();
-  var isLoading = isConnecting || isGettingMarks || (isConnected && !gotMarks);
-  var sureGotMarks = gotMarks && !isGettingMarks;
+  const { globalDisplayUpdater } = useAppStackContext();
+  const { accountID } = useCurrentAccountContext();
 
   // List of marks present at first display, used to show which marks are new since last time the app was opened
   const [firstDisplayMarks, setFirstDisplayMarks, firstDisplayMarksRef] = useState([]);
@@ -114,35 +112,7 @@ function MarksOverview({
             { id: "ad-inspector", title: "Open Ad Inspector" },
           ] : []}
           setSelected={(_) => AdsHandler.openDebugger()}
-          defaultItem={(
-            <CustomAnimatedChangeableItem
-              item={(
-                <PressableScale style={{
-                  backgroundColor: errorGettingMarks ? theme.colors.errorLight : sureGotMarks ? theme.colors.successLight : isLoading ? theme.colors.primaryLight : theme.colors.errorLight,
-                  borderWidth: 2,
-                  borderColor: errorGettingMarks ? theme.colors.error : sureGotMarks ? theme.colors.success : isLoading ? theme.colors.primary : theme.colors.error,
-                  borderRadius: 5,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  paddingVertical: 2,
-                  paddingHorizontal: 5
-                }} onPress={() => { navigation.navigate("MarksInformationPage"); }} onLongPress={__DEV__ ? () => {} : undefined}>
-                  <Text style={[
-                    theme.fonts.labelMedium, {
-                      color: errorGettingMarks ? theme.colors.error : sureGotMarks ? theme.colors.success : isLoading ? theme.colors.primary : theme.colors.error,
-                      marginRight: 5,
-                      height: 22,
-                  }]}>{errorGettingMarks ? "Erreur" : sureGotMarks ? "A jour" : isLoading ? "Chargement" : "Pas à jour"}</Text>
-                  <HelpCircleIcon size={20} color={errorGettingMarks ? theme.colors.error : sureGotMarks ? theme.colors.success : isLoading ? theme.colors.primary : theme.colors.error}/>
-                </PressableScale>
-              )}
-              animationTime={200}
-              updaters={[
-                isLoading,
-                errorGettingMarks,
-              ]}
-            />
-          )}
+          defaultItem={<MarksStatus navigation={navigation}/>}
           longPress
         />
 
