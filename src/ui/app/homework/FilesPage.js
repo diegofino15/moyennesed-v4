@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { Dimensions, Platform, Text, View } from "react-native";
 import RNFS from "react-native-fs";
 
-import CustomModal from "../../../components/CustomModal";
-import CustomFileAttachment from '../../../components/CustomFileAttachment';
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import CustomModal from "../../components/CustomModal";
+import CustomFileAttachment from '../../components/CustomFileAttachment';
+import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 
 
 // Page that shows all the downloaded files from the homework

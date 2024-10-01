@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import useState from 'react-usestateref';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MainStack from './main/MainStack';
+import MainStack from './MainStack';
 import SettingsStack from './settings/SettingsStack';
 import AppData from '../../core/AppData';
 import HapticsHandler from '../../core/HapticsHandler';

@@ -1,18 +1,18 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import MainPage from './MainPage';
-import MarkPage from './subject-page/MarkPage';
-import SubjectPage from './subject-page/SubjectPage';
-import MarksInformationPage from './marks-overview/MarksInformationPage';
+import MainPage from './marks/MainPage';
+import MarkPage from './marks/subject-page/MarkPage';
+import SubjectPage from './marks/subject-page/SubjectPage';
+import MarksInformationPage from './marks/marks-overview/MarksInformationPage';
 import UpcomingHomeworkPage from './homework/UpcomingHomeworkPage';
 import HomeworkPage from './homework/HomeworkPage';
 import FilesPage from './homework/FilesPage';
 import ExamPage from './homework/ExamPage';
 import HomeworkInformationPage from './homework/HomeworkInformationPage';
 
-import AdsInformationPage from '../settings/pages/AdsInformationPage';
-import CoefficientsPage from '../settings/pages/CoefficientsPage';
+import AdsInformationPage from './settings/pages/AdsInformationPage';
+import CoefficientsPage from './settings/pages/CoefficientsPage';
 
 
 // Create stack for navigation

@@ -4,19 +4,19 @@ import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, ChevronLef
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CustomModal from "../../../components/CustomModal";
-import CustomSection from "../../../components/CustomSection";
-import CustomChooser from "../../../components/CustomChooser";
-import CustomSeparator from "../../../components/CustomSeparator";
-import CustomFileAttachment from "../../../components/CustomFileAttachment";
-import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
-import AppData from "../../../../core/AppData";
-import ColorsHandler from "../../../../core/ColorsHandler";
-import HapticsHandler from "../../../../core/HapticsHandler";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { useAppStackContext } from "../../../../util/AppStackContext";
-import { asyncExpectedResult, formatDate, formatDate2 } from "../../../../util/Utils";
-import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
+import CustomModal from "../../components/CustomModal";
+import CustomSection from "../../components/CustomSection";
+import CustomChooser from "../../components/CustomChooser";
+import CustomSeparator from "../../components/CustomSeparator";
+import CustomFileAttachment from "../../components/CustomFileAttachment";
+import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
+import AppData from "../../../core/AppData";
+import ColorsHandler from "../../../core/ColorsHandler";
+import HapticsHandler from "../../../core/HapticsHandler";
+import { useGlobalAppContext } from "../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../util/AppStackContext";
+import { asyncExpectedResult, formatDate, formatDate2 } from "../../../util/Utils";
+import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
 
 
 // homework page

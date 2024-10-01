@@ -7,11 +7,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
 
 import HomeworkDay from "./HomeworkDay";
-import CustomModal from "../../../components/CustomModal";
-import CustomSeparator from "../../../components/CustomSeparator";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { useAppStackContext } from "../../../../util/AppStackContext";
-import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
+import CustomModal from "../../components/CustomModal";
+import CustomSeparator from "../../components/CustomSeparator";
+import { useGlobalAppContext } from "../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../util/AppStackContext";
+import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
 
 
 // Exam page

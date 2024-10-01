@@ -3,13 +3,13 @@ import { View, Text, Dimensions, Platform } from "react-native";
 import { AlertTriangleIcon } from "lucide-react-native";
 import LottieView from "lottie-react-native";
 
-import CustomModal from "../../../components/CustomModal";
-import CustomInformationCard from "../../../components/CustomInformationCard";
-import { formatDate } from "../../../../util/Utils";
-import AppData from "../../../../core/AppData";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { useAppStackContext } from "../../../../util/AppStackContext";
-import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
+import CustomModal from "../../components/CustomModal";
+import CustomInformationCard from "../../components/CustomInformationCard";
+import { formatDate } from "../../../util/Utils";
+import AppData from "../../../core/AppData";
+import { useGlobalAppContext } from "../../../util/GlobalAppContext";
+import { useAppStackContext } from "../../../util/AppStackContext";
+import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
 
 
 // Information page
@@ -41,7 +41,7 @@ function HomeworkInformationPage({ navigation, route }) {
           }}>
             <LottieView
               autoPlay
-              source={require('../../../../../assets/lottie/about-homework.json')}
+              source={require('../../../../assets/lottie/about-homework.json')}
               style={{
                 width: '90%',
                 height: windowWidth * 0.9,
