@@ -1159,21 +1159,31 @@ class AppData {
         subjectGroup.averageHistory = [];
         subjectGroup.hasAverage = false;
         subjectGroup.average = undefined;
+        subjectGroup.hasClassAverage = false;
+        subjectGroup.classAverage = undefined;
       });
       Object.values(givenPeriod.subjects).forEach((subject) => {
         subject.averageHistory = [];
         subject.marks = [];
         subject.hasAverage = false;
         subject.average = undefined;
+        subject.hasClassAverage = false;
+        subject.classAverage = undefined;
         subject.isEffective = true;
         Object.values(subject.subSubjects).forEach((subSubject) => {
           subSubject.averageHistory = [];
           subSubject.marks = [];
           subSubject.hasAverage = false;
           subSubject.average = undefined;
+          subSubject.hasClassAverage = false;
+          subSubject.classAverage = undefined;
           subSubject.isEffective = true;
         });
       });
+      Object.values(givenPeriod.marks).forEach((mark) => {
+        mark.isEffective = undefined;
+      });
+      
 
       await this.applyCustomData(accountID, givenPeriod, true);
       this.applyMissingData(accountID, givenPeriod, true);
