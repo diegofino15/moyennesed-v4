@@ -44,6 +44,8 @@ function UpcomingHomeworkPage({ navigation, route }) {
   return (
     <CustomModal
       title={"Travail à faire"}
+      goBackFunction={() => navigation.pop()}
+      onlyShowBackButtonOnAndroid
       setHeight={setWindowHeight}
       setWidth={setWindowWidth}
       rightIcon={(
