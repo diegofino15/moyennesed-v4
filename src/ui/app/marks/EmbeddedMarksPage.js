@@ -6,7 +6,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import ChildChooser from "./ChildChooser";
-// import HomeworkStatus from "./homework/HomeworkStatus";
+import HomeworkStatus from "../homework/HomeworkStatus";
 import MarksOverview from "./marks-overview/MarksOverview";
 import SubjectsOverview from "./subjects-overview/SubjectsOverview";
 import CustomSection from "../../components/CustomSection";
@@ -127,7 +127,7 @@ function EmbeddedMarksPage({ navigation }) {
       />
 
       {/* Exams and homework overview */}
-      {/* {latestCurrentPeriod == selectedPeriod && (
+      {latestCurrentPeriod == selectedPeriod && (
         <View>
           <CustomSection
             title={"Devoirs & Evaluations"}
@@ -137,7 +137,7 @@ function EmbeddedMarksPage({ navigation }) {
           />
           <HomeworkStatus navigation={navigation}/>
         </View>
-      )} */}
+      )}
 
       {/* Subjects */}
       <CustomSection

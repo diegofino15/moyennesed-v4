@@ -1,14 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import MainPage from './marks/MainPage';
 import MarkPage from './marks/subject-page/MarkPage';
 import SubjectPage from './marks/subject-page/SubjectPage';
+import ExamPage from './homework/ExamPage';
 import MarksInformationPage from './marks/marks-overview/MarksInformationPage';
 import UpcomingHomeworkPage from './homework/UpcomingHomeworkPage';
 import HomeworkPage from './homework/HomeworkPage';
 import FilesPage from './homework/FilesPage';
-import ExamPage from './homework/ExamPage';
 import HomeworkInformationPage from './homework/HomeworkInformationPage';
 
 import AdsInformationPage from './settings/pages/AdsInformationPage';
@@ -17,43 +16,55 @@ import CoefficientsPage from './settings/pages/CoefficientsPage';
 
 // Create stack for navigation
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
 
 // Main page stack
 function MainStack() {
   return (
-    <Tab.Navigator>
-      {/* Marks */}
-      <Tab.Screen
-        name="MarksStack"
-        component={MarksStack}
-        options={{
-          headerShown: false,
-        }}
-      />
-
-      {/* Homework */}
-      <Tab.Screen
-        name="HomeworkStack"
-        component={HomeworkStack}
-        options={{
-          headerShown: false,
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
-
-// HOMEWORK //
-function HomeworkStack() {
-  return (
     <Stack.Navigator>
-      {/* Homeworks */}
+      {/* /// Marks /// */}
+      <Stack.Screen
+        name="MainPage"
+        component={MainPage}
+        options={{ headerShown: false }}
+        initialParams={{
+          newAccountID: 0, // Used to update app when switching accounts
+        }}
+      />
+      <Stack.Screen
+        name="SubjectStack"
+        component={SubjectStack}
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
+        initialParams={{
+          cacheSubject: {},
+          cacheMark: null,
+        }}
+      />
+      <Stack.Screen
+        name="ExamPage"
+        component={ExamPage}
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
+        initialParams={{
+          subjectTitle: null,
+          examIDs: [],
+        }}
+      />
+
+      {/* /// Homeworks /// */}
       <Stack.Screen
         name="UpcomingHomeworkPage"
         component={UpcomingHomeworkPage}
         options={{
+          presentation: 'modal',
           headerShown: false,
+          animation: 'fade_from_bottom',
         }}
       />
       <Stack.Screen
@@ -78,82 +89,8 @@ function HomeworkStack() {
           animation: 'fade_from_bottom',
         }}
       />
-
-      {/* Information page */}
-      <Stack.Screen
-        name="HomeworkInformationPage"
-        component={HomeworkInformationPage}
-        options={{
-          presentation: 'modal',
-          headerShown: false,
-          animation: 'fade_from_bottom',
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-
-
-// MARKS //
-
-// Marks stack
-function MarksStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="MainPage"
-        component={MainPage}
-        options={{ headerShown: false }}
-        initialParams={{
-          newAccountID: 0, // Used to update app when switching accounts
-        }}
-      />
-
-      {/* Subjects */}
-      <Stack.Screen
-        name="SubjectStack"
-        component={SubjectStack}
-        options={{
-          presentation: 'modal',
-          headerShown: false,
-          animation: 'fade_from_bottom',
-        }}
-        initialParams={{
-          cacheSubject: {},
-          cacheMark: null,
-        }}
-      />
-
-      {/* Exams */}
-      <Stack.Screen
-        name="ExamPage"
-        component={ExamPage}
-        options={{
-          presentation: 'modal',
-          headerShown: false,
-          animation: 'fade_from_bottom',
-        }}
-        initialParams={{
-          subjectTitle: null,
-          examIDs: [],
-        }}
-      />
-      <Stack.Screen
-        name="HomeworkPage"
-        component={HomeworkPage}
-        options={{
-          presentation: 'modal',
-          headerShown: false,
-          animation: 'fade_from_bottom',
-        }}
-        initialParams={{
-          cacheHomework: null,
-          cacheSpecificHomework: null,
-        }}
-      />
-
-      {/* Information page */}
+      
+      {/* Information pages */}
       <Stack.Screen
         name="MarksInformationPage"
         component={MarksInformationPage}
@@ -163,8 +100,15 @@ function MarksStack() {
           animation: 'fade_from_bottom',
         }}
       />
-
-      {/* Ads information  page */}
+      <Stack.Screen
+        name="HomeworkInformationPage"
+        component={HomeworkInformationPage}
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
+      />
       <Stack.Screen
         name="AdsInformationPage"
         component={AdsInformationPage}

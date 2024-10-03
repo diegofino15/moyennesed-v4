@@ -44,7 +44,6 @@ function UpcomingHomeworkPage({ navigation }) {
       title={"Travail à faire"}
       setHeight={setWindowHeight}
       setWidth={setWindowWidth}
-      topHeaderPadding={Constants.statusBarHeight}
       rightIcon={(
         <View style={{ margin: 4.5, }}>
           {isGettingHomework || isConnecting ? (
@@ -59,7 +58,7 @@ function UpcomingHomeworkPage({ navigation }) {
       otherIcon={(
         <PressableScale style={{
           position: 'absolute',
-          top: Constants.statusBarHeight + 10,
+          top: 15,
           right: 12 + 50,
           borderRadius: 10,
           zIndex: 1,
@@ -73,7 +72,7 @@ function UpcomingHomeworkPage({ navigation }) {
           </BlurView>
         </PressableScale>
       )}
-      rightIconStyle={{ top: Constants.statusBarHeight + 10, right: 15 }}
+      rightIconStyle={{ top: 15, right: 15 }}
       showScrollView={false}
       children={(<></>)}
       rightIconOnPress={() => getHomework(accountID, true)}
@@ -88,7 +87,6 @@ function UpcomingHomeworkPage({ navigation }) {
             overflow: Platform.select({ ios: 'visible', android: 'hidden' }),
             height: windowHeight - Constants.statusBarHeight - 67,
             width: windowWidth,
-            marginTop: Constants.statusBarHeight,
           }}
           renderItem={({ item }) => (
             <View style={{ marginBottom: 50 }}>
