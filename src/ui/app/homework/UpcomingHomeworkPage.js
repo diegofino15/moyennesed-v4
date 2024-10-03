@@ -15,13 +15,15 @@ import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
 
 
 // Exam page
-function UpcomingHomeworkPage({ navigation }) {
+function UpcomingHomeworkPage({ navigation, route }) {
   const { theme } = useGlobalAppContext();
   const { isConnected, isConnecting, globalDisplayUpdater } = useAppStackContext();
   const { accountID, isGettingHomework, errorGettingHomework, getHomework } = useCurrentAccountContext();
 
+  const { cacheAbstractHomeworks } = route.params;
+
   // Get abstract homeworks (waiting for them to load)
-  const [abstractHomeworks, setAbstractHomeworks] = useState({});
+  const [abstractHomeworks, setAbstractHomeworks] = useState(cacheAbstractHomeworks);
   useEffect(() => {
     AsyncStorage.getItem("homework").then(data => {
       var cacheData = {};

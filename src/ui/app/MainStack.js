@@ -66,6 +66,9 @@ function MainStack() {
           headerShown: false,
           animation: 'fade_from_bottom',
         }}
+        initialParams={{
+          cacheAbstractHomeworks: null
+        }}
       />
       <Stack.Screen
         name="HomeworkPage"

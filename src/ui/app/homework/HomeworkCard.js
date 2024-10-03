@@ -16,7 +16,6 @@ import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
 function HomeworkCard({
   cacheHomework,
   specificHomework,
-  isLoading,
   windowWidth,
   navigation,
 }) {
@@ -78,9 +77,7 @@ function HomeworkCard({
           paddingVertical: 5,
           borderRadius: 10,
           alignItems: 'center',
-        }} onPress={() => {
-          if (!isLoading) { navigation.navigate("HomeworkPage", { cacheHomework, cacheSpecificHomework: specificHomework }); }
-        }}>
+        }} onPress={() => { navigation.navigate("HomeworkPage", { cacheHomework, cacheSpecificHomework: specificHomework }); }}>
           <Text style={[theme.fonts.bodyLarge, {
             color: 'black',
             width: windowWidth - 145,

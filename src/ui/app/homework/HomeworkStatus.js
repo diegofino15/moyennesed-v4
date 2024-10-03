@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { ArrowRightIcon, HelpCircleIcon, NotebookPenIcon } from "lucide-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomAnimatedChangeableItem from "../../components/CustomAnimatedChangeableItem";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
@@ -11,10 +13,26 @@ import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
 // Homework status
 function HomeworkStatus({ navigation }) {
   const { theme } = useGlobalAppContext();
-  const { isConnected, isConnecting } = useAppStackContext();
-  const { gotHomework, isGettingHomework, errorGettingHomework } = useCurrentAccountContext();
+  const { isConnected, isConnecting, globalDisplayUpdater } = useAppStackContext();
+  const { accountID, gotHomework, isGettingHomework, errorGettingHomework } = useCurrentAccountContext();
   var isLoading = isConnecting || isGettingHomework || (isConnected && !gotHomework);
   var sureGotHomework = gotHomework && !isGettingHomework;
+
+  // Get abstract homeworks (to load the UpcomingHomeworkPage faster)
+  const [abstractHomeworks, setAbstractHomeworks] = useState({});
+  useEffect(() => {
+    AsyncStorage.getItem("homework").then(data => {
+      var cacheData = {};
+      if (data) { cacheData = JSON.parse(data); }
+      if (accountID in cacheData) {
+        let newAbstractHomeworks = cacheData[accountID].data;
+        Object.keys(cacheData[accountID].data.days).map(day => {
+          newAbstractHomeworks.days[day] = cacheData[accountID].data.days[day].map(examID => cacheData[accountID].data.homeworks[examID]);
+        });
+        setAbstractHomeworks(newAbstractHomeworks);
+      }
+    });
+  }, [globalDisplayUpdater]);
 
   return (
     <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20 }}>
@@ -62,7 +80,7 @@ function HomeworkStatus({ navigation }) {
         paddingHorizontal: 10,
         marginLeft: 5,
         height: 45,
-      }} onPress={() => { navigation.navigate("UpcomingHomeworkPage"); }}>
+      }} onPress={() => { navigation.navigate("UpcomingHomeworkPage", { cacheAbstractHomeworks: abstractHomeworks }); }}>
         <View/>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <NotebookPenIcon size={20} color={theme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
