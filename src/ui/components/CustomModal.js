@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { View, ScrollView, Text, Platform, Dimensions } from "react-native";
+import { View, Text, Platform, Dimensions } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { PressableScale } from "react-native-pressable-scale";
 import { ChevronLeftIcon } from "lucide-react-native";
 import { BlurView } from "expo-blur";

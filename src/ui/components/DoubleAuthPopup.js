@@ -180,37 +180,39 @@ function DoubleAuthPopup({ navigation }) {
             <>
               {/* Content */}
               <Text style={[theme.fonts.bodyLarge, { marginBottom: 10 }]}>{question}</Text>
-              {answers.map((answer, index) => (
-                <PressableScale key={index} style={{
-                  paddingLeft: 15,
-                  paddingRight: 10,
-                  paddingVertical: 10,
-                  borderWidth: 2,
-                  borderColor: index == selectedAnswer ? theme.colors.primary : theme.colors.surfaceOutline,
-                  borderRadius: 10,
-                  marginVertical: 5,
-                  backgroundColor: theme.colors.surface,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }} onPress={() => {
-                  setSelectedAnswer(index);
-                  HapticsHandler.vibrate("light");
-                }}>
-                  <Text style={[theme.fonts.bodyLarge, { flex: 1 }]}>{answer}</Text>
-                  {index == selectedAnswer ? (
-                    <View style={{
-                      padding: 5,
-                      borderRadius: 15,
-                      backgroundColor: theme.colors.primary,
-                    }}>
-                      <CheckIcon size={18} color={theme.colors.onPrimary}/>
-                    </View>
-                  ) : (
-                    <CircleIcon size={28} color={theme.dark ? theme.colors.surfaceOutline : theme.colors.backdrop}/>
-                  )}
-                </PressableScale>
-              ))}
+              <View>
+                {answers.map((answer, index) => (
+                  <PressableScale key={index} style={{
+                    paddingLeft: 15,
+                    paddingRight: 10,
+                    paddingVertical: 10,
+                    borderWidth: 2,
+                    borderColor: index == selectedAnswer ? theme.colors.primary : theme.colors.surfaceOutline,
+                    borderRadius: 10,
+                    marginVertical: 5,
+                    backgroundColor: theme.colors.surface,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }} onPress={() => {
+                    setSelectedAnswer(index);
+                    HapticsHandler.vibrate("light");
+                  }}>
+                    <Text style={[theme.fonts.bodyLarge, { flex: 1 }]}>{answer}</Text>
+                    {index == selectedAnswer ? (
+                      <View style={{
+                        padding: 5,
+                        borderRadius: 15,
+                        backgroundColor: theme.colors.primary,
+                      }}>
+                        <CheckIcon size={18} color={theme.colors.onPrimary}/>
+                      </View>
+                    ) : (
+                      <CircleIcon size={28} color={theme.dark ? theme.colors.surfaceOutline : theme.colors.backdrop}/>
+                    )}
+                  </PressableScale>
+                ))}
+              </View>
 
               {/* Confirm */}
               <CustomButton
