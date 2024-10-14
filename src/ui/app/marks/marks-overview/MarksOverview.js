@@ -23,18 +23,11 @@ function MarksOverview({
   selectedPeriod, setSelectedPeriod,
   latestCurrentPeriod, setLatestCurrentPeriod,
   periods,
-  manualUpdater,
   navigation,
 }) {
   const { theme } = useGlobalAppContext();
   const { globalDisplayUpdater } = useAppStackContext();
   const { accountID } = useCurrentAccountContext();
-
-  // List of marks present at first display, used to show which marks are new since last time the app was opened
-  const [firstDisplayMarks, setFirstDisplayMarks, firstDisplayMarksRef] = useState([]);
-  const [_shownPeriod, setShownPeriod] = useState(0);
-  const [oldAccountID, setOldAccountID] = useState(accountID);
-  const [oldManualUpdater, setOldManualUpdater] = useState(manualUpdater);
 
   // Get periods of student and choose which to display
   useEffect(() => {
@@ -55,20 +48,8 @@ function MarksOverview({
         setSelectedPeriod(newSelectedPeriod);
         setLatestCurrentPeriod(newSelectedPeriod);
       }
-      setShownPeriod(shownPeriod);
     }
   }, [globalDisplayUpdater, periods]);
-
-  useEffect(() => {
-    if (Object.keys(periods).length) {
-      // Save first display marks
-      if (firstDisplayMarksRef.current.length == 0 || accountID != oldAccountID || manualUpdater != oldManualUpdater) {
-        setFirstDisplayMarks(Object.keys(Object.values(periods)[_shownPeriod].marks));
-        setOldAccountID(accountID);
-        setOldManualUpdater(manualUpdater);
-      }
-    }
-  }, [periods, manualUpdater]);
   
   // Show average or evolution graph
   const scrollViewRef = useRef(null);
@@ -257,7 +238,6 @@ function MarksOverview({
             <RecentMarkCard
               mark={periods[selectedPeriod].marks[item]}
               getSubject={() => periods[selectedPeriod].subjects[periods[selectedPeriod].marks[item].subjectID]}
-              showNewLabel={selectedPeriod == latestCurrentPeriod && !firstDisplayMarks.includes(`${item}`)}
               navigation={navigation}
             />
           )}}

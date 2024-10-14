@@ -35,14 +35,12 @@ function EmbeddedMarksPage({ navigation }) {
 
   // Get periods of student (and update at every change)
   const [periods, setPeriods] = useState({});
-  const [manualUpdater, setManualUpdater] = useState(0);
   useEffect(() => {
     AsyncStorage.getItem("marks").then(async (data) => {
       var cacheData = {};
       if (data) { cacheData = JSON.parse(data); }
       if (accountID in cacheData) {
         setPeriods(cacheData[accountID].data);
-        setManualUpdater(manualUpdater + 1);
       } else { setPeriods({}); }
     });
   }, [accountID, globalDisplayUpdater]);
@@ -122,7 +120,6 @@ function EmbeddedMarksPage({ navigation }) {
         selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod}
         latestCurrentPeriod={latestCurrentPeriod} setLatestCurrentPeriod={setLatestCurrentPeriod}
         periods={periods}
-        manualUpdater={manualUpdater}
         navigation={navigation}
       />
 

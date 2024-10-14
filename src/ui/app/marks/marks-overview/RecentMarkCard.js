@@ -30,7 +30,7 @@ function InfoText({ subjectTitle, subSubjectTitle, date }) {
 
 
 // Recent mark card
-function RecentMarkCard({ mark, getSubject, showNewLabel=false, navigation }) {
+function RecentMarkCard({ mark, getSubject, navigation }) {
   const { theme } = useGlobalAppContext();
 
   const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
@@ -101,15 +101,6 @@ function RecentMarkCard({ mark, getSubject, showNewLabel=false, navigation }) {
           title={"Non significative"}
           color={theme.colors.error}
           onBottom
-        />
-      )}
-
-      {/* Is new ? */}
-      {showNewLabel && (
-        <CustomTag
-          title={"NOUVEAU"}
-          color={theme.colors.error}
-          style={{ paddingVertical: 0 }}
         />
       )}
     </PressableScale>
