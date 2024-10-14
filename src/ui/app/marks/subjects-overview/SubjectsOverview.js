@@ -3,7 +3,8 @@ import { Dimensions, Text, View } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 
 import SubjectCard from "./SubjectCard";
-import AppData from "../../../../core/AppData";
+import AccountHandler from "../../../../core/AccountHandler";
+import HomeworkHandler from "../../../../core/HomeworkHandler";
 import { formatAverage } from "../../../../util/Utils";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
@@ -25,8 +26,8 @@ function SubjectsOverview({
   const [subjectHasExam, setSubjectHasExam] = useState({});
   const [countMarksWithOnlyCompetences, setCountMarksWithOnlyCompetences] = useState(false);
   useEffect(() => {
-    AppData.getSubjectHasExam(accountID).then(setSubjectHasExam);
-    AppData.getPreference("countMarksWithOnlyCompetences").then(setCountMarksWithOnlyCompetences);
+    HomeworkHandler.getSubjectHasExam(accountID).then(setSubjectHasExam);
+    AccountHandler.getPreference("countMarksWithOnlyCompetences").then(setCountMarksWithOnlyCompetences);
   }, [accountID, gotHomework, globalDisplayUpdater]);
 
   return (

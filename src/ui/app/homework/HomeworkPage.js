@@ -10,7 +10,7 @@ import CustomChooser from "../../components/CustomChooser";
 import CustomSeparator from "../../components/CustomSeparator";
 import CustomFileAttachment from "../../components/CustomFileAttachment";
 import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
-import AppData from "../../../core/AppData";
+import HomeworkHandler from "../../../core/HomeworkHandler";
 import ColorsHandler from "../../../core/ColorsHandler";
 import HapticsHandler from "../../../core/HapticsHandler";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
@@ -72,7 +72,7 @@ function HomeworkPage({ navigation, route }) {
     
     // Fetch specific homework
     setIsLoading(true);
-    const status = await AppData.getSpecificHomeworkForDay(accountID, homework.dateFor);
+    const status = await HomeworkHandler.getSpecificHomeworkForDay(accountID, homework.dateFor);
     if (status == 1) {
       await getCacheSpecificHomework();
       updateGlobalDisplay();
@@ -89,7 +89,7 @@ function HomeworkPage({ navigation, route }) {
     HapticsHandler.vibrate("light");
     setIsSettingDone(true);
     asyncExpectedResult(
-      async () => await AppData.markHomeworkAsDone(accountID, homework.id, !isDone),
+      async () => await HomeworkHandler.markHomeworkAsDone(accountID, homework.id, !isDone),
       (done) => {
         setIsDone(done);
         setIsSettingDone(false);

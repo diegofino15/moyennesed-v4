@@ -11,7 +11,8 @@ import CustomSection from "../../../components/CustomSection";
 import CustomTextArea from "../../../components/CustomTextArea";
 import CustomSeparator from "../../../components/CustomSeparator";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
-import AppData from "../../../../core/AppData";
+import AccountHandler from "../../../../core/AccountHandler";
+import MarksHandler from "../../../../core/MarksHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import { Themes } from "../../../../util/Styles";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
@@ -127,13 +128,13 @@ function AdvancedSettingsPage({ navigation }) {
   // Competences
   const [countCompetences, setCountCompetences] = useState(false);
   useEffect(() => {
-    AppData.getPreference("countMarksWithOnlyCompetences").then(setCountCompetences);
+    AccountHandler.getPreference("countMarksWithOnlyCompetences").then(setCountCompetences);
   }, [globalDisplayUpdater, forceUpdate]);
 
   // Vibrations
   const [enableVibrations, setEnableVibrations] = useState(HapticsHandler.enableVibrations);
   useEffect(() => {
-    AppData.getPreference("enableVibrations").then(setEnableVibrations);
+    AccountHandler.getPreference("enableVibrations").then(setEnableVibrations);
   }, [globalDisplayUpdater, forceUpdate]);
 
   return (
@@ -160,11 +161,11 @@ function AdvancedSettingsPage({ navigation }) {
               <Switch
                 value={countCompetences}
                 onValueChange={async (value) => {
-                  await AppData.setPreference("countMarksWithOnlyCompetences", value);
-                  if (mainAccount.accountType == "E") { await AppData.recalculateAverageHistory(mainAccount.id); }
+                  await AccountHandler.setPreference("countMarksWithOnlyCompetences", value);
+                  if (mainAccount.accountType == "E") { await MarksHandler.recalculateAverageHistory(mainAccount.id); }
                   else {
                     for (const childID in mainAccount.children) {
-                      await AppData.recalculateAverageHistory(childID);
+                      await MarksHandler.recalculateAverageHistory(childID);
                     }
                   }
                   updateGlobalDisplay();
@@ -202,7 +203,7 @@ function AdvancedSettingsPage({ navigation }) {
                   textStyle={{ color: theme.colors.error }}
                   icon={<TrashIcon size={20} color={theme.colors.error}/>}
                   linkIcon={<ArrowBigRightDashIcon size={20} color={theme.colors.error}/>}
-                  onPress={() => AppData.resetCoefficients(mainAccount, updateGlobalDisplay)}
+                  onPress={() => MarksHandler.resetCoefficients(mainAccount, updateGlobalDisplay)}
                 />
                 <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginTop: 10 }]}>Remettre à 0 les coefficients, et les notes et matières désactivées.</Text>
 
@@ -213,7 +214,7 @@ function AdvancedSettingsPage({ navigation }) {
                   textStyle={{ color: theme.colors.error }}
                   icon={<TrashIcon size={20} color={theme.colors.error}/>}
                   linkIcon={<ArrowBigRightDashIcon size={20} color={theme.colors.error}/>}
-                  onPress={() => AppData.eraseCacheData()}
+                  onPress={() => AccountHandler.eraseCacheData()}
                 />
                 <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginTop: 10 }]}>Supprimer les données stockées sur l'appareil (ex: fichiers attachés aux devoirs, photo de profil...).</Text>
               </>

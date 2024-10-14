@@ -4,7 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MainStack from './MainStack';
 import SettingsStack from './settings/SettingsStack';
-import AppData from '../../core/AppData';
+import AccountHandler from '../../core/AccountHandler';
+import MarksHandler from '../../core/MarksHandler';
+import HomeworkHandler from '../../core/HomeworkHandler';
 import HapticsHandler from '../../core/HapticsHandler';
 import { CurrentAccountContextProvider } from '../../util/CurrentAccountContext';
 import { AppStackContextProvider, useAppStackContext } from '../../util/AppStackContext';
@@ -33,7 +35,7 @@ function MainAndSettingsStack() {
   
   const [manualRefreshing, setManualRefreshing] = useState(false);
   const [mainAccount, setMainAccount] = useState({ "accountType": "E" });
-  function updateMainAccount() { AppData.getMainAccount().then(account => { if (account) { setMainAccount(account); } }); }
+  function updateMainAccount() { AccountHandler.getMainAccount().then(account => { if (account) { setMainAccount(account); } }); }
   useEffect(() => { updateMainAccount(); }, [isConnected]);
 
   // Select a student account to get marks from
@@ -42,10 +44,10 @@ function MainAndSettingsStack() {
     async function setup() {
       // Check if account is already a student account
       if (mainAccount.accountType == "E") {
-        await AppData.setSelectedChildAccount(mainAccount.id);
+        await AccountHandler.setSelectedChildAccount(mainAccount.id);
         setShowMarksAccount(mainAccount);
       } else {
-        await AppData.setSelectedChildAccount(Object.keys(mainAccount.children)[0]);
+        await AccountHandler.setSelectedChildAccount(Object.keys(mainAccount.children)[0]);
         setShowMarksAccount(Object.values(mainAccount.children)[0]);
       }
     }
@@ -68,7 +70,7 @@ function MainAndSettingsStack() {
     if (gettingMarksForIDRef.current[accountID]) { return; }
 
     setGettingMarksForID({...gettingMarksForIDRef.current, [accountID]: true});
-    const status = await AppData.getMarks(accountID);
+    const status = await MarksHandler.getMarks(accountID);
     gotMarksForIDRef.current[accountID] = status == 1;
     errorGettingMarksForIDRef.current[accountID] = status != 1;
     setGettingMarksForID({ ...gettingMarksForIDRef.current, [accountID]: false });
@@ -78,7 +80,7 @@ function MainAndSettingsStack() {
     if (gettingHomeworkForIDRef.current[accountID]) { return; }
 
     setGettingHomeworkForID({...gettingHomeworkForIDRef.current, [accountID]: true});
-    const status = await AppData.getAllHomework(accountID);
+    const status = await HomeworkHandler.getAllHomework(accountID);
     gotHomeworkForIDRef.current[accountID] = status == 1;
     errorGettingHomeworkForIDRef.current[accountID] = status != 1;
     setGettingHomeworkForID({...gettingHomeworkForIDRef.current, [accountID]: false});

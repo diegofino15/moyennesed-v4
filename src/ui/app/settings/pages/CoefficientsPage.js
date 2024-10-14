@@ -9,7 +9,7 @@ import CustomChooser from "../../../components/CustomChooser";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import CoefficientHandler from "../../../../core/CoefficientHandler";
-import AppData from "../../../../core/AppData";
+import MarksHandler from "../../../../core/MarksHandler";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
 import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
@@ -57,7 +57,7 @@ function CoefficientsPage({ navigation }) {
                     value={CoefficientHandler.guessMarkCoefficientEnabled[account.id]}
                     onValueChange={async (value) => {
                       await CoefficientHandler.setGuessMarkCoefficientEnabled(account.id, value);
-                      await AppData.recalculateAverageHistory(account.id);
+                      await MarksHandler.recalculateAverageHistory(account.id);
                       updateGlobalDisplay();
                     }}
                   />
@@ -73,7 +73,7 @@ function CoefficientsPage({ navigation }) {
                     value={CoefficientHandler.guessSubjectCoefficientEnabled[account.id]}
                     onValueChange={async (value) => {
                       await CoefficientHandler.setGuessSubjectCoefficientEnabled(account.id, value);
-                      await AppData.recalculateAverageHistory(account.id);
+                      await MarksHandler.recalculateAverageHistory(account.id);
                       updateGlobalDisplay();
                     }}
                   />
@@ -96,7 +96,7 @@ function CoefficientsPage({ navigation }) {
                         selected={CoefficientHandler.choosenProfiles[account.id]}
                         setSelected={async (profile) => {
                           await CoefficientHandler.setChoosenProfile(account.id, profile);
-                          await AppData.recalculateAverageHistory(account.id);
+                          await MarksHandler.recalculateAverageHistory(account.id);
                           updateGlobalDisplay();
                         }}
                         items={Object.keys(CoefficientHandler.profiles).map(key => {

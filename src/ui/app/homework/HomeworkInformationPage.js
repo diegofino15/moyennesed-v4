@@ -6,7 +6,7 @@ import LottieView from "lottie-react-native";
 import CustomModal from "../../components/CustomModal";
 import CustomInformationCard from "../../components/CustomInformationCard";
 import { formatDate } from "../../../util/Utils";
-import AppData from "../../../core/AppData";
+import HomeworkHandler from "../../../core/HomeworkHandler";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../util/AppStackContext";
 import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
@@ -21,7 +21,7 @@ function HomeworkInformationPage({ navigation, route }) {
   // Get last date updated marks
   const [lastDateUpdated, setLastDateUpdated] = useState(null);
   useEffect(() => {
-    AppData.getLastTimeUpdatedHomework(accountID).then(setLastDateUpdated);
+    HomeworkHandler.getLastTimeUpdatedHomework(accountID).then(setLastDateUpdated);
   }, [globalDisplayUpdater]);
 
   const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);

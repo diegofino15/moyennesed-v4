@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { CheckIcon, CircleIcon } from "lucide-react-native";
 
-import AppData from "../../../core/AppData";
+import HomeworkHandler from "../../../core/HomeworkHandler";
 import ColorsHandler from "../../../core/ColorsHandler";
 import HapticsHandler from "../../../core/HapticsHandler";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
@@ -32,7 +32,7 @@ function HomeworkCard({
   function toggleDone() {
     HapticsHandler.vibrate("light");
     asyncExpectedResult(
-      async () => await AppData.markHomeworkAsDone(accountID, cacheHomework.id, !isDone),
+      async () => await HomeworkHandler.markHomeworkAsDone(accountID, cacheHomework.id, !isDone),
       (done) => {
         setIsDone(done);
         updateGlobalDisplay();

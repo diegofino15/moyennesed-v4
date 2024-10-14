@@ -8,7 +8,7 @@ import CustomSectionButton from "../components/CustomSectionButton";
 import CustomProfilePhoto from "../components/CustomProfilePhoto";
 import CustomButton from "../components/CustomButton";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
-import AppData from "../../core/AppData";
+import AccountHandler from "../../core/AccountHandler";
 import HapticsHandler from "../../core/HapticsHandler";
 
 
@@ -29,7 +29,7 @@ function ChooseAccountPage({ navigation }) {
   // Confirm
   async function confirmSelection() {
     HapticsHandler.vibrate('light');
-    await AppData.saveSelectedAccount(Object.keys(accounts)[selectedAccount]);
+    await AccountHandler.saveSelectedAccount(Object.keys(accounts)[selectedAccount]);
     navigation.popToTop();
     setIsLoggedIn(true);
   }

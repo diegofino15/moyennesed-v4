@@ -6,7 +6,7 @@ import LottieView from "lottie-react-native";
 import CustomModal from "../../../components/CustomModal";
 import CustomInformationCard from "../../../components/CustomInformationCard";
 import { formatDate } from "../../../../util/Utils";
-import AppData from "../../../../core/AppData";
+import MarksHandler from "../../../../core/MarksHandler";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
 import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
@@ -21,7 +21,7 @@ function MarksInformationPage({ navigation, route }) {
   // Get last date updated marks
   const [lastDateUpdated, setLastDateUpdated] = useState(null);
   useEffect(() => {
-    AppData.getLastTimeUpdatedMarks(accountID).then(setLastDateUpdated);
+    MarksHandler.getLastTimeUpdatedMarks(accountID).then(setLastDateUpdated);
   }, [globalDisplayUpdater]);
 
   const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);

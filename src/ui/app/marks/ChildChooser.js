@@ -3,7 +3,7 @@ import { PressableScale } from "react-native-pressable-scale";
 
 import CustomSeparator from "../../components/CustomSeparator";
 import HapticsHandler from "../../../core/HapticsHandler";
-import AppData from "../../../core/AppData";
+import AccountHandler from "../../../core/AccountHandler";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
 
@@ -33,7 +33,7 @@ function ChildChooser() {
               onPress={() => {
                 if (accountID != item) {
                   setShowMarksAccount(childAccount);
-                  AppData.setSelectedChildAccount(childAccount.id);
+                  AccountHandler.setSelectedChildAccount(childAccount.id);
                   HapticsHandler.vibrate("light");
                 }
               }}

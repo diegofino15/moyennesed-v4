@@ -12,7 +12,8 @@ import CustomSimpleInformationCard from "../../../components/CustomSimpleInforma
 import { asyncExpectedResult, formatAverage, formatDate2, formatMark } from "../../../../util/Utils";
 import CoefficientHandler from "../../../../core/CoefficientHandler";
 import ColorsHandler from "../../../../core/ColorsHandler";
-import AppData from "../../../../core/AppData";
+import AccountHandler from "../../../../core/AccountHandler";
+import MarksHandler from "../../../../core/MarksHandler";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
 import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
@@ -40,7 +41,7 @@ function MarkPage({ navigation, route }) {
 
   // Change mark coefficient
   async function changeCoefficient(newCoefficient) {
-    await AppData.setCustomData(
+    await MarksHandler.setCustomData(
       accountID,
       "marks",
       `${mark.id}`,
@@ -48,18 +49,18 @@ function MarkPage({ navigation, route }) {
       newCoefficient,
       mark.periodID,
     );
-    await AppData.recalculateAverageHistory(accountID);
+    await MarksHandler.recalculateAverageHistory(accountID);
     updateGlobalDisplay();
   }
   async function resetCustomCoefficient() {
-    await AppData.removeCustomData(
+    await MarksHandler.removeCustomData(
       accountID,
       "marks",
       `${mark.id}`,
       "coefficient",
       mark.periodID,
     );
-    await AppData.recalculateAverageHistory(accountID);
+    await MarksHandler.recalculateAverageHistory(accountID);
     updateGlobalDisplay();
   }
 
@@ -68,7 +69,7 @@ function MarkPage({ navigation, route }) {
   function toggleIsEffective() {
     asyncExpectedResult(
       async () => {
-        await AppData.setCustomData(
+        await MarksHandler.setCustomData(
           accountID,
           "marks",
           mark.id,
@@ -76,7 +77,7 @@ function MarkPage({ navigation, route }) {
           !mark.isEffective,
           mark.periodID,
         );
-        await AppData.recalculateAverageHistory(accountID);
+        await MarksHandler.recalculateAverageHistory(accountID);
       },
       () => updateGlobalDisplay(),
       () => setIsEffective(!mark.isEffective),
@@ -86,7 +87,7 @@ function MarkPage({ navigation, route }) {
   // Custom settings
   const [countMarksWithOnlyCompetences, setCountMarksWithOnlyCompetences] = useState(false);
   useEffect(() => {
-    AppData.getPreference("countMarksWithOnlyCompetences").then(setCountMarksWithOnlyCompetences);
+    AccountHandler.getPreference("countMarksWithOnlyCompetences").then(setCountMarksWithOnlyCompetences);
   }, [globalDisplayUpdater]);
 
   // Get subject colors
@@ -379,11 +380,11 @@ function MarkPage({ navigation, route }) {
                     <Switch
                       value={countMarksWithOnlyCompetences}
                       onValueChange={async (value) => {
-                        await AppData.setPreference("countMarksWithOnlyCompetences", value);
-                        if (mainAccount.accountType == "E") { await AppData.recalculateAverageHistory(mainAccount.id); }
+                        await AccountHandler.setPreference("countMarksWithOnlyCompetences", value);
+                        if (mainAccount.accountType == "E") { await MarksHandler.recalculateAverageHistory(mainAccount.id); }
                         else {
                           for (const childID in mainAccount.children) {
-                            await AppData.recalculateAverageHistory(childID);
+                            await MarksHandler.recalculateAverageHistory(childID);
                           }
                         }
                         updateGlobalDisplay();

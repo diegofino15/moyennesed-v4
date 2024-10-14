@@ -7,7 +7,7 @@ import * as RNFS from "react-native-fs";
 
 import CustomChooser from "./CustomChooser";
 import CustomSimpleInformationCard from "./CustomSimpleInformationCard";
-import AppData from "../../core/AppData";
+import HomeworkHandler from "../../core/HomeworkHandler";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
 import { useCurrentAccountContext } from "../../util/CurrentAccountContext";
 
@@ -21,7 +21,7 @@ function CustomFileAttachment({ file, windowWidth, deleteButton=false, onDelete 
   async function openAttachment() {
     if (isDownloading) { return; }
     setIsDownloading(true);
-    const { promise, localFile } = await AppData.downloadHomeworkFile(accountID, file);
+    const { promise, localFile } = await HomeworkHandler.downloadHomeworkFile(accountID, file);
     promise.then(() => {
       FileViewer.open(localFile);
       setIsDownloading(false);

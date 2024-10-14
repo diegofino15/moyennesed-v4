@@ -1,6 +1,6 @@
 import * as Haptics from "expo-haptics";
 
-import AppData from "./AppData";
+import AccountHandler from "./AccountHandler";
 
 
 // Controls vibrations used by buttons in the app
@@ -9,10 +9,10 @@ class HapticsHandler {
 
   static async toggle(value) {
     this.enableVibrations = value;
-    await AppData.setPreference("enableVibrations", value);
+    await AccountHandler.setPreference("enableVibrations", value);
   }
   static async load() {
-    this.enableVibrations = await AppData.getPreference("enableVibrations", true);
+    this.enableVibrations = await AccountHandler.getPreference("enableVibrations", true);
   }
   
   static vibrate(impactWeight) {

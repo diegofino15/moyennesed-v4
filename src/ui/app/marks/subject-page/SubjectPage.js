@@ -18,7 +18,8 @@ import { asyncExpectedResult, formatAverage } from "../../../../util/Utils";
 import CoefficientHandler from "../../../../core/CoefficientHandler";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import ColorsHandler from "../../../../core/ColorsHandler";
-import AppData from "../../../../core/AppData";
+import AccountHandler from "../../../../core/AccountHandler";
+import MarksHandler from "../../../../core/MarksHandler";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
 import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
@@ -94,24 +95,24 @@ function SubjectPage({
 
   // Changeable coefficient
   async function changeCoefficient(newCoefficient) {
-    await AppData.setCustomData(
+    await MarksHandler.setCustomData(
       accountID,
       "subjects",
       `${shownSubject.id}/${shownSubject.subID ?? ""}`,
       "coefficient",
       newCoefficient,
     );
-    await AppData.recalculateAverageHistory(accountID);
+    await MarksHandler.recalculateAverageHistory(accountID);
     updateGlobalDisplay();
   }
   async function resetCustomCoefficient() {
-    await AppData.removeCustomData(
+    await MarksHandler.removeCustomData(
       accountID,
       "subjects",
       `${shownSubject.id}/${shownSubject.subID ?? ""}`,
       "coefficient",
     );
-    await AppData.recalculateAverageHistory(accountID);
+    await MarksHandler.recalculateAverageHistory(accountID);
     updateGlobalDisplay();
   }
 
@@ -120,14 +121,14 @@ function SubjectPage({
   function toggleIsEffective() {
     asyncExpectedResult(
       async () => {
-        await AppData.setCustomData(
+        await MarksHandler.setCustomData(
           accountID,
           "subjects",
           `${shownSubject.id}/${shownSubject.subID ?? ""}`,
           "isEffective",
           !shownSubject.isEffective,
         );
-        await AppData.recalculateAverageHistory(accountID);
+        await MarksHandler.recalculateAverageHistory(accountID);
       },
       () => updateGlobalDisplay(),
       () => setIsEffective(!shownSubject.isEffective),
@@ -137,7 +138,7 @@ function SubjectPage({
   // Custom settings
   const [countMarksWithOnlyCompetences, setCountMarksWithOnlyCompetences] = useState(false);
   useEffect(() => {
-    AppData.getPreference("countMarksWithOnlyCompetences").then(setCountMarksWithOnlyCompetences);
+    AccountHandler.getPreference("countMarksWithOnlyCompetences").then(setCountMarksWithOnlyCompetences);
   }, [globalDisplayUpdater]);
 
   // Chart

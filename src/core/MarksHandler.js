@@ -1,341 +1,30 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import RNFS from "react-native-fs";
-import axios from "axios";
-import dayjs from "dayjs";
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-dayjs.extend(customParseFormat);
 
-import { capitalizeWords, formatDate3, getLatestDate, parseHtmlData } from "../util/Utils";
+import AccountHandler from "./AccountHandler";
+import APIEndpoints from "./APIEndpoints";
 import ColorsHandler from "./ColorsHandler";
 import CoefficientHandler from "./CoefficientHandler";
+import { capitalizeWords, getLatestDate } from "../util/Utils";
 
 
-// This enum contains all the endpoints of the api used in the app
-class APIEndpoints {
-  static OFFICIAL_API = "https://api.ecoledirecte.com";
-  static CUSTOM_API = process.env.EXPO_PUBLIC_API_URL;
-
-  static LOGIN = "/v3/login.awp";
-  static MARKS(accountID) { return `/v3/eleves/${accountID}/notes.awp`; };
-  static ALL_HOMEWORK(accountID) { return `/v3/Eleves/${accountID}/cahierdetexte.awp`; }
-  static SPECIFIC_HOMEWORK(accountID, day) { return `/v3/Eleves/${accountID}/cahierdetexte/${day}.awp`; }
-  static DOWNLOAD_HOMEWORK_ATTACHEMENT(fileID, fileType) { return `/v3/telechargement.awp?verbe=get&fichierId=${fileID}&leTypeDeFichier=${fileType}`; }
-}
-
-
-// This class contains all the functions used for logic and cache handling in the app
-class AppData {
-  // Base URL
-  static USED_URL = APIEndpoints.OFFICIAL_API;
-
-  // Login functions //
-
-  // Helper, needed to open security question popup whenever needed
-  static openDoubleAuthPopup = null;
-  static wantToOpenDoubleAuthPopup = false;
-  static temporaryLoginToken = "";
-
+class MarksHandler {
   // Helper, needed to inform the user that guess parameters have been set automatically
   static showGuessParametersWarning = null;
 
-  // Login
-  static async login(username, password) {
-    // Demo account
-    this.USED_URL = APIEndpoints.OFFICIAL_API;
-    if (username.substring(0, 11) == "demoaccount") {
-      this.USED_URL = APIEndpoints.CUSTOM_API;
-      console.log("Using custom API");
-    }
-
-    console.log(`Logging-in ${username}...`);
-
-    // Get double auth tokens
-    var cn = ""; var cv = "";
-    const doubleAuthTokens = await AsyncStorage.getItem("double-auth-tokens");
-    if (doubleAuthTokens) {
-      let data = JSON.parse(doubleAuthTokens);
-      cn = data.cn;
-      cv = data.cv;
-    }
-
-    const credentials = {
-      identifiant: encodeURIComponent(username.trim()),
-      motdepasse: encodeURIComponent(password.trim()),
-      
-      // Double auth
-      fa: [
-        {
-          cn,
-          cv,
-        }
-      ],
-    };
-    var response = await axios
-      .post(
-        `${this.USED_URL}${APIEndpoints.LOGIN}?v=4`,
-        `data=${JSON.stringify(credentials)}`,
-        { headers: { "Content-Type": "text/plain" } },
-      )
-      .catch((error) => {
-        console.warn(`An error occured while logging in : ${error}`);
-      });
-    response ??= { status: 500 };
-
-    var status = 0; // 1 = success | 2 = choose account | 3 = security question | 0 = wrong password | -1 = error
-    switch (response.status) {
-      case 200:
-        console.log("API request successful");
-        AsyncStorage.setItem("logs-login", JSON.stringify(response.data));
-        switch (response.data.code) {
-          case 200:
-            await this._saveConnectedAccounts(
-              response.data.data,
-              response.data.token,
-            );
-            status = 1;
-            if (response.data.data.accounts.length != 1) {
-              let alreadySavedPreference =
-                await AsyncStorage.getItem("selectedAccount");
-              if (!alreadySavedPreference || alreadySavedPreference == 0) {
-                status = 2;
-              }
-            } else {
-              await this.saveSelectedAccount(response.data.data.accounts[0].id);
-            }
-            await AsyncStorage.setItem(
-              "credentials",
-              JSON.stringify({
-                username: username,
-                password: password,
-              }),
-            );
-            console.log("Login successful !");
-            break;
-          case 250: // Need to confirm identity with security question
-            await AsyncStorage.setItem(
-              "credentials",
-              JSON.stringify({
-                username: username,
-                password: password,
-              }),
-            );
-            this.temporaryLoginToken = response.data.token;
-            if (this.openDoubleAuthPopup) { this.openDoubleAuthPopup(); }
-            else { this.wantToOpenDoubleAuthPopup = true; }
-            console.log("Need to confirm identity...");
-            status = 0;
-            break;
-          case 505: // Wrong password
-            console.log(`Couldn't connect, wrong password for ${username}`);
-            break;
-          default:
-            console.warn(
-              `API responded with unknown code ${response.data.code}`,
-            );
-            status = -1;
-            break;
-        }
-        break;
-      default:
-        console.warn("API request failed");
-        status = -1;
-        break;
-    }
-
-    return status;
-  }
-  // Refresh token
-  static async refreshLogin() {
-    const credentials = JSON.parse(await AsyncStorage.getItem("credentials"));
-    const status = await this.login(credentials.username, credentials.password);
-    return status == 1;
-  }
-  // Save all data from ÉcoleDirecte to cache
-  static async _saveConnectedAccounts(loginData, token) {
-    var connectedAccounts = {};
-    const supportedAccountTypes = ["E", "1"] // Student and parent
-
-    // Loop trough connected accounts
-    for (const account of loginData.accounts) {
-      let ID = `${account.id}`;
-      if (!supportedAccountTypes.includes(`${account.typeCompte}`)) {
-        console.warn(`Unsupported account type : ${account.typeCompte}`);
-        continue;
-      }
-      let accountType = account.typeCompte == "E" ? "E" : "P"; // E = student | 1 = parent
-      let firstName = capitalizeWords(account.prenom);
-      let lastName = account.nom.toUpperCase();
-      let gender;
-
-      // Student account
-      if (accountType == "E") {
-        gender = account.profile.sexe;
-        let school = capitalizeWords(account.profile.nomEtablissement);
-        let grade = capitalizeWords(account.profile.classe?.libelle ?? "Pas de classe");
-        let photoURL = account.profile.photo;
-
-        connectedAccounts[ID] = {
-          id: ID,
-          connectionToken: token,
-          accountType: accountType,
-          firstName: firstName,
-          lastName: lastName,
-          gender: gender,
-          school: school,
-          grade: grade,
-          photoURL: photoURL,
-        };
-      } else {
-        // Parent account
-        gender = account.civilite == "M." ? "M" : "F";
-        let children = {};
-
-        // Add children accounts
-        for (const childAccount of account.profile.eleves) {
-          let childID = `${childAccount.id}`;
-          let childFirstName = capitalizeWords(childAccount.prenom);
-          let childLastName = childAccount.nom.toUpperCase();
-          let childGender = childAccount.sexe;
-          let childSchool = capitalizeWords(childAccount.nomEtablissement);
-          if (childSchool.length == 0) {
-            childSchool = account.nomEtablissement;
-          }
-          let grade = capitalizeWords(childAccount.classe?.libelle ?? "Pas de classe");
-          let childPhotoURL = childAccount.photo;
-
-          children[childID] = {
-            id: childID,
-            firstName: childFirstName,
-            lastName: childLastName,
-            gender: childGender,
-            school: childSchool,
-            grade: grade,
-            photoURL: childPhotoURL,
-          };
-        }
-
-        connectedAccounts[ID] = {
-          id: ID,
-          connectionToken: token,
-          accountType: accountType,
-          firstName: firstName,
-          lastName: lastName,
-          gender: gender,
-          children: children,
-        };
-      }
-    }
-
-    // Save data
-    await AsyncStorage.setItem("accounts", JSON.stringify(connectedAccounts));
-  }
-  // One for most users, needed for ones with more than one account connected
-  static async saveSelectedAccount(accountID) {
-    await AsyncStorage.setItem("selectedAccount", `${accountID}`);
-  }
-
-  // Util functions //
-
-  // One for most users, needed for ones with more than one account connected
-  static async _getSelectedAccount() {
-    var selectedAccount = await AsyncStorage.getItem("selectedAccount");
-    if (selectedAccount) {
-      return selectedAccount;
-    }
-    var accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
-    accounts ??= { 0: {} };
-    selectedAccount = Object.keys(accounts)[0];
-    await AsyncStorage.setItem("selectedAccount", selectedAccount);
-    return selectedAccount;
-  }
-  // Get the main account
-  static async getMainAccount() {
-    const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
-    const selectedAccount = await this._getSelectedAccount();
-    return accounts && selectedAccount ? accounts[selectedAccount] : null;
-  }
-  // Get specific account, used for children on parent accounts
-  static async getSpecificAccount(accountID) {
-    const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
-
-    // For student accounts
-    if (accountID in accounts) {
-      return accounts[accountID];
-    }
-
-    // For parent accounts
-    for (const account_ in accounts) {
-      const account = accounts[account_];
-      if (account.accountType == "P") {
-        if (accountID in account.children) {
-          return account.children[accountID];
-        }
-      }
-    }
-  }
-  // Get main account of any account, used to get login tokens from children accounts
-  static async _getMainAccountOfAnyAccount(accountID) {
-    const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
-
-    // For student accounts
-    if (accountID in accounts) {
-      return accounts[accountID];
-    }
-
-    // For parent accounts
-    for (const account_ in accounts) {
-      const account = accounts[account_];
-      if (account.accountType == "P") {
-        if (accountID in account.children) {
-          return account;
-        }
-      }
-    }
-  }
-  // Child account
-  static async setSelectedChildAccount(accountID) {
-    await AsyncStorage.setItem("selectedChildAccount", `${accountID}`);
-  }
-  static async getSelectedChildAccount() {
-    return await AsyncStorage.getItem("selectedChildAccount");
-  }
 
   // Marks functions //
 
   // Get marks
   static async getMarks(accountID) {
-    return this.parseEcoleDirecte(
+    return AccountHandler.parseEcoleDirecte(
       "marks",
       accountID,
-      `${this.USED_URL}${APIEndpoints.MARKS(accountID)}`,
+      `${AccountHandler.USED_URL}${APIEndpoints.MARKS(accountID)}`,
       'data={"anneeScolaire": ""}',
       async (data) => {
         return await this.saveMarks(accountID, data);
       }
     );
-  }
-  // Update login token
-  static async _updateToken(accountID, newToken) {
-    const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
-
-    // For student accounts
-    if (accountID in accounts) {
-      accounts[accountID].connectionToken = newToken;
-      await AsyncStorage.setItem("accounts", JSON.stringify(accounts));
-      return;
-    }
-
-    // For parent accounts
-    for (const account_ in accounts) {
-      const account = accounts[account_];
-      if (account.accountType == "P") {
-        if (accountID in account.children) {
-          account.connectionToken = newToken;
-          await AsyncStorage.setItem("accounts", JSON.stringify(accounts));
-          return;
-        }
-      }
-    }
   }
   // Save marks data to cache
   static async saveMarks(accountID, marks) {
@@ -767,7 +456,7 @@ class AppData {
   }
   // Set custom data
   static async applyCustomData(accountID, periods, isSinglePeriod = false) {
-    const customData = await this.getAccountCustomData(accountID);
+    const customData = await this._getAccountCustomData(accountID);
     if (!customData) {
       return;
     }
@@ -891,7 +580,7 @@ class AppData {
   // Calculate all averages
   static async _refreshAverages(givenPeriod, averageDate, updateMarkGeneralInfluence, updateMarkSubjectAverageInfluence, updateMarkSubSubjectAverageInfluence) {
     // Preferences
-    const countMarksWithOnlyCompetences = await this.getPreference(
+    const countMarksWithOnlyCompetences = await AccountHandler.getPreference(
       "countMarksWithOnlyCompetences",
     );
     
@@ -1233,6 +922,7 @@ class AppData {
   }
 
   // Custom data //
+
   static async _setAllCustomData(data) {
     await AsyncStorage.setItem("customData", JSON.stringify(data));
   }
@@ -1249,7 +939,7 @@ class AppData {
     customData[accountID] = data;
     await this._setAllCustomData(customData);
   }
-  static async getAccountCustomData(accountID) {
+  static async _getAccountCustomData(accountID) {
     const customData = await this._getAllCustomData();
     if (accountID in customData) {
       return customData[accountID];
@@ -1265,7 +955,7 @@ class AppData {
     value,
     periodID = null,
   ) {
-    const customData = await this.getAccountCustomData(accountID);
+    const customData = await this._getAccountCustomData(accountID);
     if (!customData[dataType]) {
       customData[dataType] = {};
     }
@@ -1286,7 +976,7 @@ class AppData {
     await this._setAccountCustomData(accountID, customData);
   }
   static async removeCustomData(accountID, dataType, itemID, property, periodID = null) {
-    const customData = await this.getAccountCustomData(accountID);
+    const customData = await this._getAccountCustomData(accountID);
     if (dataType in customData && (itemID in customData[dataType] || periodID in customData[dataType])) {
       if (periodID) {
         delete customData[dataType][periodID][itemID][property];
@@ -1295,297 +985,6 @@ class AppData {
       }
     }
     await this._setAccountCustomData(accountID, customData);
-  }
-  static async resetCustomData(accountID) {
-    const customData = await this._getAllCustomData();
-    delete customData[accountID];
-    await this._setAllCustomData(customData);
-  }
-
-  // Homework functions //
-  static async getAllHomework(accountID) {
-    return this.parseEcoleDirecte(
-      "homework",
-      accountID,
-      `${this.USED_URL}${APIEndpoints.ALL_HOMEWORK(accountID)}`,
-      'data={}',
-      async (data) => {
-        return await this.saveHomework(accountID, data);
-      }
-    );
-  }
-  static async saveHomework(accountID, homeworks) {
-    var abstractHomework = {
-      homeworks: {},
-      days: {},
-      weeks: {},
-      subjectsWithExams: {},
-    };
-
-    Object.keys(homeworks).forEach(day => {
-      homeworks[day].forEach(homework => {
-        let finalHomework = {
-          id: homework.idDevoir,
-          subjectID: homework.codeMatiere,
-          subjectTitle: capitalizeWords(homework.matiere),
-          done: homework.effectue,
-          dateFor: day,
-          dateGiven: new Date(homework.donneLe),
-          isExam: homework.interrogation,
-        };
-
-        if (finalHomework.isExam) { // Check if exam is in less than 3 weeks
-          if (new Date(day) - new Date() <= 3 * 7 * 24 * 60 * 60 * 1000) {
-            abstractHomework.subjectsWithExams[finalHomework.subjectID] ??= [];
-            abstractHomework.subjectsWithExams[finalHomework.subjectID].push(finalHomework.id);
-          }
-        }
-      
-        abstractHomework.days[day] ??= [];
-        abstractHomework.days[day].push(finalHomework.id);
-
-        // Add homework to corresponding week
-        let dateObj = dayjs(day, 'YYYY-MM-DD', 'fr'); // TODO: fix this looking at the formatting of EcoleDirecte homework days
-
-        let startOfWeek = new Date(dateObj);
-        startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + (startOfWeek.getDay() === 0 ? -6 : 1));
-
-        let endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(startOfWeek.getDate() + 6);
-
-        let key = `${startOfWeek.getFullYear()}-${startOfWeek.getMonth() + 1}-${startOfWeek.getDate()}/${endOfWeek.getFullYear()}-${endOfWeek.getMonth() + 1}-${endOfWeek.getDate()}`;
-        abstractHomework.weeks[key] ??= {
-          "id": key,
-          "title": `${formatDate3(key.split("/")[0])}  -  ${formatDate3(key.split("/")[1])}`,
-          "data": [],
-        };
-        if (!abstractHomework.weeks[key].data.includes(day)) { 
-          abstractHomework.weeks[key].data.push(day);
-        }
-        
-        abstractHomework.homeworks[finalHomework.id] = finalHomework;
-      });
-    });
-
-    // Save data
-    var cacheData = {};
-    const data = await AsyncStorage.getItem("homework");
-    if (data) {
-      cacheData = JSON.parse(data);
-    }
-    cacheData[accountID] = {
-      data: abstractHomework,
-      date: new Date(),
-    };
-    await AsyncStorage.setItem("homework", JSON.stringify(cacheData));
-
-    return 1;
-  }
-  static async getSpecificHomeworkForDay(accountID, day) {
-    return this.parseEcoleDirecte(
-      "specific-homework",
-      accountID,
-      `${this.USED_URL}${APIEndpoints.SPECIFIC_HOMEWORK(accountID, day)}`,
-      'data={}',
-      async (data) => {
-        return await this.saveSpecificHomeworkForDay(accountID, data);
-      }
-    );
-  }
-  static async saveSpecificHomeworkForDay(accountID, homeworks) {
-    const day = homeworks.date;
-
-    var cacheData = {};
-    const data = await AsyncStorage.getItem("specific-homework");
-    if (data) { cacheData = JSON.parse(data); }
-    cacheData[accountID] ??= {
-      homeworks: {},
-      days: {},
-    };
-
-    homeworks.matieres?.forEach(homework => {
-      const finalHomework = {
-        id: homework.id,
-        givenBy: homework.nomProf,
-        todo: parseHtmlData(homework.aFaire?.contenu).trim(),
-        sessionContent: parseHtmlData(homework.aFaire?.contenuDeSeance?.contenu).trim(),
-        files: homework.aFaire?.documents?.map(document => {
-          return {
-            id: document.id,
-            title: document.libelle,
-            size: document.taille,
-            fileType: document.type,
-          };
-        }) ?? [],
-      };
-      cacheData[accountID].homeworks[homework.id] = finalHomework;
-      cacheData[accountID].days[day] ??= { homeworkIDs: [] };
-      cacheData[accountID].days[day].homeworkIDs.push(homework.id);
-      cacheData[accountID].days[day].date = new Date();
-    });
-
-    await AsyncStorage.setItem("specific-homework", JSON.stringify(cacheData));
-    return 1;
-  }
-  static async getLastTimeUpdatedHomework(accountID) {
-    const data = await AsyncStorage.getItem("homework");
-    if (data) {
-      const cacheData = JSON.parse(data);
-      if (accountID in cacheData) {
-        return cacheData[accountID].date;
-      }
-    }
-  }
-  static async getSubjectHasExam(accountID) {
-    const data = await AsyncStorage.getItem("homework");
-    if (data) {
-      const cacheData = JSON.parse(data);
-      if (accountID in cacheData) {
-        return cacheData[accountID].data.subjectsWithExams;
-      }
-    }
-    return {};
-  }
-  static async markHomeworkAsDone(accountID, homeworkID, done) {
-    const status = await this.parseEcoleDirecte(
-      "mark-homework-status",
-      accountID,
-      `${this.USED_URL}${APIEndpoints.ALL_HOMEWORK(accountID)}`,
-      `data=${JSON.stringify({
-        idDevoirsEffectues: done ? [homeworkID] : [],
-        idDevoirsNonEffectues: done ? [] : [homeworkID],
-      })}`,
-      async (data) => {
-        const cacheData = JSON.parse(await AsyncStorage.getItem("homework"));
-        cacheData[accountID].data.homeworks[homeworkID].done = done;
-        await AsyncStorage.setItem("homework", JSON.stringify(cacheData));
-        return 1;
-      },
-      "put",
-    );
-
-    return (status == 1) ? done : !done;
-  }
-  static async downloadHomeworkFile(accountID, file) {
-    // Check if file already exists
-    const localFile = `${RNFS.DocumentDirectoryPath}/${file.title}`;
-    if (await RNFS.exists(localFile)) {
-      console.log(`File ${file.title} already exists, skipping...`);
-      return {
-        promise: Promise.resolve(),
-        localFile,
-      };
-    }
-    
-    // Get login token
-    const mainAccount = await this._getMainAccountOfAnyAccount(accountID);
-    const token = mainAccount.connectionToken;
-
-    console.log(`Downloading ${file.title}...`);
-
-    const url = `${this.USED_URL}${APIEndpoints.DOWNLOAD_HOMEWORK_ATTACHEMENT(file.id, file.fileType)}&v=4`;
-
-    return {
-      promise: RNFS.downloadFile({
-        fromUrl: url,
-        toFile: localFile,
-        headers: { "X-Token": token },
-      }).promise,
-      localFile,
-    };
-  }
-
-  // Preferences //
-  static async _setAllPreferences(preferences) {
-    await AsyncStorage.setItem("preferences", JSON.stringify(preferences));
-  }
-  static async _getAllPreferences() {
-    const data = await AsyncStorage.getItem("preferences");
-    if (data) {
-      return JSON.parse(data);
-    }
-    return {};
-  }
-  static async setPreference(key, value) {
-    const preferences = await this._getAllPreferences();
-    preferences[key] = value;
-    await this._setAllPreferences(preferences);
-  }
-  static async getPreference(key, defValue=false) {
-    const preferences = await this._getAllPreferences();
-    if (key in preferences) {
-      return preferences[key];
-    } else {
-      preferences[key] = defValue; // Default value for all preferences
-      await this._setAllPreferences(preferences);
-    }
-    return preferences[key];
-  }
-
-  // Network utils //
-  static async parseEcoleDirecte(title, accountID, url, payload, successCallback, verbe="get") {
-    // Get login token
-    const mainAccount = await this._getMainAccountOfAnyAccount(accountID);
-    const token = mainAccount.connectionToken;
-    
-    console.log(`Getting ${title} for account ${accountID}...`);
-    var response = await axios.post(
-      `${url}?verbe=${verbe}&v=4`,
-      payload,
-      { headers: { "Content-Type": "text/plain", "X-Token": token } },
-    ).catch((error) => {
-      console.warn(`An error occured while getting ${title} : ${error}`);
-    });
-    response ??= { status: 500 };
-
-    var status = 0; // 1 = success | 0 = outdated token, re-login failed | -1 = error
-    switch (response.status) {
-      case 200:
-        console.log("API request successful");
-
-        // Save response to storage for bug reporting
-        let filename = `logs-${title}`;
-        AsyncStorage.getItem(filename).then(fileData => {
-          let data = JSON.parse(fileData) ?? {};
-          data[accountID] = response.data;
-          AsyncStorage.setItem(filename, JSON.stringify(data));
-        });
-
-        switch (response.data.code) {
-          case 200:
-            await this._updateToken(accountID, response.data.token);
-            status = await successCallback(response.data?.data);
-            console.log(`Got ${title} for account ${accountID} ! (status ${status})`);
-            break;
-          case 520: // Outdated token
-            console.log("Outdated token, reconnecting...");
-            const reloginSuccessful = await this.refreshLogin();
-            if (reloginSuccessful) {
-              return await this.parseEcoleDirecte(title, accountID, url, payload, successCallback);
-            }
-            status = 0;
-            break;
-          default:
-            console.warn(`API responded with unknown code ${response.data.code}`);
-            console.warn(response.data);
-            status = -1;
-            break;
-        }
-        break;
-      default:
-        console.warn("API request failed");
-        status = -1;
-        break;
-    }
-
-    return status;
-  }
-
-  // Erase all data //
-  static async eraseData() {
-    ColorsHandler.resetSubjectColors();
-    CoefficientHandler.erase();
-    await AsyncStorage.clear();
   }
   static async resetCoefficients(account, updateGlobalDisplay) {
     await AsyncStorage.removeItem("customData");
@@ -1598,23 +997,6 @@ class AppData {
     
     updateGlobalDisplay();
   }
-  static async eraseCacheData() {
-    // Put here temporary files
-    await AsyncStorage.multiRemove([
-      "specific-homework",
-      "photos",
-      "votes",
-    ]);
-
-    // Homework attachements
-    RNFS.readDir(RNFS.DocumentDirectoryPath).then(files => {
-      files.forEach(file => {
-        if (file.isFile()) {
-          RNFS.unlink(file.path);
-        }
-      });
-    });
-  }
 }
 
-export default AppData;
+export default MarksHandler;

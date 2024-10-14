@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Platform } from "react-native";
 
-import AppData from "../../../core/AppData";
+import AccountHandler from "../../../core/AccountHandler";
 import CustomChangingText from "../../components/CustomChangingText";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
@@ -15,7 +15,7 @@ function WelcomeMessage() {
   // Get random message
   const [welcomeMessage, setWelcomeMessage] = useState("");
   async function getWelcomeMessage() {
-    const currentConnectedAccount = await AppData.getMainAccount();
+    const currentConnectedAccount = await AccountHandler.getMainAccount();
     if (!currentConnectedAccount) { return; }
     
     var messages = [

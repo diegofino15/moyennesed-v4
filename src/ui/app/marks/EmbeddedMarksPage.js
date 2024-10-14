@@ -12,7 +12,7 @@ import SubjectsOverview from "./subjects-overview/SubjectsOverview";
 import CustomSection from "../../components/CustomSection";
 import CustomChooser from "../../components/CustomChooser";
 import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
-import AppData from "../../../core/AppData";
+import MarksHandler from "../../../core/MarksHandler";
 import CoefficientHandler from "../../../core/CoefficientHandler";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../util/AppStackContext";
@@ -31,7 +31,7 @@ function EmbeddedMarksPage({ navigation }) {
 
   // Show warning telling the user the guess parameters have been set automatically
   const [showGuessParametersWarning, setShowGuessParametersWarning] = useState({});
-  useEffect(() => { AppData.showGuessParametersWarning = (accountID) => setShowGuessParametersWarning({...showGuessParametersWarning, [accountID]: true}) }, []);
+  useEffect(() => { MarksHandler.showGuessParametersWarning = (accountID) => setShowGuessParametersWarning({...showGuessParametersWarning, [accountID]: true}) }, []);
 
   // Get periods of student (and update at every change)
   const [periods, setPeriods] = useState({});
@@ -99,7 +99,7 @@ function EmbeddedMarksPage({ navigation }) {
                     selected={CoefficientHandler.choosenProfiles[accountID]}
                     setSelected={async (profile) => {
                       await CoefficientHandler.setChoosenProfile(accountID, profile);
-                      await AppData.recalculateAverageHistory(accountID);
+                      await MarksHandler.recalculateAverageHistory(accountID);
                       updateGlobalDisplay();
                     }}
                     items={Object.keys(CoefficientHandler.profiles).map(key => {

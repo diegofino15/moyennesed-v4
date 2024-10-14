@@ -8,7 +8,7 @@ import CustomButton from "../components/CustomButton";
 import CustomInformationCard from "../components/CustomInformationCard";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
 import { openLink } from "../../util/Utils";
-import AppData from "../../core/AppData";
+import AccountHandler from "../../core/AccountHandler";
 import HapticsHandler from "../../core/HapticsHandler";
 import CustomDynamicLoginChooser from "./CustomDynamicLoginChooser";
 
@@ -37,7 +37,7 @@ function LoginPage({ navigation }) {
     setErrorConnecting(false);
 
     // Call login function
-    const status = await AppData.login(username, password);
+    const status = await AccountHandler.login(username, password);
 
     setIsConnecting(false);
     if (status == 1) { // Successful

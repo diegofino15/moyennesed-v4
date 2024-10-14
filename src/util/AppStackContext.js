@@ -1,6 +1,6 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 
-import AppData from '../core/AppData';
+import AccountHandler from '../core/AccountHandler';
 
 
 // Context needed to update all the app's screens when needed
@@ -24,7 +24,7 @@ export function AppStackContextProvider({ children, needToRefresh, cameFromAuthS
     
     setIsConnecting(true);
     setIsConnected(false);
-    const successful = await AppData.refreshLogin();
+    const successful = await AccountHandler.refreshLogin();
     setIsConnected(successful);
     setIsConnecting(false);
     return successful;

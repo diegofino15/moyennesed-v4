@@ -9,7 +9,7 @@ import CustomModal from "./CustomModal";
 import CustomButton from "./CustomButton";
 import CustomSeparator from "./CustomSeparator";
 import { parseHtmlData } from "../../util/Utils";
-import AppData from "../../core/AppData";
+import AccountHandler from "../../core/AccountHandler";
 import HapticsHandler from "../../core/HapticsHandler";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
@@ -39,7 +39,7 @@ function DoubleAuthPopup({ navigation }) {
       var response = await axios.post(
         'https://api.ecoledirecte.com/v3/connexion/doubleauth.awp?verbe=get&v=4',
         'data={}',
-        { headers: { "X-Token": AppData.temporaryLoginToken } },
+        { headers: { "X-Token": AccountHandler.temporaryLoginToken } },
       ).catch(error => {
         console.warn(`An error occured while parsing double auth : ${error}`);
         setErrorLoading(true);
@@ -92,7 +92,7 @@ function DoubleAuthPopup({ navigation }) {
       `data=${JSON.stringify({
         "choix": rawAnswers[selectedAnswer],
       })}`,
-      { headers: { "X-Token": AppData.temporaryLoginToken } },
+      { headers: { "X-Token": AccountHandler.temporaryLoginToken } },
     ).catch(error => {
       console.warn(`An error occured while confirming choice : ${error}`);
       setErrorConfirmingChoice(true);
@@ -107,7 +107,7 @@ function DoubleAuthPopup({ navigation }) {
             console.log("Right answer, got login IDs !");
             const { cn, cv } = response.data.data;
             await AsyncStorage.setItem("double-auth-tokens", JSON.stringify({ cn, cv }));
-            const reloginSuccessful = await AppData.refreshLogin();
+            const reloginSuccessful = await AccountHandler.refreshLogin();
             HapticsHandler.vibrate("light");
             if (reloginSuccessful) {
               if (isLoggedIn) {

@@ -16,7 +16,7 @@ import { setupNotifications } from "../util/firebase/firebaseCloudMessaging";
 import AdsHandler from "../core/AdsHandler";
 import ColorsHandler from "../core/ColorsHandler";
 import CoefficientHandler from "../core/CoefficientHandler";
-import AppData from "../core/AppData";
+import AccountHandler from "../core/AccountHandler";
 
 
 // App Root
@@ -111,10 +111,10 @@ function GlobalStack({ cameFromAuthStack, setCameFromAuthStack }) {
   // Double auth popup
   const navigation = useNavigation();
   useEffect(() => {
-    AppData.openDoubleAuthPopup = () => navigation.navigate("DoubleAuthPopup");
-    if (AppData.wantToOpenDoubleAuthPopup) {
-      AppData.openDoubleAuthPopup();
-      AppData.wantToOpenDoubleAuthPopup = false;
+    AccountHandler.openDoubleAuthPopup = () => navigation.navigate("DoubleAuthPopup");
+    if (AccountHandler.wantToOpenDoubleAuthPopup) {
+      AccountHandler.openDoubleAuthPopup();
+      AccountHandler.wantToOpenDoubleAuthPopup = false;
     }
   }, []);
   

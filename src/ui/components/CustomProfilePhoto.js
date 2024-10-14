@@ -4,7 +4,7 @@ import { PressableScale } from "react-native-pressable-scale";
 import { UserRoundIcon } from "lucide-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import AppData from "../../core/AppData";
+import AccountHandler from "../../core/AccountHandler";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
@@ -42,7 +42,7 @@ function CustomProfilePhoto({ accountID, onPress, size=60, style, hasOtherPressA
   // Parse photo
   async function getPhoto(id, callback) {
     // Get photo URL
-    const account = await AppData.getSpecificAccount(id);
+    const account = await AccountHandler.getSpecificAccount(id);
     const photoURL = account.photoURL;
 
     // Fetch photo

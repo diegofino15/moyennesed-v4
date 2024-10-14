@@ -15,7 +15,7 @@ import CustomProfilePhoto from "../../../../components/CustomProfilePhoto";
 import CustomInformationCard from "../../../../components/CustomInformationCard";
 import CustomSimpleInformationCard from "../../../../components/CustomSimpleInformationCard";
 import CustomButton from "../../../../components/CustomButton";
-import AppData from "../../../../../core/AppData";
+import AccountHandler from "../../../../../core/AccountHandler";
 import HapticsHandler from "../../../../../core/HapticsHandler";
 import { useGlobalAppContext } from "../../../../../util/GlobalAppContext";
 import { useCurrentAccountContext } from "../../../../../util/CurrentAccountContext";
@@ -47,7 +47,7 @@ function ProfilePage({ navigation }) {
   async function disconnect() {
     setIsAutoTheme(true);
     
-    await AppData.eraseData();
+    await AccountHandler.eraseData();
     setIsDisconnecting(false);
     navigation.navigate("MainPage", { newAccountID: 0 });
     setIsLoggedIn(false);
