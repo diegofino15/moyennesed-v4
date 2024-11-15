@@ -14,7 +14,7 @@ function FilesPage({ navigation }) {
   // Get a list of the files
   const [files, setFiles] = useState([]);
   async function getDownloadedFiles() {
-    const files = await RNFS.readDir(RNFS.DocumentDirectoryPath);
+    const files = await RNFS.readDir(`${RNFS.DocumentDirectoryPath}/files`);
     setFiles(files);
   }
   useEffect(() => { getDownloadedFiles(); }, []);

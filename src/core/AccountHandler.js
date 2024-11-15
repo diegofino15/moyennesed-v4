@@ -407,7 +407,7 @@ class AccountHandler {
     ]);
 
     // Homework attachements
-    RNFS.readDir(RNFS.DocumentDirectoryPath).then(files => {
+    RNFS.readDir(`${RNFS.DocumentDirectoryPath}/files`).then(files => {
       files.forEach(file => {
         if (file.isFile()) {
           RNFS.unlink(file.path);

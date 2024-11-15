@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, Platform, Dimensions, Text, Switch, ActivityIndicator } from "react-native";
-import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, ChevronLeftIcon, EllipsisIcon, GraduationCapIcon, LibraryIcon, ListTodoIcon, SwatchBookIcon, XIcon } from "lucide-react-native";
+import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, ChevronRightIcon, EllipsisIcon, GraduationCapIcon, LibraryIcon, ListTodoIcon, SwatchBookIcon, XIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -232,7 +232,7 @@ function HomeworkPage({ navigation, route }) {
                 </View>
 
                 {isTodoCollapsed ? (
-                  <ChevronLeftIcon size={25} color={theme.colors.onSurfaceDisabled}/>
+                  <ChevronRightIcon size={25} color={theme.colors.onSurfaceDisabled}/>
                 ) : (
                   <ChevronDownIcon size={25} color={theme.colors.onSurfaceDisabled}/>
                 )}
@@ -273,7 +273,7 @@ function HomeworkPage({ navigation, route }) {
                     </View>
 
                     {isSessionContentCollapsed ? (
-                      <ChevronLeftIcon size={25} color={theme.colors.onSurfaceDisabled}/>
+                      <ChevronRightIcon size={25} color={theme.colors.onSurfaceDisabled}/>
                     ) : (
                       <ChevronDownIcon size={25} color={theme.colors.onSurfaceDisabled}/>
                     )}

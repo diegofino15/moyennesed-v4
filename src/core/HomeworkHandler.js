@@ -1,3 +1,4 @@
+import { PermissionsAndroid, Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import RNFS from "react-native-fs";
 import dayjs from "dayjs";
@@ -161,8 +162,20 @@ class HomeworkHandler {
     return (status == 1) ? done : !done;
   }
   static async downloadHomeworkFile(accountID, file) {
+    if (Platform.OS == "android") {
+      const permissions = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      ]);
+    }
+    
+    // Create folder if needed
+    if (!(await RNFS.exists(`${RNFS.DocumentDirectoryPath}/files`))) {
+      await RNFS.mkdir(`${RNFS.DocumentDirectoryPath}/files`);
+    }
+
     // Check if file already exists
-    const localFile = `${RNFS.DocumentDirectoryPath}/${file.title}`;
+    const localFile = `${RNFS.DocumentDirectoryPath}/files/${file.title}`;
     if (await RNFS.exists(localFile)) {
       console.log(`File ${file.title} already exists, skipping...`);
       return {

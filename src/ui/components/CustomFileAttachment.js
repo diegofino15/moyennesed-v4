@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator, Platform } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { FileIcon, ExternalLinkIcon, DownloadIcon, TrashIcon } from "lucide-react-native";
 import FileViewer from "react-native-file-viewer";
@@ -23,14 +23,14 @@ function CustomFileAttachment({ file, windowWidth, deleteButton=false, onDelete 
     setIsDownloading(true);
     const { promise, localFile } = await HomeworkHandler.downloadHomeworkFile(accountID, file);
     promise.then(() => {
-      FileViewer.open(localFile);
+      FileViewer.open(localFile, { showOpenWithDialog: true });
       setIsDownloading(false);
     });
   }
 
   const [fileExists, setFileExists] = useState(false);
   useEffect(() => {
-    RNFS.exists(`${RNFS.DocumentDirectoryPath}/${file.title}`).then(setFileExists);
+    RNFS.exists(`${RNFS.DocumentDirectoryPath}/files/${file.title}`).then(setFileExists);
   }, [isDownloading]);
 
   return (
@@ -43,7 +43,7 @@ function CustomFileAttachment({ file, windowWidth, deleteButton=false, onDelete 
           destructive: true,
         }] : []}
         setSelected={() => {
-          RNFS.unlink(`${RNFS.DocumentDirectoryPath}/${file.title}`);
+          RNFS.unlink(`${RNFS.DocumentDirectoryPath}/files${file.title}`);
           setFileExists(false);
           if (onDelete) { onDelete(); }
         }}
@@ -93,7 +93,7 @@ function CustomFileAttachment({ file, windowWidth, deleteButton=false, onDelete 
           borderRadius: 10,
           marginLeft: 5,
         }} onPress={() => {
-          RNFS.unlink(`${RNFS.DocumentDirectoryPath}/${file.title}`);
+          RNFS.unlink(`${RNFS.DocumentDirectoryPath}/files/${file.title}`);
           setFileExists(false);
           if (onDelete) { onDelete(); }
         }}>

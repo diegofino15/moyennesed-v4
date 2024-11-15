@@ -77,7 +77,7 @@ function SubjectPage({
   const { light, dark } = ColorsHandler.getSubjectColors(shownSubject.id);
   const [showChangeColorModal, setShowChangeColorModal] = useState(false);
   function resetColor() {
-    ColorsHandler.resetSubjectColors(shownSubject.id);
+    ColorsHandler.removeSubjectColor(shownSubject.id);
     updateGlobalDisplay();
     HapticsHandler.vibrate("light");
   }
