@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import { Text, View, ActivityIndicator } from "react-native";
-import { CheckIcon, CircleIcon } from "lucide-react-native";
+import { Text, View, ActivityIndicator, Platform } from "react-native";
+import { CheckIcon, ChevronsUpDownIcon, CircleIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 import CustomModal from "./CustomModal";
 import CustomButton from "./CustomButton";
+import CustomChooser from "./CustomChooser";
 import CustomSeparator from "./CustomSeparator";
-import { parseHtmlData } from "../../util/Utils";
 import AccountHandler from "../../core/AccountHandler";
 import HapticsHandler from "../../core/HapticsHandler";
+import { parseHtmlData } from "../../util/Utils";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
@@ -180,39 +181,62 @@ function DoubleAuthPopup({ navigation }) {
             <>
               {/* Content */}
               <Text style={[theme.fonts.bodyLarge, { marginBottom: 10 }]}>{question}</Text>
-              <View>
-                {answers.map((answer, index) => (
-                  <PressableScale key={index} style={{
-                    paddingLeft: 15,
-                    paddingRight: 10,
-                    paddingVertical: 10,
-                    borderWidth: 2,
-                    borderColor: index == selectedAnswer ? theme.colors.primary : theme.colors.surfaceOutline,
-                    borderRadius: 10,
-                    marginVertical: 5,
-                    backgroundColor: theme.colors.surface,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }} onPress={() => {
-                    setSelectedAnswer(index);
-                    HapticsHandler.vibrate("light");
-                  }}>
-                    <Text style={[theme.fonts.bodyLarge, { flex: 1 }]}>{answer}</Text>
-                    {index == selectedAnswer ? (
-                      <View style={{
-                        padding: 5,
-                        borderRadius: 15,
-                        backgroundColor: theme.colors.primary,
-                      }}>
-                        <CheckIcon size={18} color={theme.colors.onPrimary}/>
+              
+              {Platform.select({ ios: (
+                <View>
+                  {answers.map((answer, index) => (
+                    <PressableScale key={index} style={{
+                      paddingLeft: 15,
+                      paddingRight: 10,
+                      paddingVertical: 10,
+                      borderWidth: 2,
+                      borderColor: index == selectedAnswer ? theme.colors.primary : theme.colors.surfaceOutline,
+                      borderRadius: 10,
+                      marginVertical: 5,
+                      backgroundColor: theme.colors.surface,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }} onPress={() => {
+                      setSelectedAnswer(index);
+                      HapticsHandler.vibrate("light");
+                    }}>
+                      <Text style={[theme.fonts.bodyLarge, { flex: 1 }]}>{answer}</Text>
+                      {index == selectedAnswer ? (
+                        <View style={{
+                          padding: 5,
+                          borderRadius: 15,
+                          backgroundColor: theme.colors.primary,
+                        }}>
+                          <CheckIcon size={18} color={theme.colors.onPrimary}/>
+                        </View>
+                      ) : (
+                        <CircleIcon size={28} color={theme.dark ? theme.colors.surfaceOutline : theme.colors.backdrop}/>
+                      )}
+                    </PressableScale>
+                  ))}
+                </View>
+              ), android: (
+                <View>
+                  <CustomChooser
+                    title={"Réponse"}
+                    getItemForSelected={(index) => (
+                      <View style={{ flexDirection: "row", justifyContent: 'space-between', alignItems: "center", paddingHorizontal: 20 }}>
+                        <Text style={theme.fonts.labelLarge}>{answers[index]}</Text>
+                        <ChevronsUpDownIcon size={20} color={theme.colors.onSurfaceDisabled}/>
                       </View>
-                    ) : (
-                      <CircleIcon size={28} color={theme.dark ? theme.colors.surfaceOutline : theme.colors.backdrop}/>
                     )}
-                  </PressableScale>
-                ))}
-              </View>
+                    selected={selectedAnswer}
+                    setSelected={(index) => {
+                      setSelectedAnswer(index);
+                      HapticsHandler.vibrate("light");
+                    }}
+                    items={answers.map((answer, index) => {
+                      return { id: index, title: answer };
+                    })}
+                  />
+                </View>
+              ) })}
 
               {/* Confirm */}
               <CustomButton
