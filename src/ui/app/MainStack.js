@@ -121,6 +121,17 @@ function MainStack() {
           animation: 'fade_from_bottom',
         }}
       />
+
+      {/* Coefficients page */}
+      <Stack.Screen
+        name="CoefficientsPage"
+        component={CoefficientsPage}
+        options={{
+          presentation: 'modal',
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -150,17 +161,6 @@ function SubjectStack({ route }) {
           animation: 'slide_from_right',
         }}
         initialParams={{ cacheMark }}
-      />
-
-      {/* Coefficients page */}
-      <Stack.Screen
-        name="CoefficientsPage"
-        component={CoefficientsPage}
-        options={{
-          presentation: 'modal',
-          headerShown: false,
-          animation: 'fade_from_bottom',
-        }}
       />
     </Stack.Navigator>
   );

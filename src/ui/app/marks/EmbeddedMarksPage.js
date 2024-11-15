@@ -62,7 +62,7 @@ function EmbeddedMarksPage({ navigation }) {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-          }} onPress={() => navigation.navigate('SettingsStack', { openCoefficientsPage: true })}>
+          }} onPress={() => navigation.navigate('CoefficientsPage')}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Wand2Icon size={20} color={theme.colors.primary} style={{ marginRight: 10 }}/>
               <Text style={theme.fonts.bodyLarge}>Paramètres ajustés !</Text>
