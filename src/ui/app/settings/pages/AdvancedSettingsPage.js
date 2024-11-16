@@ -1,7 +1,7 @@
 import { memo, useEffect } from "react";
 import useState from "react-usestateref";
 import { View, Text, Switch } from "react-native";
-import { ArrowBigRightDashIcon, LandPlotIcon, MoonIcon, SunIcon, TrashIcon } from "lucide-react-native";
+import { ArrowBigRightDashIcon, LandPlotIcon, LockIcon, MoonIcon, SunIcon, TrashIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -217,6 +217,30 @@ function AdvancedSettingsPage({ navigation }) {
                   onPress={() => AccountHandler.eraseCacheData()}
                 />
                 <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginTop: 10 }]}>Supprimer les données stockées sur l'appareil (ex: fichiers attachés aux devoirs, photo de profil...).</Text>
+              </>
+            )}
+          />
+
+          {/* Connection problems */}
+          <CustomSection
+            title={"Problèmes de connexion"}
+          />
+          <CustomTextArea
+            children={(
+              <>
+                <CustomLink
+                  title={"S'authentifier à nouveau"}
+                  textStyle={{ color: theme.colors.error }}
+                  icon={<LockIcon size={20} color={theme.colors.error}/>}
+                  linkIcon={<ArrowBigRightDashIcon size={20} color={theme.colors.error}/>}
+                  onPress={async () => {
+                    await AsyncStorage.removeItem("double-auth-tokens");
+                    await AccountHandler.refreshLogin();
+                  }}
+                />
+                <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginTop: 10 }]}>
+                  Vous devrez répondre à une question de double authentification, cela peut résoudre certains problèmes de connexion.
+                </Text>
               </>
             )}
           />
