@@ -97,7 +97,7 @@ function AppRoot() {
 // Global stack
 const Stack = createNativeStackNavigator();
 function GlobalStack({ cameFromAuthStack, setCameFromAuthStack }) {
-  const { theme, changeTheme, isAutoTheme, isLoggedIn, setIsLoggedIn } = useGlobalAppContext();
+  const { theme, changeTheme, isAutoTheme, isLoggedIn } = useGlobalAppContext();
 
   // Auto-change theme
   const colorScheme = useColorScheme();
