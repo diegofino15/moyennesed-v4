@@ -17,6 +17,7 @@ import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../util/AppStackContext";
 import { asyncExpectedResult, formatDate, formatDate2 } from "../../../util/Utils";
 import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
+import AccountHandler from "../../../core/AccountHandler";
 
 
 // homework page
@@ -99,9 +100,23 @@ function HomeworkPage({ navigation, route }) {
     );
   }
 
-  // Is todo or sessionContent collapsed
+  // Collapse the sections or not, is persistent
   const [isTodoCollapsed, setIsTodoCollapsed] = useState(false);
   const [isSessionContentCollapsed, setIsSessionContentCollapsed] = useState(false);
+  useEffect(() => {
+    AccountHandler.getPreference("homework-collapse").then(data => {
+      if (data) {
+        setIsTodoCollapsed(data.todo);
+        setIsSessionContentCollapsed(data.sessionContent);
+      }
+    });
+  }, []);
+  useEffect(() => {
+    AccountHandler.setPreference("homework-collapse", {
+      "todo": isTodoCollapsed,
+      "sessionContent": isSessionContentCollapsed,
+    });
+  }, [isTodoCollapsed, isSessionContentCollapsed]);
 
   // Get subject colors
   const { dark } = ColorsHandler.getSubjectColors(homework.subjectID);
