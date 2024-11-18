@@ -11,13 +11,13 @@ import CustomSeparator from "../../components/CustomSeparator";
 import CustomFileAttachment from "../../components/CustomFileAttachment";
 import CustomSimpleInformationCard from "../../components/CustomSimpleInformationCard";
 import HomeworkHandler from "../../../core/HomeworkHandler";
+import AccountHandler from "../../../core/AccountHandler";
 import ColorsHandler from "../../../core/ColorsHandler";
 import HapticsHandler from "../../../core/HapticsHandler";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../util/AppStackContext";
 import { asyncExpectedResult, formatDate, formatDate2 } from "../../../util/Utils";
 import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
-import AccountHandler from "../../../core/AccountHandler";
 
 
 // homework page
