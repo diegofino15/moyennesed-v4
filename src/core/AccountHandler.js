@@ -57,7 +57,7 @@ class AccountHandler {
       .post(
         `${this.USED_URL}${APIEndpoints.LOGIN}?v=4`,
         `data=${JSON.stringify(credentials)}`,
-        { headers: { "Content-Type": "text/plain" } },
+        { headers: { "Content-Type": "text/plain", "User-Agent": "Chrome/131.0.0.0" } },
       )
       .catch((error) => {
         console.warn(`An error occured while logging in : ${error}`);
@@ -343,7 +343,7 @@ class AccountHandler {
     var response = await axios.post(
       `${url}?verbe=${verbe}&v=4`,
       payload,
-      { headers: { "Content-Type": "text/plain", "X-Token": token } },
+      { headers: { "Content-Type": "text/plain", "X-Token": token, "User-Agent": "Chrome/131.0.0.0" } },
     ).catch((error) => {
       console.warn(`An error occured while getting ${title} : ${error}`);
     });

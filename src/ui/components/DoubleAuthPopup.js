@@ -40,7 +40,7 @@ function DoubleAuthPopup({ navigation }) {
       var response = await axios.post(
         'https://api.ecoledirecte.com/v3/connexion/doubleauth.awp?verbe=get&v=4',
         'data={}',
-        { headers: { "X-Token": AccountHandler.temporaryLoginToken } },
+        { headers: { "X-Token": AccountHandler.temporaryLoginToken, "User-Agent": "Chrome/131.0.0.0" } },
       ).catch(error => {
         console.warn(`An error occured while parsing double auth : ${error}`);
         setErrorLoading(true);
@@ -93,7 +93,7 @@ function DoubleAuthPopup({ navigation }) {
       `data=${JSON.stringify({
         "choix": rawAnswers[selectedAnswer],
       })}`,
-      { headers: { "X-Token": AccountHandler.temporaryLoginToken } },
+      { headers: { "X-Token": AccountHandler.temporaryLoginToken, "User-Agent": "Chrome/131.0.0.0" } },
     ).catch(error => {
       console.warn(`An error occured while confirming choice : ${error}`);
       setErrorConfirmingChoice(true);
@@ -111,12 +111,8 @@ function DoubleAuthPopup({ navigation }) {
             const reloginSuccessful = await AccountHandler.refreshLogin();
             HapticsHandler.vibrate("light");
             if (reloginSuccessful) {
-              if (isLoggedIn) {
-                navigation.navigate("GlobalStack", { needToRefresh: true });
-              } else {
-                navigation.navigate("StartPage");
-                setIsLoggedIn(true);
-              }
+              navigation.pop();
+              setIsLoggedIn(true);
             }
             else {
               console.warn("Relogin failed...");
