@@ -8,7 +8,6 @@ import * as SplashScreen from "expo-splash-screen";
 
 import AuthStack from "./auth/AuthStack";
 import AppStack from "./app/AppStack";
-import DoubleAuthPopup from "./components/DoubleAuthPopup";
 import { Themes, initFontsAndThemes } from "../util/Styles";
 import { GlobalAppContextProvider, useGlobalAppContext } from "../util/GlobalAppContext";
 import { initFirebaseAppCheck } from "../util/firebase/firebaseAppCheck";
@@ -137,18 +136,6 @@ function GlobalStack({ cameFromAuthStack, setCameFromAuthStack }) {
             <AuthStack setCameFromAuthStack={setCameFromAuthStack} {...props}/>
           )}
         </Stack.Screen>
-
-        {/* Double auth popup */}
-        <Stack.Screen
-          name="DoubleAuthPopup"
-          component={DoubleAuthPopup}
-          options={{
-            headerShown: false,
-            presentation: 'modal',
-            animation: 'fade_from_bottom',
-            gestureEnabled: false,
-          }}
-        />
       </Stack.Navigator>
     </>
   );

@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MainStack from './MainStack';
 import SettingsStack from './settings/SettingsStack';
+import DoubleAuthPopup from '../components/DoubleAuthPopup';
 import AccountHandler from '../../core/AccountHandler';
 import MarksHandler from '../../core/MarksHandler';
 import HomeworkHandler from '../../core/HomeworkHandler';
@@ -140,6 +141,9 @@ function MainAndSettingsStack() {
           name="MainStack"
           component={MainStack}
           options={{ headerShown: false }}
+          initialParams={{
+            newAccountID: 0,
+          }}
         />
 
         {/* Settings */}
@@ -150,6 +154,18 @@ function MainAndSettingsStack() {
             headerShown: false,
             presentation: 'modal',
             animation: 'fade_from_bottom',
+          }}
+        />
+
+        {/* Double auth popup */}
+        <Stack.Screen
+          name="DoubleAuthPopup"
+          component={DoubleAuthPopup}
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+            animation: 'fade_from_bottom',
+            gestureEnabled: false,
           }}
         />
       </Stack.Navigator>

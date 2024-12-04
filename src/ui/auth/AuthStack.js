@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import StartPage from "./StartPage";
 import LoginPage from "./LoginPage";
 import ChooseAccountPage from './ChooseAccountPage';
+import DoubleAuthPopup from '../components/DoubleAuthPopup';
 
 
 // Create stack for navigation
@@ -36,6 +37,18 @@ function AuthStack({ setCameFromAuthStack }) {
           presentation: 'containedModal',
           headerShown: false,
           animation: 'fade_from_bottom',
+        }}
+      />
+
+      {/* Double auth popup */}
+      <Stack.Screen
+        name="DoubleAuthPopup"
+        component={DoubleAuthPopup}
+        options={{
+          headerShown: false,
+          presentation: 'modal',
+          animation: 'fade_from_bottom',
+          gestureEnabled: false,
         }}
       />
     </Stack.Navigator>

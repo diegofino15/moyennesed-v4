@@ -35,7 +35,7 @@ function ProfilePage({ navigation }) {
   async function switchAccount(newAccountID) {
     if (newAccountID != mainAccount.id) {
       await AsyncStorage.setItem("selectedAccount", `${newAccountID}`);
-      navigation.navigate("MainPage", { newAccountID: newAccountID });
+      navigation.navigate("MainStack", { newAccountID: newAccountID });
       console.log(`Switched to account ${newAccountID} !`);
       HapticsHandler.vibrate("light");
     }
@@ -49,7 +49,6 @@ function ProfilePage({ navigation }) {
     
     await AccountHandler.eraseData();
     setIsDisconnecting(false);
-    navigation.navigate("MainPage", { newAccountID: 0 });
     setIsLoggedIn(false);
     console.log("Logged out !");
     HapticsHandler.vibrate("light");

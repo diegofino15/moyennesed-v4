@@ -16,7 +16,8 @@ import CustomDynamicLoginChooser from "./CustomDynamicLoginChooser";
 // Login page
 function LoginPage({ navigation }) {
   // Show AppStack once logged-in
-  const { theme, setIsLoggedIn } = useGlobalAppContext();
+  const { theme, isLoggedIn, setIsLoggedIn } = useGlobalAppContext();
+  if (isLoggedIn) { navigation.pop(); }
 
   // Username and password
   const [username, setUsername] = useState('');

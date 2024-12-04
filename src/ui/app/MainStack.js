@@ -18,7 +18,9 @@ import CoefficientsPage from './settings/pages/CoefficientsPage';
 const Stack = createNativeStackNavigator();
 
 // Main page stack
-function MainStack() {
+function MainStack({ route }) {
+  const { newAccountID } = route.params;
+  
   return (
     <Stack.Navigator>
       {/* /// Marks /// */}
@@ -27,7 +29,7 @@ function MainStack() {
         component={MainPage}
         options={{ headerShown: false }}
         initialParams={{
-          newAccountID: 0, // Used to update app when switching accounts
+          newAccountID: newAccountID, // Used to update app when switching accounts
         }}
       />
       <Stack.Screen

@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 import useState from "react-usestateref";
-import { View, Text, Switch } from "react-native";
+import { View, Text, Switch, ActivityIndicator } from "react-native";
 import { ArrowBigRightDashIcon, LandPlotIcon, LockIcon, MoonIcon, SunIcon, TrashIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -137,6 +137,9 @@ function AdvancedSettingsPage({ navigation }) {
     AccountHandler.getPreference("enableVibrations").then(setEnableVibrations);
   }, [globalDisplayUpdater, forceUpdate]);
 
+  // Is reconnecting
+  const [isReconnecting, setIsReconnecting] = useState(false);
+
   return (
     <CustomModal
       title={"Paramètres avancés"}
@@ -232,10 +235,16 @@ function AdvancedSettingsPage({ navigation }) {
                   title={"S'authentifier à nouveau"}
                   textStyle={{ color: theme.colors.error }}
                   icon={<LockIcon size={20} color={theme.colors.error}/>}
-                  linkIcon={<ArrowBigRightDashIcon size={20} color={theme.colors.error}/>}
+                  linkIcon={isReconnecting ? (
+                    <ActivityIndicator size={20} color={theme.colors.error}/>
+                  ) : (
+                    <ArrowBigRightDashIcon size={20} color={theme.colors.error}/>
+                  )}
                   onPress={async () => {
+                    setIsReconnecting(true);
                     await AsyncStorage.removeItem("double-auth-tokens");
                     await AccountHandler.refreshLogin();
+                    setIsReconnecting(false);
                   }}
                 />
                 <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginTop: 10 }]}>

@@ -17,7 +17,7 @@ import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 // Double auth popup
 function DoubleAuthPopup({ navigation }) {
-  const { theme, isLoggedIn, setIsLoggedIn } = useGlobalAppContext();
+  const { theme, setIsLoggedIn } = useGlobalAppContext();
   
   // Is loading
   const [isLoading, setIsLoading] = useState(false);
