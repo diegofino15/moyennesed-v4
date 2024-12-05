@@ -196,7 +196,7 @@ class HomeworkHandler {
       promise: RNFS.downloadFile({
         fromUrl: url,
         toFile: localFile,
-        headers: { "X-Token": token },
+        headers: { "X-Token": token, "User-Agent": "Chrome/131.0.0.0" },
       }).promise,
       localFile,
     };
