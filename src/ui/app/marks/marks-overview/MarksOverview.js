@@ -5,7 +5,6 @@ import { PressableScale } from "react-native-pressable-scale";
 import useState from "react-usestateref";
 
 import RecentMarkCard from "./RecentMarkCard";
-import CustomAdLayer from "../../../components/CustomAdLayer";
 import CustomChooser from "../../../components/CustomChooser";
 import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
