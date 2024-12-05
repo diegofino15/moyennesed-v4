@@ -69,7 +69,7 @@ function StartPage({ navigation }) {
                 { marginTop: 10, textAlign: 'center', width: '80%' }
               ]}>Vous devez disposer d'un compte ÉcoleDirecte pour vous connecter.</Text>
               <View style={{ width: 5, height: 5, backgroundColor: theme.colors.onSurfaceDisabled, borderRadius: 5, margin: 10 }}/>
-              <PressableScale onPress={() => openLink("https://moyennesed.dfino.dev/privacy-policy.html")}>
+              <PressableScale onPress={() => openLink("https://moyennesed.dfino.dev/privacy-policy-no-ads.html")}>
                 <View style={{
                   flexDirection: 'row',
                   alignItems: 'center',
