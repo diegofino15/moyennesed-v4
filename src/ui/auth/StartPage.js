@@ -2,7 +2,7 @@ import { View, SafeAreaView, Text, Dimensions } from 'react-native';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from 'expo-linear-gradient';
 import { PressableScale } from 'react-native-pressable-scale';
-import { ScaleIcon } from 'lucide-react-native';
+import { CrownIcon, ScaleIcon } from 'lucide-react-native';
 import LottieView from 'lottie-react-native';
 
 import CustomButton from '../components/CustomButton';
@@ -50,7 +50,10 @@ function StartPage({ navigation }) {
             top: -75,
           }}>
             <Text style={[theme.fonts.titleLarge, { fontSize: 25, height: 35, color: theme.colors.onPrimary }]}>Bienvenue sur</Text>
-            <Text style={[theme.fonts.titleLarge, { fontSize: 40, top: -15, color: theme.colors.onPrimary }]}>MoyennesED</Text>
+            <View style={{ flexDirection: "row", alignItems: "center", top: -15 }}>
+              <Text style={[theme.fonts.titleLarge, { fontSize: 40, color: theme.colors.onPrimary, marginRight: 5 }]}>MoyennesED</Text>
+              <CrownIcon size={30} color={"#D2AF26"}/>
+            </View>
             <Text style={[theme.fonts.labelLarge, { width: '80%', textAlign: 'center', top: -10 }]}>Rapide. Efficace. Vos moyennes en un clin d'oeil.</Text>
           </View>
           

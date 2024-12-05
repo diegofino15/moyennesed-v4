@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 import { View, Text, Platform, Dimensions } from "react-native";
-import { BadgeHelpIcon, BugIcon, GithubIcon, HandHelpingIcon, MailIcon, ScaleIcon, Settings2Icon, WeightIcon } from "lucide-react-native";
+import { BadgeHelpIcon, BugIcon, CrownIcon, GithubIcon, HandHelpingIcon, MailIcon, ScaleIcon, Settings2Icon, WeightIcon } from "lucide-react-native";
 import useState from "react-usestateref";
 
 import CustomModal from "../../components/CustomModal";
@@ -63,6 +63,19 @@ function SettingsPage({ navigation }) {
 
           {/* About */}
           <CustomSection title={"Informations"}/>
+          <CustomTextArea
+            style={{ marginBottom: 10 }}
+            children={(
+              <View style={{ alignItems: "center" }}>
+                <CrownIcon size={25} color={"#D2AF26"}/>
+                <Text style={[theme.fonts.bodyLarge, {
+                  marginTop: 5,
+                }]}>Version payante</Text>
+                <Text style={theme.fonts.labelLarge}>Vous n'avez pas de publicités</Text>
+              </View>
+            )}
+          />
+
           <CustomTextArea
             children={(
               <View>
