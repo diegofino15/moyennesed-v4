@@ -5,6 +5,7 @@ import APIEndpoints from "./APIEndpoints";
 import ColorsHandler from "./ColorsHandler";
 import CoefficientHandler from "./CoefficientHandler";
 import { capitalizeWords, getLatestDate } from "../util/Utils";
+import dayjs from "dayjs";
 
 
 class MarksHandler {
@@ -124,6 +125,13 @@ class MarksHandler {
       // Get period data
       let periodTitle = period.periode;
       let isPeriodFinished = period.cloture;
+      if (!isPeriodFinished) { // Check if ending time has passed
+        let endTime = dayjs(period.dateFin, "YYYY-MM-DD");
+        let currentTime = dayjs();
+        if (endTime.isBefore(currentTime)) {
+          isPeriodFinished = true;
+        }
+      }
 
       // Fill period data
       let periodSubjects = {};
