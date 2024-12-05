@@ -27,13 +27,13 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>me.diegof.moyennesed</string>
+          <string>me.diegof.moyennesed-no-ads</string>
         </array>
       </dict>
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>exp+moyennesed</string>
+          <string>exp+moyennesed-no-ads</string>
         </array>
       </dict>
     </array>
@@ -48,11 +48,6 @@
       <key>NSAllowsLocalNetworking</key>
       <true/>
     </dict>
-    <key>UIBackgroundModes</key>
-    <array>
-      <string>fetch</string>
-      <string>remote-notification</string>
-    </array>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>

@@ -10,7 +10,6 @@ import CustomChooser from "../../../components/CustomChooser";
 import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
 import HapticsHandler from "../../../../core/HapticsHandler";
-import AdsHandler from "../../../../core/AdsHandler";
 import { formatAverage } from "../../../../util/Utils";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
@@ -71,9 +70,6 @@ function MarksOverview({
     }
   }, [showEvolution, selectedPeriod]);
 
-  // Ad-locked view
-  const [canShowAverage, setCanShowAverage] = useState(false);
-
   return (
     <View style={{
       backgroundColor: theme.colors.surface,
@@ -87,15 +83,7 @@ function MarksOverview({
         justifyContent: 'space-between',
       }}>
         {/* Loading status */}
-        <CustomChooser
-          title={"Dev options"}
-          items={__DEV__ ? [
-            { id: "ad-inspector", title: "Open Ad Inspector" },
-          ] : []}
-          setSelected={(_) => AdsHandler.openDebugger()}
-          defaultItem={<MarksStatus navigation={navigation}/>}
-          longPress
-        />
+        <MarksStatus navigation={navigation}/>
 
         {/* Period chooser */}
         <View style={{
@@ -121,7 +109,7 @@ function MarksOverview({
           />
 
           {/* Toggle show evolution */}
-          {periods[selectedPeriod]?.hasAverage && canShowAverage && (
+          {periods[selectedPeriod]?.hasAverage && (
             <View>
               {canShowClassValueOnChart && (
                 <View style={{
@@ -183,46 +171,38 @@ function MarksOverview({
       </View>
       
       {/* Main average & evolution */}
-      <CustomAdLayer
-        width={"70%"}
-        height={120}
-        setCanShowAverage={setCanShowAverage}
-        navigation={navigation}
-        child={(
-          <ScrollView
-            ref={scrollViewRef}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            scrollEnabled={false}
-            style={{
-              marginVertical: 20,
-            }}
-          >
-            <View style={{
-              alignItems: 'center',
-              width: Dimensions.get('window').width - 80,
-            }}>
-              <Text style={[theme.fonts.headlineLarge, { fontSize: 40 }]}>{formatAverage(periods[selectedPeriod]?.average)}</Text>
-              <Text style={[theme.fonts.labelLarge, { top: -5 }]}>MOYENNE GÉNÉRALE</Text>
-              
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 3 }}>
-                <Users2Icon size={15} color={theme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
-                <Text style={[theme.fonts.labelMedium, { fontFamily: "Numbers-Regular" }]}>: {formatAverage(periods[selectedPeriod]?.classAverage)}</Text>
-              </View>
-            </View>
+      <ScrollView
+        ref={scrollViewRef}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        scrollEnabled={false}
+        style={{
+          marginVertical: 20,
+        }}
+      >
+        <View style={{
+          alignItems: 'center',
+          width: Dimensions.get('window').width - 80,
+        }}>
+          <Text style={[theme.fonts.headlineLarge, { fontSize: 40 }]}>{formatAverage(periods[selectedPeriod]?.average)}</Text>
+          <Text style={[theme.fonts.labelLarge, { top: -5 }]}>MOYENNE GÉNÉRALE</Text>
+          
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 3 }}>
+            <Users2Icon size={15} color={theme.colors.onSurfaceDisabled} style={{ marginRight: 5 }}/>
+            <Text style={[theme.fonts.labelMedium, { fontFamily: "Numbers-Regular" }]}>: {formatAverage(periods[selectedPeriod]?.classAverage)}</Text>
+          </View>
+        </View>
 
-            <CustomEvolutionChart
-              listOfValues={periods[selectedPeriod]?.averageHistory}
-              showClassValues={showClassValueOnChart}
-              color={theme.colors.primary}
-              lightColor={theme.colors.primary}
-              activeColor={theme.colors.primary}
-              height={100}
-              windowWidth={Dimensions.get('window').width - 80}
-            />
-          </ScrollView>
-        )}
-      />
+        <CustomEvolutionChart
+          listOfValues={periods[selectedPeriod]?.averageHistory}
+          showClassValues={showClassValueOnChart}
+          color={theme.colors.primary}
+          lightColor={theme.colors.primary}
+          activeColor={theme.colors.primary}
+          height={100}
+          windowWidth={Dimensions.get('window').width - 80}
+        />
+      </ScrollView>
      
       {/* Lastest marks */}
       <Text style={[theme.fonts.bodyLarge, { marginBottom: 0 }]}>Dernières notes</Text>

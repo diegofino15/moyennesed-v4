@@ -61,13 +61,6 @@ function SettingsPage({ navigation }) {
             style={{ marginBottom: 10 }}
           />
 
-          {/* Ad settings */}
-          <CustomSimpleSectionButton
-            title={"Préférences de publicité"}
-            icon={<BadgeHelpIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
-            onPress={() => navigation.navigate('AdsInformationPage', { presentation: 'modal' })}
-          />
-
           {/* About */}
           <CustomSection title={"Informations"}/>
           <CustomTextArea

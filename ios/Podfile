@@ -1,6 +1,3 @@
-# Custom
-$RNFirebaseAnalyticsWithoutAdIdSupport = true
-
 require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
 require File.join(File.dirname(`node --print "require.resolve('react-native/package.json')"`), "scripts/react_native_pods")
 # @generated begin require - expo prebuild (DO NOT MODIFY) sync-0b3d11245f758d271ec25750612913aa85ad0f45
@@ -18,9 +15,8 @@ install! 'cocoapods',
   :deterministic_uuids => false
 
 prepare_react_native_project!
-# @generated begin setup - expo prebuild (DO NOT MODIFY) sync-29d86c99b66dd356b33ef9ff937f186c288f5845
+# @generated begin setup - expo prebuild (DO NOT MODIFY) sync-cd444f47195859e8256faad7297aa3ddefac1449
 setup_permissions([
-  'AppTrackingTransparency',
   'Notifications',
 ])
 # @generated end setup
@@ -66,18 +62,6 @@ target 'MoyennesED' do
   )
 
   post_install do |installer|
-    installer.pods_project.targets.each do |target|
-      if target.name == 'BoringSSL-GRPC'
-        target.source_build_phase.files.each do |file|
-          if file.settings && file.settings['COMPILER_FLAGS']
-            flags = file.settings['COMPILER_FLAGS'].split
-            flags.reject! { |flag| flag == '-GCC_WARN_INHIBIT_ALL_WARNINGS' }
-            file.settings['COMPILER_FLAGS'] = flags.join(' ')
-          end
-        end
-      end
-    end
-    
     react_native_post_install(
       installer,
       config[:reactNativePath],

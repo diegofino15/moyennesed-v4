@@ -4,7 +4,6 @@ import SettingsPage from './SettingsPage';
 import ProfilePage from './pages/profile/ProfilePage';
 import CoefficientsPage from './pages/CoefficientsPage';
 import AdvancedSettingsPage from './pages/AdvancedSettingsPage';
-import AdsInformationPage from './pages/AdsInformationPage';
 import BugReportPage from './pages/BugReportPage';
 
 
@@ -48,16 +47,6 @@ function SettingsStack() {
       <Stack.Screen
         name="AdvancedSettingsPage"
         component={AdvancedSettingsPage}
-        options={{
-          headerShown: false,
-          animation: 'slide_from_right',
-        }}
-      />
-
-      {/* Ads information page */}
-      <Stack.Screen
-        name="AdsInformationPage"
-        component={AdsInformationPage}
         options={{
           headerShown: false,
           animation: 'slide_from_right',
