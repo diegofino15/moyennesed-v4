@@ -202,7 +202,9 @@ function MarkPage({ navigation, route }) {
               isGuessed={CoefficientHandler.guessMarkCoefficientEnabled[accountID]}
               openGuessParametersPage={() => {
                 if (CoefficientHandler.guessMarkCoefficientEnabled[accountID] && !mark.isCustomCoefficient) {
-                  navigation.navigate('CoefficientsPage');
+                  navigation.navigate('SettingsStack', {
+                    screen: 'CoefficientsPage',
+                  });
                 }
               }}
               dark={dark}

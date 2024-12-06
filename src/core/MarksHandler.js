@@ -1,11 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import dayjs from "dayjs";
 
 import AccountHandler from "./AccountHandler";
 import APIEndpoints from "./APIEndpoints";
 import ColorsHandler from "./ColorsHandler";
 import CoefficientHandler from "./CoefficientHandler";
 import { capitalizeWords, getLatestDate } from "../util/Utils";
-import dayjs from "dayjs";
 
 
 class MarksHandler {

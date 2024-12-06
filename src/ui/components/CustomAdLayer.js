@@ -114,7 +114,9 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
       <PressableScale style={{
         position: 'absolute',
         right: 0,
-      }} onPress={() => navigation.navigate("AdsInformationPage")}>
+      }} onPress={() => navigation.navigate('SettingsStack', {
+        screen: 'AdsInformationPage',
+      })}>
         <HelpCircleIcon size={25} color={theme.colors.onSurfaceDisabled}/>
       </PressableScale>
     </View>

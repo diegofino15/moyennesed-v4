@@ -4,14 +4,13 @@ import MainPage from './marks/MainPage';
 import MarkPage from './marks/subject-page/MarkPage';
 import SubjectPage from './marks/subject-page/SubjectPage';
 import ExamPage from './homework/ExamPage';
-import MarksInformationPage from './marks/marks-overview/MarksInformationPage';
+
 import UpcomingHomeworkPage from './homework/UpcomingHomeworkPage';
 import HomeworkPage from './homework/HomeworkPage';
 import FilesPage from './homework/FilesPage';
-import HomeworkInformationPage from './homework/HomeworkInformationPage';
 
-import AdsInformationPage from './settings/pages/AdsInformationPage';
-import CoefficientsPage from './settings/pages/CoefficientsPage';
+import MarksInformationPage from './marks/marks-overview/MarksInformationPage';
+import HomeworkInformationPage from './homework/HomeworkInformationPage';
 
 
 // Create stack for navigation
@@ -108,26 +107,6 @@ function MainStack({ route }) {
       <Stack.Screen
         name="HomeworkInformationPage"
         component={HomeworkInformationPage}
-        options={{
-          presentation: 'modal',
-          headerShown: false,
-          animation: 'fade_from_bottom',
-        }}
-      />
-      <Stack.Screen
-        name="AdsInformationPage"
-        component={AdsInformationPage}
-        options={{
-          presentation: 'modal',
-          headerShown: false,
-          animation: 'fade_from_bottom',
-        }}
-      />
-
-      {/* Coefficients page */}
-      <Stack.Screen
-        name="CoefficientsPage"
-        component={CoefficientsPage}
         options={{
           presentation: 'modal',
           headerShown: false,
