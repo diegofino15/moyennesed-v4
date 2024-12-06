@@ -38,7 +38,7 @@ function RecentMarkCard({ mark, getSubject, navigation }) {
   // Open mark details
   function openMarkDetails() {
     navigation.navigate("SubjectStack", {
-      cacheSubject: mark.subSubjectID ? getSubject().subSubjects[mark.subSubjectID] : getSubject(),
+      screen: "MarkPage",
       cacheMark: mark,
     });
   }

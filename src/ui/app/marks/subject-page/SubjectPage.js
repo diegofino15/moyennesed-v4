@@ -396,7 +396,9 @@ function SubjectPage({
               isGuessed={CoefficientHandler.guessSubjectCoefficientEnabled[accountID]}
               openGuessParametersPage={() => {
                 if (CoefficientHandler.guessSubjectCoefficientEnabled[accountID] && !shownSubject.isCustomCoefficient) {
-                  navigation.navigate('CoefficientsPage');
+                  navigation.navigate('SettingsStack', {
+                    screen: 'CoefficientsPage',
+                  });
                 }
               }}
               dark={dark}
