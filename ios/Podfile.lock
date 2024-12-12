@@ -2337,23 +2337,23 @@ PODS:
     - ExpoModulesCore
   - RNCAsyncStorage (1.21.0):
     - React-Core
-  - RNFBAnalytics (20.4.0):
+  - RNFBAnalytics (20.5.0):
     - Firebase/AnalyticsWithoutAdIdSupport (= 10.29.0)
     - React-Core
     - RNFBApp
-  - RNFBApp (20.3.0):
+  - RNFBApp (20.5.0):
     - Firebase/CoreOnly (= 10.29.0)
     - React-Core
-  - RNFBAppCheck (20.3.0):
+  - RNFBAppCheck (20.5.0):
     - Firebase/AppCheck (= 10.29.0)
     - React-Core
     - RNFBApp
-  - RNFBFirestore (20.3.0):
+  - RNFBFirestore (20.5.0):
     - Firebase/Firestore (= 10.29.0)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - React-Core
     - RNFBApp
-  - RNFBMessaging (20.3.0):
+  - RNFBMessaging (20.5.0):
     - Firebase/Messaging (= 10.29.0)
     - FirebaseCoreExtension
     - React-Core
@@ -2796,11 +2796,11 @@ SPEC CHECKSUMS:
   ReactNativeIosContextMenu: e5f972174bd78ab3a552bd6ee4745762ffaa42b3
   ReactNativeIosUtilities: 638290fbfaa093c1b50d1f926715d77cabcae759
   RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
-  RNFBAnalytics: 1d2ce0a73ad75bda19530f79eff05affbe450aee
-  RNFBApp: a7aff07a7f212149539fce51a1326c6d208b03ad
-  RNFBAppCheck: 2463063b94cf3178e0398175636bcc3766f4f98e
-  RNFBFirestore: 2c8d40c5a28007d6a3d183e21141e2fedf7f6d41
-  RNFBMessaging: f1fdc7ac62df96e3c8362d516caaf84fab69085d
+  RNFBAnalytics: 6ccbfc4780cd0aa1281374148d68e2e45bf2916d
+  RNFBApp: 5f87753a8d8b37d229adf85cd0ff37709ffdf008
+  RNFBAppCheck: 41631e7f6eb5e733dd009b2c601cdbdb20ee452b
+  RNFBFirestore: b12e7d4e6a94e08565638442def454984a06c065
+  RNFBMessaging: 3fa1114c0868dd21f20dfe186adf42297ea316b1
   RNFileViewer: ce7ca3ac370e18554d35d6355cffd7c30437c592
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: 12833709769dde5fdb36ec9d4cdf4d3a1a024122
