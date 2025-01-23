@@ -1,84 +1,20 @@
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import useState from "react-usestateref";
-import { ActivityIndicator, Dimensions, Platform, Text, View } from "react-native";
-import { PressableScale } from "react-native-pressable-scale";
+import { Dimensions, Platform, Text, View } from "react-native";
 import LottieView from "lottie-react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import firestore from '@react-native-firebase/firestore';
 
 import CustomModal from "../../../components/CustomModal";
-import CustomSection from "../../../components/CustomSection";
-import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
-import CustomTextArea from "../../../components/CustomTextArea";
 import CustomButton from "../../../components/CustomButton";
-import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { hashString } from "../../../../util/Utils";
+import CustomAdBannerForOtherApp from "../../../components/CustomAdBannerForOtherApp";
+import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
 import AdsHandler from "../../../../core/AdsHandler";
+import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 
 
 // Ad information page
 function AdsInformationPage({ navigation }) {
   const { theme } = useGlobalAppContext();
   
-  const [_hashedUsername, setHashedUsername, hashedUsernameRef] = useState(null);
-
-  const [hasAlreadyVoted, setHasAlreadyVoted] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Get if user has already voted
-  useEffect(() => { getIfVoted(); }, []);
-  async function getIfVoted() {
-    // Check if already saved in cache
-    const votes = JSON.parse(await AsyncStorage.getItem("votes") ?? "{}");
-    if (votes.votedForAddPaidAccounts != null) {
-      setHasAlreadyVoted(votes.votedForAddPaidAccounts);
-      setIsLoading(false);
-      return;
-    }
-    
-    const { username } = JSON.parse(await AsyncStorage.getItem("credentials"));
-    setHashedUsername(hashString(username));
-
-    try {
-      const votePoll = firestore().collection("votes").doc("add-paid-accounts");
-      const yesVoters = votePoll.collection("yes-voters");
-      const noVoters = votePoll.collection("no-voters");
-      const alreadyVoted = (await yesVoters.doc(hashedUsernameRef.current).get()).exists || (await noVoters.doc(hashedUsernameRef.current).get()).exists;
-
-      await AsyncStorage.setItem("votes", JSON.stringify({ ...votes, votedForAddPaidAccounts: alreadyVoted }));
-      setHasAlreadyVoted(alreadyVoted);
-    } catch (e) {
-      setHasAlreadyVoted(true);
-      console.warn("Unable to parse voting status");
-      console.warn(e);
-    }
-
-    setIsLoading(false);
-  }
-
-  // Vote
-  const [confirmingVote, setConfirmingVote] = useState(false);
-  const [hasVoted, setHasVoted] = useState(false);
-  const [errorConfirmingVote, setErrorConfirmingVote] = useState(false);
-  async function submitVote(answer) {
-    setConfirmingVote(true);
-    const votePoll = firestore().collection("votes").doc("add-paid-accounts");
-    try {
-      if (answer) {
-        await votePoll.collection("yes-voters").doc(hashedUsernameRef.current).set({});
-      } else {
-        await votePoll.collection("no-voters").doc(hashedUsernameRef.current).set({});
-      }
-      await AsyncStorage.setItem("votes", JSON.stringify({ ...JSON.parse(await AsyncStorage.getItem("votes") ?? "{}"), votedForAddPaidAccounts: true }));
-    } catch (e) {
-      setErrorConfirmingVote(true);
-      console.warn("Unable to submit vote");
-      console.warn(e);
-    }
-    setHasVoted(true);
-    setConfirmingVote(false);
-  }
-
   // Change ad choices
   const [needToRestartApp, setNeedToRestartApp] = useState(false);
 
@@ -138,76 +74,14 @@ function AdsInformationPage({ navigation }) {
                 />
               )}
             />
-            
-            {/* Vote */}
-            {isLoading ? (
-              <>
-                <ActivityIndicator size={30} color={theme.colors.onSurfaceDisabled} style={{
-                  marginTop: 20,
-                }}/>
-              </>
-            ) : !hasAlreadyVoted && (
-              <>
-                <CustomSection
-                  title={"Sondage"}
-                />
-                <CustomTextArea
-                  children={(
-                    <>
-                      <Text style={theme.fonts.bodyLarge}>Seriez-vous interessé.e par une version payante de l'app, sans publicités ?</Text>
-                      <View style={{
-                        height: 50,
-                        width: '100%',
-                        marginTop: 10,
-                        alignContent: "center",
-                        justifyContent: "center",
-                      }}>
-                        {confirmingVote ? (
-                          <ActivityIndicator size={30} color={theme.colors.onSurfaceDisabled}/>
-                        ) : errorConfirmingVote ? (
-                          <Text style={[theme.fonts.labelMedium, { textAlign: "center" }]}>Une erreur est survenue</Text>
-                        ) : hasVoted ? (
-                          <Text style={[theme.fonts.labelMedium, { textAlign: "center" }]}>Merci</Text>
-                        ) : (
-                          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", height: '100%' }}>
-                            <PressableScale style={{
-                              backgroundColor: theme.colors.successLight,
-                              borderWidth: 2,
-                              borderColor: theme.colors.success,
-                              flexGrow: 1,
-                              alignItems: "center",
-                              justifyContent: "center",
-                              height: '100%',
-                              borderRadius: 20,
-                              marginRight: 5,
-                            }} onPress={() => submitVote(true)}>
-                              <Text style={[theme.fonts.bodyLarge, { color: theme.colors.success }]}>Oui</Text>
-                            </PressableScale>
 
-                            <PressableScale style={{
-                              backgroundColor: theme.colors.errorLight,
-                              borderWidth: 2,
-                              borderColor: theme.colors.error,
-                              flexGrow: 1,
-                              alignItems: "center",
-                              justifyContent: "center",
-                              height: '100%',
-                              borderRadius: 20,
-                              marginLeft: 5,
-                            }} onPress={() => submitVote(false)}>
-                              <Text style={[theme.fonts.bodyLarge, { color: theme.colors.error }]}>Non</Text>
-                            </PressableScale>
-                          </View>
-                        )}
-                      </View>
-                    </>
-                  )}
-                />
-                <Text style={[theme.fonts.labelLarge, { textAlign: "center", marginTop: 10, }]}>
-                  Aucune information personnelle n'est collectée, le vote est anonyme.
-                </Text>
-              </>
-            )}
+            {/* Ad */}
+            <View style={{
+              paddingTop: 20,
+              marginHorizontal: -20,
+            }}>
+              <CustomAdBannerForOtherApp alwaysShow/>
+            </View>
           </View>
         </View>
       )}

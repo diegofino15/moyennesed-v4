@@ -8,7 +8,7 @@ import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Banner used to promote "MoyennesED Sans Pubs"
-function CustomAdBannerForOtherApp() {
+function CustomAdBannerForOtherApp({ alwaysShow=false }) {
   const { theme } = useGlobalAppContext(); 
   
   // Should show the popup ?
@@ -27,7 +27,7 @@ function CustomAdBannerForOtherApp() {
     setShowPopup(false);
   }
 
-  return showPopup && (
+  return (showPopup || alwaysShow) && (
     <PressableScale style={{
       backgroundColor: theme.colors.surface,
       borderRadius: 20,
@@ -55,16 +55,18 @@ function CustomAdBannerForOtherApp() {
       "}</Text>
 
       {/* X Icon */}
-      <PressableScale style={{
-        position: 'absolute',
-        top: 5,
-        right: 5,
-        borderColor: theme.colors.surfaceOutline,
-        borderWidth: 2,
-        borderRadius: 10,
-      }} onPress={closePopup}>
-        <XIcon size={30} color={theme.colors.onSurfaceDisabled}/>
-      </PressableScale>
+      {!alwaysShow && (
+        <PressableScale style={{
+          position: 'absolute',
+          top: 5,
+          right: 5,
+          borderColor: theme.colors.surfaceOutline,
+          borderWidth: 2,
+          borderRadius: 10,
+        }} onPress={closePopup}>
+          <XIcon size={30} color={theme.colors.onSurfaceDisabled}/>
+        </PressableScale>
+      )}
 
       <Text style={[theme.fonts.headlineMedium, {
         position: "absolute",
