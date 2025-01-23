@@ -63,15 +63,6 @@ function SubjectPage({
       cacheMark: mark,
     });
   }
-  // Auto-open mark details (on recent mark click)
-  const [hasRedirected, setHasRedirected] = useState(false);
-  useEffect(() => {
-    if (hasRedirected) { return; }
-    if (cacheMark) {
-      openMarkDetails(cacheMark);
-      setHasRedirected(true);
-    }
-  }, [marks]);
 
   // Get subject colors
   const { light, dark } = ColorsHandler.getSubjectColors(shownSubject.id);
