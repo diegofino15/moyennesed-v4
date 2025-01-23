@@ -19,6 +19,12 @@ function CustomCoefficientPicker({ coefficient, setCoefficient, resetCoefficient
     return input.replace(/[^0-9.,]/g, '');
   }
 
+  function submitNewCoefficient() {
+    let newCoefficient = parseFloat(tempCoefficient.replace(",", "."));
+    if (!isNaN(newCoefficient) && newCoefficient != 0) { setCoefficient(newCoefficient); }
+    else { setTempCoefficient(coefficient.toString().replace(".", ",")); }
+  }
+
   return (
     <View style={style}>
       <CustomSimpleInformationCard
@@ -46,11 +52,8 @@ function CustomCoefficientPicker({ coefficient, setCoefficient, resetCoefficient
                 placeholder={"--"}
                 value={tempCoefficient}
                 onChangeText={(newCoefficient) => setTempCoefficient(allowOnlyNumbers(newCoefficient))}
-                onSubmitEditing={() => {
-                  let newCoefficient = parseFloat(tempCoefficient.replace(",", "."));
-                  if (!isNaN(newCoefficient) && newCoefficient != 0) { setCoefficient(newCoefficient); }
-                  else { setTempCoefficient(coefficient.toString().replace(".", ",")); }
-                }}
+                onSubmitEditing={submitNewCoefficient}
+                onEndEditing={submitNewCoefficient}
                 keyboardType="numeric"
                 returnKeyType="done"
               />
