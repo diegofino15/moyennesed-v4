@@ -2,7 +2,7 @@
   "expo": {
     "name": "MoyennesED",
     "slug": "moyennesed-no-ads",
-    "version": "4.0.9",
+    "version": "4.0.11",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -54,7 +54,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "me.diegof.moyennesed-no-ads",
-      "buildNumber": "2",
+      "buildNumber": "1",
       "userInterfaceStyle": "automatic",
       "googleServicesFile": "./GoogleService-Info.plist",
       "entitlements": {
