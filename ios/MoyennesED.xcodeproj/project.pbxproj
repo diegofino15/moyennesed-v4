@@ -11,31 +11,31 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		9814DED3D37441E88CBAC873 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118E84FFCAE8478A8C3D5998 /* noop-file.swift */; };
+		54B57BB33B1827E239BFEEF3 /* Pods_MoyennesED.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C79C58962823A1C7CE6F31 /* Pods_MoyennesED.framework */; };
+		8969009B85E543508584ADE1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E8AD8673A944B47846AC657 /* GoogleService-Info.plist */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
-		B93AB7676139EFD86373BB0B /* Pods_MoyennesED.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EDA3003360667F6893A00F /* Pods_MoyennesED.framework */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		E5EB608C4937441DA8772497 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4872472AD01E4067AC8961DA /* GoogleService-Info.plist */; };
-		FB3C6BD92F818E5544FC99D5 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D8053B5651936E011323381F /* PrivacyInfo.xcprivacy */; };
+		CCD56A50A49D49C8936917F7 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBF0CC08AA545B98309CD07 /* noop-file.swift */; };
+		DFF69B78403A8CFADDB983A9 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5C3586D4286B890BB88620A9 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		118E84FFCAE8478A8C3D5998 /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "MoyennesED/noop-file.swift"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* MoyennesED.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoyennesED.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = MoyennesED/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = MoyennesED/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MoyennesED/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MoyennesED/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MoyennesED/main.m; sourceTree = "<group>"; };
-		4872472AD01E4067AC8961DA /* GoogleService-Info.plist */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "MoyennesED/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2E8AD8673A944B47846AC657 /* GoogleService-Info.plist */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "MoyennesED/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5C3586D4286B890BB88620A9 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = MoyennesED/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		6C2E3173556A471DD304B334 /* Pods-MoyennesED.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoyennesED.debug.xcconfig"; path = "Target Support Files/Pods-MoyennesED/Pods-MoyennesED.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-MoyennesED.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoyennesED.release.xcconfig"; path = "Target Support Files/Pods-MoyennesED/Pods-MoyennesED.release.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = MoyennesED/SplashScreen.storyboard; sourceTree = "<group>"; };
+		ACBF0CC08AA545B98309CD07 /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "MoyennesED/noop-file.swift"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		C6012B6365044E04BFE8FE8A /* MoyennesED-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "MoyennesED-Bridging-Header.h"; path = "MoyennesED/MoyennesED-Bridging-Header.h"; sourceTree = "<group>"; };
-		C9EDA3003360667F6893A00F /* Pods_MoyennesED.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MoyennesED.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D8053B5651936E011323381F /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = MoyennesED/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		E4C79C58962823A1C7CE6F31 /* Pods_MoyennesED.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MoyennesED.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		EF65CF7986004AB9AD32EBA8 /* MoyennesED-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "MoyennesED-Bridging-Header.h"; path = "MoyennesED/MoyennesED-Bridging-Header.h"; sourceTree = "<group>"; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-MoyennesED/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -44,7 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B93AB7676139EFD86373BB0B /* Pods_MoyennesED.framework in Frameworks */,
+				54B57BB33B1827E239BFEEF3 /* Pods_MoyennesED.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,10 +61,10 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				4872472AD01E4067AC8961DA /* GoogleService-Info.plist */,
-				118E84FFCAE8478A8C3D5998 /* noop-file.swift */,
-				C6012B6365044E04BFE8FE8A /* MoyennesED-Bridging-Header.h */,
-				D8053B5651936E011323381F /* PrivacyInfo.xcprivacy */,
+				2E8AD8673A944B47846AC657 /* GoogleService-Info.plist */,
+				ACBF0CC08AA545B98309CD07 /* noop-file.swift */,
+				EF65CF7986004AB9AD32EBA8 /* MoyennesED-Bridging-Header.h */,
+				5C3586D4286B890BB88620A9 /* PrivacyInfo.xcprivacy */,
 			);
 			name = MoyennesED;
 			sourceTree = "<group>";
@@ -73,7 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				C9EDA3003360667F6893A00F /* Pods_MoyennesED.framework */,
+				E4C79C58962823A1C7CE6F31 /* Pods_MoyennesED.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -150,14 +150,14 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "MoyennesED" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				DF05ECD6B92E2CAFD547D853 /* [Expo] Configure project */,
+				1AA9B8D4DA3259CE31A3C194 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				4B48A9AF3CCDE81C3FE6F5E8 /* [CP] Embed Pods Frameworks */,
-				E7581767E578AF86D245776F /* [CP-User] [RNFB] Core Configuration */,
+				599ED3531263472F3689A6D1 /* [CP] Embed Pods Frameworks */,
+				E63E5F5BD215F82B8E52DCB0 /* [CP-User] [RNFB] Core Configuration */,
 			);
 			buildRules = (
 			);
@@ -207,8 +207,8 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				E5EB608C4937441DA8772497 /* GoogleService-Info.plist in Resources */,
-				FB3C6BD92F818E5544FC99D5 /* PrivacyInfo.xcprivacy in Resources */,
+				8969009B85E543508584ADE1 /* GoogleService-Info.plist in Resources */,
+				DFF69B78403A8CFADDB983A9 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,7 +252,26 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4B48A9AF3CCDE81C3FE6F5E8 /* [CP] Embed Pods Frameworks */ = {
+		1AA9B8D4DA3259CE31A3C194 /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-MoyennesED/expo-configure-project.sh\"\n";
+		};
+		599ED3531263472F3689A6D1 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -376,26 +395,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MoyennesED/Pods-MoyennesED-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DF05ECD6B92E2CAFD547D853 /* [Expo] Configure project */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "[Expo] Configure project";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-MoyennesED/expo-configure-project.sh\"\n";
-		};
-		E7581767E578AF86D245776F /* [CP-User] [RNFB] Core Configuration */ = {
+		E63E5F5BD215F82B8E52DCB0 /* [CP-User] [RNFB] Core Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -418,7 +418,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
-				9814DED3D37441E88CBAC873 /* noop-file.swift in Sources */,
+				CCD56A50A49D49C8936917F7 /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,7 +440,7 @@
 					"FB_SONARKIT_ENABLED=1",
 				);
 				INFOPLIST_FILE = MoyennesED/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "MoyennesED Sans Pubs";
+				INFOPLIST_KEY_CFBundleDisplayName = MoyennesED;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -474,7 +474,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K346DAP8ZJ;
 				INFOPLIST_FILE = MoyennesED/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "MoyennesED Sans Pubs";
+				INFOPLIST_KEY_CFBundleDisplayName = MoyennesED;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
