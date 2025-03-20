@@ -55,7 +55,7 @@ class AccountHandler {
     };
     var response = await axios
       .post(
-        `${this.USED_URL}${APIEndpoints.LOGIN}?v=4`,
+        `${this.USED_URL}${APIEndpoints.LOGIN}?v=${process.env.EXPO_PUBLIC_ED_API_VERSION}`,
         `data=${JSON.stringify(credentials)}`,
         { headers: { "Content-Type": "text/plain", "User-Agent": "Chrome/131.0.0.0" } },
       )
@@ -63,6 +63,7 @@ class AccountHandler {
         console.warn(`An error occured while logging in : ${error}`);
       });
     response ??= { status: 500 };
+    console.log(response.data);
 
     var status = 0; // 1 = success | 2 = choose account | 3 = security question | 0 = wrong password | -1 = error
     switch (response.status) {
@@ -341,7 +342,7 @@ class AccountHandler {
     
     console.log(`Getting ${title} for account ${accountID}...`);
     var response = await axios.post(
-      `${url}?verbe=${verbe}&v=4`,
+      `${url}?verbe=${verbe}&v=${process.env.EXPO_PUBLIC_ED_API_VERSION}`,
       payload,
       { headers: { "Content-Type": "text/plain", "X-Token": token, "User-Agent": "Chrome/131.0.0.0" } },
     ).catch((error) => {

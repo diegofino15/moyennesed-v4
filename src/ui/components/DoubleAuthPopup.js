@@ -38,7 +38,7 @@ function DoubleAuthPopup({ navigation }) {
       setIsLoading(true);
       
       var response = await axios.post(
-        'https://api.ecoledirecte.com/v3/connexion/doubleauth.awp?verbe=get&v=4',
+        `https://api.ecoledirecte.com/v3/connexion/doubleauth.awp?verbe=get&v=${process.env.EXPO_PUBLIC_ED_API_VERSION}`,
         'data={}',
         { headers: { "X-Token": AccountHandler.temporaryLoginToken, "User-Agent": "Chrome/131.0.0.0" } },
       ).catch(error => {
@@ -89,7 +89,7 @@ function DoubleAuthPopup({ navigation }) {
     console.log("Confirming choice...");
 
     var response = await axios.post(
-      'https://api.ecoledirecte.com/v3/connexion/doubleauth.awp?verbe=post&v=4',
+      `https://api.ecoledirecte.com/v3/connexion/doubleauth.awp?verbe=post&v=${process.env.EXPO_PUBLIC_ED_API_VERSION}`,
       `data=${JSON.stringify({
         "choix": rawAnswers[selectedAnswer],
       })}`,

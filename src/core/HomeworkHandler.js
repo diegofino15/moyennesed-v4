@@ -190,7 +190,7 @@ class HomeworkHandler {
 
     console.log(`Downloading ${file.title}...`);
 
-    const url = `${AccountHandler.USED_URL}${APIEndpoints.DOWNLOAD_HOMEWORK_ATTACHEMENT(file.id, file.fileType)}&v=4`;
+    const url = `${AccountHandler.USED_URL}${APIEndpoints.DOWNLOAD_HOMEWORK_ATTACHEMENT(file.id, file.fileType)}&v=${process.env.EXPO_PUBLIC_ED_API_VERSION}`;
 
     return {
       promise: RNFS.downloadFile({
