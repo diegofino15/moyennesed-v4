@@ -46,7 +46,7 @@ class AccountHandler {
     }
     var response = await doLogin(username, password, gtk, cn, cv, (err) => {
       console.warn("An error occured when logging in : " + err);
-    });
+    }, this.USED_URL);
     response ??= { status: 500 };
    
     var status = 0; // 1 = success | 2 = choose account | 3 = security question | 0 = wrong password | -1 = error

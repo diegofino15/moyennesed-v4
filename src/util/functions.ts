@@ -26,8 +26,8 @@ async function getGtkToken(): Promise<string> {
 }
 
 // Do the login
-async function doLogin(username: string, password: string, gtk: string, cn: string, cv: string, onError: Function) {
-  var url = new URL("https://api.ecoledirecte.com/v3/login.awp");
+async function doLogin(username: string, password: string, gtk: string, cn: string, cv: string, onError: Function, urlBase: string) {
+  var url = new URL(`${urlBase}/v3/login.awp`);
   url.searchParams.set("v", process.env.EXPO_PUBLIC_ED_API_VERSION);
   const headers = {
     "Content-Type": "application/x-www-form-urlencoded",
@@ -40,8 +40,8 @@ async function doLogin(username: string, password: string, gtk: string, cn: stri
     motdepasse: encodeURIComponent(password),
     isReLogin: false,
     uuid: "",
-    fa: [{ cn, cv }],
-    cn, cv
+    fa: [{ cn: cn, cv: cv }],
+    cn: cn, cv: cv
   };
 
   const response = await axios.post(

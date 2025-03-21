@@ -35,7 +35,7 @@ function ProfilePage({ navigation }) {
   async function switchAccount(newAccountID) {
     if (newAccountID != mainAccount.id) {
       await AsyncStorage.setItem("selectedAccount", `${newAccountID}`);
-      navigation.navigate("MainStack", { newAccountID: newAccountID });
+      navigation.navigate("MainPage", { newAccountID: newAccountID });
       console.log(`Switched to account ${newAccountID} !`);
       HapticsHandler.vibrate("light");
     }
