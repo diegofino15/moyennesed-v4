@@ -6,6 +6,7 @@ import APIEndpoints from "./APIEndpoints";
 import ColorsHandler from "./ColorsHandler";
 import CoefficientHandler from "./CoefficientHandler";
 import { capitalizeWords } from "../util/Utils";
+import { getGtkToken, doLogin } from "../util/functions";
 
 
 // This class contains the account-related functions
@@ -29,8 +30,11 @@ class AccountHandler {
       this.USED_URL = APIEndpoints.CUSTOM_API;
       console.log("Using custom API");
     }
-
     console.log(`Logging-in ${username}...`);
+
+    // Firstly get the x-gtk token
+    const gtk = await getGtkToken();
+    await AsyncStorage.setItem("gtk", gtk);
 
     // Get double auth tokens
     var cn = ""; var cv = "";
@@ -40,30 +44,11 @@ class AccountHandler {
       cn = data.cn;
       cv = data.cv;
     }
-
-    const credentials = {
-      identifiant: encodeURIComponent(username.trim()),
-      motdepasse: encodeURIComponent(password.trim()),
-      
-      // Double auth
-      fa: [
-        {
-          cn,
-          cv,
-        }
-      ],
-    };
-    var response = await axios
-      .post(
-        `${this.USED_URL}${APIEndpoints.LOGIN}?v=4`,
-        `data=${JSON.stringify(credentials)}`,
-        { headers: { "Content-Type": "text/plain", "User-Agent": "Chrome/131.0.0.0" } },
-      )
-      .catch((error) => {
-        console.warn(`An error occured while logging in : ${error}`);
-      });
+    var response = await doLogin(username, password, gtk, cn, cv, (err) => {
+      console.warn("An error occured when logging in : " + err);
+    });
     response ??= { status: 500 };
-
+   
     var status = 0; // 1 = success | 2 = choose account | 3 = security question | 0 = wrong password | -1 = error
     switch (response.status) {
       case 200:
@@ -340,10 +325,14 @@ class AccountHandler {
     const token = mainAccount.connectionToken;
     
     console.log(`Getting ${title} for account ${accountID}...`);
+
+    // Get gtk
+    const gtk = (await AsyncStorage.getItem("gtk")) ?? await getGtkToken();
+
     var response = await axios.post(
       `${url}?verbe=${verbe}&v=4`,
       payload,
-      { headers: { "Content-Type": "text/plain", "X-Token": token, "User-Agent": "Chrome/131.0.0.0" } },
+      { headers: { "Content-Type": "text/plain", "X-Token": token, "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT, "X-GTK": gtk, "Cookie": `GTK=${gtk}` } },
     ).catch((error) => {
       console.warn(`An error occured while getting ${title} : ${error}`);
     });

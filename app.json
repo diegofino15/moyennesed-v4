@@ -2,7 +2,7 @@
   "expo": {
     "name": "MoyennesED",
     "slug": "moyennesed-no-ads",
-    "version": "4.0.11",
+    "version": "4.0.12",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -46,8 +46,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "me.diegof.moyennesed_no_ads",
-      "versionCode": 43,
+      "package": "me.diegof.moyennesed",
+      "versionCode": 46,
       "userInterfaceStyle": "automatic",
       "googleServicesFile": "./google-services.json"
     },
