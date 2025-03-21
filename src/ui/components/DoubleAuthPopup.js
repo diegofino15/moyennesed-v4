@@ -40,7 +40,7 @@ function DoubleAuthPopup({ navigation }) {
       var response = await axios.post(
         `https://api.ecoledirecte.com/v3/connexion/doubleauth.awp?verbe=get&v=${process.env.EXPO_PUBLIC_ED_API_VERSION}`,
         'data={}',
-        { headers: { "X-Token": AccountHandler.temporaryLoginToken, "User-Agent": "Chrome/131.0.0.0" } },
+        { headers: { "X-Token": AccountHandler.temporaryLoginToken, "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT } },
       ).catch(error => {
         console.warn(`An error occured while parsing double auth : ${error}`);
         setErrorLoading(true);
@@ -93,7 +93,7 @@ function DoubleAuthPopup({ navigation }) {
       `data=${JSON.stringify({
         "choix": rawAnswers[selectedAnswer],
       })}`,
-      { headers: { "X-Token": AccountHandler.temporaryLoginToken, "User-Agent": "Chrome/131.0.0.0" } },
+      { headers: { "X-Token": AccountHandler.temporaryLoginToken, "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT } },
     ).catch(error => {
       console.warn(`An error occured while confirming choice : ${error}`);
       setErrorConfirmingChoice(true);
