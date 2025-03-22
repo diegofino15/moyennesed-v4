@@ -26,6 +26,7 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="me.diegof.moyennesed_no_ads"/>
         <data android:scheme="exp+moyennesed-no-ads"/>
+        <data android:scheme="me.diegof.moyennesed"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>
