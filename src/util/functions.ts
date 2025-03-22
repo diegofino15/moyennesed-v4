@@ -16,7 +16,12 @@ async function getGtkToken(): Promise<string> {
     method: "GET",
     headers: { "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT },
   };
-  const response = await defaultFetcher(request as UnsafeRequest);
+
+  const response = await defaultFetcher(request as UnsafeRequest).catch(err => {
+    console.warn("An error occured when getting gtk token : " + err);
+    return null;
+  });
+  if (!response) { return null; }
   const cookies = getCookiesFromResponse(response);
   for (const cookie of cookies) {
     const [key, value] = cookie.split("=");

@@ -34,6 +34,10 @@ class AccountHandler {
 
     // Firstly get the x-gtk token
     const gtk = await getGtkToken();
+    if (!gtk) {
+      console.warn("Impossible to login without token, aborting login");
+      return -1;
+    }
     await AsyncStorage.setItem("gtk", gtk);
 
     // Get double auth tokens
