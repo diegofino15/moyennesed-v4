@@ -6,7 +6,7 @@ import {
 import axios from "axios";
 
 // Get token for login
-async function getGtkToken(): Promise<string> {
+async function getGtkToken(): Promise<{ gtk: string; cookie: string } | null> {
   var gtk: string;
   var gtkUrl = new URL("https://api.ecoledirecte.com/v3/login.awp");
   gtkUrl.searchParams.set("gtk", "1");
@@ -22,23 +22,32 @@ async function getGtkToken(): Promise<string> {
     return null;
   });
   if (!response) { return null; }
+
   const cookies = getCookiesFromResponse(response);
+  var gtks: string[] = [];
   for (const cookie of cookies) {
     const [key, value] = cookie.split("=");
-    if (key === "GTK") { gtk = value; }
+    if (key === "GTK") {
+      gtk = value;
+    }
+    gtks.push(cookie);
   }
-  return gtk;
+  
+  return {
+    gtk: gtk,
+    cookie: gtks.join(";"),
+  };
 }
 
 // Do the login
-async function doLogin(username: string, password: string, gtk: string, cn: string, cv: string, onError: Function, urlBase: string) {
+async function doLogin(username: string, password: string, gtk: string, cookie: string, cn: string, cv: string, onError: Function, urlBase: string) {
   var url = new URL(`${urlBase}/v3/login.awp`);
   url.searchParams.set("v", process.env.EXPO_PUBLIC_ED_API_VERSION);
   const headers = {
     "Content-Type": "application/x-www-form-urlencoded",
     "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
     "X-GTK": gtk,
-    "Cookie": `GTK=${gtk}`,
+    "Cookie": cookie,
   };
   const body = {
     identifiant: username,

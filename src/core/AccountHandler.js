@@ -33,12 +33,12 @@ class AccountHandler {
     console.log(`Logging-in ${username}...`);
 
     // Firstly get the x-gtk token
-    const gtk = await getGtkToken();
+    const { gtk, cookie } = await getGtkToken();
     if (!gtk) {
       console.warn("Impossible to login without token, aborting login");
       return -1;
     }
-    await AsyncStorage.setItem("gtk", gtk);
+    await AsyncStorage.setItem("gtk", JSON.stringify({ gtk: gtk, cookie: cookie }));
 
     // Get double auth tokens
     var cn = ""; var cv = "";
@@ -48,7 +48,7 @@ class AccountHandler {
       cn = data.cn;
       cv = data.cv;
     }
-    var response = await doLogin(username, password, gtk, cn, cv, (err) => {
+    var response = await doLogin(username, password, gtk, cookie, cn, cv, (err) => {
       console.warn("An error occured when logging in : " + err);
     }, this.USED_URL);
     response ??= { status: 500 };
@@ -331,7 +331,7 @@ class AccountHandler {
     console.log(`Getting ${title} for account ${accountID}...`);
 
     // Get gtk
-    const gtk = (await AsyncStorage.getItem("gtk")) ?? await getGtkToken();
+    const { gtk } = (JSON.parse(await AsyncStorage.getItem("gtk"))) ?? await getGtkToken();
 
     var response = await axios.post(
       `${url}?verbe=${verbe}&v=4`,

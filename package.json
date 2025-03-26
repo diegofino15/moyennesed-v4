@@ -40,6 +40,8 @@
     "react-native-file-viewer": "^2.1.5",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "~2.16.1",
+    "react-native-google-mobile-ads": "^13.2.0",
+    "react-native-inappbrowser-reborn": "^3.7.0",
     "react-native-ios-context-menu": "^3.1.0",
     "react-native-ios-utilities": "^5.1.1",
     "react-native-paper": "^5.12.3",

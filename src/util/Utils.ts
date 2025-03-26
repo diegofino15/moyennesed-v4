@@ -1,5 +1,6 @@
 import { Linking, Alert } from "react-native";
 import { htmlToText } from "html-to-text";
+import { InAppBrowser } from 'react-native-inappbrowser-reborn'
 import dayjs from "dayjs";
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -7,12 +8,21 @@ dayjs.extend(customParseFormat);
 var Buffer = require('buffer/').Buffer;
 
 
-async function openLink(link: string) {
-  let supported = await Linking.canOpenURL(link);
-  if (supported) {
-    await Linking.openURL(link);
-  } else {
-    Alert.alert("Une erreur est survenue lors du lancement de l'URL");
+async function openLink(link: string, isSpecial: boolean = false) {
+  if (isSpecial) { Linking.openURL(link); return; }
+  
+  try {
+    if (await InAppBrowser.isAvailable()) {
+      await InAppBrowser.open(link, {
+        animated: true,
+        dismissButtonStyle: 'done',
+        modalEnabled: true,
+        modalPresentationStyle: 'pageSheet',
+      });
+    }
+    else Linking.openURL(link);
+  } catch (error) {
+    Alert.alert(error.message);
   }
 }
 

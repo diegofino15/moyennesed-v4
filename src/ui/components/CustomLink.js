@@ -7,7 +7,7 @@ import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Custom link
-function CustomLink({ title, icon, link, linkIcon, onPress, style, textStyle }) {
+function CustomLink({ title, icon, link, linkIcon, onPress, style, textStyle, isSpecialLink=false }) {
   const { theme } = useGlobalAppContext();
   
   return (
@@ -16,7 +16,7 @@ function CustomLink({ title, icon, link, linkIcon, onPress, style, textStyle }) 
       alignItems: 'center',
       justifyContent: 'space-between',
       ...style,
-    }} onPress={() => onPress ? onPress() : openLink(link)}>
+    }} onPress={() => onPress ? onPress() : openLink(link, isSpecialLink)}>
       {icon ? icon : <LinkIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
       <Text style={[theme.fonts.bodyLarge, { marginLeft: 10, ...textStyle }]}>{title}</Text>
       {linkIcon ? linkIcon : <ArrowBigRightDashIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
