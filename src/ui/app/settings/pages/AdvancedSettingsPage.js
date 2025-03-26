@@ -155,7 +155,7 @@ function AdvancedSettingsPage({ navigation }) {
           <CustomSection
             title={"Calcul des moyennes"}
           />
-          <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>Certaines notes ne comportent pas de valeur numérique, ce paramètres permet de les compter dans la moyenne grâce à la notation de leurs compétences.</Text>
+          <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginBottom: 10 }]}>Certaines notes ne comportent pas de valeur numérique, ce paramètre permet de les compter dans la moyenne grâce à la notation de leurs compétences.</Text>
           <CustomSimpleInformationCard
             content={"Compter les compétences"}
             textStyle={theme.fonts.bodyLarge}
@@ -208,7 +208,7 @@ function AdvancedSettingsPage({ navigation }) {
                   linkIcon={<ArrowBigRightDashIcon size={20} color={theme.colors.error}/>}
                   onPress={() => MarksHandler.resetCoefficients(mainAccount, updateGlobalDisplay)}
                 />
-                <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginTop: 10 }]}>Remettre à 0 les coefficients, et les notes et matières désactivées.</Text>
+                <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginTop: 10 }]}>Remettre à zéro les coefficients, et les notes et matières désactivées.</Text>
 
                 <CustomSeparator style={{ backgroundColor: theme.colors.surfaceOutline, marginVertical: 10 }}/>
 

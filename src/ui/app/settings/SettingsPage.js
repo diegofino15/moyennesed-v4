@@ -108,6 +108,7 @@ function SettingsPage({ navigation }) {
                 icon={<MailIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
                 title={"Envoyer un mail"}
                 link={"mailto:moyennesed@gmail.com"}
+                isSpecialLink
               />
             )}
             style={{ marginTop: 10 }}
