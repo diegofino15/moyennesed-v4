@@ -39,7 +39,7 @@ yarn-error.*
 *.aab
 
 # Bare workflow
-ios/
+# ios/
 android/
 
 # local env files
