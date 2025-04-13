@@ -336,7 +336,7 @@ class AccountHandler {
     var response = await axios.post(
       `${url}?verbe=${verbe}&v=${process.env.EXPO_PUBLIC_ED_API_VERSION}`,
       payload,
-      { headers: { "Content-Type": "text/plain", "X-Token": token, "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT, "X-GTK": gtk, "Cookie": `GTK=${gtk}` } },
+      { headers: { "Content-Type": "application/x-www-form-urlencoded", "X-Token": token, "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT, "X-GTK": gtk, "Cookie": `GTK=${gtk}` } },
     ).catch((error) => {
       console.warn(`An error occured while getting ${title} : ${error}`);
     });

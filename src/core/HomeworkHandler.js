@@ -33,6 +33,9 @@ class HomeworkHandler {
     };
 
     Object.keys(homeworks).forEach(day => {
+      let diff = dayjs(day, "YYYY-MM-DD").diff(dayjs());
+      if (diff < 0) { return; }
+      
       homeworks[day].forEach(homework => {
         let finalHomework = {
           id: homework.idDevoir,
@@ -45,7 +48,8 @@ class HomeworkHandler {
         };
 
         if (finalHomework.isExam) { // Check if exam is in less than 3 weeks
-          if (new Date(day) - new Date() <= 3 * 7 * 24 * 60 * 60 * 1000) {
+          let diff = new Date(day) - new Date();
+          if (diff >= 0 && diff <= 3 * 7 * 24 * 60 * 60 * 1000) {
             abstractHomework.subjectsWithExams[finalHomework.subjectID] ??= [];
             abstractHomework.subjectsWithExams[finalHomework.subjectID].push(finalHomework.id);
           }
