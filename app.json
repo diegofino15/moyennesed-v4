@@ -50,6 +50,9 @@
       "entitlements": {
         "aps-environment": "production"
       }
+    },
+    "android": {
+      "package": "com.finocchiarodev.moyennesednoads"
     }
   }
 }
