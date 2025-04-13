@@ -50,7 +50,7 @@ async function doLogin(username: string, password: string, gtk: string, cookie: 
     "Cookie": cookie,
   };
   const body = {
-    identifiant: username,
+    identifiant: encodeURIComponent(username),
     motdepasse: encodeURIComponent(password),
     isReLogin: false,
     uuid: "",
