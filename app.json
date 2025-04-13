@@ -2,7 +2,7 @@
   "expo": {
     "name": "MoyennesED",
     "slug": "moyennesed",
-    "version": "4.0.13",
+    "version": "4.0.15",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -51,14 +51,14 @@
         "backgroundColor": "#ffffff"
       },
       "package": "me.diegof.moyennesed",
-      "versionCode": 47,
+      "versionCode": 48,
       "userInterfaceStyle": "automatic",
       "googleServicesFile": "./google-services.json"
     },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "me.diegof.moyennesed",
-      "buildNumber": "2",
+      "buildNumber": "1",
       "userInterfaceStyle": "automatic",
       "googleServicesFile": "./GoogleService-Info.plist",
       "entitlements": {
