@@ -2,7 +2,7 @@
   "expo": {
     "name": "MoyennesED",
     "slug": "moyennesed-no-ads",
-    "version": "4.0.13",
+    "version": "4.0.14",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -41,20 +41,10 @@
         }
       ]
     ],
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "me.diegof.moyennesed",
-      "versionCode": 47,
-      "userInterfaceStyle": "automatic",
-      "googleServicesFile": "./google-services.json"
-    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "me.diegof.moyennesed-no-ads",
-      "buildNumber": "2",
+      "buildNumber": "1",
       "userInterfaceStyle": "automatic",
       "googleServicesFile": "./GoogleService-Info.plist",
       "entitlements": {
