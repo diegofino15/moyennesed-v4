@@ -21,6 +21,7 @@ class AccountHandler {
   static openDoubleAuthPopup = null;
   static wantToOpenDoubleAuthPopup = false;
   static temporaryLoginToken = "";
+  static temporary2FAToken = "";
 
   // Login
   static async login(username, password) {
@@ -48,7 +49,7 @@ class AccountHandler {
       cn = data.cn;
       cv = data.cv;
     }
-    var response = await doLogin(username, password, gtk, cookie, cn, cv, (err) => {
+    var response = await doLogin(username, password, gtk, cookie, this.temporary2FAToken, cn, cv, (err) => {
       console.warn("An error occured when logging in : " + err);
     }, this.USED_URL);
     response ??= { status: 500 };
@@ -88,6 +89,7 @@ class AccountHandler {
                 password: password,
               }),
             );
+            this.temporary2FAToken = response.headers["2fa-token"];
             this.temporaryLoginToken = response.data.token;
             if (this.openDoubleAuthPopup) { this.openDoubleAuthPopup(); }
             else { this.wantToOpenDoubleAuthPopup = true; }

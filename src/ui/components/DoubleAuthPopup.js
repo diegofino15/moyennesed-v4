@@ -37,10 +37,15 @@ function DoubleAuthPopup({ navigation }) {
     async function getQuestion() {
       setIsLoading(true);
       
+      console.log(AccountHandler.temporaryLoginToken)
       var response = await axios.post(
         `https://api.ecoledirecte.com/v3/connexion/doubleauth.awp?verbe=get&v=${process.env.EXPO_PUBLIC_ED_API_VERSION}`,
         'data={}',
-        { headers: { "X-Token": AccountHandler.temporaryLoginToken, "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT } },
+        { headers: {
+          "X-Token": AccountHandler.temporaryLoginToken,
+          "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
+          "2fa-Token": AccountHandler.temporary2FAToken,
+        } },
       ).catch(error => {
         console.warn(`An error occured while parsing double auth : ${error}`);
         setErrorLoading(true);
@@ -53,6 +58,7 @@ function DoubleAuthPopup({ navigation }) {
           switch (response.data.code) {
             case 200:
               console.log("Got double auth content !");
+              AccountHandler.temporary2FAToken = response.headers["2fa-token"];
               setQuestion(parseHtmlData(response.data.data?.question ?? ""))
               var tempAnswers = [];
               response.data.data?.propositions?.forEach(answer => {
@@ -93,7 +99,11 @@ function DoubleAuthPopup({ navigation }) {
       `data=${JSON.stringify({
         "choix": rawAnswers[selectedAnswer],
       })}`,
-      { headers: { "X-Token": AccountHandler.temporaryLoginToken, "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT } },
+      { headers: {
+        "X-Token": AccountHandler.temporaryLoginToken,
+        "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
+        "2fa-token": AccountHandler.temporary2FAToken,
+      } },
     ).catch(error => {
       console.warn(`An error occured while confirming choice : ${error}`);
       setErrorConfirmingChoice(true);
@@ -107,6 +117,7 @@ function DoubleAuthPopup({ navigation }) {
           case 200:
             console.log("Right answer, got login IDs !");
             const { cn, cv } = response.data.data;
+            AccountHandler.temporary2FAToken = response.headers["2fa-token"];
             await AsyncStorage.setItem("double-auth-tokens", JSON.stringify({ cn, cv }));
             const reloginSuccessful = await AccountHandler.refreshLogin();
             HapticsHandler.vibrate("light");
