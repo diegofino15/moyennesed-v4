@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "MoyennesED",
+    "name": "MoyennesED Sans Pubs",
     "slug": "moyennesed-no-ads",
-    "version": "4.0.15",
+    "version": "4.0.16",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -27,7 +27,8 @@
         "expo-build-properties",
         {
           "ios": {
-            "useFrameworks": "static"
+            "useFrameworks": "static",
+            "buildReactNativeFromSource": true
           }
         }
       ],
@@ -52,7 +53,14 @@
       }
     },
     "android": {
-      "package": "com.finocchiarodev.moyennesednoads"
+      "package": "com.finocchiarodev.moyennesednoads",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "versionCode": 1,
+      "userInterfaceStyle": "automatic",
+      "googleServicesFile": "./google-services.json"
     }
   }
 }
