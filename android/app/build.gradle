@@ -114,8 +114,8 @@ android {
         applicationId 'me.diegof.moyennesed'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 48
-        versionName "4.0.15"
+        versionCode 50
+        versionName "4.0.16"
     }
     signingConfigs {
         debug {

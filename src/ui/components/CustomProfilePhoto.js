@@ -50,7 +50,7 @@ function CustomProfilePhoto({ accountID, onPress, size=60, style, hasOtherPressA
     if (photoURL) {
       console.log(`Refreshing profile photo for account ${id}...`);
       const { gtk } = (JSON.parse(await AsyncStorage.getItem("gtk"))) ?? await getGtkToken();
-      const response = await fetch(photoURL, { headers: { 'Referer': `http:${photoURL}`, 'Host': 'doc1.ecoledirecte.com', 'User-Agent': process.env.EXPO_PUBLIC_ED_USER_AGENT, 'Cookie': `GTK=${gtk}` } });
+      const response = await fetch(`https:${photoURL}`, { headers: { 'Referer': `http:${photoURL}`, 'Host': 'doc1.ecoledirecte.com', 'User-Agent': process.env.EXPO_PUBLIC_ED_USER_AGENT, 'Cookie': `GTK=${gtk}` } });
       let blob = await response.blob(); // Works for some reason
       let fileReaderInstance = new FileReader();
       fileReaderInstance.readAsDataURL(blob); 
