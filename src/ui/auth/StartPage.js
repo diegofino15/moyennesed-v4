@@ -35,6 +35,7 @@ function StartPage({ navigation }) {
           }}>
             <LottieView
               autoPlay
+              hardwareAccelerationAndroid
               source={require('../../../assets/lottie/login.json')}
               resizeMode="contain"
               style={{
