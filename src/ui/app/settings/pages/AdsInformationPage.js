@@ -35,6 +35,7 @@ function AdsInformationPage({ navigation }) {
           }}>
             <LottieView
               autoPlay
+              hardwareAccelerationAndroid
               loop={false}
               source={require('../../../../../assets/lottie/about-ads.json')}
               style={{

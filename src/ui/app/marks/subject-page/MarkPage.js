@@ -250,7 +250,7 @@ function MarkPage({ navigation, route }) {
                 <CustomSection title={"Compétences"}/>
                 {mark.competences.map(competence => (
                   <CustomSimpleInformationCard
-                    key={competence.id}
+                    key={competence.fullID}
                     content={competence.title}
                     subtitle={competence.description}
                     icon={<LandPlotIcon size={20} color={theme.colors.onSurfaceDisabled}/>}

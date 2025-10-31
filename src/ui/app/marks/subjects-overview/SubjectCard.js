@@ -120,7 +120,7 @@ function EmbeddedSubjectCard({
                     opacity: mark.isEffective && countMarksWithOnlyCompetences ? 1 : 0.2,
                   }}>
                     {mark.competences.map(competence => (
-                      <View key={competence.id} style={{
+                      <View key={competence.fullID} style={{
                         backgroundColor: competence.value <= 0 ? theme.colors.onSurfaceDisabled : competence.value == 1 ? theme.colors.error : competence.value == 2 ? "#FFC300" : competence.value == 3 ? theme.colors.primary : theme.colors.success, // To adapt
                         borderRadius: 5,
                         width: 10,

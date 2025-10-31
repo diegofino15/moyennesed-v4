@@ -275,15 +275,18 @@ class MarksHandler {
       // Check if mark has competences
       let markCompetences = [];
       let tempMarkCompetences = {};
-      for (competence of mark.elementsProgramme) {
-        if (!tempMarkCompetences[competence.idCompetence]) {
+      for (const competence of mark.elementsProgramme) {
+        if (!tempMarkCompetences[`${competence.idCompetence}-${competence.idElemProg}-${competence.idConnaissance}`]) {
           markCompetences.push({
+            fullID: `${competence.idCompetence}-${competence.idElemProg}-${competence.idConnaissance}`,
             id: competence.idCompetence,
+            idElement: competence.idElemProg,
+            idKnowledge: competence.idConnaissance,
             title: competence.libelleCompetence,
             description: competence.descriptif,
             value: parseFloat(`${competence.valeur}`),
           });
-          tempMarkCompetences[competence.idCompetence] = true;
+          tempMarkCompetences[`${competence.idCompetence}-${competence.idElemProg}-${competence.idConnaissance}`] = true;
         }
       }
 

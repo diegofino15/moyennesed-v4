@@ -54,13 +54,14 @@ function CustomModal({
     <View style={{
       backgroundColor: theme.colors.backdrop,
       height: '100%',
-      overflow: 'hidden',
+      overflow: 'visible',
     }} onLayout={onLayout}>
       <View style={{
         marginTop: Platform.select({ ios: 0, android: Constants.statusBarHeight }),
         backgroundColor: theme.colors.backdrop,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
+        width: "100%", height: "100%"
       }}>
         {/* Header space */}
         {(title || titleObject) && <View style={{
