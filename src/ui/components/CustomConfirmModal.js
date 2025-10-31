@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
-import { Modal, StyleSheet, Pressable, Animated, SafeAreaView, Dimensions, View, Platform } from "react-native";
+import { Modal, StyleSheet, Pressable, Animated, Dimensions, View, Platform } from "react-native";
 import { BlurView } from "expo-blur";
 import { StatusBar } from "expo-status-bar";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets, SafeAreaView } from "react-native-safe-area-context";
 import { PressableScale } from "react-native-pressable-scale";
 import { XIcon } from "lucide-react-native";
 
@@ -75,10 +75,9 @@ function CustomConfirmModal({
       ]}>
         <Pressable onPress={exitModal} style={StyleSheet.absoluteFill}/>
 
-        <SafeAreaView style={{
+        <SafeAreaView edges={{top: 'off'}} style={{
           marginHorizontal: 20,
           marginBottom: useSafeAreaInsets().bottom + 20,
-          // marginTop: useSafeAreaInsets().top + 20,
           height: '100%',
           justifyContent: 'space-between',
         }}>

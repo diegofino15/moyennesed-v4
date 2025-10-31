@@ -1,5 +1,5 @@
-import { View, SafeAreaView, Text, Dimensions } from 'react-native';
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { View, Text, Dimensions } from 'react-native';
+import { useSafeAreaInsets, SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from 'expo-linear-gradient';
 import { PressableScale } from 'react-native-pressable-scale';
 import { CrownIcon, ScaleIcon } from 'lucide-react-native';
@@ -24,7 +24,7 @@ function StartPage({ navigation }) {
         height: '100%',
         paddingHorizontal: 20
       }}>
-        <SafeAreaView style={{
+        <SafeAreaView edges={{top: 'off'}} style={{
           flexDirection: 'column',
           height: '100%',
         }}>

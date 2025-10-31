@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { View, Text, SafeAreaView, Dimensions, ScrollView, RefreshControl, Platform } from "react-native";
+import { View, Text, Dimensions, ScrollView, RefreshControl, Platform } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
@@ -55,7 +56,7 @@ function MainPage({ route, navigation }) {
         }} tintColor={theme.colors.onBackground}/>
       }
     >
-      <SafeAreaView>
+      <SafeAreaView edges={{top: "off"}}>
         {/* Header */}
         <View style={{
           flexDirection: 'row',
