@@ -130,7 +130,7 @@ function formatMark(mark: { valueStr: string, classValue: number, valueOn: numbe
 
 function getLatestDate(date1: Date, date2: Date): Date {
   if (date1 > date2) { return date1; }
-  return date1;
+  return date2;
 }
 
 function asyncExpectedResult(func: any, onFinish: any, expectedResult: any) {
