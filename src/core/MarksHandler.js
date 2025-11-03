@@ -196,8 +196,7 @@ class MarksHandler {
                 subjectTeachers,
                 subjectCoefficient,
               );
-              periodSubjects[subjectID].subSubjects[subSubjectID] =
-                finalSubject;
+              periodSubjects[subjectID].subSubjects[subSubjectID] = finalSubject;
             }
           } else {
             // Find subject group
@@ -276,9 +275,10 @@ class MarksHandler {
       let markCompetences = [];
       let tempMarkCompetences = {};
       for (const competence of mark.elementsProgramme) {
-        if (!tempMarkCompetences[`${competence.idCompetence}-${competence.idElemProg}-${competence.idConnaissance}`]) {
+        let competenceID = `${competence.idCompetence}-${competence.idElemProg}-${competence.idConnaissance}`;
+        if (!tempMarkCompetences[competenceID]) {
           markCompetences.push({
-            fullID: `${competence.idCompetence}-${competence.idElemProg}-${competence.idConnaissance}`,
+            fullID: competenceID,
             id: competence.idCompetence,
             idElement: competence.idElemProg,
             idKnowledge: competence.idConnaissance,
@@ -286,7 +286,7 @@ class MarksHandler {
             description: competence.descriptif,
             value: parseFloat(`${competence.valeur}`),
           });
-          tempMarkCompetences[`${competence.idCompetence}-${competence.idElemProg}-${competence.idConnaissance}`] = true;
+          tempMarkCompetences[competenceID] = true;
         }
       }
 
@@ -365,8 +365,8 @@ class MarksHandler {
     }
     sortedMarks.sort((a, b) => a.date.getTime() - b.date.getTime());
     for (const mark of sortedMarks) {
-      const { id, subjectID, subSubjectID, periodID } = mark;
-      
+      const { id, periodID, subjectID, subSubjectID } = mark;
+
       // Create period if it doesn't exist
       if (!(periodID in periods)) {
         console.log(`Got mark without period ! ${id}`);
@@ -397,6 +397,8 @@ class MarksHandler {
 
       // Add mark to corresponding Subject (create if not existent)
       if (!(subjectID in periods[periodID].subjects)) {
+        console.log(`Got mark without subject ! ${id}`);
+        
         periods[periodID].subjects[subjectID] = createSubject(
           subjectID,
           null,
@@ -413,8 +415,10 @@ class MarksHandler {
 
       // Add mark to corresponding SubSubject
       if (subSubjectID) {
-        parentSubject = periods[periodID].subjects[subjectID];
+        const parentSubject = periods[periodID].subjects[subjectID];
         if (!(subSubjectID in parentSubject.subSubjects)) {
+          console.log(`Got mark without sub subject ! ${id}`);
+          
           parentSubject.subSubjects[subSubjectID] = createSubject(
             subjectID,
             subSubjectID,
@@ -439,11 +443,8 @@ class MarksHandler {
       periods[periodID].sortedMarks.reverse();
       for (const subjectID in periods[periodID].subjects) {
         periods[periodID].subjects[subjectID].sortedMarks.reverse();
-        for (const subSubjectID in periods[periodID].subjects[subjectID]
-          .subSubjects) {
-          periods[periodID].subjects[subjectID].subSubjects[
-            subSubjectID
-          ].sortedMarks.reverse();
+        for (const subSubjectID in periods[periodID].subjects[subjectID].subSubjects) {
+          periods[periodID].subjects[subjectID].subSubjects[subSubjectID].sortedMarks.reverse();
         }
       }
     }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Text, View, ActivityIndicator, Platform } from "react-native";
-import { CheckIcon, ChevronsUpDownIcon, CircleIcon } from "lucide-react-native";
+import { AlertTriangleIcon, CheckIcon, ChevronsUpDownIcon, CircleIcon, RefreshCcwIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -33,55 +33,53 @@ function DoubleAuthPopup({ navigation }) {
   const [rawAnswers, setRawAnswers] = useState([]);
 
   // Parse the question
-  useEffect(() => {
-    async function getQuestion() {
-      setIsLoading(true);
-      
-      console.log(AccountHandler.temporaryLoginToken)
-      var response = await axios.post(
-        'https://api.ecoledirecte.com/v3/connexion/doubleauth.awp?verbe=get&v=4',
-        'data={}',
-        { headers: {
-          "X-Token": AccountHandler.temporaryLoginToken,
-          "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
-          "2fa-Token": AccountHandler.temporary2FAToken,
-        } },
-      ).catch(error => {
-        console.warn(`An error occured while parsing double auth : ${error}`);
+  async function getQuestion() {
+    setIsLoading(true);
+    
+    var response = await axios.post(
+      `https://api.ecoledirecte.com/v3/connexion/doubleauth.awp?verbe=get&v=${process.env.EXPO_PUBLIC_ED_API_VERSION}`,
+      'data={}',
+      { headers: {
+        "X-Token": AccountHandler.temporaryLoginToken,
+        "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
+        "2fa-Token": AccountHandler.temporary2FAToken,
+      } },
+    ).catch(error => {
+      console.warn(`An error occured while parsing double auth : ${error}`);
+      setErrorLoading(true);
+    });
+    response ??= {};
+
+    switch (response.status) {
+      case 200:
+        console.log("API request successful");
+        switch (response.data.code) {
+          case 200:
+            console.log("Got double auth content !");
+            AccountHandler.temporary2FAToken = response.headers["2fa-token"];
+            setQuestion(parseHtmlData(response.data.data?.question ?? ""))
+            var tempAnswers = [];
+            response.data.data?.propositions?.forEach(answer => {
+              tempAnswers.push(parseHtmlData(answer));
+            });
+            setAnswers(tempAnswers);
+            setRawAnswers(response.data.data?.propositions ?? []);
+            break;
+          default:
+            console.warn(`API responded with unknown code ${response.data.code}`);
+            setErrorLoading(true);
+            break;
+        }
+        break;
+      default:
+        console.warn("API request failed");
         setErrorLoading(true);
-      });
-      response ??= {};
-
-      switch (response.status) {
-        case 200:
-          console.log("API request successful");
-          switch (response.data.code) {
-            case 200:
-              console.log("Got double auth content !");
-              AccountHandler.temporary2FAToken = response.headers["2fa-token"];
-              setQuestion(parseHtmlData(response.data.data?.question ?? ""))
-              var tempAnswers = [];
-              response.data.data?.propositions?.forEach(answer => {
-                tempAnswers.push(parseHtmlData(answer));
-              });
-              setAnswers(tempAnswers);
-              setRawAnswers(response.data.data?.propositions ?? []);
-              break;
-            default:
-              console.warn(`API responded with unknown code ${response.data.code}`);
-              setErrorLoading(true);
-              break;
-          }
-          break;
-        default:
-          console.warn("API request failed");
-          setErrorLoading(true);
-          break;
-      }
-
-      setIsLoading(false);
+        break;
     }
 
+    setIsLoading(false);
+  }
+  useEffect(() => {
     if (!question && !isLoading) { getQuestion(); }
   }, []);
 
@@ -147,6 +145,18 @@ function DoubleAuthPopup({ navigation }) {
   return (
     <CustomModal
       title={"Double authentification"}
+      rightIcon={(
+        <View style={{ margin: 4.5, }}>
+          {isLoading || isConfirmingChoice ? (
+            <ActivityIndicator size={25} color={theme.colors.onSurface}/>
+          ) : (errorLoading || errorConfirmingChoice) ? (
+            <AlertTriangleIcon size={25} color={theme.colors.error}/>
+          ) : (
+            <RefreshCcwIcon size={25} color={theme.colors.onSurface}/>
+          )}
+        </View>
+      )}
+      rightIconOnPress={() => getQuestion()}
       children={(
         <View>
           <Text style={[theme.fonts.labelLarge, { marginBottom: 5 }]}>Répondez à cette question de sécurité afin de confirmer votre identité.</Text>
