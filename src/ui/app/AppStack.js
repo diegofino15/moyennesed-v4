@@ -103,8 +103,8 @@ function MainAndSettingsStack() {
       }
     }
     async function reloginAndGetMarks() {
-      const reloginSuccessful = await refreshLogin();
-      if (reloginSuccessful) { autoGetMarks(); }
+      const reloginStatus = await refreshLogin();
+      if (reloginStatus == 1) { autoGetMarks(); }
       else {
         setManualRefreshing(false);
         HapticsHandler.vibrate("light");

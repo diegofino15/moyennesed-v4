@@ -24,10 +24,10 @@ export function AppStackContextProvider({ children, needToRefresh, cameFromAuthS
     
     setIsConnecting(true);
     setIsConnected(false);
-    const successful = await AccountHandler.refreshLogin();
-    setIsConnected(successful);
+    const reloginStatus = await AccountHandler.refreshLogin();
+    setIsConnected(reloginStatus == 1);
     setIsConnecting(false);
-    return successful;
+    return reloginStatus;
   }
   
   // To update the whole app when needed

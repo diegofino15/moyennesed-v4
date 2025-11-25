@@ -117,13 +117,14 @@ function DoubleAuthPopup({ navigation }) {
             const { cn, cv } = response.data.data;
             AccountHandler.temporary2FAToken = response.headers["2fa-token"];
             await AsyncStorage.setItem("double-auth-tokens", JSON.stringify({ cn, cv }));
-            const reloginSuccessful = await AccountHandler.refreshLogin();
+            const reloginStatus = await AccountHandler.refreshLogin();
             HapticsHandler.vibrate("light");
-            if (reloginSuccessful) {
+            if (reloginStatus == 1) {
               navigation.pop();
               setIsLoggedIn(true);
-            }
-            else {
+            } else if (reloginStatus == 2) {
+              navigation.navigate("ChooseAccountPage");
+            } else {
               console.warn("Relogin failed...");
             }
             break;
