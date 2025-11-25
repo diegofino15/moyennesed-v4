@@ -117,7 +117,7 @@ class AccountHandler {
   static async refreshLogin() {
     const credentials = JSON.parse(await AsyncStorage.getItem("credentials"));
     const status = await this.login(credentials.username, credentials.password);
-    return status == 1;
+    return status;
   }
   // Save all data from ÉcoleDirecte to cache
   static async _saveConnectedAccounts(loginData, token) {
@@ -365,8 +365,8 @@ class AccountHandler {
             break;
           case 520: // Outdated token
             console.log("Outdated token, reconnecting...");
-            const reloginSuccessful = await this.refreshLogin();
-            if (reloginSuccessful) {
+            const reloginStatus = await this.refreshLogin();
+            if (reloginStatus == 1) {
               return await this.parseEcoleDirecte(title, accountID, url, payload, successCallback);
             }
             status = 0;
