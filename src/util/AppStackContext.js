@@ -25,6 +25,10 @@ export function AppStackContextProvider({ children, needToRefresh, cameFromAuthS
     setIsConnecting(true);
     setIsConnected(false);
     const reloginStatus = await AccountHandler.refreshLogin();
+    if (reloginStatus == 1 && AccountHandler.multipleAccounts) {
+      const account = await AccountHandler.getMainAccount();
+      await AccountHandler.refreshToken(account.id, account.id);
+    }
     setIsConnected(reloginStatus == 1);
     setIsConnecting(false);
     return reloginStatus;

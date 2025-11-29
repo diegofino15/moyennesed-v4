@@ -22,6 +22,7 @@ class AccountHandler {
   static wantToOpenDoubleAuthPopup = false;
   static temporaryLoginToken = "";
   static temporary2FAToken = "";
+  static multipleAccounts = false;
 
   // Login
   static async login(username, password) {
@@ -67,6 +68,7 @@ class AccountHandler {
             );
             status = 1;
             if (response.data.data.accounts.length != 1) {
+              this.multipleAccounts = true;
               let alreadySavedPreference = await AsyncStorage.getItem("selectedAccount");
               if (!alreadySavedPreference || alreadySavedPreference == 0) { status = 2; }
             } else {
@@ -119,84 +121,121 @@ class AccountHandler {
     const status = await this.login(credentials.username, credentials.password);
     return status;
   }
+  // Refresh token when switching accounts
+  static async refreshToken(oldAccountID, newAccountID) {
+    // Get ID-login
+    const account = await this.getSpecificAccount(newAccountID);
+    const loginID = account.loginID;
+
+    return this.parseEcoleDirecte(
+      "renew token",
+      oldAccountID,
+      `${this.USED_URL}${APIEndpoints.RENEW_TOKEN}`,
+      `data={"idUser": ${loginID}, "uuid": ""}`,
+      async (data) => {
+        console.log("Updated token !");
+        const accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
+        await this._saveAccount(data, accounts[newAccountID].connectionToken);
+        return 1;
+      },
+      "post",
+      newAccountID
+    );
+  }
   // Save all data from ÉcoleDirecte to cache
   static async _saveConnectedAccounts(loginData, token) {
-    var connectedAccounts = {};
-    const supportedAccountTypes = ["E", "1"] // Student and parent
-
     // Loop trough connected accounts
     for (const account of loginData.accounts) {
-      let ID = `${account.id}`;
-      if (!supportedAccountTypes.includes(`${account.typeCompte}`)) {
-        console.warn(`Unsupported account type : ${account.typeCompte}`);
-        continue;
-      }
-      let accountType = account.typeCompte == "E" ? "E" : "P"; // E = student | 1 = parent
-      let firstName = capitalizeWords(account.prenom);
-      let lastName = account.nom.toUpperCase();
-      let gender;
+      await this._saveAccount(account, token);
+    }
+  }
+  // Save only one account
+  static async _saveAccount(account, token) {
+    const supportedAccountTypes = ["E", "1"] // Student and parent
+    
+    // Get old login-id
+    var accounts = JSON.parse(await AsyncStorage.getItem("accounts"));
+    if (!accounts) { accounts = {}; }
 
-      // Student account
-      if (accountType == "E") {
-        gender = account.profile.sexe;
-        let school = capitalizeWords(account.profile.nomEtablissement);
-        let grade = capitalizeWords(account.profile.classe?.libelle ?? "Pas de classe");
-        let photoURL = account.profile.photo;
-
-        connectedAccounts[ID] = {
-          id: ID,
-          connectionToken: token,
-          accountType: accountType,
-          firstName: firstName,
-          lastName: lastName,
-          gender: gender,
-          school: school,
-          grade: grade,
-          photoURL: photoURL,
-        };
-      } else {
-        // Parent account
-        gender = account.civilite == "M." ? "M" : "F";
-        let children = {};
-
-        // Add children accounts
-        for (const childAccount of account.profile.eleves) {
-          let childID = `${childAccount.id}`;
-          let childFirstName = capitalizeWords(childAccount.prenom);
-          let childLastName = childAccount.nom.toUpperCase();
-          let childGender = childAccount.sexe;
-          let childSchool = capitalizeWords(childAccount.nomEtablissement);
-          if (childSchool.length == 0) {
-            childSchool = account.nomEtablissement;
-          }
-          let grade = capitalizeWords(childAccount.classe?.libelle ?? "Pas de classe");
-          let childPhotoURL = childAccount.photo;
-
-          children[childID] = {
-            id: childID,
-            firstName: childFirstName,
-            lastName: childLastName,
-            gender: childGender,
-            school: childSchool,
-            grade: grade,
-            photoURL: childPhotoURL,
-          };
-        }
-
-        connectedAccounts[ID] = {
-          id: ID,
-          connectionToken: token,
-          accountType: accountType,
-          firstName: firstName,
-          lastName: lastName,
-          gender: gender,
-          children: children,
-        };
-      }
+    let loginID = `${account.idLogin}`
+    if (account.id in accounts) {
+      loginID = accounts[account.id].loginID;
     }
 
-    // Save data
-    await AsyncStorage.setItem("accounts", JSON.stringify(connectedAccounts));
+    // Data
+    var accountData = {};
+
+    let ID = `${account.id}`;
+    if (!supportedAccountTypes.includes(`${account.typeCompte}`)) {
+      console.warn(`Unsupported account type : ${account.typeCompte}`);
+    }
+    let accountType = account.typeCompte == "E" ? "E" : "P"; // E = student | 1 = parent
+    let firstName = capitalizeWords(account.prenom);
+    let lastName = account.nom.toUpperCase();
+    let gender;
+
+    // Student account
+    if (accountType == "E") {
+      gender = account.profile.sexe;
+      let school = capitalizeWords(account.profile.nomEtablissement);
+      let grade = capitalizeWords(account.profile.classe?.libelle ?? "Pas de classe");
+      let photoURL = account.profile.photo;
+
+      accountData = {
+        id: ID,
+        loginID: loginID,
+        connectionToken: token,
+        accountType: accountType,
+        firstName: firstName,
+        lastName: lastName,
+        gender: gender,
+        school: school,
+        grade: grade,
+        photoURL: photoURL,
+      };
+    } else {
+      // Parent account
+      gender = account.civilite == "M." ? "M" : "F";
+      let children = {};
+
+      // Add children accounts
+      for (const childAccount of account.profile.eleves) {
+        let childID = `${childAccount.id}`;
+        let childFirstName = capitalizeWords(childAccount.prenom);
+        let childLastName = childAccount.nom.toUpperCase();
+        let childGender = childAccount.sexe;
+        let childSchool = capitalizeWords(childAccount.nomEtablissement);
+        if (childSchool.length == 0) {
+          childSchool = account.nomEtablissement;
+        }
+        let grade = capitalizeWords(childAccount.classe?.libelle ?? "Pas de classe");
+        let childPhotoURL = childAccount.photo;
+
+        children[childID] = {
+          id: childID,
+          firstName: childFirstName,
+          lastName: childLastName,
+          gender: childGender,
+          school: childSchool,
+          grade: grade,
+          photoURL: childPhotoURL,
+        };
+      }
+
+      accountData = {
+        id: ID,
+        loginID: loginID,
+        connectionToken: token,
+        accountType: accountType,
+        firstName: firstName,
+        lastName: lastName,
+        gender: gender,
+        children: children,
+      };
+    }
+
+    accounts[account.id] = accountData;
+    await AsyncStorage.setItem("accounts", JSON.stringify(accounts));
   }
   // One for most users, needed for ones with more than one account connected
   static async saveSelectedAccount(accountID) {
@@ -325,10 +364,11 @@ class AccountHandler {
   // Network utils //
 
   // The function used for every EcoleDirecte API call
-  static async parseEcoleDirecte(title, accountID, url, payload, successCallback, verbe="get") {
+  static async parseEcoleDirecte(title, accountID, url, payload, successCallback, verbe="get", accountIDForToken=0) {
     // Get login token
     const mainAccount = await this._getMainAccountOfAnyAccount(accountID);
     const token = mainAccount.connectionToken;
+    if (accountIDForToken == 0) { accountIDForToken = accountID; }
     
     console.log(`Getting ${title} for account ${accountID}...`);
 
@@ -359,7 +399,7 @@ class AccountHandler {
 
         switch (response.data.code) {
           case 200:
-            await this._updateToken(accountID, response.data.token);
+            await this._updateToken(accountIDForToken, response.data.token);
             status = await successCallback(response.data?.data);
             console.log(`Got ${title} for account ${accountID} ! (status ${status})`);
             break;
