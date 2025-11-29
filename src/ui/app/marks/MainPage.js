@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { View, Text, Dimensions, ScrollView, RefreshControl, Platform } from "react-native";
+import { View, Text, Dimensions, ScrollView, RefreshControl, Platform, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
@@ -11,6 +11,7 @@ import CustomProfilePhoto from "../../components/CustomProfilePhoto";
 import HapticsHandler from "../../../core/HapticsHandler";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
+import AccountHandler from "../../../core/AccountHandler";
 
 
 // Main page
@@ -23,6 +24,7 @@ function MainPage({ route, navigation }) {
   useEffect(() => { updateMainAccount(); }, [newAccountID])
 
   // Switch account
+  const [isSwitchingAccounts, setIsSwitchingAccounts] = useState(false);
   const [availableAccounts, setAvailableAccounts] = useState([]);
   useEffect(() => { AsyncStorage.getItem("accounts").then(jsonAccounts => {
     if (!jsonAccounts) { return; }
@@ -33,10 +35,13 @@ function MainPage({ route, navigation }) {
     }
   }); }, [mainAccount.id]);
   async function switchAccount(newAccountID) {
+    setIsSwitchingAccounts(true);
     await AsyncStorage.setItem("selectedAccount", `${newAccountID}`);
+    await AccountHandler.refreshToken(mainAccount.id, newAccountID);
     navigation.navigate("MainPage", { newAccountID: newAccountID });
     console.log(`Switched to account ${newAccountID} !`);
     HapticsHandler.vibrate("light");
+    setIsSwitchingAccounts(false);
   }
 
   return (
@@ -76,13 +81,15 @@ function MainPage({ route, navigation }) {
               id: account.id,
               title: `${account.firstName} ${account.lastName}`,
             }})}
-            defaultItem={(
+            defaultItem={!isSwitchingAccounts ? (
               <CustomProfilePhoto
                 accountID={mainAccount.id}
                 size={70}
                 onPress={() => navigation.navigate("SettingsStack")}
                 hasOtherPressAction={availableAccounts.length >= 1}
               />
+            ) : (
+              <ActivityIndicator size={70}/>
             )}
             selected={mainAccount.id}
             setSelected={switchAccount}
