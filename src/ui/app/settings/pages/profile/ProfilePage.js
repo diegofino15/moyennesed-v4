@@ -4,7 +4,6 @@ import { ArrowDownUpIcon, CornerDownRightIcon, SchoolIcon, GraduationCapIcon, Us
 import { PressableScale } from "react-native-pressable-scale";
 import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
 import DisconnectModal from "./DisconnectModal";
@@ -19,6 +18,7 @@ import AccountHandler from "../../../../../core/AccountHandler";
 import HapticsHandler from "../../../../../core/HapticsHandler";
 import { useGlobalAppContext } from "../../../../../util/GlobalAppContext";
 import { useCurrentAccountContext } from "../../../../../util/CurrentAccountContext";
+import StorageHandler from "../../../../../core/StorageHandler";
 
 
 // Profile settings page
@@ -29,12 +29,12 @@ function ProfilePage({ navigation }) {
   // Switch account
   const [canSwitchAccounts, setCanSwitchAccounts] = useState(false);
   const [isSwitchingAccount, setIsSwitchingAccount] = useState(false);
-  useEffect(() => { AsyncStorage.getItem("accounts").then(jsonAccounts => {
-    if (Object.keys(JSON.parse(jsonAccounts)).length > 1) { setCanSwitchAccounts(true); }
+  useEffect(() => { StorageHandler.getData("accounts").then(accounts => {
+    if (Object.keys(accounts).length > 1) { setCanSwitchAccounts(true); }
   }); }, []);
   async function switchAccount(newAccountID) {
     if (newAccountID != mainAccount.id) {
-      await AsyncStorage.setItem("selectedAccount", `${newAccountID}`);
+      await StorageHandler.saveData("selectedAccount", `${newAccountID}`);
       await AccountHandler.refreshToken(mainAccount.id, newAccountID);
       navigation.navigate("MainStack", { newAccountID: newAccountID });
       console.log(`Switched to account ${newAccountID} !`);

@@ -5,10 +5,10 @@ import { TestIds, RewardedAd, AdEventType, RewardedAdEventType } from "react-nat
 import { HelpCircleIcon, VideoIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { BlurView } from "expo-blur";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import AdsHandler from "../../core/AdsHandler";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import StorageHandler from "../../core/StorageHandler";
 
 
 // Places an ad on top of a component
@@ -27,12 +27,12 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
   useEffect(() => { checkIfAdShouldBeShown(); }, [isAdsHandlerLoaded]);
   async function checkIfAdShouldBeShown() {
     if (rewardedAd) { return; }
-    const lastAdTime = await AsyncStorage.getItem('lastAdTime');
+    const lastAdTime = await StorageHandler.getData('lastAdTime');
     if (lastAdTime == null) { // Don't show ads for a week
       console.log("First time opening app, no ad");
       setCanShowContent(true);
       setCanShowAverage(true);
-      AsyncStorage.setItem("lastAdTime", (Date.now() + 7 * 24 * 60 * 60 * 1000).toString());
+      StorageHandler.saveData("lastAdTime", (Date.now() + 7 * 24 * 60 * 60 * 1000).toString());
     } else if (Date.now() - parseInt(lastAdTime) < AD_COOLDOWN || isAdsHandlerLoaded && !canServeAds) {
       console.log("Ad cooldown not finished");
       setCanShowAverage(true);
@@ -64,7 +64,7 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
         console.log("Ad finished, granting reward !");
         setCanShowContent(true);
         setCanShowAverage(true);
-        AsyncStorage.setItem("lastAdTime", Date.now().toString());
+        StorageHandler.saveData("lastAdTime", Date.now().toString());
       } else if (event.type === AdEventType.CLOSED && !canShowContentRef.current) {
         console.log("Closed ad before end !");
         setRewardedAd(null);

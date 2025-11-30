@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { View, Platform, Dimensions, Text, Switch, ActivityIndicator } from "react-native";
 import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, ChevronRightIcon, EllipsisIcon, GraduationCapIcon, LibraryIcon, ListTodoIcon, SwatchBookIcon, XIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomModal from "../../components/CustomModal";
 import CustomSection from "../../components/CustomSection";
@@ -18,6 +17,7 @@ import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../util/AppStackContext";
 import { asyncExpectedResult, formatDate, formatDate2 } from "../../../util/Utils";
 import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
+import StorageHandler from "../../../core/StorageHandler";
 
 
 // homework page
@@ -31,9 +31,8 @@ function HomeworkPage({ navigation, route }) {
   // Auto-update the cache homework
   const [homework, setHomework] = useState(cacheHomework);
   async function loadHomework() {
-    AsyncStorage.getItem("homework").then(data => {
-      var cacheData = {};
-      if (data) { cacheData = JSON.parse(data); }
+    StorageHandler.getData("homework").then(data => {
+      var cacheData = data ?? {};
       if (accountID in cacheData) {
         setHomework(cacheData[accountID].data.homeworks[cacheHomework.id]);
       }
@@ -47,9 +46,8 @@ function HomeworkPage({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [errorLoading, setErrorLoading] = useState(false);
   async function getCacheSpecificHomework() {
-    const data = await AsyncStorage.getItem("specific-homework");
-    if (data) {
-      const cacheData = JSON.parse(data);
+    const cacheData = await StorageHandler.getData("specific-homework");
+    if (cacheData) {
       if (accountID in cacheData && homework.dateFor in cacheData[accountID].days && homework.id in cacheData[accountID].homeworks) {          
         setSpecificHomework(cacheData[accountID].homeworks[homework.id]);
         setLastTimeUpdatedSpecificHomework(cacheData[accountID].days[homework.dateFor].date);

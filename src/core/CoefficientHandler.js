@@ -1,6 +1,5 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import { normalizeString } from "../util/Utils";
+import StorageHandler from "./StorageHandler";
 
 
 /* This class contains all the logic needed to find the
@@ -109,17 +108,16 @@ class CoefficientHandler {
 
   // Save and load
   static async save() {
-    await AsyncStorage.setItem('coefficient-profiles', JSON.stringify({
+    await StorageHandler.saveData('coefficient-profiles', {
       'profiles': this.choosenProfiles,
       'guessSubjectCoefficientEnabled': this.guessSubjectCoefficientEnabled,
       'guessMarkCoefficientEnabled': this.guessMarkCoefficientEnabled,
       'didChooseIfEnable': this.didChooseIfEnable,
-    }));
+    });
   }
   static async load() {
-    const jsonData = await AsyncStorage.getItem('coefficient-profiles');
-    if (jsonData) {
-      const data = JSON.parse(jsonData);
+    const data = await StorageHandler.getData('coefficient-profiles');
+    if (data) {
       this.choosenProfiles = data.profiles;
       this.guessSubjectCoefficientEnabled = data.guessSubjectCoefficientEnabled;
       this.guessMarkCoefficientEnabled = data.guessMarkCoefficientEnabled;

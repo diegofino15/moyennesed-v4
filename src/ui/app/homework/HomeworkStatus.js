@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { ArrowRightIcon, HelpCircleIcon, NotebookPenIcon } from "lucide-react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomAnimatedChangeableItem from "../../components/CustomAnimatedChangeableItem";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../util/AppStackContext";
 import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
+import StorageHandler from "../../../core/StorageHandler";
 
 
 // Homework status
@@ -21,9 +21,8 @@ function HomeworkStatus({ navigation }) {
   // Get abstract homeworks (to load the UpcomingHomeworkPage faster)
   const [abstractHomeworks, setAbstractHomeworks] = useState({});
   useEffect(() => {
-    AsyncStorage.getItem("homework").then(data => {
-      var cacheData = {};
-      if (data) { cacheData = JSON.parse(data); }
+    StorageHandler.getData("homework").then(data => {
+      var cacheData = data ?? {};
       if (accountID in cacheData) {
         let newAbstractHomeworks = cacheData[accountID].data;
         Object.keys(cacheData[accountID].data.days).map(day => {

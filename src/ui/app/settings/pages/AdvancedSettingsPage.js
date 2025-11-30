@@ -3,7 +3,6 @@ import useState from "react-usestateref";
 import { View, Text, Switch, ActivityIndicator } from "react-native";
 import { ArrowBigRightDashIcon, LandPlotIcon, LockIcon, MoonIcon, SunIcon, TrashIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomLink from "../../../components/CustomLink";
 import CustomModal from "../../../components/CustomModal";
@@ -18,6 +17,7 @@ import { Themes } from "../../../../util/Styles";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
 import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
+import StorageHandler from "../../../../core/StorageHandler";
 
 
 // Theme switcher
@@ -44,10 +44,10 @@ function ThemeSwitcher() {
   }
 
   async function save(savedTheme, isAuto) {
-    await AsyncStorage.setItem("theme", JSON.stringify({
+    await StorageHandler.saveData("theme", {
       savedTheme,
       isAutoTheme: isAuto,
-    }));
+    });
   }
 
   return (
@@ -242,7 +242,7 @@ function AdvancedSettingsPage({ navigation }) {
                   )}
                   onPress={async () => {
                     setIsReconnecting(true);
-                    await AsyncStorage.removeItem("double-auth-tokens");
+                    await StorageHandler.deleteFiles(["double-auth-tokens"]);
                     await AccountHandler.refreshLogin();
                     setIsReconnecting(false);
                   }}

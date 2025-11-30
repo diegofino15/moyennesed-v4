@@ -3,7 +3,6 @@ import useState from "react-usestateref";
 import { StatusBar, useColorScheme } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
 
 import AuthStack from "./auth/AuthStack";
@@ -16,6 +15,7 @@ import AdsHandler from "../core/AdsHandler";
 import ColorsHandler from "../core/ColorsHandler";
 import CoefficientHandler from "../core/CoefficientHandler";
 import AccountHandler from "../core/AccountHandler";
+import StorageHandler from "../core/StorageHandler";
 
 
 // App Root
@@ -51,7 +51,7 @@ function AppRoot() {
     
     // Load UI
     await initFontsAndThemes();
-    const themeData = JSON.parse(await AsyncStorage.getItem("theme"));
+    const themeData = StorageHandler.getData("theme");
     if (themeData) {
       setIsAutoTheme(themeData.isAutoTheme);
       setTheme(themeData.savedTheme == "dark" ? Themes.DarkTheme : Themes.LightTheme);
@@ -60,8 +60,8 @@ function AppRoot() {
     }
 
     // Check if logged-in
-    const credentials = await AsyncStorage.getItem("credentials");
-    if (credentials) {
+    const credentialsExist = await StorageHandler.dataExists("credentials");
+    if (credentialsExist) {
       setIsLoggedIn(true);
 
       await ColorsHandler.load();

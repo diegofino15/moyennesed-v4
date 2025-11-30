@@ -3,7 +3,6 @@ import { Text, ActivityIndicator, View, Platform, SectionList } from "react-nati
 import { AlertTriangleIcon, FileDownIcon, RefreshCcwIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { BlurView } from "expo-blur";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
 
 import HomeworkDay from "./HomeworkDay";
@@ -12,6 +11,7 @@ import CustomSeparator from "../../components/CustomSeparator";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../util/AppStackContext";
 import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
+import StorageHandler from "../../../core/StorageHandler";
 
 
 // Exam page
@@ -25,9 +25,8 @@ function UpcomingHomeworkPage({ navigation, route }) {
   // Get abstract homeworks (waiting for them to load)
   const [abstractHomeworks, setAbstractHomeworks] = useState(cacheAbstractHomeworks);
   useEffect(() => {
-    AsyncStorage.getItem("homework").then(data => {
-      var cacheData = {};
-      if (data) { cacheData = JSON.parse(data); }
+    StorageHandler.getData("homework").then(data => {
+      var cacheData = data ?? {};
       if (accountID in cacheData) {
         let newAbstractHomeworks = cacheData[accountID].data;
         Object.keys(cacheData[accountID].data.days).map(day => {

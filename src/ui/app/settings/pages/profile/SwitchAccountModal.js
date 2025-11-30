@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, Text } from "react-native";
 import { CheckCircleIcon, ChevronRightIcon, SquareMousePointerIcon } from "lucide-react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomConfirmModal from "../../../../components/CustomConfirmModal";
 import CustomInformationCard from "../../../../components/CustomInformationCard";
@@ -9,6 +8,7 @@ import CustomProfilePhoto from "../../../../components/CustomProfilePhoto";
 import CustomSectionButton from "../../../../components/CustomSectionButton";
 import CustomSeparator from '../../../../components/CustomSeparator';
 import { useGlobalAppContext } from '../../../../../util/GlobalAppContext';
+import StorageHandler from '../../../../../core/StorageHandler';
 
 
 // Switch accounts modal
@@ -17,7 +17,7 @@ function SwitchAccountModal({ isSwitchingAccount, setIsSwitchingAccount, switchA
   
   // Get available accounts
   const [availableAccounts, setAvailableAccounts] = useState({});
-  useEffect(() => { AsyncStorage.getItem("accounts").then(accounts => { setAvailableAccounts(JSON.parse(accounts)); }); }, []);
+  useEffect(() => { StorageHandler.getData("accounts").then(setAvailableAccounts); }, []);
   
   return (
     <CustomConfirmModal

@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import StorageHandler from "./StorageHandler";
 
 
 // This class decides the color of each subject, that can be
@@ -76,14 +76,13 @@ class ColorsHandler {
     }
   }
 
-  static async save() { await AsyncStorage.setItem('colors', JSON.stringify({
+  static async save() { await StorageHandler.saveData('colors', {
     attribuatedSubjectColors: this.attribuatedSubjectColors,
     customColors: this.customColors,
-  })); }
+  }); }
   static async load() {
-    const cacheData = await AsyncStorage.getItem('colors');
-    if (cacheData) {
-      let data = JSON.parse(cacheData);
+    const data = await StorageHandler.getData('colors');
+    if (data) {
       this.attribuatedSubjectColors = data.attribuatedSubjectColors;
       this.customColors = data.customColors;
     }

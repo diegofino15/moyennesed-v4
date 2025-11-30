@@ -73,7 +73,7 @@ function SubjectColorPicker({
       visible={visible}
       exitModal={exitModal}
       children={[
-        <ColorPicker key={0} value={color} onComplete={onSelectColor}>
+        <ColorPicker key={0} value={color} onCompleteJS={onSelectColor}>
           <Preview style={{ marginBottom: 5 }} />
           <Panel1 style={{ marginBottom: 5 }} />
           <HueSlider />

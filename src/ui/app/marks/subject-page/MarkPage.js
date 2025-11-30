@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { View, Text, Platform, Dimensions, Switch } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { CalendarIcon, EllipsisIcon, LandPlotIcon, MegaphoneIcon, MegaphoneOffIcon, MessageSquareIcon, MinusIcon, PenToolIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomModal from "../../../components/CustomModal";
 import CustomSection from "../../../components/CustomSection";
@@ -17,6 +16,7 @@ import MarksHandler from "../../../../core/MarksHandler";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
 import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
+import StorageHandler from "../../../../core/StorageHandler";
 
 
 // Mark page
@@ -30,9 +30,8 @@ function MarkPage({ navigation, route }) {
   // Auto-refresh info
   const [mark, setMark] = useState(cacheMark);
   useEffect(() => {
-    AsyncStorage.getItem("marks").then((data) => {
-      var cacheData = {};
-      if (data) { cacheData = JSON.parse(data); }
+    StorageHandler.getData("marks").then((data) => {
+      var cacheData = data ?? {};
       if (accountID in cacheData) {
         setMark(cacheData[accountID].data[mark.periodID].marks[mark.id]);
       }
