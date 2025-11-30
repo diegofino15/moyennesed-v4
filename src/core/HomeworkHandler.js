@@ -1,6 +1,3 @@
-import { PermissionsAndroid, Platform } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import RNFS from "react-native-fs";
 import dayjs from "dayjs";
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -8,6 +5,7 @@ dayjs.extend(customParseFormat);
 import AccountHandler from "./AccountHandler";
 import APIEndpoints from "./APIEndpoints";
 import { capitalizeWords, formatDate3, parseHtmlData } from "../util/Utils";
+import StorageHandler from "./StorageHandler";
 
 
 // This class contains all the functions used for logic and cache handling in the app
@@ -82,16 +80,12 @@ class HomeworkHandler {
     });
 
     // Save data
-    var cacheData = {};
-    const data = await AsyncStorage.getItem("homework");
-    if (data) {
-      cacheData = JSON.parse(data);
-    }
+    var cacheData = (await StorageHandler.getData("homework")) ?? {};
     cacheData[accountID] = {
       data: abstractHomework,
       date: new Date(),
     };
-    await AsyncStorage.setItem("homework", JSON.stringify(cacheData));
+    await StorageHandler.saveData("homework", cacheData);
 
     return 1;
   }
@@ -111,9 +105,7 @@ class HomeworkHandler {
   static async saveSpecificHomeworkForDay(accountID, homeworks) {
     const day = homeworks.date;
 
-    var cacheData = {};
-    const data = await AsyncStorage.getItem("specific-homework");
-    if (data) { cacheData = JSON.parse(data); }
+    var cacheData = (await StorageHandler.getData("specific-homework")) ?? {};
     cacheData[accountID] ??= {
       homeworks: {},
       days: {},
@@ -140,7 +132,7 @@ class HomeworkHandler {
       cacheData[accountID].days[day].date = new Date();
     });
 
-    await AsyncStorage.setItem("specific-homework", JSON.stringify(cacheData));
+    await StorageHandler.saveData("specific-homework", cacheData);
     return 1;
   }
 
@@ -155,9 +147,9 @@ class HomeworkHandler {
         idDevoirsNonEffectues: done ? [] : [homeworkID],
       })}`,
       async (data) => {
-        const cacheData = JSON.parse(await AsyncStorage.getItem("homework"));
+        const cacheData = await StorageHandler.getData("homework");
         cacheData[accountID].data.homeworks[homeworkID].done = done;
-        await AsyncStorage.setItem("homework", JSON.stringify(cacheData));
+        await StorageHandler.saveData("homework", cacheData);
         return 1;
       },
       "put",
@@ -165,29 +157,7 @@ class HomeworkHandler {
 
     return (status == 1) ? done : !done;
   }
-  static async downloadHomeworkFile(accountID, file) {
-    if (Platform.OS == "android") {
-      const permissions = await PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      ]);
-    }
-    
-    // Create folder if needed
-    if (!(await RNFS.exists(`${RNFS.DocumentDirectoryPath}/files`))) {
-      await RNFS.mkdir(`${RNFS.DocumentDirectoryPath}/files`);
-    }
-
-    // Check if file already exists
-    const localFile = `${RNFS.DocumentDirectoryPath}/files/${file.title}`;
-    if (await RNFS.exists(localFile)) {
-      console.log(`File ${file.title} already exists, skipping...`);
-      return {
-        promise: Promise.resolve(),
-        localFile,
-      };
-    }
-    
+  static async downloadHomeworkFile(accountID, file) {    
     // Get login token
     const mainAccount = await AccountHandler._getMainAccountOfAnyAccount(accountID);
     const token = mainAccount.connectionToken;
@@ -196,33 +166,24 @@ class HomeworkHandler {
 
     const url = `${AccountHandler.USED_URL}${APIEndpoints.DOWNLOAD_HOMEWORK_ATTACHEMENT(file.id, file.fileType)}&v=4`;
 
+    const { promise, path } = await StorageHandler.downloadDocument(url, file.title, token);
     return {
-      promise: RNFS.downloadFile({
-        fromUrl: url,
-        toFile: localFile,
-        headers: { "X-Token": token, "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT },
-      }).promise,
-      localFile,
+      promise: promise,
+      localFile: path
     };
   }
 
   // Helpers
   static async getLastTimeUpdatedHomework(accountID) {
-    const data = await AsyncStorage.getItem("homework");
-    if (data) {
-      const cacheData = JSON.parse(data);
-      if (accountID in cacheData) {
-        return cacheData[accountID].date;
-      }
+    const cacheData = (await StorageHandler.getData("homework")) ?? {};
+    if (accountID in cacheData) {
+      return cacheData[accountID].date;
     }
   }
   static async getSubjectHasExam(accountID) {
-    const data = await AsyncStorage.getItem("homework");
-    if (data) {
-      const cacheData = JSON.parse(data);
-      if (accountID in cacheData) {
-        return cacheData[accountID].data.subjectsWithExams;
-      }
+    const cacheData = (await StorageHandler.getData("homework")) ?? {};
+    if (accountID in cacheData) {
+      return cacheData[accountID].data.subjectsWithExams;
     }
     return {};
   }

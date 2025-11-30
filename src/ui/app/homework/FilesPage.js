@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Dimensions, Platform, Text, View } from "react-native";
-import RNFS from "react-native-fs";
 
 import CustomModal from "../../components/CustomModal";
 import CustomFileAttachment from '../../components/CustomFileAttachment';
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
+import StorageHandler from '../../../core/StorageHandler';
 
 
 // Page that shows all the downloaded files from the homework
@@ -13,10 +13,7 @@ function FilesPage({ navigation }) {
 
   // Get a list of the files
   const [files, setFiles] = useState([]);
-  async function getDownloadedFiles() {
-    const files = await RNFS.readDir(`${RNFS.DocumentDirectoryPath}/files`);
-    setFiles(files);
-  }
+  async function getDownloadedFiles() { StorageHandler.getAllDocuments().then(setFiles); }
   useEffect(() => { getDownloadedFiles(); }, []);
   
   const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);

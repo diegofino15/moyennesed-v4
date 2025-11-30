@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Text, View } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -10,6 +9,7 @@ import { formatDate2 } from "../../../util/Utils";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../util/AppStackContext";
 import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
+import StorageHandler from "../../../core/StorageHandler";
 
 
 // Homework day
@@ -21,9 +21,8 @@ function HomeworkDay({ day, homeworks, windowWidth, navigation }) {
   // Pre-load the specific homeworks to open HomeworkPage faster
   const [specificHomeworks, setSpecificHomeworks] = useState({});
   async function getCacheSpecificHomeworks() {
-    const data = await AsyncStorage.getItem("specific-homework");
-    if (data) {
-      const cacheData = JSON.parse(data);
+    const cacheData = await StorageHandler.getData("specific-homework");
+    if (cacheData) {
       if (accountID in cacheData && day in cacheData[accountID].days) {
         setSpecificHomeworks(cacheData[accountID].homeworks);
       }

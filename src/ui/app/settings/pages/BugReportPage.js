@@ -3,7 +3,6 @@ import useState from "react-usestateref";
 import { ActivityIndicator, Dimensions, Platform, Text, View } from "react-native";
 import { ChevronsUpDownIcon, SearchCodeIcon } from "lucide-react-native";
 import LottieView from "lottie-react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import firestore from '@react-native-firebase/firestore';
 
 import CustomModal from "../../../components/CustomModal";
@@ -13,6 +12,7 @@ import CustomChooser from "../../../components/CustomChooser";
 import CustomBigTextInput from "../../../components/CustomBigTextInput";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
+import StorageHandler from "../../../../core/StorageHandler";
 
 
 // Ad information page
@@ -34,9 +34,9 @@ function BugReportPage({ navigation }) {
   // Send bug report
   const [sentBugReport, setSentBugReport] = useState(false);
   useEffect(() => {
-    AsyncStorage.getItem("lastTimeSentBugReport").then((value) => {
+    StorageHandler.getData("lastTimeSentBugReport").then((value) => {
       if (value) {
-        const lastTimeSentBugReport = new Date(JSON.parse(value));
+        const lastTimeSentBugReport = new Date(value);
         const now = new Date();
         const diffTime = Math.abs(now - lastTimeSentBugReport);
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -46,8 +46,8 @@ function BugReportPage({ navigation }) {
       }
     })
 
-    AsyncStorage.getItem("credentials").then(data => {
-      const { username } = JSON.parse(data);
+    StorageHandler.getData("credentials").then(data => {
+      const { username } = data;
       setUsername(username);
     });
   }, []);
@@ -61,9 +61,9 @@ function BugReportPage({ navigation }) {
     setIsSendingBugReport(true);
 
     // Get logs
-    const loginLogs = JSON.parse(await AsyncStorage.getItem("logs-login"));
-    const marksLogs = JSON.parse(await AsyncStorage.getItem("logs-marks"));
-    const homeworkLogs = JSON.parse(await AsyncStorage.getItem("logs-homework"));    
+    const loginLogs = await StorageHandler.getData("logs-login");
+    const marksLogs = await StorageHandler.getData("logs-marks");
+    const homeworkLogs = await StorageHandler.getData("logs-homework");
     anonymiseLogs(loginLogs, marksLogs, homeworkLogs);
 
     try {
@@ -79,7 +79,7 @@ function BugReportPage({ navigation }) {
         },
       });
       console.log("Sent bug report !");
-      AsyncStorage.setItem("lastTimeSentBugReport", JSON.stringify(new Date()));
+      StorageHandler.saveData("lastTimeSentBugReport", new Date());
       setSentBugReport(true);
     } catch (e) {
       setErrorWhileSendingBugReport(true);

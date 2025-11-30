@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import dayjs from "dayjs";
 
 import AccountHandler from "./AccountHandler";
@@ -6,6 +5,7 @@ import APIEndpoints from "./APIEndpoints";
 import ColorsHandler from "./ColorsHandler";
 import CoefficientHandler from "./CoefficientHandler";
 import { capitalizeWords, getLatestDate } from "../util/Utils";
+import StorageHandler from "./StorageHandler";
 
 
 class MarksHandler {
@@ -450,16 +450,12 @@ class MarksHandler {
     }
 
     // Save
-    var cacheData = {};
-    const data = await AsyncStorage.getItem("marks");
-    if (data) {
-      cacheData = JSON.parse(data);
-    }
+    var cacheData = (await StorageHandler.getData("marks")) ?? {};
     cacheData[accountID] = {
       data: periods,
       date: new Date(),
     };
-    await AsyncStorage.setItem("marks", JSON.stringify(cacheData));
+    await StorageHandler.saveData("marks", cacheData);
     await ColorsHandler.save();
 
     // Calculate average history
@@ -849,8 +845,7 @@ class MarksHandler {
   // Calculate the whole average history of a given period
   static async recalculateAverageHistory(accountID) {
     // Get given period
-    const data = await AsyncStorage.getItem("marks");
-    const cacheData = JSON.parse(data ?? "{}");
+    const cacheData = (await StorageHandler.getData("marks")) ?? {};
 
     for (const givenPeriod of Object.values(cacheData[accountID]?.data ?? {})) {
       // Reset average history and marks
@@ -923,11 +918,11 @@ class MarksHandler {
     }
 
     // Save data
-    await AsyncStorage.setItem("marks", JSON.stringify(cacheData));
+    await StorageHandler.saveData("marks", cacheData);
   }
   // Helper function
   static async getLastTimeUpdatedMarks(accountID) {
-    const marks = JSON.parse(await AsyncStorage.getItem("marks"));
+    const marks = await StorageHandler.getData("marks");
     if (marks && accountID in marks) {
       return marks[accountID].date;
     }
@@ -935,24 +930,14 @@ class MarksHandler {
 
   // Custom data //
 
-  static async _setAllCustomData(data) {
-    await AsyncStorage.setItem("customData", JSON.stringify(data));
-  }
-  static async _getAllCustomData() {
-    const data = await AsyncStorage.getItem("customData");
-    if (data) {
-      return JSON.parse(data);
-    }
-    return {};
-  }
   // Account specific data
   static async _setAccountCustomData(accountID, data) {
-    const customData = await this._getAllCustomData();
+    const customData = (await StorageHandler.getData("customData")) ?? {};
     customData[accountID] = data;
-    await this._setAllCustomData(customData);
+    await StorageHandler.saveData("customData", customData);
   }
   static async _getAccountCustomData(accountID) {
-    const customData = await this._getAllCustomData();
+    const customData = (await StorageHandler.getData("customData")) ?? {};
     if (accountID in customData) {
       return customData[accountID];
     }
@@ -999,7 +984,7 @@ class MarksHandler {
     await this._setAccountCustomData(accountID, customData);
   }
   static async resetCoefficients(account, updateGlobalDisplay) {
-    await AsyncStorage.removeItem("customData");
+    await StorageHandler.deleteFiles(["customData"]);
     if (account.accountType == "E") { await this.recalculateAverageHistory(account.id); }
     else {
       for (const childID in account.children) {

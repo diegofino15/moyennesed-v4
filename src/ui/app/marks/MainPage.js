@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { View, Text, Dimensions, ScrollView, RefreshControl, Platform, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import useState from "react-usestateref";
 
 import EmbeddedMarksPage from "./EmbeddedMarksPage";
@@ -12,6 +11,7 @@ import HapticsHandler from "../../../core/HapticsHandler";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
 import AccountHandler from "../../../core/AccountHandler";
+import StorageHandler from "../../../core/StorageHandler";
 
 
 // Main page
@@ -26,17 +26,16 @@ function MainPage({ route, navigation }) {
   // Switch account
   const [isSwitchingAccounts, setIsSwitchingAccounts] = useState(false);
   const [availableAccounts, setAvailableAccounts] = useState([]);
-  useEffect(() => { AsyncStorage.getItem("accounts").then(jsonAccounts => {
-    if (!jsonAccounts) { return; }
-    if (Object.keys(JSON.parse(jsonAccounts)).length > 1) {
-      let accounts = JSON.parse(jsonAccounts);
+  useEffect(() => { StorageHandler.getData("accounts").then(accounts => {
+    if (!accounts) { return; }
+    if (Object.keys(accounts).length > 1) {
       delete accounts[mainAccount.id];
       setAvailableAccounts(Object.values(accounts));
     }
   }); }, [mainAccount.id]);
   async function switchAccount(newAccountID) {
     setIsSwitchingAccounts(true);
-    await AsyncStorage.setItem("selectedAccount", `${newAccountID}`);
+    await StorageHandler.saveData("selectedAccount", `${newAccountID}`);
     await AccountHandler.refreshToken(mainAccount.id, newAccountID);
     navigation.navigate("MainPage", { newAccountID: newAccountID });
     console.log(`Switched to account ${newAccountID} !`);

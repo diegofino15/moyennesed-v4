@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { Image } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { UserRoundIcon } from "lucide-react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import AccountHandler from "../../core/AccountHandler";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
 import { getGtkToken } from "../../util/functions";
+import StorageHandler from "../../core/StorageHandler";
 
 
 // Custom profile photo
@@ -18,10 +18,7 @@ function CustomProfilePhoto({ accountID, onPress, size=60, style, hasOtherPressA
   useEffect(() => {
     if (!accountID) { return; }
 
-    AsyncStorage.getItem("photos").then(async (cachePhotos) => {
-      let photos = JSON.parse(cachePhotos);
-      photos ??= {};
-
+    StorageHandler.getData("photos").then(async (photos) => {
       // Use cache photo if less than three day old
       if (accountID in photos) {
         if (Date.now() - new Date(photos[accountID].date) < (86400000 * 3)) {
@@ -34,7 +31,7 @@ function CustomProfilePhoto({ accountID, onPress, size=60, style, hasOtherPressA
           "date": new Date(),
           "photo": newPhoto,
         }
-        await AsyncStorage.setItem("photos", JSON.stringify(photos));
+        await StorageHandler.saveData("photos", photos);
         setPhoto(newPhoto);
       });
     });
@@ -49,8 +46,8 @@ function CustomProfilePhoto({ accountID, onPress, size=60, style, hasOtherPressA
     // Fetch photo
     if (photoURL) {
       console.log(`Refreshing profile photo for account ${id}...`);
-      const { gtk } = (JSON.parse(await AsyncStorage.getItem("gtk"))) ?? await getGtkToken();
-      const response = await fetch(photoURL, { headers: { 'Referer': `http:${photoURL}`, 'Host': 'doc1.ecoledirecte.com', 'User-Agent': process.env.EXPO_PUBLIC_ED_USER_AGENT, 'Cookie': `GTK=${gtk}` } });
+      const { gtk } = (await StorageHandler.getData("gtk")) ?? await getGtkToken();
+      const response = await fetch(`https:${photoURL}`, { headers: { 'Referer': `http:${photoURL}`, 'Host': 'doc1.ecoledirecte.com', 'User-Agent': process.env.EXPO_PUBLIC_ED_USER_AGENT, 'Cookie': `GTK=${gtk}` } });
       let blob = await response.blob(); // Works for some reason
       let fileReaderInstance = new FileReader();
       fileReaderInstance.readAsDataURL(blob); 

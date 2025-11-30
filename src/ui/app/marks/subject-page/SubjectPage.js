@@ -3,7 +3,6 @@ import useState from "react-usestateref";
 import { Text, View, Dimensions, ScrollView, Platform } from "react-native";
 import { AlertTriangleIcon, ChevronRightIcon, DraftingCompassIcon, EllipsisIcon, EyeIcon, EyeOffIcon, GraduationCapIcon, MegaphoneOffIcon, PaletteIcon, TrashIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import MarkCard from "./MarkCard";
 import SubjectColorPicker from "./SubjectColorPicker";
@@ -23,6 +22,7 @@ import MarksHandler from "../../../../core/MarksHandler";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
 import { useCurrentAccountContext } from "../../../../util/CurrentAccountContext";
+import StorageHandler from "../../../../core/StorageHandler";
 
 
 // Subject page
@@ -41,9 +41,8 @@ function SubjectPage({
   const [shownSubject, setShownSubject, shownSubjectRef] = useState(cacheSubject);
   const [marks, setMarks] = useState(null);
   useEffect(() => {
-    AsyncStorage.getItem("marks").then(async (data) => {
-      var cacheData = {};
-      if (data) { cacheData = JSON.parse(data); }
+    StorageHandler.getData("marks").then(async (data) => {
+      var cacheData = data ?? {};
       if (accountID in cacheData) {
         if (shownSubject.subID) {
           setShownSubject(cacheData[accountID].data[shownSubject.periodID].subjects[shownSubject.id].subSubjects[shownSubject.subID]);

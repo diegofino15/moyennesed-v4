@@ -3,7 +3,6 @@ import useState from "react-usestateref";
 import { Text, View } from "react-native";
 import { CornerDownRightIcon, InfoIcon, Wand2Icon, UserRoundIcon, ChevronsUpDownIcon, AlertTriangleIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import ChildChooser from "./ChildChooser";
 import HomeworkStatus from "../homework/HomeworkStatus";
@@ -17,6 +16,7 @@ import CoefficientHandler from "../../../core/CoefficientHandler";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../util/AppStackContext";
 import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
+import StorageHandler from "../../../core/StorageHandler";
 
 
 // Embedded mark page
@@ -36,9 +36,8 @@ function EmbeddedMarksPage({ navigation }) {
   // Get periods of student (and update at every change)
   const [periods, setPeriods] = useState({});
   useEffect(() => {
-    AsyncStorage.getItem("marks").then(async (data) => {
-      var cacheData = {};
-      if (data) { cacheData = JSON.parse(data); }
+    StorageHandler.getData("marks").then((data) => {
+      var cacheData = data ?? {};
       if (accountID in cacheData) {
         setPeriods(cacheData[accountID].data);
       } else { setPeriods({}); }

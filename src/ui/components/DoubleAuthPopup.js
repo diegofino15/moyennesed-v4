@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Text, View, ActivityIndicator, Platform } from "react-native";
 import { AlertTriangleIcon, CheckIcon, ChevronsUpDownIcon, CircleIcon, RefreshCcwIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 import CustomModal from "./CustomModal";
@@ -13,6 +12,7 @@ import AccountHandler from "../../core/AccountHandler";
 import HapticsHandler from "../../core/HapticsHandler";
 import { parseHtmlData } from "../../util/Utils";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
+import StorageHandler from "../../core/StorageHandler";
 
 
 // Double auth popup
@@ -116,7 +116,7 @@ function DoubleAuthPopup({ navigation }) {
             console.log("Right answer, got login IDs !");
             const { cn, cv } = response.data.data;
             AccountHandler.temporary2FAToken = response.headers["2fa-token"];
-            await AsyncStorage.setItem("double-auth-tokens", JSON.stringify({ cn, cv }));
+            await StorageHandler.saveData("double-auth-tokens", { cn, cv });
             const reloginStatus = await AccountHandler.refreshLogin();
             HapticsHandler.vibrate("light");
             if (reloginStatus == 1) {

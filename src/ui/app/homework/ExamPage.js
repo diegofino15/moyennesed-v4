@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import useState from "react-usestateref";
 import { View } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import HomeworkDay from "./HomeworkDay";
 import CustomModal from "../../components/CustomModal";
 import { useGlobalAppContext } from "../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../util/AppStackContext";
 import { useCurrentAccountContext } from "../../../util/CurrentAccountContext";
+import StorageHandler from "../../../core/StorageHandler";
 
 
 // Exam page
@@ -21,9 +21,8 @@ function ExamPage({ navigation, route }) {
   // Get abstract exams (waiting for them to load)
   const [abstractExams, setAbstractExams] = useState({});
   useEffect(() => {
-    AsyncStorage.getItem("homework").then(data => {
-      var cacheData = {};
-      if (data) { cacheData = JSON.parse(data); }
+    StorageHandler.getData("homework").then(data => {
+      var cacheData = data ?? {};
       if (accountID in cacheData) {
         let newAbstractExams = {};
         Object.keys(cacheData[accountID].data.days).map(day => {

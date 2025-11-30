@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { CheckCircleIcon, CircleIcon } from "lucide-react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import CustomModal from "../components/CustomModal";
 import CustomSectionButton from "../components/CustomSectionButton";
@@ -10,6 +9,7 @@ import CustomButton from "../components/CustomButton";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
 import AccountHandler from "../../core/AccountHandler";
 import HapticsHandler from "../../core/HapticsHandler";
+import StorageHandler from "../../core/StorageHandler";
 
 
 // Choose account page
@@ -20,11 +20,7 @@ function ChooseAccountPage({ navigation }) {
   // Get connected accounts from local storage
   const [accounts, setAccounts] = useState({});
   const [selectedAccount, setSelectedAccount] = useState(0);
-  useEffect(() => {
-    AsyncStorage.getItem("accounts").then(jsonAccounts => {
-      setAccounts(JSON.parse(jsonAccounts));
-    });
-  }, []);
+  useEffect(() => { StorageHandler.getData("accounts").then(setAccounts); }, []);
 
   // Confirm
   async function confirmSelection() {

@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
-import { View, ActivityIndicator, Platform } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { FileIcon, ExternalLinkIcon, DownloadIcon, TrashIcon } from "lucide-react-native";
 import FileViewer from "react-native-file-viewer";
-import * as RNFS from "react-native-fs";
 
 import CustomChooser from "./CustomChooser";
 import CustomSimpleInformationCard from "./CustomSimpleInformationCard";
 import HomeworkHandler from "../../core/HomeworkHandler";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
 import { useCurrentAccountContext } from "../../util/CurrentAccountContext";
+import StorageHandler from "../../core/StorageHandler";
 
 
 // File attachment
@@ -29,9 +29,7 @@ function CustomFileAttachment({ file, windowWidth, deleteButton=false, onDelete 
   }
 
   const [fileExists, setFileExists] = useState(false);
-  useEffect(() => {
-    RNFS.exists(`${RNFS.DocumentDirectoryPath}/files/${file.title}`).then(setFileExists);
-  }, [isDownloading]);
+  useEffect(() => { StorageHandler.dataExists(file.title).then(setFileExists); }, [isDownloading]);
 
   return (
     <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -42,8 +40,8 @@ function CustomFileAttachment({ file, windowWidth, deleteButton=false, onDelete 
           key: 0,
           destructive: true,
         }] : []}
-        setSelected={() => {
-          RNFS.unlink(`${RNFS.DocumentDirectoryPath}/files${file.title}`);
+        setSelected={async () => {
+          await StorageHandler.deleteDocument(file.title);
           setFileExists(false);
           if (onDelete) { onDelete(); }
         }}
@@ -92,8 +90,8 @@ function CustomFileAttachment({ file, windowWidth, deleteButton=false, onDelete 
           backgroundColor: theme.colors.error,
           borderRadius: 10,
           marginLeft: 5,
-        }} onPress={() => {
-          RNFS.unlink(`${RNFS.DocumentDirectoryPath}/files/${file.title}`);
+        }} onPress={async () => {
+          await StorageHandler.deleteDocument(file.title);
           setFileExists(false);
           if (onDelete) { onDelete(); }
         }}>
