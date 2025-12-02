@@ -30,6 +30,8 @@ setup_permissions([
 # @generated end setup
 
 target 'moyennesed' do
+  use_frameworks! :linkage => :static
+
   use_expo_modules!
 
   if ENV['EXPO_USE_COMMUNITY_AUTOLINKING'] == '1'
