@@ -51,7 +51,7 @@ function AppRoot() {
     
     // Load UI
     await initFontsAndThemes();
-    const themeData = StorageHandler.getData("theme");
+    const themeData = await StorageHandler.getData("theme");
     if (themeData) {
       setIsAutoTheme(themeData.isAutoTheme);
       setTheme(themeData.savedTheme == "dark" ? Themes.DarkTheme : Themes.LightTheme);
