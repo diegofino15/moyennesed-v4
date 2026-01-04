@@ -1,42 +1,30 @@
-import {
-  type Request as UnsafeRequest,
-  defaultFetcher,
-  getCookiesFromResponse,
-} from "@literate.ink/utilities";
 import axios from "axios";
+
 
 // Get token for login
 async function getGtkToken(): Promise<{ gtk: string; cookie: string } | null> {
-  var gtk: string;
   var gtkUrl = new URL("https://api.ecoledirecte.com/v3/login.awp");
   gtkUrl.searchParams.set("gtk", "1");
   gtkUrl.searchParams.set("v", process.env.EXPO_PUBLIC_ED_API_VERSION);
-  const request = {
-    url: gtkUrl,
-    method: "GET",
-    headers: { "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT },
-  };
 
-  const response = await defaultFetcher(request as UnsafeRequest).catch(err => {
-    console.warn("An error occured when getting gtk token : " + err);
-    return null;
+  const response = await axios.get(gtkUrl.toString(), { headers: {
+    "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
+  } }).catch(err => {
+    console.warn("An error occured while getting GTK : " + err);
   });
-  if (!response) { return null; }
+  if (response == null) { return null; }
 
-  const cookies = getCookiesFromResponse(response);
-  var gtks: string[] = [];
-  for (const cookie of cookies) {
-    const [key, value] = cookie.split("=");
-    if (key === "GTK") {
-      gtk = value;
-    }
-    gtks.push(cookie);
+  // Parse GTK
+  var gtks = []
+  for (const token of response["headers"]["set-cookie"]) {
+    let gtk = token.split(";")[0]
+    gtks.push(gtk)
   }
-  
+
   return {
-    gtk: gtk,
-    cookie: gtks.join(";"),
-  };
+    gtk: gtks[0].split("=")[1],
+    cookie: gtks[0].concat(";").concat(gtks[1]),
+  }
 }
 
 // Do the login
