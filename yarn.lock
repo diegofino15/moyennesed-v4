@@ -1721,13 +1721,6 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@literate.ink/utilities@1.0.0-11713907881.1":
-  version "1.0.0-11713907881.1"
-  resolved "https://registry.yarnpkg.com/@literate.ink/utilities/-/utilities-1.0.0-11713907881.1.tgz#698904159aad767ec0f756c7d20ca6925696f707"
-  integrity sha512-+RdZqu5dor5YQfL0CRSGPb9Gl6qCsXusziJZt84KxmJsL55ElPSc35AR4CNITzsYg7rAXVnoUCf8fXpaSeWJsg==
-  dependencies:
-    set-cookie-parser "^2.7.0"
-
 "@pkgjs/parseargs@^0.11.0":
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz#a77ea742fab25775145434eb1d2328cf5013ac33"
@@ -5943,11 +5936,6 @@ serve-static@^1.16.2:
     escape-html "~1.0.3"
     parseurl "~1.3.3"
     send "0.19.0"
-
-set-cookie-parser@^2.7.0:
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/set-cookie-parser/-/set-cookie-parser-2.7.2.tgz#ccd08673a9ae5d2e44ea2a2de25089e67c7edf68"
-  integrity sha512-oeM1lpU/UvhTxw+g3cIfxXHyJRc/uidd3yK1P242gzHds0udQBYzs3y8j4gCCW+ZJ7ad0yctld8RYO+bdurlvw==
 
 setprototypeof@1.2.0:
   version "1.2.0"
