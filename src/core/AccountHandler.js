@@ -159,6 +159,7 @@ class AccountHandler {
     let ID = `${account.id}`;
     if (!supportedAccountTypes.includes(`${account.typeCompte}`)) {
       console.warn(`Unsupported account type : ${account.typeCompte}`);
+      return;
     }
     let accountType = account.typeCompte == "E" ? "E" : "P"; // E = student | 1 = parent
     let firstName = capitalizeWords(account.prenom);
