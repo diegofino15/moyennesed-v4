@@ -9,16 +9,15 @@ async function getGtkToken(): Promise<{ gtk: string; cookie: string } | null> {
 
   const response = await axios.get(gtkUrl.toString(), { headers: {
     "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
-  } }).catch(err => {
-    console.warn("An error occured while getting GTK : " + err);
-  });
+  } });
   if (response == null) { return null; }
 
   // Parse GTK
+  const rawsGtks = response.headers["set-cookie"][0].split(", ");
   var gtks = []
-  for (const token of response["headers"]["set-cookie"]) {
-    let gtk = token.split(";")[0]
-    gtks.push(gtk)
+  for (const token of rawsGtks) {
+    let gtk = token.split(";")[0];
+    gtks.push(gtk);
   }
 
   return {
@@ -34,9 +33,9 @@ async function doLogin(username: string, password: string, gtk: string, cookie: 
   const headers = {
     "Content-Type": "application/x-www-form-urlencoded",
     "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
-    "X-GTK": gtk,
+    "X-Gtk": gtk,
     "Cookie": cookie,
-    "2fa-Token": twoFAToken
+    "2fa-Token": twoFAToken,
   };
   const body = {
     identifiant: encodeURIComponent(username),
