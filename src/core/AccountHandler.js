@@ -35,6 +35,8 @@ class AccountHandler {
 
     // Firstly get the x-gtk token
     const { gtk, cookie } = await getGtkToken();
+    console.log(gtk);
+    console.log(cookie); // Needed ? Login doesn't work without these logs (very strange)
     if (!gtk) {
       console.warn("Impossible to login without token, aborting login");
       return -1;
