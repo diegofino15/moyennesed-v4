@@ -13,7 +13,6 @@
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		4B01522C60B68CD88A5E1BB5 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CDB1EDABEF5053955A65A3 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		E0F3838C2F0C48C500B8E31C /* api.ecoledirecte.com-cert.cer in Resources */ = {isa = PBXBuildFile; fileRef = E0F3838B2F0C48C500B8E31C /* api.ecoledirecte.com-cert.cer */; };
 		E2604DDED6A1565282906BB1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B36FD4C3801C73B9F460A20A /* PrivacyInfo.xcprivacy */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -45,7 +44,6 @@
 		CFFC490CE71F4F6AB17D4E5B /* ActivityKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = ActivityKit.framework; path = System/Library/Frameworks/ActivityKit.framework; sourceTree = SDKROOT; };
 		E03C24502EDC6719005312EC /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		E03C24522EDC6719005312EC /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		E0F3838B2F0C48C500B8E31C /* api.ecoledirecte.com-cert.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = "api.ecoledirecte.com-cert.cer"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EE594E300E9B0ABA28D8BC66 /* Pods_moyennesed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_moyennesed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = moyennesed/AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,7 +66,6 @@
 		13B07FAE1A68108700A75B9A /* moyennesed */ = {
 			isa = PBXGroup;
 			children = (
-				E0F3838B2F0C48C500B8E31C /* api.ecoledirecte.com-cert.cer */,
 				F11748412D0307B40044C1D9 /* AppDelegate.swift */,
 				F11748442D0722820044C1D9 /* moyennesed-Bridging-Header.h */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
@@ -226,7 +223,6 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				E0F3838C2F0C48C500B8E31C /* api.ecoledirecte.com-cert.cer in Resources */,
 				3BBEEA95C3F74544B1257986 /* GoogleService-Info.plist in Resources */,
 				E2604DDED6A1565282906BB1 /* PrivacyInfo.xcprivacy in Resources */,
 			);

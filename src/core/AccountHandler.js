@@ -3,7 +3,7 @@ import ColorsHandler from "./ColorsHandler";
 import StorageHandler from "./StorageHandler";
 import CoefficientHandler from "./CoefficientHandler";
 import { capitalizeWords } from "../util/Utils";
-import { getGtkToken, doLogin, fetchED } from "../util/functions";
+import { getGtkToken, doLogin, fetchED, useIOSFetch } from "../util/functions";
 
 
 // This class contains the account-related functions
@@ -35,7 +35,7 @@ class AccountHandler {
 
     // Firstly get the x-gtk token
     const { gtk, cookie } = await getGtkToken(this.USED_URL);
-    if (!gtk) {
+    if (!gtk && !cookie && this.USED_URL == APIEndpoints.OFFICIAL_API) {
       console.warn("Impossible to login without token, aborting login");
       return -1;
     }
@@ -45,7 +45,7 @@ class AccountHandler {
 
     // Login
     var response = await doLogin(username, password, gtk, cookie, this.temporary2FAToken, cn, cv, (err) => {
-      console.warn("An error occured when logging in : " + err);
+      console.warn("An error occured when logging in : ", err);
     }, this.USED_URL);
     response ??= { status: 500 };
    
@@ -393,7 +393,7 @@ class AccountHandler {
     });
     var response = responseED ? {
       status: 200,
-      data: await responseED.json(),
+      data: useIOSFetch(finalURL.toString()) ? (await responseED.json()) : responseED.data,
       headers: responseED.headers,
     } : { status: 500 };
 

@@ -1,22 +1,36 @@
+import { Platform } from "react-native";
 import { fetch } from "react-native-ssl-pinning";
+import axios from "axios";
 
 import StorageHandler from "../core/StorageHandler";
+import APIEndpoints from "../core/APIEndpoints";
 
 
 // Parse ÉcoleDirecte
-function fetchED(url: string, { method, headers, body=null }) {
-  return fetch(url, {
-    method: method,
-    sslPinning: { certs: [] },
+function useIOSFetch(url: string): boolean { return Platform.OS == "ios" && url.substring(0, 28) == APIEndpoints.OFFICIAL_API; }
 
-    headers: headers,
-    body: (body == null) ? "" : body,
-  });
+function fetchED(url: string, { method, headers, body=null }) {
+  if (useIOSFetch(url)) {
+    return fetch(url, {
+      method: method,
+      sslPinning: { certs: [] },
+      
+      headers: headers,
+      body: (body == null) ? undefined : body,
+      disableAllSecurity: true,
+    });
+  } else {
+    if (method == "GET") {
+      return axios.get(url, { headers: headers });
+    } else {
+      return axios.post(url, { headers: headers, data: body });
+    }
+  }
 }
 
 
 // Get token for login
-async function getGtkToken(urlBase: string): Promise<{ gtk: string; cookie: string } | null> {
+async function getGtkToken(urlBase: string): Promise<{ gtk: string; cookie: string }> {
   var url = new URL(`${urlBase}/v3/login.awp`);
   url.searchParams.set("v", process.env.EXPO_PUBLIC_ED_API_VERSION);
   url.searchParams.set("gtk", "1");
@@ -33,20 +47,21 @@ async function getGtkToken(urlBase: string): Promise<{ gtk: string; cookie: stri
       },
     });
 
-    // Parse GTK
+    var res = { gtk: "", cookie: "" };
     const setCookieHeader = response.headers["Set-Cookie"] || response.headers["set-cookie"];
     const cookiePart = Array.isArray(setCookieHeader) ? setCookieHeader[0] : setCookieHeader;
     
+    // Parse GTK  
     const XGTK = cookiePart.split(", ")[0].split(";")[0].split("=")[1];
     const cookie = `GTK=${XGTK};${cookiePart.split(", ")[1].split(";")[0]}`;
 
-    const res = { gtk: XGTK, cookie: cookie };
+    res = { gtk: XGTK, cookie: cookie };
     await StorageHandler.saveData("gtk", res);
 
     return res;
   } catch (e) {
     console.warn("An error occured while getting GTK : ", e);
-    return null;
+    return { gtk: "", cookie: "" };
   }
 }
 
@@ -71,8 +86,8 @@ async function doLogin(username: string, password: string, gtk: string, cookie: 
       "Accept": "application/json, text/plain, */*",
       "Content-Type": "application/x-www-form-urlencoded",
       "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
-      "X-Gtk": gtk,
-      "Cookie": cookie,
+      "X-Gtk": gtk ?? "---",
+      "Cookie": cookie ?? "---",
       "Accept-Encoding": "gzip, compress, deflate, br",
       "Host": "api.ecoledirecte.com",
       "Connection": "keep-alive",
@@ -81,11 +96,10 @@ async function doLogin(username: string, password: string, gtk: string, cookie: 
   }).then(async (response) => {
     return {
       status: 200,
-      data: await response.json(),
+      data: useIOSFetch(url.toString()) ? (await response.json()) : response.data,
       headers: response.headers,
     };
   }).catch((error) => {
-    console.warn(error);
     onError(error);
     return;
   });
@@ -93,4 +107,4 @@ async function doLogin(username: string, password: string, gtk: string, cookie: 
   return loginResponse;
 }
 
-export { getGtkToken, doLogin, fetchED };
+export { getGtkToken, doLogin, fetchED, useIOSFetch };

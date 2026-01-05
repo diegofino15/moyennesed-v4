@@ -12,7 +12,7 @@ import HapticsHandler from "../../core/HapticsHandler";
 import StorageHandler from "../../core/StorageHandler";
 import APIEndpoints from "../../core/APIEndpoints";
 import { parseHtmlData } from "../../util/Utils";
-import { fetchED } from "../../util/functions";
+import { fetchED, useIOSFetch } from "../../util/functions";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
@@ -56,7 +56,7 @@ function DoubleAuthPopup({ navigation }) {
     });
     var response = responseED ? {
       status: 200,
-      data: await responseED.json(),
+      data: useIOSFetch(url.toString()) ? (await responseED.json()) : responseED.data,
       headers: responseED.headers,
     } : { status: 500 };
 
@@ -123,7 +123,7 @@ function DoubleAuthPopup({ navigation }) {
     });
     var response = responseED ? {
       status: 200,
-      data: await responseED.json(),
+      data: useIOSFetch(url.toString()) ? (await responseED.json()) : responseED.data,
       headers: responseED.headers,
     } : { status: 500 };
 
