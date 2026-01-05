@@ -11,6 +11,7 @@ import CustomSeparator from "./CustomSeparator";
 import AccountHandler from "../../core/AccountHandler";
 import HapticsHandler from "../../core/HapticsHandler";
 import { parseHtmlData } from "../../util/Utils";
+import { fetchED, useIOSFetch } from "../../util/functions";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
 import StorageHandler from "../../core/StorageHandler";
 
@@ -48,7 +49,11 @@ function DoubleAuthPopup({ navigation }) {
       console.warn(`An error occured while parsing double auth : ${error}`);
       setErrorLoading(true);
     });
-    response ??= {};
+    var response = responseED ? {
+      status: 200,
+      data: useIOSFetch(url.toString()) ? (await responseED.json()) : responseED.data,
+      headers: responseED.headers,
+    } : { status: 500 };
 
     switch (response.status) {
       case 200:
@@ -106,7 +111,11 @@ function DoubleAuthPopup({ navigation }) {
       console.warn(`An error occured while confirming choice : ${error}`);
       setErrorConfirmingChoice(true);
     });
-    response ??= {};
+    var response = responseED ? {
+      status: 200,
+      data: useIOSFetch(url.toString()) ? (await responseED.json()) : responseED.data,
+      headers: responseED.headers,
+    } : { status: 500 };
 
     switch (response.status) {
       case 200:

@@ -4,8 +4,7 @@ import APIEndpoints from "./APIEndpoints";
 import ColorsHandler from "./ColorsHandler";
 import CoefficientHandler from "./CoefficientHandler";
 import { capitalizeWords } from "../util/Utils";
-import { getGtkToken, doLogin } from "../util/functions";
-import StorageHandler from "./StorageHandler";
+import { getGtkToken, doLogin, fetchED, useIOSFetch } from "../util/functions";
 
 
 // This class contains the account-related functions
@@ -34,10 +33,8 @@ class AccountHandler {
     console.log(`Logging-in ${username}...`);
 
     // Firstly get the x-gtk token
-    const { gtk, cookie } = await getGtkToken();
-    console.log(gtk);
-    console.log(cookie); // Needed ? Login doesn't work without these logs (very strange)
-    if (!gtk) {
+    const { gtk, cookie } = await getGtkToken(this.USED_URL);
+    if (!gtk && !cookie && this.USED_URL == APIEndpoints.OFFICIAL_API) {
       console.warn("Impossible to login without token, aborting login");
       return -1;
     }
@@ -51,7 +48,7 @@ class AccountHandler {
       cv = doubleAuthTokens.cv;
     }
     var response = await doLogin(username, password, gtk, cookie, this.temporary2FAToken, cn, cv, (err) => {
-      console.warn("An error occured when logging in : " + err);
+      console.warn("An error occured when logging in : ", err);
     }, this.USED_URL);
     response ??= { status: 500 };
    
@@ -373,7 +370,11 @@ class AccountHandler {
     ).catch((error) => {
       console.warn(`An error occured while getting ${title} : ${error}`);
     });
-    response ??= { status: 500 };
+    var response = responseED ? {
+      status: 200,
+      data: useIOSFetch(finalURL.toString()) ? (await responseED.json()) : responseED.data,
+      headers: responseED.headers,
+    } : { status: 500 };
 
     var status = 0; // 1 = success | 0 = outdated token, re-login failed | -1 = error
     switch (response.status) {
