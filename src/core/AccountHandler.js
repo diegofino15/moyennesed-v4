@@ -25,8 +25,10 @@ class AccountHandler {
 
   // Login
   static async login(username, password) {
-    // Demo account
+    // Reset used url
     this.USED_URL = APIEndpoints.OFFICIAL_API;
+    
+    // Demo account
     if (username.substring(0, 11) == "demoaccount") {
       this.USED_URL = APIEndpoints.CUSTOM_API;
       console.log("Using custom API");
@@ -34,9 +36,7 @@ class AccountHandler {
     console.log(`Logging-in ${username}...`);
 
     // Firstly get the x-gtk token
-    const { gtk, cookie } = await getGtkToken();
-    console.log(gtk);
-    console.log(cookie); // Needed ? Login doesn't work without these logs (very strange)
+    const { gtk, cookie } = await getGtkToken(this.USED_URL);
     if (!gtk) {
       console.warn("Impossible to login without token, aborting login");
       return -1;
@@ -364,7 +364,7 @@ class AccountHandler {
     console.log(`Getting ${title} for account ${accountID}...`);
 
     // Get gtk
-    const { gtk } = (await StorageHandler.getData("gtk")) ?? await getGtkToken();
+    const { gtk } = (await StorageHandler.getData("gtk")) ?? await getGtkToken(this.USED_URL);
 
     var response = await axios.post(
       `${url}?verbe=${verbe}&v=${process.env.EXPO_PUBLIC_ED_API_VERSION}`,

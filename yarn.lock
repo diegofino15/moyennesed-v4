@@ -5416,6 +5416,11 @@ punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.3.1.tgz#027422e2faec0b25e1549c3e1bd8309b9133b6e5"
   integrity sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==
 
+q@^1.4.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
+  integrity sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==
+
 qrcode-terminal@0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/qrcode-terminal/-/qrcode-terminal-0.11.0.tgz#ffc6c28a2fc0bfb47052b47e23f4f446a5fbdb9e"
@@ -5590,6 +5595,13 @@ react-native-simple-line-chart@^0.39.3:
   integrity sha512-KaJ8qN3VcwswbGp0Q38iSn0jWXdoZfX6s9Xn/+C4Ktr3hOK3WIc4+Y2om/+ZoiOX+0pmrZvJ5m3v/QsVotLItg==
   dependencies:
     d3 "^7.8.1"
+
+react-native-ssl-pinning@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-ssl-pinning/-/react-native-ssl-pinning-1.6.0.tgz#189ce83a55836006d8fa213f9b598ce78592918e"
+  integrity sha512-djtFCBr5wm1LD++OEP+6XlfcJ638mzpEhs+EqceViIw1N5zcDBwz7ZZXa1i51rWNvljQgBNVmjsJZr4vk5GSwQ==
+  dependencies:
+    q "^1.4.1"
 
 react-native-svg@15.12.1:
   version "15.12.1"
