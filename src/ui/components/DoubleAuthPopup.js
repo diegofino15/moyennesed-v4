@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Text, View, ActivityIndicator, Platform } from "react-native";
 import { AlertTriangleIcon, CheckIcon, ChevronsUpDownIcon, CircleIcon, RefreshCcwIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
-import axios from "axios";
 
 import CustomModal from "./CustomModal";
 import CustomButton from "./CustomButton";
@@ -10,9 +9,11 @@ import CustomChooser from "./CustomChooser";
 import CustomSeparator from "./CustomSeparator";
 import AccountHandler from "../../core/AccountHandler";
 import HapticsHandler from "../../core/HapticsHandler";
-import { parseHtmlData } from "../../util/Utils";
-import { useGlobalAppContext } from "../../util/GlobalAppContext";
 import StorageHandler from "../../core/StorageHandler";
+import APIEndpoints from "../../core/APIEndpoints";
+import { parseHtmlData } from "../../util/Utils";
+import { fetchED } from "../../util/functions";
+import { useGlobalAppContext } from "../../util/GlobalAppContext";
 
 
 // Double auth popup
@@ -35,20 +36,29 @@ function DoubleAuthPopup({ navigation }) {
   // Parse the question
   async function getQuestion() {
     setIsLoading(true);
+
+    var url = new URL(`${AccountHandler.USED_URL}${APIEndpoints.DOUBLE_AUTH}`);
+    url.searchParams.set("verbe", "get");
+    url.searchParams.set("v", process.env.EXPO_PUBLIC_ED_API_VERSION);
     
-    var response = await axios.post(
-      `https://api.ecoledirecte.com/v3/connexion/doubleauth.awp?verbe=get&v=${process.env.EXPO_PUBLIC_ED_API_VERSION}`,
-      'data={}',
-      { headers: {
+    // Request
+    const responseED = await fetchED(url.toString(), {
+      method: "POST",
+      body: 'data={}',
+      headers: {
         "X-Token": AccountHandler.temporaryLoginToken,
         "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
         "2fa-Token": AccountHandler.temporary2FAToken,
-      } },
-    ).catch(error => {
+      }
+    }).catch(error => {
       console.warn(`An error occured while parsing double auth : ${error}`);
       setErrorLoading(true);
     });
-    response ??= {};
+    var response = responseED ? {
+      status: 200,
+      data: await responseED.json(),
+      headers: responseED.headers,
+    } : { status: 500 };
 
     switch (response.status) {
       case 200:
@@ -92,21 +102,30 @@ function DoubleAuthPopup({ navigation }) {
 
     console.log("Confirming choice...");
 
-    var response = await axios.post(
-      `https://api.ecoledirecte.com/v3/connexion/doubleauth.awp?verbe=post&v=${process.env.EXPO_PUBLIC_ED_API_VERSION}`,
-      `data=${JSON.stringify({
+    var url = new URL(`${AccountHandler.USED_URL}${APIEndpoints.DOUBLE_AUTH}`);
+    url.searchParams.set("verbe", "post");
+    url.searchParams.set("v", process.env.EXPO_PUBLIC_ED_API_VERSION);
+    
+    // Request
+    const responseED = await fetchED(url.toString(), {
+      method: "POST",
+      body: `data=${JSON.stringify({
         "choix": rawAnswers[selectedAnswer],
       })}`,
-      { headers: {
+      headers: {
         "X-Token": AccountHandler.temporaryLoginToken,
         "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
         "2fa-token": AccountHandler.temporary2FAToken,
-      } },
-    ).catch(error => {
+      }
+    }).catch(error => {
       console.warn(`An error occured while confirming choice : ${error}`);
       setErrorConfirmingChoice(true);
     });
-    response ??= {};
+    var response = responseED ? {
+      status: 200,
+      data: await responseED.json(),
+      headers: responseED.headers,
+    } : { status: 500 };
 
     switch (response.status) {
       case 200:
