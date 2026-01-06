@@ -72,12 +72,16 @@ class StorageHandler {
     await RNFS.unlink(`${RNFS.DocumentDirectoryPath}/files/${fileName}`);
   }
   static async deleteAllDocuments() {
-    const files: RNFS.ReadDirItem[] = await RNFS.readDir(`${RNFS.DocumentDirectoryPath}/files`);
-    files.forEach(file => {
-      if (file.isFile()) {
-        RNFS.unlink(file.path);
-      }
-    });
+    try {
+      const files: RNFS.ReadDirItem[] = await RNFS.readDir(`${RNFS.DocumentDirectoryPath}/files`);
+      files.forEach(file => {
+        if (file.isFile()) {
+          RNFS.unlink(file.path);
+        }
+      });
+    } catch (e) {
+      console.warn("An error occured while reading local documents : ", e);
+    }
   }
   static async deleteFiles(fileNames: string[]) {
     await AsyncStorage.multiRemove(fileNames);

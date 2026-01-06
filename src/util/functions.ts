@@ -69,13 +69,7 @@ async function getGtkToken(urlBase: string): Promise<{ gtk: string; cookie: stri
 async function doLogin(username: string, password: string, gtk: string, cookie: string, twoFAToken:string, cn: string, cv: string, onError: Function, urlBase: string) {
   var url = new URL(`${urlBase}/v3/login.awp`);
   url.searchParams.set("v", process.env.EXPO_PUBLIC_ED_API_VERSION);
-  const headers = {
-    "Content-Type": "application/x-www-form-urlencoded",
-    "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
-    "X-Gtk": gtk,
-    "Cookie": cookie,
-    "2fa-Token": twoFAToken,
-  };
+  
   const body = {
     identifiant: encodeURIComponent(username),
     motdepasse: encodeURIComponent(password),
@@ -110,7 +104,7 @@ async function doLogin(username: string, password: string, gtk: string, cookie: 
     return;
   });
 
-  return response;
+  return loginResponse;
 }
 
 export { getGtkToken, doLogin, fetchED, useIOSFetch };

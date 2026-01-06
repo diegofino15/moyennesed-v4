@@ -5,7 +5,6 @@ import { UserRoundIcon } from "lucide-react-native";
 
 import AccountHandler from "../../core/AccountHandler";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
-import { getGtkToken } from "../../util/functions";
 import StorageHandler from "../../core/StorageHandler";
 
 
@@ -20,12 +19,14 @@ function CustomProfilePhoto({ accountID, onPress, size=60, style, hasOtherPressA
 
     StorageHandler.getData("photos").then(async (photos) => {
       // Use cache photo if less than three day old
-      if (accountID in photos) {
+      if (photos != null && (accountID in photos)) {
         if (Date.now() - new Date(photos[accountID].date) < (86400000 * 3)) {
           setPhoto(photos[accountID].photo);
           return;
         }
       }
+
+      photos ??= {};
       getPhoto(accountID, async (newPhoto) => {
         photos[accountID] = {
           "date": new Date(),
@@ -46,8 +47,17 @@ function CustomProfilePhoto({ accountID, onPress, size=60, style, hasOtherPressA
     // Fetch photo
     if (photoURL) {
       console.log(`Refreshing profile photo for account ${id}...`);
-      const { gtk } = (await StorageHandler.getData("gtk")) ?? await getGtkToken();
-      const response = await fetch(`https:${photoURL}`, { headers: { 'Referer': `http:${photoURL}`, 'Host': 'doc1.ecoledirecte.com', 'User-Agent': process.env.EXPO_PUBLIC_ED_USER_AGENT, 'Cookie': `GTK=${gtk}` } });
+      const photoCookie = (await StorageHandler.getData("photoCookie")) ?? "";
+      const response = await fetch(`https:${photoURL}`, {
+        method: "GET",
+        headers: {
+          'Referer': `http:${photoURL}`,
+          'Host': 'doc1.ecoledirecte.com',
+          'User-Agent': process.env.EXPO_PUBLIC_ED_USER_AGENT,
+          'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+          'Cookie': photoCookie,
+        }
+      });
       let blob = await response.blob(); // Works for some reason
       let fileReaderInstance = new FileReader();
       fileReaderInstance.readAsDataURL(blob); 

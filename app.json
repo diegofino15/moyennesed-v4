@@ -2,7 +2,7 @@
   "expo": {
     "name": "MoyennesED Sans Pubs",
     "slug": "moyennesed-no-ads",
-    "version": "4.0.21",
+    "version": "4.0.22",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -45,7 +45,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "me.diegof.moyennesed-no-ads",
-      "buildNumber": "1",
+      "buildNumber": "3",
       "userInterfaceStyle": "automatic",
       "googleServicesFile": "./GoogleService-Info.plist",
       "entitlements": {

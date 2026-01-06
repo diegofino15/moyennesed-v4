@@ -1188,6 +1188,21 @@ PODS:
     - abseil/meta/type_traits
     - abseil/xcprivacy
   - abseil/xcprivacy (1.20240722.0)
+  - AFNetworking (4.0.1):
+    - AFNetworking/NSURLSession (= 4.0.1)
+    - AFNetworking/Reachability (= 4.0.1)
+    - AFNetworking/Security (= 4.0.1)
+    - AFNetworking/Serialization (= 4.0.1)
+    - AFNetworking/UIKit (= 4.0.1)
+  - AFNetworking/NSURLSession (4.0.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (4.0.1)
+  - AFNetworking/Security (4.0.1)
+  - AFNetworking/Serialization (4.0.1)
+  - AFNetworking/UIKit (4.0.1):
+    - AFNetworking/NSURLSession
   - AppCheckCore (11.2.0):
     - GoogleUtilities/Environment (~> 8.0)
     - GoogleUtilities/UserDefaults (~> 8.0)
@@ -4235,6 +4250,9 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
+  - RNSslPinning (1.6.0):
+    - AFNetworking (~> 4.0)
+    - React
   - RNSVG (15.12.1):
     - boost
     - DoubleConversion
@@ -4514,6 +4532,7 @@ DEPENDENCIES:
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSslPinning (from `../node_modules/react-native-ssl-pinning`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - RNWorklets (from `../node_modules/react-native-worklets`)
@@ -4523,6 +4542,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - abseil
+    - AFNetworking
     - AppCheckCore
     - BoringSSL-GRPC
     - ComputableLayout
@@ -4753,6 +4773,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSslPinning:
+    :path: "../node_modules/react-native-ssl-pinning"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
@@ -4764,6 +4786,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   abseil: a05cc83bf02079535e17169a73c5be5ba47f714b
+  AFNetworking: 3bd23d814e976cd148d7d44c3ab78017b744cd58
   AppCheckCore: cc8fd0a3a230ddd401f326489c99990b013f0c4f
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
   BoringSSL-GRPC: dded2a44897e45f28f08ae87a55ee4bcd19bc508
@@ -4890,6 +4913,7 @@ SPEC CHECKSUMS:
   RNPermissions: fc6e6b698bb37fd9c1d7efa29a86be82bdc1b4ce
   RNReanimated: 2635ec9d061c5eba3987bcc604443d78f363d3f7
   RNScreens: 871305075ddf1291411b051d86da9e0d9289de02
+  RNSslPinning: e41cb0faaaad87c588ab4b7285c0095052ff8ace
   RNSVG: 9be2bc57df95a874e8c4b0f7dd71866139f321d2
   RNVectorIcons: 96c832d9134dfee90ce0be7a1e0bf4c1e41a8d11
   RNWorklets: 582ee5c59370d483a7a3c3f8a8014d48b1bff6bd

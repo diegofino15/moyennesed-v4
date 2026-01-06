@@ -1,7 +1,6 @@
-import axios from "axios";
-
 import APIEndpoints from "./APIEndpoints";
 import ColorsHandler from "./ColorsHandler";
+import StorageHandler from "./StorageHandler";
 import CoefficientHandler from "./CoefficientHandler";
 import { capitalizeWords } from "../util/Utils";
 import { getGtkToken, doLogin, fetchED, useIOSFetch } from "../util/functions";
@@ -24,8 +23,10 @@ class AccountHandler {
 
   // Login
   static async login(username, password) {
-    // Demo account
+    // Reset used url
     this.USED_URL = APIEndpoints.OFFICIAL_API;
+    
+    // Demo account
     if (username.substring(0, 11) == "demoaccount") {
       this.USED_URL = APIEndpoints.CUSTOM_API;
       console.log("Using custom API");
@@ -38,15 +39,11 @@ class AccountHandler {
       console.warn("Impossible to login without token, aborting login");
       return -1;
     }
-    await StorageHandler.saveData("gtk", { gtk: gtk, cookie: cookie });
 
     // Get double auth tokens
-    var cn = ""; var cv = "";
-    const doubleAuthTokens = await StorageHandler.getData("double-auth-tokens");
-    if (doubleAuthTokens) {
-      cn = doubleAuthTokens.cn;
-      cv = doubleAuthTokens.cv;
-    }
+    const { cn, cv } = (await StorageHandler.getData("double-auth-tokens")) ?? { cn: "", cv: "" };
+
+    // Login
     var response = await doLogin(username, password, gtk, cookie, this.temporary2FAToken, cn, cv, (err) => {
       console.warn("An error occured when logging in : ", err);
     }, this.USED_URL);
@@ -64,6 +61,8 @@ class AccountHandler {
               response.data.token,
             );
             status = 1;
+
+            // Handle multiple accounts
             if (response.data.data.accounts.length != 1) {
               this.multipleAccounts = true;
               let alreadySavedPreference = await StorageHandler.getData("selectedAccount");
@@ -71,6 +70,18 @@ class AccountHandler {
             } else {
               await this.saveSelectedAccount(response.data.data.accounts[0].id);
             }
+
+            // Save token for photo
+            const setCookie = response.headers["Set-Cookie"];
+            var photoCookie = "";
+            try {
+              photoCookie = `${setCookie.split(";")[6].split(", ")[1]}; ${setCookie.split(";")[11].split(", ")[1]}`;
+            } catch (e) {
+              console.warn("An error occured while parsing photo cookie : ", e);
+            }
+            await StorageHandler.saveData("photoCookie", photoCookie);
+
+            // Save credentials
             await StorageHandler.saveData("credentials", {
               username: username,
               password: password,
@@ -361,14 +372,24 @@ class AccountHandler {
     console.log(`Getting ${title} for account ${accountID}...`);
 
     // Get gtk
-    const { gtk } = (await StorageHandler.getData("gtk")) ?? await getGtkToken();
-
-    var response = await axios.post(
-      `${url}?verbe=${verbe}&v=4`,
-      payload,
-      { headers: { "Content-Type": "application/x-www-form-urlencoded", "X-Token": token, "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT, "X-GTK": gtk, "Cookie": `GTK=${gtk}` } },
-    ).catch((error) => {
+    const { cookie, gtk } = (await StorageHandler.getData("gtk")) ?? await getGtkToken(this.USED_URL);
+    
+    var finalURL = new URL(url);
+    finalURL.searchParams.set("verbe", verbe);
+    finalURL.searchParams.set("v", process.env.EXPO_PUBLIC_ED_API_VERSION);
+    const responseED = await fetchED(finalURL.toString(), {
+      method: "POST",
+      body: payload,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-Token": token,
+        "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
+        "X-Gtk": gtk,
+        "Cookie": cookie,
+      },
+    }).catch((error) => {
       console.warn(`An error occured while getting ${title} : ${error}`);
+      return null;
     });
     var response = responseED ? {
       status: 200,
