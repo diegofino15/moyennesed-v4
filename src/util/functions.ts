@@ -23,7 +23,7 @@ function fetchED(url: string, { method, headers, body=null }) {
     if (method == "GET") {
       return axios.get(url, { headers: headers });
     } else {
-      return axios.post(url, { headers: headers, data: body });
+      return axios.post(url, body, { headers: headers });
     }
   }
 }
