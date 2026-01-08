@@ -1,5 +1,9 @@
 import { Platform } from "react-native";
-import { fetch } from "react-native-ssl-pinning";
+let sslFetch;
+if (Platform.OS == "ios") {
+  const { fetch } = require("react-native-ssl-pinning");
+  sslFetch = fetch;
+}
 import axios from "axios";
 
 import StorageHandler from "../core/StorageHandler";
@@ -11,7 +15,7 @@ function useIOSFetch(url: string): boolean { return Platform.OS == "ios" && url.
 
 function fetchED(url: string, { method, headers, body=null }) {
   if (useIOSFetch(url)) {
-    return fetch(url, {
+    return sslFetch(url, {
       method: method,
       sslPinning: { certs: [] },
       

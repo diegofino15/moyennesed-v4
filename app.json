@@ -31,6 +31,9 @@
             "buildReactNativeFromSource": true
           },
           "android": {
+            "minSdkVersion": 24,
+            "compileSdkVersion": 36,
+            "targetSdkVersion": 36,
             "extraProguardRules": "-keep class com.google.android.gms.internal.consent_sdk.** { *; }"
           }
         }
@@ -52,7 +55,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "me.diegof.moyennesed",
-      "versionCode": 56,
+      "versionCode": 57,
       "userInterfaceStyle": "automatic",
       "googleServicesFile": "./google-services.json"
     },
