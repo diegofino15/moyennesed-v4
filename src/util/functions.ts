@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-let sslFetch;
+let sslFetch: any;
 if (Platform.OS == "ios") {
   const { fetch } = require("react-native-ssl-pinning");
   sslFetch = fetch;
@@ -13,7 +13,7 @@ import APIEndpoints from "../core/APIEndpoints";
 // Parse ÉcoleDirecte
 function useIOSFetch(url: string): boolean { return Platform.OS == "ios" && url.substring(0, 28) == APIEndpoints.OFFICIAL_API; }
 
-function fetchED(url: string, { method, headers, body=null }) {
+function fetchED(url: string, method: string, headers: any, body:string|null=null) {
   if (useIOSFetch(url)) {
     return sslFetch(url, {
       method: method,
@@ -27,7 +27,7 @@ function fetchED(url: string, { method, headers, body=null }) {
     if (method == "GET") {
       return axios.get(url, { headers: headers });
     } else {
-      return axios.post(url, body, { headers: headers });
+      return axios.post(url, { headers: headers, data: body });
     }
   }
 }
@@ -40,16 +40,16 @@ async function getGtkToken(urlBase: string): Promise<{ gtk: string; cookie: stri
   url.searchParams.set("gtk", "1");
   
   try {
-    const response = await fetchED(url.toString(), {
-      method: "GET",
-      headers: {
+    const response = await fetchED(url.toString(),
+      "GET",
+      {
         "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
         "Accept": "application/json, text/plain, */*",
         "Accept-Encoding": "identity",
         "Host": "api.ecoledirecte.com",
         "Connection": "keep-alive",
       },
-    });
+    );
 
     var res = { gtk: "", cookie: "" };
     const setCookieHeader = response.headers["Set-Cookie"] || response.headers["set-cookie"];
@@ -83,10 +83,9 @@ async function doLogin(username: string, password: string, gtk: string, cookie: 
     cn: cn, cv: cv
   };
   
-  const loginResponse = await fetchED(url.toString(), {
-    method: "POST",
-    body: `data=${JSON.stringify(body)}`,
-    headers: {
+  const loginResponse = await fetchED(url.toString(),
+    "POST",
+    {
       "Accept": "application/json, text/plain, */*",
       "Content-Type": "application/x-www-form-urlencoded",
       "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
@@ -97,13 +96,14 @@ async function doLogin(username: string, password: string, gtk: string, cookie: 
       "Connection": "keep-alive",
       "2fa-Token": twoFAToken,
     },
-  }).then(async (response) => {
+    `data=${JSON.stringify(body)}`
+  ).then(async (response: any) => {
     return {
       status: 200,
       data: useIOSFetch(url.toString()) ? (await response.json()) : response.data,
       headers: response.headers,
     };
-  }).catch((error) => {
+  }).catch((error: any) => {
     onError(error);
     return;
   });

@@ -42,15 +42,15 @@ function DoubleAuthPopup({ navigation }) {
     url.searchParams.set("v", process.env.EXPO_PUBLIC_ED_API_VERSION);
     
     // Request
-    const responseED = await fetchED(url.toString(), {
-      method: "POST",
-      body: 'data={}',
-      headers: {
+    const responseED = await fetchED(url.toString(),
+      "POST",
+      {
         "X-Token": AccountHandler.temporaryLoginToken,
         "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
         "2fa-Token": AccountHandler.temporary2FAToken,
-      }
-    }).catch(error => {
+      },
+      'data={}'
+    ).catch(error => {
       console.warn(`An error occured while parsing double auth : ${error}`);
       setErrorLoading(true);
     });
@@ -107,17 +107,17 @@ function DoubleAuthPopup({ navigation }) {
     url.searchParams.set("v", process.env.EXPO_PUBLIC_ED_API_VERSION);
     
     // Request
-    const responseED = await fetchED(url.toString(), {
-      method: "POST",
-      body: `data=${JSON.stringify({
-        "choix": rawAnswers[selectedAnswer],
-      })}`,
-      headers: {
+    const responseED = await fetchED(url.toString(),
+      "POST",
+      {
         "X-Token": AccountHandler.temporaryLoginToken,
         "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
         "2fa-token": AccountHandler.temporary2FAToken,
-      }
-    }).catch(error => {
+      },
+      `data=${JSON.stringify({
+        "choix": rawAnswers[selectedAnswer],
+      })}`
+    ).catch(error => {
       console.warn(`An error occured while confirming choice : ${error}`);
       setErrorConfirmingChoice(true);
     });

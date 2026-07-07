@@ -377,17 +377,17 @@ class AccountHandler {
     var finalURL = new URL(url);
     finalURL.searchParams.set("verbe", verbe);
     finalURL.searchParams.set("v", process.env.EXPO_PUBLIC_ED_API_VERSION);
-    const responseED = await fetchED(finalURL.toString(), {
-      method: "POST",
-      body: payload,
-      headers: {
+    const responseED = await fetchED(finalURL.toString(),
+      "POST",
+      {
         "Content-Type": "application/x-www-form-urlencoded",
         "X-Token": token,
         "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
         "X-Gtk": gtk,
         "Cookie": cookie,
       },
-    }).catch((error) => {
+      payload,
+    ).catch((error) => {
       console.warn(`An error occured while getting ${title} : ${error}`);
       return null;
     });
