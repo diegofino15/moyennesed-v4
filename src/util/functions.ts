@@ -20,16 +20,16 @@ async function getGtkToken(urlBase: string): Promise<{ gtk: string; cookie: stri
   url.searchParams.set("gtk", "1");
   
   try {
-    const response = await fetchED(url.toString(), {
-      method: "GET",
-      headers: {
+    const response = await fetchED(url.toString(),
+      "GET",
+      {
         "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
         "Accept": "application/json, text/plain, */*",
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Origin": "https://www.ecoledirecte.com",
         "Referer": "https://www.ecoledirecte.com/"
       },
-    });
+    );
 
     var res = { gtk: "", cookie: "" };
     const setCookieHeader = response.headers["Set-Cookie"] || response.headers["set-cookie"];
@@ -62,10 +62,9 @@ async function doLogin(username: string, password: string, gtk: string, cookie: 
     fa: [{ cn: cn, cv: cv, uniq: false }]
   };
   
-  const loginResponse = await fetchED(url.toString(), {
-    method: "POST",
-    body: `data=${JSON.stringify(body)}`,
-    headers: {
+  const loginResponse = await fetchED(url.toString(),
+    "POST",
+    {
       "Accept": "application/json, text/plain, */*",
       "Content-Type": "application/x-www-form-urlencoded",
       "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
@@ -84,7 +83,7 @@ async function doLogin(username: string, password: string, gtk: string, cookie: 
       data: response.data,
       headers: response.headers,
     };
-  }).catch((error) => {
+  }).catch((error: any) => {
     onError(error);
     return;
   });
