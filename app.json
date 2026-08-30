@@ -55,7 +55,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "me.diegof.moyennesed",
-      "versionCode": 58,
+      "versionCode": 59,
       "userInterfaceStyle": "automatic",
       "googleServicesFile": "./google-services.json"
     },

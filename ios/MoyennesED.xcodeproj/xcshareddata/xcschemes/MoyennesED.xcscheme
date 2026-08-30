@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
                BuildableName = "MoyennesED.app"
-               BlueprintName = "moyennesed"
-               ReferencedContainer = "container:moyennesed.xcodeproj">
+               BlueprintName = "MoyennesED"
+               ReferencedContainer = "container:MoyennesED.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "moyennesedTests.xctest"
-               BlueprintName = "moyennesedTests"
-               ReferencedContainer = "container:moyennesed.xcodeproj">
+               BuildableName = "MoyennesEDTests.xctest"
+               BlueprintName = "MoyennesEDTests"
+               ReferencedContainer = "container:MoyennesED.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -56,8 +56,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "MoyennesED.app"
-            BlueprintName = "moyennesed"
-            ReferencedContainer = "container:moyennesed.xcodeproj">
+            BlueprintName = "MoyennesED"
+            ReferencedContainer = "container:MoyennesED.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -73,8 +73,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "MoyennesED.app"
-            BlueprintName = "moyennesed"
-            ReferencedContainer = "container:moyennesed.xcodeproj">
+            BlueprintName = "MoyennesED"
+            ReferencedContainer = "container:MoyennesED.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

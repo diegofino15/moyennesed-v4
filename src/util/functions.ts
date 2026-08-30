@@ -1,34 +1,14 @@
-import { Platform } from "react-native";
-let sslFetch: any;
-if (Platform.OS == "ios") {
-  const { fetch } = require("react-native-ssl-pinning");
-  sslFetch = fetch;
-}
 import axios from "axios";
 
 import StorageHandler from "../core/StorageHandler";
-import APIEndpoints from "../core/APIEndpoints";
 
 
 // Parse ÉcoleDirecte
-function useIOSFetch(url: string): boolean { return Platform.OS == "ios" && url.substring(0, 28) == APIEndpoints.OFFICIAL_API; }
-
 function fetchED(url: string, method: string, headers: any, body:string|null=null) {
-  if (useIOSFetch(url)) {
-    return sslFetch(url, {
-      method: method,
-      sslPinning: { certs: [] },
-      
-      headers: headers,
-      body: (body == null) ? undefined : body,
-      disableAllSecurity: true,
-    });
+  if (method == "GET") {
+    return axios.get(url, { headers: headers });
   } else {
-    if (method == "GET") {
-      return axios.get(url, { headers: headers });
-    } else {
-      return axios.post(url, { headers: headers, data: body });
-    }
+    return axios.post(url, body, { headers: headers });
   }
 }
 
@@ -45,9 +25,9 @@ async function getGtkToken(urlBase: string): Promise<{ gtk: string; cookie: stri
       {
         "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
         "Accept": "application/json, text/plain, */*",
-        "Accept-Encoding": "identity",
-        "Host": "api.ecoledirecte.com",
-        "Connection": "keep-alive",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Origin": "https://www.ecoledirecte.com",
+        "Referer": "https://www.ecoledirecte.com/"
       },
     );
 
@@ -55,7 +35,7 @@ async function getGtkToken(urlBase: string): Promise<{ gtk: string; cookie: stri
     const setCookieHeader = response.headers["Set-Cookie"] || response.headers["set-cookie"];
     const cookiePart = Array.isArray(setCookieHeader) ? setCookieHeader[0] : setCookieHeader;
     
-    // Parse GTK  
+    // Parse GTK
     const XGTK = cookiePart.split(", ")[0].split(";")[0].split("=")[1];
     const cookie = `GTK=${XGTK};${cookiePart.split(", ")[1].split(";")[0]}`;
 
@@ -79,8 +59,7 @@ async function doLogin(username: string, password: string, gtk: string, cookie: 
     motdepasse: encodeURIComponent(password),
     isReLogin: false,
     uuid: "",
-    fa: [{ cn: cn, cv: cv }],
-    cn: cn, cv: cv
+    fa: [{ cn: cn, cv: cv, uniq: false }]
   };
   
   const loginResponse = await fetchED(url.toString(),
@@ -90,17 +69,18 @@ async function doLogin(username: string, password: string, gtk: string, cookie: 
       "Content-Type": "application/x-www-form-urlencoded",
       "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT,
       "X-Gtk": gtk ?? "---",
-      "Cookie": cookie ?? "---",
-      "Accept-Encoding": "gzip, compress, deflate, br",
-      "Host": "api.ecoledirecte.com",
-      "Connection": "keep-alive",
+      "Accept-Encoding": "gzip, deflate, br, zstd",
+      "Accept-Language": "en-US,en;q=0.9",
+      "Origin": "https://www.ecoledirecte.com",
+      "Referer": "https://www.ecoledirecte.com/",
+      "Priority": "u=1, i",
       "2fa-Token": twoFAToken,
     },
-    `data=${JSON.stringify(body)}`
+    `data=${JSON.stringify(body, null, 4)}`
   ).then(async (response: any) => {
     return {
       status: 200,
-      data: useIOSFetch(url.toString()) ? (await response.json()) : response.data,
+      data: response.data,
       headers: response.headers,
     };
   }).catch((error: any) => {
@@ -111,4 +91,4 @@ async function doLogin(username: string, password: string, gtk: string, cookie: 
   return loginResponse;
 }
 
-export { getGtkToken, doLogin, fetchED, useIOSFetch };
+export { getGtkToken, doLogin, fetchED };

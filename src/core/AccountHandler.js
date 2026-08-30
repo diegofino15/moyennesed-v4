@@ -3,7 +3,7 @@ import ColorsHandler from "./ColorsHandler";
 import StorageHandler from "./StorageHandler";
 import CoefficientHandler from "./CoefficientHandler";
 import { capitalizeWords } from "../util/Utils";
-import { getGtkToken, doLogin, fetchED, useIOSFetch } from "../util/functions";
+import { getGtkToken, doLogin, fetchED } from "../util/functions";
 
 
 // This class contains the account-related functions
@@ -393,7 +393,7 @@ class AccountHandler {
     });
     var response = responseED ? {
       status: 200,
-      data: useIOSFetch(finalURL.toString()) ? (await responseED.json()) : responseED.data,
+      data: responseED.data,
       headers: responseED.headers,
     } : { status: 500 };
 
