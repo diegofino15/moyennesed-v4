@@ -37,7 +37,7 @@ class MarksHandler {
     // Detect right guess parameters
     if (!CoefficientHandler.didChooseIfEnable[accountID]) {
       await CoefficientHandler.setGuessMarkCoefficientEnabled(accountID, !(marks.parametrage?.coefficientNote ?? false));
-      await CoefficientHandler.setGuessSubjectCoefficientEnabled(accountID, !((marks.parametrage.moyenneCoefMatiere ?? false) || (marks.parametrage.colonneCoefficientMatiere ?? false)));
+      await CoefficientHandler.setGuessSubjectCoefficientEnabled(accountID, !((marks.parametrage?.moyenneCoefMatiere ?? false) || (marks.parametrage?.colonneCoefficientMatiere ?? false)));
     
       if ((CoefficientHandler.guessMarkCoefficientEnabled[accountID] || CoefficientHandler.guessSubjectCoefficientEnabled[accountID]) && this.showGuessParametersWarning) {
         this.showGuessParametersWarning(accountID);
