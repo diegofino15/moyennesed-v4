@@ -28,7 +28,8 @@
         {
           "ios": {
             "useFrameworks": "static",
-            "buildReactNativeFromSource": true
+            "buildReactNativeFromSource": true,
+            "enableSceneSupport": true
           },
           "android": {
             "minSdkVersion": 24,
@@ -47,7 +48,9 @@
             "Notifications"
           ]
         }
-      ]
+      ],
+      "expo-splash-screen",
+      "expo-status-bar"
     ],
     "android": {
       "adaptiveIcon": {
