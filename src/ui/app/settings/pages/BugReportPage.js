@@ -13,14 +13,13 @@ import CustomBigTextInput from "../../../components/CustomBigTextInput";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import StorageHandler from "../../../../core/StorageHandler";
+import { anonymiseForBugReport, anonymiseAccountKeyedLogs } from "../../../../util/anonymise";
 
 
 // Ad information page
 function BugReportPage({ navigation }) {
   const { theme } = useGlobalAppContext();
 
-  const [username, setUsername] = useState(null);
-  
   // Types of bugs
   const bugTypes = {
     "functionality": { title: 'Fonctionnement', id: 'functionality' },
@@ -45,11 +44,6 @@ function BugReportPage({ navigation }) {
         }
       }
     })
-
-    StorageHandler.getData("credentials").then(data => {
-      const { username } = data;
-      setUsername(username);
-    });
   }, []);
 
   const [isSendingBugReport, setIsSendingBugReport] = useState(false);
@@ -60,15 +54,15 @@ function BugReportPage({ navigation }) {
     setErrorWhileSendingBugReport(false);
     setIsSendingBugReport(true);
 
-    // Get logs
-    const loginLogs = await StorageHandler.getData("logs-login");
-    const marksLogs = await StorageHandler.getData("logs-marks");
-    const homeworkLogs = await StorageHandler.getData("logs-homework");
-    anonymiseLogs(loginLogs, marksLogs, homeworkLogs);
+    // Get logs, without secrets nor personal data
+    const loginLogs = anonymiseLogin(await StorageHandler.getData("logs-login"));
+    const marksLogs = anonymiseAccountKeyedLogs(await StorageHandler.getData("logs-marks"));
+    const homeworkLogs = anonymiseAccountKeyedLogs(await StorageHandler.getData("logs-homework"));
 
     try {
+      // Random document ID : the report must not be linked to the ÉcoleDirecte username
       const bugReportsCollection = firestore().collection("bugReports");
-      await bugReportsCollection.doc(username).set({
+      await bugReportsCollection.add({
         date: new Date(),
         type: selectedBugType,
         description: bugDescription,
@@ -90,51 +84,18 @@ function BugReportPage({ navigation }) {
     setIsSendingBugReport(false);
   }
 
-  // Anonymise the logs before sending them
-  function anonymiseLogs(loginLogs, marksLogs, homeworkLogs) {
-    // Login logs
-    loginLogs.data?.accounts?.forEach(account => {
-      account.email = "";
-      account.identifiant = "";
+  // Login logs : keep placeholder names so the replayed account still displays
+  function anonymiseLogin(loginLogs) {
+    const anonymised = anonymiseForBugReport(loginLogs);
+    anonymised?.data?.accounts?.forEach(account => {
       account.prenom = "Jack";
       account.nom = "Sparrow";
-      account.particule = "";
-      if (account.profile) {
-        account.profile.photo = "";
-        account.profile.telPortable = "";
-        account.profile.email = "";
-        if (account.profile.eleves) {
-          account.profile.eleves.forEach((eleve, index) => {
-            eleve.prenom = `Enfant ${index}`;
-            eleve.nom = "Sparrow";
-            eleve.photo = "";
-          });
-        }
-      }
-    });
-
-    // Marks logs
-    Object.keys(marksLogs ?? {}).forEach(key => {
-      marksLogs[key].data?.periodes?.forEach(period => {
-        if (period.ensembleMatieres) {
-          period.ensembleMatieres.nomPP = "";
-          period.ensembleMatieres.nomCE = "";
-          period.ensembleMatieres.disciplines?.forEach(subject => {
-            subject.professeurs?.forEach((professor, index) => {
-              professor.nom = `M. Professeur ${index}`;
-            });
-          });
-        }
+      account.profile?.eleves?.forEach((eleve, index) => {
+        eleve.prenom = `Enfant ${index}`;
+        eleve.nom = "Sparrow";
       });
-      if (marksLogs[key].data?.LSUN) {
-        marksLogs[key].data.LSUN = {};
-      }
     });
-
-    // Homework logs
-    Object.keys(homeworkLogs ?? {}).forEach(key => {
-      // TODO: anonymise logs
-    });
+    return anonymised;
   }
 
   // Window width (for ipads)
@@ -228,7 +189,7 @@ function BugReportPage({ navigation }) {
               title={"Plus d'infos"}
             />
             <Text style={[theme.fonts.labelLarge, { textAlign: "justify", marginBottom: 10 }]}>En envoyant un signalement de bug, vous acceptez de partager l'ensemble des informations recueillies par l'app sur votre compte, y compris vos notes, moyennes, etc.</Text>
-            <Text style={[theme.fonts.labelLarge, { textAlign: "justify" }]}>Toutes les informations sont anonymisées, rien n'est relié à votre identité ou ne peut être utilisé pour vous identifier.</Text>
+            <Text style={[theme.fonts.labelLarge, { textAlign: "justify" }]}>Votre identifiant, votre mot de passe et vos jetons de connexion ne sont jamais envoyés. Les noms, coordonnées, photos, l'établissement et les appréciations sont retirés avant l'envoi.</Text>
           </View>
         </View>
       )}

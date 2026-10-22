@@ -55,6 +55,7 @@ function AppRoot() {
     }
 
     // Check if logged-in
+    await StorageHandler.purgeOrphanSecureData();
     const credentialsExist = await StorageHandler.dataExists("credentials");
     if (credentialsExist) {
       setIsLoggedIn(true);
