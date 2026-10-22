@@ -2,7 +2,7 @@
   "expo": {
     "name": "MoyennesED",
     "slug": "moyennesed",
-    "version": "4.0.23",
+    "version": "4.0.24",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -40,6 +40,7 @@
         }
       ],
       "expo-font",
+      "expo-secure-store",
       [
         "react-native-permissions",
         {
@@ -58,7 +59,11 @@
         "backgroundColor": "#ffffff"
       },
       "package": "me.diegof.moyennesed",
-      "versionCode": 59,
+      "allowBackup": false,
+      "blockedPermissions": [
+        "android.permission.SYSTEM_ALERT_WINDOW"
+      ],
+      "versionCode": 60,
       "userInterfaceStyle": "automatic",
       "googleServicesFile": "./google-services.json"
     },

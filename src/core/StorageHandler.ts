@@ -1,26 +1,80 @@
 import { PermissionsAndroid, Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
 import RNFS, { DownloadResult } from "react-native-fs";
+
+
+// Keys holding secrets (ÉcoleDirecte password, 2FA "trusted device" tokens).
+// They are kept in the iOS Keychain / Android Keystore instead of AsyncStorage,
+// which is an unencrypted SQLite database / plain files included in device backups.
+const SECURE_KEYS = new Set(["credentials", "double-auth-tokens"]);
+const SECURE_OPTIONS: SecureStore.SecureStoreOptions = {
+  // Never migrated to another device, not readable while the phone is locked
+  keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+};
 
 
 // Used to handle local storage
 class StorageHandler {
+  // Secure storage //
+
+  static isSecureKey(fileName: string): boolean { return SECURE_KEYS.has(fileName); }
+
+  // Read a secret, migrating it from AsyncStorage if an older version stored it there
+  static async _getSecure(fileName: string): Promise<{} | null> {
+    const secureData = await SecureStore.getItemAsync(fileName, SECURE_OPTIONS);
+    if (secureData !== null) { return JSON.parse(secureData); }
+
+    const legacyData = await AsyncStorage.getItem(fileName);
+    if (legacyData === null) { return null; }
+    await SecureStore.setItemAsync(fileName, legacyData, SECURE_OPTIONS);
+    await AsyncStorage.removeItem(fileName);
+    return JSON.parse(legacyData);
+  }
+  static async _deleteSecure(fileName: string) {
+    await SecureStore.deleteItemAsync(fileName, SECURE_OPTIONS);
+    await AsyncStorage.removeItem(fileName);
+  }
+  static async _deleteAllSecure() {
+    for (const key of SECURE_KEYS) { await this._deleteSecure(key); }
+  }
+
+  // On iOS the Keychain survives an uninstall : if regular app data is gone
+  // (fresh install) but secrets remain, wipe them instead of silently re-using them.
+  static async purgeOrphanSecureData() {
+    const accounts = await AsyncStorage.getItem("accounts");
+    const legacyCredentials = await AsyncStorage.getItem("credentials");
+    if (accounts === null && legacyCredentials === null) {
+      await this._deleteAllSecure();
+    }
+  }
+
+
   // Handle local data //
 
   // Check if data exists
   static async dataExists(fileName: string): Promise<boolean> {
+    if (this.isSecureKey(fileName)) { return (await this._getSecure(fileName)) !== null; }
+
     const jsonData = await AsyncStorage.getItem(fileName);
     if (jsonData !== null) { return true; }
-    
+
     return await RNFS.exists(`${RNFS.DocumentDirectoryPath}/files/${fileName}`);
   }
 
   // Save JSON data to file
   static async saveData(fileName: string, data: {}) {
+    if (this.isSecureKey(fileName)) {
+      await SecureStore.setItemAsync(fileName, JSON.stringify(data), SECURE_OPTIONS);
+      await AsyncStorage.removeItem(fileName);
+      return;
+    }
     await AsyncStorage.setItem(fileName, JSON.stringify(data));
   }
   // Get JSON data from file
   static async getData(fileName: string): Promise<{} | null> {
+    if (this.isSecureKey(fileName)) { return await this._getSecure(fileName); }
+
     const data = await AsyncStorage.getItem(fileName);
     return data ? JSON.parse(data) : null;
   }
@@ -84,9 +138,13 @@ class StorageHandler {
     }
   }
   static async deleteFiles(fileNames: string[]) {
+    for (const fileName of fileNames.filter(name => this.isSecureKey(name))) {
+      await this._deleteSecure(fileName);
+    }
     await AsyncStorage.multiRemove(fileNames);
   }
   static async deleteAllFiles() {
+    await this._deleteAllSecure();
     await AsyncStorage.clear();
   }
   static async clear() {

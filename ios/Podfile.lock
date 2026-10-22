@@ -1188,7 +1188,7 @@ PODS:
     - abseil/meta/type_traits
     - abseil/xcprivacy
   - abseil/xcprivacy (1.20240722.0)
-  - AppCheckCore (11.3.1):
+  - AppCheckCore (11.3.2):
     - GoogleUtilities/Environment (~> 8.0)
     - GoogleUtilities/UserDefaults (~> 8.0)
     - PromisesObjC (~> 2.4)
@@ -1207,9 +1207,9 @@ PODS:
     - DGSwiftUtilities (~> 0.29)
   - DGSwiftUtilities (0.47.0)
   - DoubleConversion (1.1.6)
-  - EXConstants (57.0.19):
+  - EXConstants (57.0.22):
     - ExpoModulesCore
-  - Expo (57.0.24):
+  - Expo (57.0.31):
     - boost
     - DoubleConversion
     - ExpoModulesCore
@@ -1241,7 +1241,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - ExpoAsset (57.0.18):
+  - ExpoAsset (57.0.20):
     - ExpoModulesCore
   - ExpoBlur (57.0.3):
     - ExpoModulesCore
@@ -1261,7 +1261,7 @@ PODS:
     - ExpoModulesCore
   - ExpoLogBox (57.0.4):
     - React-Core
-  - ExpoModulesCore (57.0.18):
+  - ExpoModulesCore (57.0.24):
     - boost
     - DoubleConversion
     - ExpoModulesJSI
@@ -1291,18 +1291,20 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - ExpoModulesJSI (57.1.0):
+  - ExpoModulesJSI (57.1.3):
     - React-Core
     - ReactCommon
-  - ExpoModulesWorklets (57.0.18):
+  - ExpoModulesWorklets (57.0.24):
     - ExpoModulesCore
     - ExpoModulesJSI
-  - ExpoModulesWorkletsAdapter (57.0.18):
+  - ExpoModulesWorkletsAdapter (57.0.24):
     - ExpoModulesCore
     - ExpoModulesJSI
     - ExpoModulesWorklets
     - RNWorklets
-  - ExpoSplashScreen (57.0.9):
+  - ExpoSecureStore (57.0.4):
+    - ExpoModulesCore
+  - ExpoSplashScreen (57.0.10):
     - ExpoModulesCore
   - fast_float (8.0.0)
   - FBLazyVector (0.86.3)
@@ -1406,31 +1408,31 @@ PODS:
     - nanopb (~> 3.30910.0)
     - PromisesObjC (~> 2.4)
   - GoogleUserMessagingPlatform (3.0.0)
-  - GoogleUtilities/AppDelegateSwizzler (8.1.3):
+  - GoogleUtilities/AppDelegateSwizzler (8.1.5):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
     - GoogleUtilities/Privacy
-  - GoogleUtilities/Environment (8.1.3):
+  - GoogleUtilities/Environment (8.1.5):
     - GoogleUtilities/Privacy
-  - GoogleUtilities/Logger (8.1.3):
+  - GoogleUtilities/Logger (8.1.5):
     - GoogleUtilities/Environment
     - GoogleUtilities/Privacy
-  - GoogleUtilities/MethodSwizzler (8.1.3):
+  - GoogleUtilities/MethodSwizzler (8.1.5):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
-  - GoogleUtilities/Network (8.1.3):
+  - GoogleUtilities/Network (8.1.5):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Privacy
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (8.1.3)":
+  - "GoogleUtilities/NSData+zlib (8.1.5)":
     - GoogleUtilities/Privacy
-  - GoogleUtilities/Privacy (8.1.3)
-  - GoogleUtilities/Reachability (8.1.3):
+  - GoogleUtilities/Privacy (8.1.5)
+  - GoogleUtilities/Reachability (8.1.5):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
-  - GoogleUtilities/UserDefaults (8.1.3):
+  - GoogleUtilities/UserDefaults (8.1.5):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
   - "gRPC-C++ (1.69.0)":
@@ -4898,6 +4900,7 @@ DEPENDENCIES:
   - ExpoModulesJSI (from `../node_modules/expo-modules-jsi/apple`)
   - ExpoModulesWorklets (from `../node_modules/expo-modules-core`)
   - ExpoModulesWorkletsAdapter (from `../node_modules/expo-modules-core`)
+  - ExpoSecureStore (from `../node_modules/expo-secure-store/ios`)
   - ExpoSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - fast_float (from `../node_modules/react-native/third-party-podspecs/fast_float.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
@@ -5073,6 +5076,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-modules-core"
   ExpoModulesWorkletsAdapter:
     :path: "../node_modules/expo-modules-core"
+  ExpoSecureStore:
+    :path: "../node_modules/expo-secure-store/ios"
   ExpoSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
   fast_float:
@@ -5277,16 +5282,16 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   abseil: a05cc83bf02079535e17169a73c5be5ba47f714b
-  AppCheckCore: e215d35177a9cf469927863e69c13e220df32a8b
+  AppCheckCore: be8fce5469f68d7f6a29aa94b25f097409ff7fdc
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
   BoringSSL-GRPC: dded2a44897e45f28f08ae87a55ee4bcd19bc508
   ComputableLayout: c50faffac4ed9f8f05b0ce5e6f3a60df1f6042c8
   ContextMenuAuxiliaryPreview: 20be0be795b783b68f8792732eed4bed9f202c1c
   DGSwiftUtilities: 567f8d5ee618f0b7afb185b17aa45ff356315a0f
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
-  EXConstants: 2dc4473aff5574eccaccb9f3eefe6d95247e5d38
-  Expo: 3bbf8ee6c355ca8fb475a266de918b9a5dbe9730
-  ExpoAsset: a917b756b2e4fe12cef1ac3bca5fd849ddb2b919
+  EXConstants: 8a0eb5e2553569c0e6710b73a8d90d1ce358c153
+  Expo: aa7c0343c4a9fc4f4de5e6495adf8b542600f797
+  ExpoAsset: 2581425f9b581b4fce3c83ffc9f28528d1c4ee68
   ExpoBlur: 975b78b65b3c8f475c44bd8f8b53948146b1ff9b
   ExpoDevice: 5c638e530304a51992263ab5c1cab726f992b9dc
   ExpoDomWebView: beaec034e51bd028428b98bb1f2633ab79c6d095
@@ -5296,11 +5301,12 @@ SPEC CHECKSUMS:
   ExpoKeepAwake: 72af0b3be3615e59bc819d26061ff4e06b155ee0
   ExpoLinearGradient: f08a0dea5ad3fe23042d15b1ced831312c9141b8
   ExpoLogBox: 80957303325cd4439137765c90a87d7f22aaf2ff
-  ExpoModulesCore: cfff5545e4ce059bbfba80e56bd1771d9a620ed1
-  ExpoModulesJSI: 21c947f0cc559401c86995dad7a0b1112c7fd656
-  ExpoModulesWorklets: 986cf72c18400743869b4642d243115f831e404d
-  ExpoModulesWorkletsAdapter: ae4dd675418c2bbdf802ae74f7f78442e7010ab7
-  ExpoSplashScreen: e771da4f26d550ea4fd067d8fb942657e47bb846
+  ExpoModulesCore: 219d0d63e11ec84fdb6b921e4ee31a5d194574ee
+  ExpoModulesJSI: 83a2e6217a4e1fbdf9632e2ecbff4d63918d7001
+  ExpoModulesWorklets: 44a66395ccb9c5683d06fcbfb6b1cc01df62d423
+  ExpoModulesWorkletsAdapter: ca4a67698db5a600b13e2f194c470a8fa952bab2
+  ExpoSecureStore: ff1fd5e073957417ba8f9dec0bebcbd55a60e747
+  ExpoSplashScreen: 856060f5724dc4fca4d69a2d18a161e3baa37019
   fast_float: b32c788ed9c6a8c584d114d0047beda9664e7cc6
   FBLazyVector: 94a9e5b949d0f65bbc1a741f8a7c72499da32567
   Firebase: 99f203d3a114c6ba591f3b32263a9626e450af65
@@ -5321,7 +5327,7 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 57270ccc2b77472d7e85c4cbe45972564eff78bb
   GoogleDataTransport: a24e58982ab3ba2f64d79613e027fe7f57e88539
   GoogleUserMessagingPlatform: f8d0cdad3ca835406755d0a69aa634f00e76d576
-  GoogleUtilities: 4e0c2ad9fa0d0d18b5c4df8bf57b461cba35b0bb
+  GoogleUtilities: 7dc09b3fa9ecb5c2298b952313d14628b61b9da3
   "gRPC-C++": cc207623316fb041a7a3e774c252cf68a058b9e8
   gRPC-Core: 860978b7db482de8b4f5e10677216309b5ff6330
   hermes-engine: 63c5db7d529c36335fada6582fd293ae2a105d77

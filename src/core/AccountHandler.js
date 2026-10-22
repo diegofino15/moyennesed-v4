@@ -3,6 +3,7 @@ import ColorsHandler from "./ColorsHandler";
 import StorageHandler from "./StorageHandler";
 import CoefficientHandler from "./CoefficientHandler";
 import { capitalizeWords } from "../util/Utils";
+import { stripSecrets } from "../util/anonymise";
 import { getGtkToken, doLogin, fetchED } from "../util/functions";
 
 
@@ -53,7 +54,7 @@ class AccountHandler {
     switch (response.status) {
       case 200:
         console.log("API request successful");
-        StorageHandler.saveData("logs-login", response.data);
+        StorageHandler.saveData("logs-login", stripSecrets(response.data));
         switch (response.data.code) {
           case 200:
             await this._saveConnectedAccounts(
@@ -406,7 +407,7 @@ class AccountHandler {
         let filename = `logs-${title}`;
         StorageHandler.getData(filename).then(fileData => {
           let data = fileData ?? {};
-          data[accountID] = response.data;
+          data[accountID] = stripSecrets(response.data);
           StorageHandler.saveData(filename, data);
         });
 
