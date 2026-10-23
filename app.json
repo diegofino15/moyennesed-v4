@@ -6,34 +6,71 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "9eb7da33-9edc-4dfa-93d8-f88a7ee8e932"
+    "ios": {
+      "bundleIdentifier": "me.diegof.moyennesed-no-ads",
+      "buildNumber": "3",
+      "supportsTablet": true,
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "entitlements": {
+        "aps-environment": "production"
+      },
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "remote-notification",
+          "fetch"
+        ]
+      },
+      "config": {
+        "usesNonExemptEncryption": false
       }
     },
-    "owner": "finocchiarodev",
+    "android": {
+      "package": "me.diegof.moyennesednoads",
+      "versionCode": 61,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "googleServicesFile": "./google-services.json"
+    },
     "plugins": [
-      "./src/util/firebase/customAppCheck.js",
-      "@react-native-firebase/app",
       [
         "expo-build-properties",
         {
           "ios": {
-            "useFrameworks": "static",
-            "buildReactNativeFromSource": true
+            "useFrameworks": "dynamic"
           }
         }
       ],
+      "@react-native-firebase/app",
+      "@react-native-firebase/analytics",
+      "@react-native-firebase/app-check",
+      "@react-native-firebase/messaging",
       "expo-font",
-      "expo-secure-store",
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": false,
+          "faceIDPermission": false
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#ffffff",
+          "image": "./assets/splash.png",
+          "resizeMode": "cover",
+          "enableFullScreenImage_legacy": true
+        }
+      ],
+      "expo-status-bar",
+      [
+        "expo-file-system",
+        {
+          "supportsOpeningDocumentsInPlace": true,
+          "enableFileSharing": false
+        }
+      ],
       [
         "react-native-permissions",
         {
@@ -41,29 +78,7 @@
             "Notifications"
           ]
         }
-      ],
-      "expo-splash-screen",
-      "expo-status-bar"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "me.diegof.moyennesed-no-ads",
-      "buildNumber": "2",
-      "userInterfaceStyle": "automatic",
-      "googleServicesFile": "./GoogleService-Info.plist",
-      "entitlements": {
-        "aps-environment": "production"
-      }
-    },
-    "android": {
-      "package": "com.finocchiarodev.moyennesednoads",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "versionCode": 1,
-      "userInterfaceStyle": "automatic",
-      "googleServicesFile": "./google-services.json"
-    }
+      ]
+    ]
   }
 }

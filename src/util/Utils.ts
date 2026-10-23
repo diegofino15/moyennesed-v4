@@ -1,11 +1,10 @@
 import { Linking, Alert } from "react-native";
 import { htmlToText } from "html-to-text";
+import { Buffer } from "buffer";
 import { InAppBrowser } from 'react-native-inappbrowser-reborn'
 import dayjs from "dayjs";
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
-
-var Buffer = require('buffer/').Buffer;
 
 
 async function openLink(link: string, isSpecial: boolean = false) {
