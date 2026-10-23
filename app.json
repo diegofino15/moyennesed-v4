@@ -8,7 +8,7 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "bundleIdentifier": "me.diegof.moyennesed",
-      "buildNumber": "2",
+      "buildNumber": "3",
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
       "entitlements": {
@@ -59,7 +59,8 @@
         {
           "backgroundColor": "#ffffff",
           "image": "./assets/splash.png",
-          "resizeMode": "contain"
+          "resizeMode": "cover",
+          "enableFullScreenImage_legacy": true
         }
       ],
       "expo-status-bar",
