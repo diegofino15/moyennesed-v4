@@ -1,6 +1,6 @@
 import mobileAds, { AdsConsent, MaxAdContentRating } from 'react-native-google-mobile-ads';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
-import { firebase } from '@react-native-firebase/analytics';
+import { setConsent, setAnalyticsCollectionEnabled, getAnalytics } from '@react-native-firebase/analytics';
 import { Platform } from 'react-native';
 
 
@@ -52,10 +52,12 @@ class AdsHandler {
       if (checkForConsent) {
         setCanServeAds(true);
       }
+      
+      console.log("Admob setup completed");
     } catch (e) {
       console.warn("Error while setting up Admob");
+      console.warn(e);
     }
-
     setIsAdsHandlerLoaded(true);
   }
 
@@ -69,7 +71,7 @@ class AdsHandler {
     if (adsConsentInfo.isConsentFormAvailable) { adsConsentInfo = await AdsConsent.loadAndShowConsentFormIfRequired(); }
     const userPreferences = await AdsConsent.getUserChoices();
     var allowPersonalizedAds = userPreferences.selectPersonalisedAds;
-    await firebase.analytics().setConsent({
+    await setConsent(getAnalytics(), {
       analytics_storage: userPreferences.storeAndAccessInformationOnDevice,
       ad_storage: userPreferences.storeAndAccessInformationOnDevice,
       ad_user_data: userPreferences.createAPersonalisedAdsProfile,
@@ -80,7 +82,7 @@ class AdsHandler {
     var attConsent = (Platform.OS == "android");
     if (Platform.OS == "ios") {
       attConsent = await this.checkATTConsent();
-      await firebase.analytics().setAnalyticsCollectionEnabled(attConsent);
+      await setAnalyticsCollectionEnabled(getAnalytics(), attConsent);
     }
 
     this.servePersonalizedAds = allowPersonalizedAds && attConsent;

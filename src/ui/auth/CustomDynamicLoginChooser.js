@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { PressableScale } from "react-native-pressable-scale";
+import { View } from "react-native";
 import { ChevronDownIcon } from "lucide-react-native";
-import * as DropdownMenu from 'zeego/dropdown-menu'
+import { MenuView } from '@expo/ui/community/menu';
 import firestore from '@react-native-firebase/firestore';
 
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
@@ -11,7 +11,7 @@ import { capitalizeWords } from "../../util/Utils";
 // Chooser used to test bug reports directly in the app
 function CustomDynamicLoginChooser({ setSelected }) {
   const { theme } = useGlobalAppContext();
-  
+
   // Dynamically loaded documents
   const [documents, setDocuments] = useState({
     "functionality": [],
@@ -28,7 +28,8 @@ function CustomDynamicLoginChooser({ setSelected }) {
           documentsTemp.push({ id: doc.id, title: doc.id });
         });
 
-        setDocuments({ ...documents, [bugReportType]: documentsTemp });
+        // Functional update so we never overwrite a type loaded in the meantime with stale state
+        setDocuments((previous) => ({ ...previous, [bugReportType]: documentsTemp }));
         console.log(`Loaded ${documentsTemp.length} documents from ${bugReportType}.`);
       })
       .catch((error) => {
@@ -36,37 +37,39 @@ function CustomDynamicLoginChooser({ setSelected }) {
       });
   }
 
+  // Build the menu tree, and remember what each action id should do.
+  // (Firestore document ids are not used inside action ids, so any character in them is safe.)
+  const handlers = new Map();
+  const actions = Object.keys(documents).map((bugType) => {
+    const loadId = `load:${bugType}`;
+    handlers.set(loadId, () => loadDocuments(bugType));
+
+    const documentActions = (documents[bugType] ?? []).map((doc, index) => {
+      const id = `doc:${bugType}:${index}`;
+      handlers.set(id, () => setSelected(doc.id));
+      return { id, title: doc.title };
+    });
+
+    return {
+      id: `type:${bugType}`,
+      title: capitalizeWords(bugType),
+      subactions: [
+        ...documentActions,
+        { id: loadId, title: "Load documents", image: "square.and.arrow.down" },
+      ],
+    };
+  });
+
   return (
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger>
-        <PressableScale>
-          <ChevronDownIcon size={25} color={theme.colors.onSurfaceDisabled}/>
-        </PressableScale>
-      </DropdownMenu.Trigger>
-
-      <DropdownMenu.Content>
-        <DropdownMenu.Label>Select which bug report to load</DropdownMenu.Label>
-
-        {/* Functionality */}
-        {Object.keys(documents).map(bugType => (
-          <DropdownMenu.Sub key={bugType}>
-            <DropdownMenu.SubTrigger key={0}>{capitalizeWords(bugType)}</DropdownMenu.SubTrigger>
-            <DropdownMenu.SubContent key={1}>
-              {(documents[bugType] ?? []).map((doc, index) => (
-                <DropdownMenu.Item key={`${index}-${bugType}`} onSelect={() => setSelected(doc.id)}>
-                  <DropdownMenu.ItemTitle>{doc.title}</DropdownMenu.ItemTitle>
-                </DropdownMenu.Item>
-              ))}
-
-              <DropdownMenu.Item key={bugType} onSelect={() => loadDocuments(bugType)} shouldDismissMenuOnSelect={false}>
-                <DropdownMenu.ItemIcon ios={{ name: "square.and.arrow.down" }}/>
-                <DropdownMenu.ItemTitle>{"Load documents"}</DropdownMenu.ItemTitle>
-              </DropdownMenu.Item>
-            </DropdownMenu.SubContent>
-          </DropdownMenu.Sub>
-        ))}
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
+    <MenuView
+      title="Select which bug report to load"
+      actions={actions}
+      onPressAction={({ nativeEvent }) => handlers.get(nativeEvent.event)?.()}
+    >
+      <View>
+        <ChevronDownIcon size={25} color={theme.colors.onSurfaceDisabled}/>
+      </View>
+    </MenuView>
   );
 }
 

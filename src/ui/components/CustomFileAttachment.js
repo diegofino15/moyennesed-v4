@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { View, ActivityIndicator } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { FileIcon, ExternalLinkIcon, DownloadIcon, TrashIcon } from "lucide-react-native";
-import FileViewer from "react-native-file-viewer";
+import { File } from "expo-file-system";
 
 import CustomChooser from "./CustomChooser";
 import CustomSimpleInformationCard from "./CustomSimpleInformationCard";
@@ -23,7 +23,11 @@ function CustomFileAttachment({ file, windowWidth, deleteButton=false, onDelete 
     setIsDownloading(true);
     const { promise, localFile } = await HomeworkHandler.downloadHomeworkFile(accountID, file);
     promise.then(() => {
-      FileViewer.open(localFile, { showOpenWithDialog: true });
+      const file = new File(localFile);
+      File.preview(file).catch((e) => {
+        console.warn("Failed to preview file.");
+        console.warn(e);
+      });
       setIsDownloading(false);
     });
   }

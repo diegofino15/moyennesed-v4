@@ -3,7 +3,7 @@ import useState from "react-usestateref";
 import { ActivityIndicator, Dimensions, Platform, Text, View } from "react-native";
 import { ChevronsUpDownIcon, SearchCodeIcon } from "lucide-react-native";
 import LottieView from "lottie-react-native";
-import firestore from '@react-native-firebase/firestore';
+import { addDoc, collection, getFirestore } from '@react-native-firebase/firestore';
 
 import CustomModal from "../../../components/CustomModal";
 import CustomSection from "../../../components/CustomSection";
@@ -12,8 +12,8 @@ import CustomChooser from "../../../components/CustomChooser";
 import CustomBigTextInput from "../../../components/CustomBigTextInput";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import StorageHandler from "../../../../core/StorageHandler";
 import { anonymiseForBugReport, anonymiseAccountKeyedLogs } from "../../../../util/anonymise";
+import StorageHandler from "../../../../core/StorageHandler";
 
 
 // Ad information page
@@ -50,7 +50,7 @@ function BugReportPage({ navigation }) {
   const [errorWhileSendingBugReport, setErrorWhileSendingBugReport] = useState(false);
   async function sendBugReport() {
     if (isSendingBugReport || sentBugReport) { return; }
-    
+
     setErrorWhileSendingBugReport(false);
     setIsSendingBugReport(true);
 
@@ -61,8 +61,9 @@ function BugReportPage({ navigation }) {
 
     try {
       // Random document ID : the report must not be linked to the ÉcoleDirecte username
-      const bugReportsCollection = firestore().collection("bugReports");
-      await bugReportsCollection.add({
+      const firestore = getFirestore();
+      const bugReportsCollection = collection(firestore, "bugReports");
+      await addDoc(bugReportsCollection, {
         date: new Date(),
         type: selectedBugType,
         description: bugDescription,
