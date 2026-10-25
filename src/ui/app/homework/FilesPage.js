@@ -41,9 +41,9 @@ function FilesPage({ navigation }) {
                 marginBottom: 10,
               }]}>Liste des fichiers téléchargés :</Text>
 
-              {files.map((file, index) => (
+              {files.map((file, _) => (
                 <CustomFileAttachment
-                  key={index}
+                  key={file.uri}
                   file={{title: file.name}}
                   deleteButton
                   onDelete={() => getDownloadedFiles()}

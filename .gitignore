@@ -31,18 +31,11 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-
-### CUSTOM ###
-
-# Builds
-*.ipa
-*.aab
-
-# Bare workflow
+# generated native folders
 ios/
 android/
 
-# local env files
+# Private files
 *.local
 
 # Confidential files

@@ -43,7 +43,6 @@ async function initFirebaseAppCheck() {
     return appCheck;
   } catch (error) {
     console.error("App Check initialization or verification failed:", error);
-    throw error;
   }
 }
 

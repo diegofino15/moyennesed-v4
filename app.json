@@ -2,13 +2,13 @@
   "expo": {
     "name": "MoyennesED Sans Pubs",
     "slug": "moyennesed-no-ads",
-    "version": "4.0.24",
+    "version": "4.0.25",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "ios": {
       "bundleIdentifier": "me.diegof.moyennesed-no-ads",
-      "buildNumber": "3",
+      "buildNumber": "1",
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
       "entitlements": {
@@ -26,7 +26,7 @@
     },
     "android": {
       "package": "me.diegof.moyennesednoads",
-      "versionCode": 61,
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

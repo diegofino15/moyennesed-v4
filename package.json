@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
-    "@expo/ui": "~58.0.22",
+    "@expo/ui": "~58.0.23",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-firebase/analytics": "^27.0.0",
     "@react-native-firebase/app": "^27.0.0",
@@ -16,13 +16,13 @@
     "axios": "^1.20.0",
     "buffer": "^6.0.3",
     "dayjs": "^1.11.23",
-    "expo": "~58.0.17",
+    "expo": "~58.0.19",
     "expo-blur": "~58.0.5",
     "expo-build-properties": "^58.0.11",
     "expo-constants": "~58.0.13",
     "expo-device": "~58.0.5",
-    "expo-file-system": "~58.0.10",
-    "expo-font": "~58.0.9",
+    "expo-file-system": "~58.0.11",
+    "expo-font": "~58.0.10",
     "expo-haptics": "~58.0.7",
     "expo-linear-gradient": "~58.0.3",
     "expo-secure-store": "~58.0.2",
@@ -34,7 +34,6 @@
     "lucide-react-native": "^1.61.0",
     "react": "19.3.0",
     "react-native": "0.88.0",
-    "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "~3.3.0",
     "react-native-inappbrowser-reborn": "^3.7.1",
     "react-native-paper": "^5.15.3",
@@ -51,7 +50,7 @@
     "typescript": "~6.0.3"
   },
   "devDependencies": {
-    "expo-dev-client": "~58.0.14"
+    "expo-dev-client": "~58.0.15"
   },
   "scripts": {
     "start": "expo start",
