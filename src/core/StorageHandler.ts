@@ -1,7 +1,6 @@
-import { PermissionsAndroid, Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
-import RNFS, { DownloadResult } from "react-native-fs";
+import { Directory, File, Paths } from "expo-file-system";
 
 
 // Keys holding secrets (ÉcoleDirecte password, 2FA "trusted device" tokens).
@@ -59,7 +58,7 @@ class StorageHandler {
     const jsonData = await AsyncStorage.getItem(fileName);
     if (jsonData !== null) { return true; }
 
-    return await RNFS.exists(`${RNFS.DocumentDirectoryPath}/files/${fileName}`);
+    return new File(Paths.document, "files", fileName).exists;
   }
 
   // Save JSON data to file
@@ -80,42 +79,30 @@ class StorageHandler {
   }
 
   // Download and save documents
-  static async downloadDocument(url: string, fileName: string, token: string): Promise<{ promise: Promise<void | DownloadResult>, path: string }> {
-    const localFile = `${RNFS.DocumentDirectoryPath}/files/${fileName}`;
+  static async downloadDocument(url: string, fileName: string, token: string): Promise<{ promise: Promise<void>, path: string }> {
+    const filesDir = new Directory(Paths.document, "files");
+    const localFile = new File(filesDir, fileName);
 
-    // Handle permissions
-    if (Platform.OS == "android") {
-      await PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      ]);
-    }
-    
     // Create folder if needed
-    if (!(await RNFS.exists(`${RNFS.DocumentDirectoryPath}/files`))) {
-      await RNFS.mkdir(`${RNFS.DocumentDirectoryPath}/files`);
-    }
-    
+    if (!filesDir.exists) { filesDir.create(); }
+
     // Check if file already exists
-    if (await RNFS.exists(localFile)) {
+    if (localFile.exists) {
       console.log(`File ${fileName} already exists, skipping...`);
-      return {
-        promise: Promise.resolve(),
-        path: localFile,
-      };
+      return { promise: Promise.resolve(), path: localFile.uri };
     }
-    
+
     return {
-      promise: RNFS.downloadFile({
-        fromUrl: url,
-        toFile: localFile,
+      promise: File.downloadFileAsync(url, localFile, {
         headers: { "X-Token": token, "User-Agent": process.env.EXPO_PUBLIC_ED_USER_AGENT },
-      }).promise,
-      path: localFile,
+      }).then(() => {}),
+      path: localFile.uri,
     };
   }
-  static async getAllDocuments(): Promise<RNFS.ReadDirItem[]> {
-    return RNFS.readDir(`${RNFS.DocumentDirectoryPath}/files`);
+  static async getAllDocuments(): Promise<File[]> {
+    const filesDir = new Directory(Paths.document, "files");
+    if (!filesDir.exists) { return []; }
+    return filesDir.list().filter(item => item instanceof File) as File[];
   }
 
 
@@ -123,16 +110,13 @@ class StorageHandler {
 
   // Clear local files
   static async deleteDocument(fileName: string) {
-    await RNFS.unlink(`${RNFS.DocumentDirectoryPath}/files/${fileName}`);
+    new File(Paths.document, "files", fileName).delete();
   }
   static async deleteAllDocuments() {
     try {
-      const files: RNFS.ReadDirItem[] = await RNFS.readDir(`${RNFS.DocumentDirectoryPath}/files`);
-      files.forEach(file => {
-        if (file.isFile()) {
-          RNFS.unlink(file.path);
-        }
-      });
+      const filesDir = new Directory(Paths.document, "files");
+      if (!filesDir.exists) { return; }
+      filesDir.list().forEach(item => { if (item instanceof File) { item.delete(); } });
     } catch (e) {
       console.warn("An error occured while reading local documents : ", e);
     }

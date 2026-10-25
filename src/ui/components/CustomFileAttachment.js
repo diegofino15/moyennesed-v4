@@ -23,8 +23,7 @@ function CustomFileAttachment({ file, windowWidth, deleteButton=false, onDelete 
     setIsDownloading(true);
     const { promise, localFile } = await HomeworkHandler.downloadHomeworkFile(accountID, file);
     promise.then(() => {
-      const file = new File(localFile);
-      File.preview(file).catch((e) => {
+      new File(localFile).preview().catch((e) => {
         console.warn("Failed to preview file.");
         console.warn(e);
       });

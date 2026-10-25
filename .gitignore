@@ -38,8 +38,8 @@ yarn-error.*
 *.tsbuildinfo
 
 # generated native folders
-/ios
-/android
+ios/
+android/
 
 # Private files
 *.local

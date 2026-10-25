@@ -8,7 +8,7 @@ PODS:
   - EXJSONUtils (58.0.1)
   - EXManifests (58.0.1):
     - ExpoModulesCore
-  - Expo (58.0.17):
+  - Expo (58.0.19):
     - ExpoModulesCore
     - ExpoModulesJSI
     - hermes-engine
@@ -35,13 +35,13 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-client (58.0.14):
+  - expo-dev-client (58.0.15):
     - EXManifests
     - expo-dev-launcher
     - expo-dev-menu
     - expo-dev-menu-interface
     - EXUpdatesInterface
-  - expo-dev-launcher (58.0.14):
+  - expo-dev-launcher (58.0.15):
     - EXManifests
     - expo-dev-menu
     - expo-dev-menu-interface
@@ -133,9 +133,9 @@ PODS:
     - ExpoModulesCore
   - ExpoDomWebView (58.0.2):
     - ExpoModulesCore
-  - ExpoFileSystem (58.0.10):
+  - ExpoFileSystem (58.0.11):
     - ExpoModulesCore
-  - ExpoFont (58.0.9):
+  - ExpoFont (58.0.10):
     - ExpoModulesCore
   - ExpoHaptics (58.0.7):
     - ExpoModulesCore
@@ -145,7 +145,7 @@ PODS:
     - ExpoModulesCore
   - ExpoLogBox (58.0.13):
     - React-Core
-  - ExpoModulesCore (58.0.24):
+  - ExpoModulesCore (58.0.26):
     - ExpoModulesJSI
     - hermes-engine
     - RCTRequired
@@ -170,13 +170,13 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - ExpoModulesJSI (58.0.17):
+  - ExpoModulesJSI (58.0.19):
     - React-Core
     - ReactCommon
-  - ExpoModulesWorklets (58.0.24):
+  - ExpoModulesWorklets (58.0.26):
     - ExpoModulesCore
     - ExpoModulesJSI
-  - ExpoModulesWorkletsAdapter (58.0.24):
+  - ExpoModulesWorkletsAdapter (58.0.26):
     - ExpoModulesCore
     - ExpoModulesJSI
     - ExpoModulesWorklets
@@ -189,7 +189,7 @@ PODS:
     - ExpoModulesCore
   - ExpoSystemUI (58.0.6):
     - ExpoModulesCore
-  - ExpoUI (58.0.22):
+  - ExpoUI (58.0.23):
     - ExpoModulesCore
     - ExpoModulesWorklets
     - React-RCTFabric
@@ -2200,8 +2200,6 @@ PODS:
     - ReactNativeDependencies
     - RNFBApp
     - Yoga
-  - RNFS (2.20.0):
-    - React-Core
   - RNGestureHandler (3.3.0):
     - hermes-engine
     - RCTRequired
@@ -2678,7 +2676,6 @@ DEPENDENCIES:
   - "RNFBAppCheck (from `../node_modules/@react-native-firebase/app-check`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
-  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNGoogleMobileAds (from `../node_modules/react-native-google-mobile-ads`)
   - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
@@ -2940,8 +2937,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/firestore"
   RNFBMessaging:
     :path: "../node_modules/@react-native-firebase/messaging"
-  RNFS:
-    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleMobileAds:
@@ -2969,30 +2964,30 @@ SPEC CHECKSUMS:
   EXConstants: e90e362a4ffafaa03999f456bf81d7fb8021db9d
   EXJSONUtils: d59bf6b18639752631a81818559b2675a46f99e2
   EXManifests: b0b83ad894166f7e080b18814c5e73aed46e366e
-  Expo: 59b8d370e11ea3cb357a4756ebfd645986b05eb9
-  expo-dev-client: 9e1f44c1c5d548611e9e9534d9d169b21373a218
-  expo-dev-launcher: d3ac08884f45bfc7d5cd56d7a77c5b974ad8f879
+  Expo: 6b9af29d697c41a023a6141f3123ae30bc650061
+  expo-dev-client: 630c10eb8c9a46f367b85158a8ed0baf8f82e196
+  expo-dev-launcher: 3ac904f435416eee36b1d6f29c0f55e4bfa67ba2
   expo-dev-menu: 30871bb3aec457b0e21b0b26520134e997815557
   expo-dev-menu-interface: d304e400271187edf1534704a4a05dcc140076e2
   ExpoAsset: 9548991f0332bd8ed8819299e0b413d713104a1a
   ExpoBlur: 68f7f85ae6584f0bec52a0a42ee5088b093d1473
   ExpoDevice: 77a9816436a09a0bfc00f5ace649c6ccb219b96d
   ExpoDomWebView: b2a6d681b9d34c23b1f584321386ca8da1d36afb
-  ExpoFileSystem: 6e11203047bfcbd318e6db7bb91210a95a4162b3
-  ExpoFont: 1d6500b0c451edb1f9676276b477fb1838190ccb
+  ExpoFileSystem: b35d87e5219408a4052ee5adde99962d014efb09
+  ExpoFont: b215bc738b2e3fba7ffed79903a6fccf66959dd0
   ExpoHaptics: c95d1e2162895e710b68dd912eec619900ebdf33
   ExpoKeepAwake: fd18a5d233329013c578030ad399d8e10b252b5f
   ExpoLinearGradient: 0a669599d57e1421c4718d59eed8c96fe02c1467
   ExpoLogBox: 624d64042d73abe0dc230a24b1a9f835adb2cec9
-  ExpoModulesCore: b6901e454518066b41b0bcf1d1877c5d3c57fd2c
-  ExpoModulesJSI: 395e66e5f1616673eb8e2df17ab562c175805146
-  ExpoModulesWorklets: 1ffcd69fa7269a878dbc5ee7acd4e32af85c0406
-  ExpoModulesWorkletsAdapter: ddd0413a9e844b0b5e6433168365a2b39cd5bd18
+  ExpoModulesCore: ff33803a832a8ae8c114110f5a2362eb1f0a4e42
+  ExpoModulesJSI: 87b753f5491b015cb4abb3fed25f65b516d58d1d
+  ExpoModulesWorklets: 208e6112a0467df1cc21530e280d650a3adf6261
+  ExpoModulesWorkletsAdapter: 08c24eb3a4d547f1047057158de7b817873d70ca
   ExpoSecureStore: 64e1fe78b5b0a1edb61beff044bb2cad03084f9c
   ExpoSplashScreen: 4a16996856aeceb61b1c253c5fc9b43208705fa5
   ExpoStatusBar: 56aa9746e1bee4d8adbab12f4d7efc97000ac49f
   ExpoSystemUI: 7f794f868bd10f62788f85bf169bc8ca45fbe736
-  ExpoUI: 1c6f5e73c8707a6552974eead48932e516e03618
+  ExpoUI: ee7843da6bf0b16255f3f5c5de69c3cd4f956cd6
   EXUpdatesInterface: 1c6a522d0eb0485f4de3fa55d0316288763b3f10
   fast_float: 7c925d1cebf8328d4018d061f49377e9f887e3b4
   FBLazyVector: fdebac2dfe9c53bca49f8218fbdf1e24e36c8be0
@@ -3088,7 +3083,6 @@ SPEC CHECKSUMS:
   RNFBAppCheck: 9222ac3f67b2f14e89bb54576b2a8cea8751b57d
   RNFBFirestore: 29116a76279f7d63caad243cff2c6cdbc31eb0cd
   RNFBMessaging: 3913af05e078b48b07ad03496c85595a0add2666
-  RNFS: 89de7d7f4c0f6bafa05343c578f61118c8282ed8
   RNGestureHandler: ddbdf3f293a498368803f8181ff157271ac05c48
   RNGoogleMobileAds: 5181ebad29f3ff283253f3b80bf51f296a1ed7b5
   RNInAppBrowser: 904d24dc75e8e6c6c98a3160329192608946f9df
