@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Dimensions, Platform, Text, View } from "react-native";
+import { Dimensions, Text, View } from "react-native";
 
 import CustomModal from "../../components/CustomModal";
 import CustomFileAttachment from '../../components/CustomFileAttachment';
@@ -16,7 +16,7 @@ function FilesPage({ navigation }) {
   async function getDownloadedFiles() { StorageHandler.getAllDocuments().then(setFiles); }
   useEffect(() => { getDownloadedFiles(); }, []);
   
-  const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
+  const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);
 
   return (
     <CustomModal

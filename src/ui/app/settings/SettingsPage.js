@@ -19,7 +19,7 @@ function SettingsPage({ navigation }) {
   const { theme } = useGlobalAppContext();
   const { mainAccount } = useCurrentAccountContext();
   
-  const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
+  const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);
 
   return (
     <CustomModal

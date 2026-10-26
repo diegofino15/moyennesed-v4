@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 import useState from "react-usestateref";
-import { ActivityIndicator, Dimensions, Platform, Text, View } from "react-native";
+import { ActivityIndicator, Dimensions, Text, View } from "react-native";
 import { ChevronsUpDownIcon, SearchCodeIcon } from "lucide-react-native";
 import LottieView from "lottie-react-native";
 import { addDoc, collection, getFirestore } from '@react-native-firebase/firestore';
@@ -100,7 +100,7 @@ function BugReportPage({ navigation }) {
   }
 
   // Window width (for ipads)
-  const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
+  const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);
 
   return (
     <CustomModal

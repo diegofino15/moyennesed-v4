@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, Text, Dimensions, Platform } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import { AlertTriangleIcon } from "lucide-react-native";
 import LottieView from "lottie-react-native";
 
@@ -24,7 +24,7 @@ function MarksInformationPage({ navigation, route }) {
     MarksHandler.getLastTimeUpdatedMarks(accountID).then(setLastDateUpdated);
   }, [globalDisplayUpdater]);
 
-  const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
+  const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);
 
   return (
     <CustomModal

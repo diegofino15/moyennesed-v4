@@ -91,7 +91,7 @@ function MarkPage({ navigation, route }) {
 
   // Get subject colors
   const { light, dark } = ColorsHandler.getSubjectColors(mark.subjectID);
-  const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
+  const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);
   
   return (
     <CustomModal
