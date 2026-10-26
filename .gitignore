@@ -23,6 +23,7 @@ web-build/
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+*.lock
 
 # macOS
 .DS_Store
@@ -34,6 +35,7 @@ yarn-error.*
 # generated native folders
 ios/
 android/
+.vscode
 
 # Private files
 *.local
