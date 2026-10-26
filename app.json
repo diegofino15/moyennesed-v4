@@ -26,7 +26,7 @@
     },
     "android": {
       "package": "me.diegof.moyennesed",
-      "versionCode": 62,
+      "versionCode": 63,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -39,6 +39,10 @@
         {
           "ios": {
             "useFrameworks": "dynamic"
+          },
+          "android": {
+            "enableMinifyInReleaseBuilds": true,
+            "extraProguardRules": "-keep class * extends androidx.room.RoomDatabase { <init>(); }"
           }
         }
       ],
