@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Platform, Dimensions, Text, Switch, ActivityIndicator } from "react-native";
+import { View, Dimensions, Text, Switch, ActivityIndicator } from "react-native";
 import { AlertTriangleIcon, CalendarIcon, CheckIcon, ChevronDownIcon, ChevronRightIcon, EllipsisIcon, GraduationCapIcon, LibraryIcon, ListTodoIcon, SwatchBookIcon, XIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 
@@ -118,8 +118,8 @@ function HomeworkPage({ navigation, route }) {
 
   // Get subject colors
   const { dark } = ColorsHandler.getSubjectColors(homework.subjectID);
-  const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
-  
+  const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);  
+
   return (
     <CustomModal
       goBackFunction={() => navigation.goBack()}

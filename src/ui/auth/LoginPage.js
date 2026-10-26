@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { View, Text, ActivityIndicator, Dimensions, Platform } from "react-native";
+import { View, Text, ActivityIndicator, Dimensions } from "react-native";
 import { AlertTriangleIcon, CircleUserRoundIcon, HelpCircleIcon, KeySquareIcon } from "lucide-react-native";
 
 import CustomModal from "../components/CustomModal";
@@ -54,7 +54,7 @@ function LoginPage({ navigation }) {
     }
   }
 
-  const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
+  const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);
   
   return (
     <CustomModal

@@ -1,6 +1,6 @@
 import { memo } from "react";
 import useState from "react-usestateref";
-import { Dimensions, Platform, Text, View } from "react-native";
+import { Dimensions, Text, View } from "react-native";
 import LottieView from "lottie-react-native";
 
 import CustomModal from "../../../components/CustomModal";
@@ -18,7 +18,7 @@ function AdsInformationPage({ navigation }) {
   // Change ad choices
   const [needToRestartApp, setNeedToRestartApp] = useState(false);
 
-  const [windowWidth, setWindowWidth] = useState(Platform.isPad ? 0 : Dimensions.get('window').width);
+  const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);
   
   return (
     <CustomModal

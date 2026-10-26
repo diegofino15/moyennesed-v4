@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Text, ActivityIndicator, View, Platform, SectionList } from "react-native";
+import { Text, ActivityIndicator, View, Platform, SectionList, Dimensions } from "react-native";
 import { AlertTriangleIcon, FileDownIcon, RefreshCcwIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { BlurView } from "expo-blur";
@@ -37,7 +37,7 @@ function UpcomingHomeworkPage({ navigation, route }) {
     });
   }, [globalDisplayUpdater]);
 
-  const [windowWidth, setWindowWidth] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);
   const [windowHeight, setWindowHeight] = useState(0);
   
   return (
