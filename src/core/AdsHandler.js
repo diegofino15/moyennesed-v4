@@ -1,6 +1,7 @@
 import mobileAds, { AdsConsent, MaxAdContentRating } from 'react-native-google-mobile-ads';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { setConsent, setAnalyticsCollectionEnabled, getAnalytics } from '@react-native-firebase/analytics';
+import { getApp } from '@react-native-firebase/app';
 import { Platform } from 'react-native';
 
 
@@ -49,7 +50,7 @@ class AdsHandler {
       // Init Admob
       await this.initAds();
 
-      if (checkForConsent) {
+      if (checkForConsent && typeof setCanServeAds === "function") {
         setCanServeAds(true);
       }
       
@@ -58,7 +59,9 @@ class AdsHandler {
       console.warn("Error while setting up Admob");
       console.warn(e);
     }
-    setIsAdsHandlerLoaded(true);
+    if (typeof setIsAdsHandlerLoaded === "function") {
+      setIsAdsHandlerLoaded(true);
+    }
   }
 
   // Reset choices
@@ -71,18 +74,28 @@ class AdsHandler {
     if (adsConsentInfo.isConsentFormAvailable) { adsConsentInfo = await AdsConsent.loadAndShowConsentFormIfRequired(); }
     const userPreferences = await AdsConsent.getUserChoices();
     var allowPersonalizedAds = userPreferences.selectPersonalisedAds;
-    await setConsent(getAnalytics(), {
-      analytics_storage: userPreferences.storeAndAccessInformationOnDevice,
-      ad_storage: userPreferences.storeAndAccessInformationOnDevice,
-      ad_user_data: userPreferences.createAPersonalisedAdsProfile,
-      ad_personalization: userPreferences.selectPersonalisedAds,
-    });
+    try {
+      const analytics = getAnalytics(getApp());
+      await setConsent(analytics, {
+        analytics_storage: userPreferences.storeAndAccessInformationOnDevice,
+        ad_storage: userPreferences.storeAndAccessInformationOnDevice,
+        ad_user_data: userPreferences.createAPersonalisedAdsProfile,
+        ad_personalization: userPreferences.selectPersonalisedAds,
+      });
+    } catch (e) {
+      console.warn("setConsent failed:", e);
+    }
 
     // Check consent with Apple's ATT message
     var attConsent = (Platform.OS == "android");
     if (Platform.OS == "ios") {
       attConsent = await this.checkATTConsent();
-      await setAnalyticsCollectionEnabled(getAnalytics(), attConsent);
+      try {
+        const analytics = getAnalytics(getApp());
+        await setAnalyticsCollectionEnabled(analytics, attConsent);
+      } catch (e) {
+        console.warn("setAnalyticsCollectionEnabled failed:", e);
+      }
     }
 
     this.servePersonalizedAds = allowPersonalizedAds && attConsent;

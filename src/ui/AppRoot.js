@@ -39,15 +39,20 @@ function AppRoot() {
   // Prepare function
   useEffect(() => { prepare(); }, []);
   async function prepare() {
-    // Load firebase app-check
-    initFirebaseAppCheck().then(() => {
-      console.log("Firebase AppCheck is setup !");
-    });
+    try {
+      // Load firebase app-check
+      initFirebaseAppCheck().then((res) => {
+        if (res) console.log("Firebase AppCheck is setup !");
+      }).catch((err) => {
+        console.warn("AppCheck error:", err);
+      });
 
-    // Register for notifications
-    setupNotifications().then(() => {
-      console.log("Notifications registered");
-    })
+      // Register for notifications
+      setupNotifications().then(() => {
+        console.log("Notifications registered");
+      }).catch((err) => {
+        console.warn("Notifications error:", err);
+      });
     
     // Load UI
     await initFontsAndThemes();
@@ -59,21 +64,25 @@ function AppRoot() {
       setTheme(Themes.DarkTheme)
     }
 
-    // Check if logged-in
-    await StorageHandler.purgeOrphanSecureData();
-    const credentialsExist = await StorageHandler.dataExists("credentials");
-    if (credentialsExist) {
-      setIsLoggedIn(true);
+      // Check if logged-in
+      await StorageHandler.purgeOrphanSecureData();
+      const credentialsExist = await StorageHandler.dataExists("credentials");
+      if (credentialsExist) {
+        setIsLoggedIn(true);
 
-      await ColorsHandler.load();
-      await CoefficientHandler.load();
+        await ColorsHandler.load();
+        await CoefficientHandler.load();
+        
+        AdsHandler.setupAdmob({ checkForConsent: true, setCanServeAds: setCanServeAds, setIsAdsHandlerLoaded: setIsAdsHandlerLoaded });
+      } else {
+        AdsHandler.setupAdmob({ checkForConsent: false, setCanServeAds: setCanServeAds, setIsAdsHandlerLoaded: setIsAdsHandlerLoaded });
+      }
       
-      AdsHandler.setupAdmob({ checkForConsent: true, setCanServeAds: setCanServeAds, setIsAdsHandlerLoaded: setIsAdsHandlerLoaded });
-    } else {
-      AdsHandler.setupAdmob({ checkForConsent: false, setCanServeAds: setCanServeAds, setIsAdsHandlerLoaded: setIsAdsHandlerLoaded });
+      setIsLoaded(true);
+    } catch (e) {
+      console.warn("prepare() failed:", e);
+      setIsLoaded(true);
     }
-    
-    setIsLoaded(true);
   }
 
   if (!isLoaded) { return null; }

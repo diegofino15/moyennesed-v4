@@ -22,10 +22,14 @@ async function androidRequestUserPermission() {
 }
 
 async function setupNotifications() {
-  if (Platform.OS === 'ios') {
-    await iOSRequestUserPermission();
-  } else {
-    await androidRequestUserPermission();
+  try {
+    if (Platform.OS === 'ios') {
+      await iOSRequestUserPermission();
+    } else {
+      await androidRequestUserPermission();
+    }
+  } catch (error) {
+    console.warn("Notifications setup failed:", error);
   }
 }
 
