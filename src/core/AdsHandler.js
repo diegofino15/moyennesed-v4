@@ -90,12 +90,12 @@ class AdsHandler {
     var attConsent = (Platform.OS == "android");
     if (Platform.OS == "ios") {
       attConsent = await this.checkATTConsent();
-      try {
-        const analytics = getAnalytics(getApp());
-        await setAnalyticsCollectionEnabled(analytics, attConsent);
-      } catch (e) {
-        console.warn("setAnalyticsCollectionEnabled failed:", e);
-      }
+    }
+    try {
+      const analytics = getAnalytics(getApp());
+      await setAnalyticsCollectionEnabled(analytics, attConsent);
+    } catch (e) {
+      console.warn("setAnalyticsCollectionEnabled failed:", e);
     }
 
     this.servePersonalizedAds = allowPersonalizedAds && attConsent;
