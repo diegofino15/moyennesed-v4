@@ -116,14 +116,14 @@ function formatAverage(average: number, decimals: boolean =true): string {
   return (Math.round(average * 100) / 100).toString().replace('.', ',');
 }
 
-function formatMark(mark: { valueStr: string, classValue: number, valueOn: number }, isClass: boolean =false): string {
+function formatMark(mark: { valueStr: string, classValue: number, valueOn: number, minClassValue: number|null, maxClassValue: number|null }, isClass: boolean=false, isClassMin: boolean=false, isClassMax: boolean=false): string {
   if (!isClass) {
     if (mark.valueOn == 20 || mark.valueOn == 0) { return mark.valueStr; }
     if (!mark.valueStr) { return `--`; }
     return `${mark.valueStr}/${mark.valueOn}`;
   } else {
-    if (mark.valueOn == 20) { return `${mark.classValue}`.replace(".", ","); }
-    return `${mark.classValue}/${mark.valueOn}`.replace(".", ",");
+    if (mark.valueOn == 20) { return `${isClassMin ? mark.minClassValue : isClassMax ? mark.maxClassValue : mark.classValue}`.replace(".", ","); }
+    return `${isClassMin ? mark.minClassValue : isClassMax ? mark.maxClassValue : mark.classValue}/${mark.valueOn}`.replace(".", ",");
   }
 }
 

@@ -367,6 +367,36 @@ function MarkPage({ navigation, route }) {
               </>
             ) : null}
 
+            {/* Additional information */}
+            {mark.minClassValue != null || mark.maxClassValue != null ? (
+              <>
+              <CustomSection
+                title={"Infos en plus"}
+                viewStyle={{ marginBottom: 5 }}
+              />
+              {mark.maxClassValue != null ? (
+                <CustomSimpleInformationCard
+                  content={"Note maximale"}
+                  icon={<PlusIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
+                  rightIcon={(
+                    <Text style={theme.fonts.headlineMedium}>{formatMark(mark, true, false, true)}</Text>
+                  )}
+                  style={{ marginVertical: 5 }}
+                />
+              ) : null}
+              {mark.minClassValue != null ? (
+                <CustomSimpleInformationCard
+                  content={"Note minimale"}
+                  icon={<MinusIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
+                  rightIcon={(
+                    <Text style={theme.fonts.headlineMedium}>{formatMark(mark, true, true)}</Text>
+                  )}
+                  style={{ marginVertical: 5 }}
+                />
+              ) : null}
+              </>
+            ) : null}
+
             {/* Disable mark */}
             <CustomSection title={"Autre"}/>
             {mark.onlyHasCompetences && (
