@@ -5,14 +5,12 @@ MoyennesED est une application mobile conçue pour permettre aux élèves de con
 Pour l'utiliser, il faut avoir au préalable un compte ÉcoleDirecte (compte élève ou parent) fourni par votre établissement.  
 L'app est actuellement disponible sur **iOS** et **Android**.  
 
-<center>
-  <a href="https://apps.apple.com/fr/app/moyennesed/id6446418445">
-    <img src="assets/images/app-store-badge.svg" alt="Télécharger dans l'App Store" height="50">
-  </a>
-  <a href="https://play.google.com/store/apps/details?id=me.diegof.moyennesed">
-    <img src="assets/images/google-play-badge.svg" alt="Disponible sur Google Play" height="50">
-  </a>
-</center>
+<a href="https://apps.apple.com/fr/app/moyennesed/id6446418445">
+  <img src="assets/images/app-store-badge.svg" alt="Télécharger dans l'App Store" height="55">
+</a>
+<a href="https://play.google.com/store/apps/details?id=me.diegof.moyennesed">
+  <img src="assets/images/google-play-badge.svg" alt="Disponible sur Google Play" height="50">
+</a>
 
 ## 🚀 Fonctionnalités
 - [x] Authentification (élève / parent) (+ double authentification)
@@ -48,8 +46,6 @@ bun expo prebuild
 ```
 
 Le développement sur simulateur ou sur téléphone se fait alors simplement :
-
-iOS (simulateur) :
 ```bash
 bun expo run:ios #--device (pour choisir un téléphone physique)
 bun expo run:android #--device
