@@ -1,35 +1,25 @@
-import { PermissionsAndroid, Platform } from 'react-native';
-import messaging from '@react-native-firebase/messaging';
+import { Platform } from 'react-native';
+import { RESULTS, checkNotifications, requestNotifications } from 'react-native-permissions';
 
 
-async function iOSRequestUserPermission() {
-  const authStatus = await messaging().requestPermission();
-  const enabled =
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-  if (enabled) {
-    console.log(`Notifications are ${enabled ? "allowed" : "not allowed"} !`);
+async function requestUserPermission() {
+  if (Platform.OS === 'ios' || Platform.OS === 'android') {
+    const authorizationStatus = await checkNotifications();
+    if (authorizationStatus.status === RESULTS.DENIED) {
+      const newAuthorizationStatus = await requestNotifications();
+      return newAuthorizationStatus.status === RESULTS.GRANTED;
+    }
+    return authorizationStatus.status === RESULTS.GRANTED;
   }
-}
-
-async function androidRequestUserPermission() {
-  const result = await PermissionsAndroid.request(
-    PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
-  );
-
-  console.log('Notification permission result:', result);
+  return false;
 }
 
 async function setupNotifications() {
   try {
-    if (Platform.OS === 'ios') {
-      await iOSRequestUserPermission();
-    } else {
-      await androidRequestUserPermission();
-    }
+    const result = await requestUserPermission();
+    console.log(`Notification setup done, authorization: ${result ? "granted" : "denied"}`);
   } catch (error) {
-    console.warn("Notifications setup failed:", error);
+    console.warn('Notifications setup failed:', error);
   }
 }
 

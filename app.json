@@ -12,7 +12,8 @@
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
       "entitlements": {
-        "aps-environment": "production"
+        "aps-environment": "production",
+        "com.apple.developer.devicecheck.appattest-environment": "production"
       },
       "infoPlist": {
         "UIBackgroundModes": [
@@ -42,7 +43,8 @@
           },
           "android": {
             "enableMinifyInReleaseBuilds": true,
-            "extraProguardRules": "-keep class * extends androidx.room.RoomDatabase { <init>(); }"
+            "extraProguardRules": "-keep class * extends androidx.room.RoomDatabase { <init>(); }",
+            "permissions": ["android.permission.POST_NOTIFICATIONS"]
           }
         }
       ],
