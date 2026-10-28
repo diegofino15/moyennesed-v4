@@ -5,10 +5,10 @@ MoyennesED est une application mobile conçue pour permettre aux élèves de con
 Pour l'utiliser, il faut avoir au préalable un compte ÉcoleDirecte (compte élève ou parent) fourni par votre établissement.  
 L'app est actuellement disponible sur **iOS** et **Android**.  
 
-<a href="https://apps.apple.com/fr/app/moyennesed/id6446418445">
-  <img src="assets/images/app-store-badge.svg" alt="Télécharger dans l'App Store" height="55">
+<a href="https://apps.apple.com/fr/app/moyennesed-sans-pubs/id6739073850">
+  <img src="assets/images/app-store-badge.svg" alt="Télécharger dans l'App Store" height="50">
 </a>
-<a href="https://play.google.com/store/apps/details?id=me.diegof.moyennesed">
+<a href="https://play.google.com/store/apps/details?id=me.diegof.moyennesed_no_ads">
   <img src="assets/images/google-play-badge.svg" alt="Disponible sur Google Play" height="50">
 </a>
 
