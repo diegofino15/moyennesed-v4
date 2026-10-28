@@ -1,7 +1,18 @@
 # MoyennesED - v4
 
 ## 📖 Présentation
-MoyennesED est une application mobile conçue pour permettre aux élèves de consulter leurs **moyennes scolaires** et aux parents celles de leurs enfants, si leur école/collège/lycée utilise le service EcoleDirecte.
+MoyennesED est une application mobile conçue pour permettre aux élèves de consulter leurs **moyennes scolaires** et aux parents celles de leurs enfants, si leur école/collège/lycée utilise le service ÉcoleDirecte.  
+Pour l'utiliser, il faut avoir au préalable un compte ÉcoleDirecte (compte élève ou parent) fourni par votre établissement.  
+L'app est actuellement disponible sur **iOS** et **Android**.  
+
+<center>
+  <a href="https://apps.apple.com/fr/app/moyennesed/id6446418445">
+    <img src="assets/images/app-store-badge.svg" alt="Télécharger dans l'App Store" height="50">
+  </a>
+  <a href="https://play.google.com/store/apps/details?id=me.diegof.moyennesed">
+    <img src="assets/images/google-play-badge.svg" alt="Disponible sur Google Play" height="50">
+  </a>
+</center>
 
 ## 🚀 Fonctionnalités
 - [x] Authentification (élève / parent) (+ double authentification)
@@ -9,7 +20,7 @@ MoyennesED est une application mobile conçue pour permettre aux élèves de con
   - [x] Calcul des moyennes avec coefficients personnalisables
   - [x] Fonction "devine coefficients" pour améliorer la précision
   - [x] Graphiques de l'évolution des moyennes (générale, par matière, par sous-matière)
-- [x] Récupération des devoirs (nouveau)
+- [x] Récupération des devoirs
   - [x] Détection des évaluations
   - [x] Statut fait/non fait synchronisé avec ÉcoleDirecte
   - [x] Fichiers attachés téléchargeables
@@ -17,14 +28,10 @@ MoyennesED est une application mobile conçue pour permettre aux élèves de con
 ## ⚛️ Fonctionnement
 Structure : **JavaScript** avec **React Native** et **Expo**  
 L'application imite le fonctionnement du site web [ÉcoleDirecte](https://www.ecoledirecte.com) pour se connecter, récupérer une clé de connexion, et ensuite récupérer les notes et les devoirs de l'élève automatiquement. Aucune information personnelle ne passe par d'autres serveurs, seuls les signalements de bugs sont stockés sur [Firebase](https://firebase.google.com).    
-Cette application est conçue pour les élèves n'ayant pas accès à leurs moyennes sur l'application officielle, ou pour les parents afin de suivre les résultats de leurs enfants.
-
-## La v4 ?
-Encore une fois, l'app a entièrement été réécrite de zéro, avec une structure plus claire et simple à étendre dans le futur, pour ajouter des nouvelles fonctionnalités. L'app est plus rapide que jamais, plus fluide, plus ergonimique, et devrait avoir encore moins de bugs !
 
 ## Développement
-Si vous souhaitez participer au développement de l'application et ajouter de nouvelles fonctionnalités, régler des bugs... le code complet de l'application est disponible.
-Vous avez besoin d'avoir **NodeJS** et **React Native** avec **Expo**.
+Si vous souhaitez participer au développement de l'application et ajouter de nouvelles fonctionnalités, régler des bugs... le code complet de l'application est disponible.  
+Je vous recommande d'utiliser **Bun**, qui permet un développement rapide avec **Expo**.
 
 Commencez par cloner le projet :
 ```bash
@@ -32,32 +39,24 @@ git clone https://github.com/diegofino15/moyennesed-v4.git
 cd moyennesed-v4
 ```
 
-Installer les dépendances :
+Il manquera alors les fichiers **google-services.json**, **GoogleService-Info.plist** et **.env**, dont vous pouvez récupérer des exemples génériques en ligne (ou en les retirant de **app.json**).
+
+Installer les dépendances et prebuild :
 ```
-npm install -g yarn (si pas déja fait)
-yarn install
-npx expo prebuild
+bun install
+bun expo prebuild
 ```
+
+Le développement sur simulateur ou sur téléphone se fait alors simplement :
 
 iOS (simulateur) :
 ```bash
-cd ios && pod install && cd ..
-npx expo run:ios
-```
-
-Android (simulateur) :
-```bash
-npx expo run:android
-```
-
-Vous pouvez aussi lancer l'appli sur votre téléphone avec ces commandes :
-```bash
-npx expo run:ios --device
-npx expo run:android --device
+bun expo run:ios #--device (pour choisir un téléphone physique)
+bun expo run:android #--device
 ```
 
 ## Contact
-Si vous avez des questions ou des suggestions, n’hésitez pas à ouvrir une issue sur GitHub ou à me contacter directement via mail à diego@dfino.dev
+Si vous avez des questions ou des suggestions, n’hésitez pas à ouvrir une issue sur GitHub ou à me contacter directement via mail à **diego@dfino.dev**.
 
 ## License
 Shield: [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
