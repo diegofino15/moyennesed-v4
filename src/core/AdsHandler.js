@@ -52,6 +52,9 @@ class AdsHandler {
 
       if (checkForConsent && typeof setCanServeAds === "function") {
         setCanServeAds(true);
+        console.log("Ads allowed !");
+      } else {
+        console.log("Ads not allowed !");
       }
       
       console.log("Admob setup completed");
