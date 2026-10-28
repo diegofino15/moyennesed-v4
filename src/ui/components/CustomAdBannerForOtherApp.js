@@ -14,12 +14,16 @@ function CustomAdBannerForOtherApp({ alwaysShow=false }) {
   // Should show the popup ?
   const [showPopup, setShowPopup] = useState(false);
   useEffect(() => {
-    AccountHandler.getPreference("show-no-ads-popup", Platform.OS == "ios").then(setShowPopup)
+    AccountHandler.getPreference("show-no-ads-popup", true).then(setShowPopup)
   }, []);
 
   // Open link
   function openLink() {
-    Linking.openURL("https://apps.apple.com/us/app/moyennesed-sans-pubs/id6739073850");
+    if (Platform.OS == "ios") {
+      Linking.openURL("https://apps.apple.com/fr/app/moyennesed-sans-pubs/id6739073850");
+    } else if (Platform.OS == "android") {
+      Linking.openURL("https://play.google.com/store/apps/details?id=me.diegof.moyennesed_no_ads");
+    }
   }
 
   async function closePopup() {
