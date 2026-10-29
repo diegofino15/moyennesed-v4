@@ -12,7 +12,6 @@ import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
 import CustomAdBannerForOtherApp from "../../../components/CustomAdBannerForOtherApp";
 import HapticsHandler from "../../../../core/HapticsHandler";
-import AdsHandler from "../../../../core/AdsHandler";
 import { formatAverage } from "../../../../util/Utils";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 import { useAppStackContext } from "../../../../util/AppStackContext";
@@ -91,15 +90,8 @@ function MarksOverview({
           justifyContent: 'space-between',
         }}>
           {/* Loading status */}
-          <CustomChooser
-            title={"Dev options"}
-            items={__DEV__ ? [
-              { id: "ad-inspector", title: "Open Ad Inspector" },
-            ] : []}
-            setSelected={(_) => AdsHandler.openDebugger()}
-            defaultItem={<MarksStatus navigation={navigation}/>}
-            longPress
-          />
+          <View/>
+          <View style={{ position: 'absolute', alignSelf: "flex-start" }}><MarksStatus navigation={navigation}/></View>
 
           {/* Period chooser */}
           <View style={{

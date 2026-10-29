@@ -126,7 +126,6 @@ function HomeworkPage({ navigation, route }) {
       titleStyle={{ color: 'black' }}
       headerStyle={{ backgroundColor: dark }}
       goBackButtonStyle={{ opacity: 0.6 }}
-      onlyShowBackButtonOnAndroid
       setWidth={setWindowWidth}
       title={"Détails du devoir"}
       rightIconStyle={{ backgroundColor: undefined, borderWidth: 0, padding: 7 }}

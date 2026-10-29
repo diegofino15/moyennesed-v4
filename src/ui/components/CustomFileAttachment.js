@@ -54,7 +54,7 @@ function CustomFileAttachment({ file, windowWidth, deleteButton=false, onDelete 
             key={file.id}
             onPress={() => openAttachment()}
             onLongPress={fileExists ? () => {} : undefined}
-            style={{ flexDirection: "row", alignItems: "center" }}
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <CustomSimpleInformationCard
               icon={<FileIcon size={25} color={theme.colors.onSurfaceDisabled}/>}
@@ -85,6 +85,9 @@ function CustomFileAttachment({ file, windowWidth, deleteButton=false, onDelete 
             />
           </PressableScale>
         )}
+        style={{
+          width: windowWidth - 40 - (deleteButton ? 50 : 0),
+        }}
       />
       
       {deleteButton && (

@@ -26,9 +26,12 @@ function MarksStatus({ navigation }) {
           borderRadius: 5,
           flexDirection: 'row',
           alignItems: 'center',
-          paddingVertical: 2,
-          paddingHorizontal: 5
-        }} onPress={() => { navigation.navigate("MarksInformationPage"); }} onLongPress={__DEV__ ? () => {} : undefined}>
+          paddingVertical: 10,
+          paddingHorizontal: 10,
+          borderTopLeftRadius: 20,
+          left: -20,
+          top: -20,
+        }} onPress={() => { navigation.navigate("MarksInformationPage"); }}>
           <Text style={[
             theme.fonts.labelMedium, {
               color: errorGettingMarks ? theme.colors.error : sureGotMarks ? theme.colors.success : isLoading ? theme.colors.primary : theme.colors.error,

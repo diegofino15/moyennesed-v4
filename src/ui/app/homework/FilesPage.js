@@ -16,13 +16,12 @@ function FilesPage({ navigation }) {
   async function getDownloadedFiles() { StorageHandler.getAllDocuments().then(setFiles); }
   useEffect(() => { getDownloadedFiles(); }, []);
   
-  const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);
+  const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);  
 
   return (
     <CustomModal
       title={"Fichiers"}
       goBackFunction={() => navigation.pop()}
-      onlyShowBackButtonOnAndroid
       setWidth={setWindowWidth}
       children={(
         <View>

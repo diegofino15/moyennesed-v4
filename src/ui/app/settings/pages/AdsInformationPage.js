@@ -5,6 +5,7 @@ import LottieView from "lottie-react-native";
 
 import CustomModal from "../../../components/CustomModal";
 import CustomButton from "../../../components/CustomButton";
+import CustomLink from "../../../components/CustomLink";
 import CustomAdBannerForOtherApp from "../../../components/CustomAdBannerForOtherApp";
 import CustomAnimatedChangeableItem from "../../../components/CustomAnimatedChangeableItem";
 import AdsHandler from "../../../../core/AdsHandler";
@@ -78,11 +79,19 @@ function AdsInformationPage({ navigation }) {
 
             {/* Ad */}
             <View style={{
-              paddingTop: 20,
+              paddingVertical: 20,
               marginHorizontal: -20,
             }}>
               <CustomAdBannerForOtherApp alwaysShow/>
             </View>
+
+            {/* Ad debugger */}
+            {__DEV__ ? (
+              <CustomLink
+                onPress={() => AdsHandler.openDebugger()}
+                title={"Open ad debugger"}
+              />
+            ) : null}
           </View>
         </View>
       )}
