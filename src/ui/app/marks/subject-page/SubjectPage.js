@@ -134,7 +134,7 @@ function SubjectPage({
   // Chart
   const [showClassValueOnChart, setShowClassValueOnChart] = useState(false);
   const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);
-
+  
   return (
     <CustomModal
       titleStyle={{ color: "black" }}
@@ -413,7 +413,7 @@ function SubjectPage({
 
             {/* Marks */}
             {marks ? <CustomSection title={"Notes"} /> : null}
-            {marks ? shownSubject?.sortedMarks?.map((markID) => (
+            {marks ? Object.keys(marks).length > 0 ? shownSubject?.sortedMarks?.map((markID) => (
               <MarkCard
                 key={markID}
                 mark={marks[markID]}
@@ -426,7 +426,13 @@ function SubjectPage({
                 windowWidth={windowWidth}
                 countMarksWithOnlyCompetences={countMarksWithOnlyCompetences}
               />
-            )) : null}
+            )) : (
+              <Text style={[theme.fonts.labelLarge, {
+                color: theme.colors.onSurfaceDisabled,
+                alignSelf: "center",
+                marginVertical: 30,
+              }]}>Pas de notes pour l'instant !</Text>
+            ): null}
           </View>
         </View>
       }

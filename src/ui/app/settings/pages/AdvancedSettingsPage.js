@@ -1,8 +1,9 @@
 import { memo, useEffect } from "react";
 import useState from "react-usestateref";
-import { View, Text, Switch, ActivityIndicator } from "react-native";
+import { View, Text, Switch, ActivityIndicator, Platform } from "react-native";
 import { ArrowBigRightDashIcon, LandPlotIcon, LockIcon, MoonIcon, SunIcon, TrashIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
+import Constants from "expo-constants";
 
 import CustomLink from "../../../components/CustomLink";
 import CustomModal from "../../../components/CustomModal";
@@ -250,6 +251,38 @@ function AdvancedSettingsPage({ navigation }) {
                 <Text style={[theme.fonts.labelLarge, { textAlign: 'justify', marginTop: 10 }]}>
                   Vous devrez répondre à une question de double authentification, cela peut résoudre certains problèmes de connexion.
                 </Text>
+              </>
+            )}
+          />
+
+          {/* App information */}
+          <CustomSection
+            title={"Informations de l'app"}
+          />
+          <CustomTextArea
+            children={(
+              <>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 5 }}>
+                  <Text style={theme.fonts.labelLarge}>Version</Text>
+                  <Text style={[theme.fonts.headlineMedium, {
+                    color: theme.colors.onSurfaceDisabled,
+                    fontSize: 17.0
+                  }]}>{Constants.expoConfig?.version}</Text>
+                </View>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginVertical: 5 }}>
+                  <Text style={theme.fonts.labelLarge}>Build</Text>
+                  <Text style={[theme.fonts.headlineMedium, {
+                    color: theme.colors.onSurfaceDisabled,
+                    fontSize: 17.0
+                  }]}>{Platform.OS === "ios" ? Constants.expoConfig?.ios.buildNumber : Constants.expoConfig?.android.versionCode}</Text>
+                </View>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 5 }}>
+                  <Text style={theme.fonts.labelLarge}>Expo SDK</Text>
+                  <Text style={[theme.fonts.headlineMedium, {
+                    color: theme.colors.onSurfaceDisabled,
+                    fontSize: 17.0
+                  }]}>{Constants.expoConfig?.sdkVersion}</Text>
+                </View>
               </>
             )}
           />

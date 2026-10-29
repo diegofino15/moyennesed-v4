@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, Platform, Dimensions, Switch } from "react-native";
+import { View, Text, Dimensions, Switch } from "react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { CalendarIcon, EllipsisIcon, LandPlotIcon, MegaphoneIcon, MegaphoneOffIcon, MessageSquareIcon, MinusIcon, PenToolIcon, PlusIcon, TrendingDownIcon, TrendingUpIcon, Users2Icon } from "lucide-react-native";
 
@@ -155,12 +155,17 @@ function MarkPage({ navigation, route }) {
                   alignItems: "center",
                 }}>
                   <Users2Icon size={20} color={"black"}/>
-                  <Text style={[theme.fonts.headlineMedium, {
-                    color: "black",
-                    fontSize: 17,
-                    height: 22,
-                    top: Platform.select({ ios: 1, android: -2 }),
-                  }]}> : {formatMark(mark, true)}</Text>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text style={[theme.fonts.headlineMedium, {
+                      color: "black",
+                      fontSize: 17,
+                    }]}>{` : ${mark.classValue}`.replace(".", ",")}</Text>
+                    <Text style={[theme.fonts.headlineSmall, {
+                      color: "black",
+                      fontSize: 15.0,
+                      bottom: -3,
+                    }]}>/{`${mark.valueOn}`.replace(".", ",")}</Text>
+                  </View>
                 </PressableScale>
               </View>
             ) : null}
@@ -220,6 +225,7 @@ function MarkPage({ navigation, route }) {
                   textAlign: "right",
                 }]}>{formatDate2(mark.date)}</Text>
               )}
+              style={{ marginVertical: 5  }}
             />
             {mark.type ? (
               <CustomSimpleInformationCard
@@ -231,7 +237,42 @@ function MarkPage({ navigation, route }) {
                     textAlign: "right",
                   }]}>{mark.type}</Text>
                 )}
-                style={{ marginTop: 10 }}
+                style={{ marginVertical: 5 }}
+              />
+            ) : null}
+            {/* Min & Max class values */}
+            {mark.maxClassValue != null ? (
+              <CustomSimpleInformationCard
+                content={"Note maximale"}
+                icon={<PlusIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
+                rightIcon={(
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text style={theme.fonts.headlineMedium}>{`${mark.maxClassValue}`.replace(".", ",")}</Text>
+                    <Text style={[theme.fonts.headlineSmall, {
+                      color: theme.colors.onSurfaceDisabled,
+                      fontSize: 15.0,
+                      bottom: -5,
+                    }]}>/{`${mark.valueOn}`.replace(".", ",")}</Text>
+                  </View>
+                )}
+                style={{ marginVertical: 5 }}
+              />
+            ) : null}
+            {mark.minClassValue != null ? (
+              <CustomSimpleInformationCard
+                content={"Note minimale"}
+                icon={<MinusIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
+                rightIcon={(
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text style={theme.fonts.headlineMedium}>{`${mark.minClassValue}`.replace(".", ",")}</Text>
+                    <Text style={[theme.fonts.headlineSmall, {
+                      color: theme.colors.onSurfaceDisabled,
+                      fontSize: 15.0,
+                      bottom: -5,
+                    }]}>/{`${mark.valueOn}`.replace(".", ",")}</Text>
+                  </View>
+                )}
+                style={{ marginVertical: 5 }}
               />
             ) : null}
             {mark.comment ? (
@@ -360,36 +401,6 @@ function MarkPage({ navigation, route }) {
                         color: mark.generalAverageInfluence > 0 ? theme.colors.success : theme.colors.error,
                       }]}>{formatAverage(Math.abs(mark.generalAverageInfluence))}</Text>
                     </View>
-                  )}
-                  style={{ marginVertical: 5 }}
-                />
-              ) : null}
-              </>
-            ) : null}
-
-            {/* Additional information */}
-            {mark.minClassValue != null || mark.maxClassValue != null ? (
-              <>
-              <CustomSection
-                title={"Infos en plus"}
-                viewStyle={{ marginBottom: 5 }}
-              />
-              {mark.maxClassValue != null ? (
-                <CustomSimpleInformationCard
-                  content={"Note maximale"}
-                  icon={<PlusIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
-                  rightIcon={(
-                    <Text style={theme.fonts.headlineMedium}>{formatMark(mark, true, false, true)}</Text>
-                  )}
-                  style={{ marginVertical: 5 }}
-                />
-              ) : null}
-              {mark.minClassValue != null ? (
-                <CustomSimpleInformationCard
-                  content={"Note minimale"}
-                  icon={<MinusIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
-                  rightIcon={(
-                    <Text style={theme.fonts.headlineMedium}>{formatMark(mark, true, true)}</Text>
                   )}
                   style={{ marginVertical: 5 }}
                 />

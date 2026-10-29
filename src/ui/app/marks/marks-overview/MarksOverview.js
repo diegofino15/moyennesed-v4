@@ -82,7 +82,8 @@ function MarksOverview({
         justifyContent: 'space-between',
       }}>
         {/* Loading status */}
-        <MarksStatus navigation={navigation}/>
+        <View/>
+        <View style={{ position: 'absolute', alignSelf: "flex-start" }}><MarksStatus navigation={navigation}/></View>
 
         {/* Period chooser */}
         <View style={{
