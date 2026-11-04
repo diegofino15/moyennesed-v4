@@ -65,27 +65,35 @@ class AdsHandler {
   // Complete function
   static async setupAdmob({ checkForConsent=true, setCanServeAds, setIsAdsHandlerLoaded }){
     try {
-      let consentInfo = null;
-
-      if (checkForConsent) {
-        // Ask for consent with Google's UMP message
-        consentInfo = await this.askForAdChoices();
-      }
-
-      // Init Admob
-      await this.initAds();
-
-      // Ads are mandatory: they are always served, but never personalized.
-      this.canServeAds = checkForConsent;
-
-      if (checkForConsent && typeof setCanServeAds === "function") {
-        setCanServeAds(true);
-        console.log("Ads allowed !");
+      if (!checkForConsent) {
+        // The consent form has not been shown yet (not logged-in): the Mobile Ads
+        // SDK is not started at all, so nothing is sent to Google before consent.
+        this.canServeAds = false;
+        console.log("Ads not initialised (consent not asked yet)");
       } else {
-        console.log("Ads not allowed !");
-      }
-      if (consentInfo) {
+        // Ask for consent with Google's UMP message
+        let consentInfo;
+        try {
+          consentInfo = await this.askForAdChoices();
+        } catch (e) {
+          // Offline or UMP error: fall back to the consent state saved by a previous session
+          console.warn("Consent request failed, using saved consent state:", e);
+          consentInfo = await AdsConsent.getConsentInfo();
+        }
         console.log("Ads consent info:", consentInfo);
+
+        if (consentInfo?.canRequestAds) {
+          // Ads are mandatory when consent allows them, but never personalized.
+          await this.initAds();
+          this.canServeAds = true;
+          if (typeof setCanServeAds === "function") { setCanServeAds(true); }
+          console.log("Ads allowed !");
+        } else {
+          // Consent does not allow requesting ads: the SDK is never started
+          this.canServeAds = false;
+          if (typeof setCanServeAds === "function") { setCanServeAds(false); }
+          console.log("Ads not allowed !");
+        }
       }
       console.log("Admob setup completed");
     } catch (e) {
