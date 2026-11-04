@@ -242,7 +242,7 @@ function AdvancedSettingsPage({ navigation }) {
           <Text style={[theme.fonts.labelLarge, {
             textAlign: 'justify',
             marginTop: 10,
-          }]}>Ces statistiques incluent le modèle de l'appareil, la version de l'app et les sessions. Aucune note, aucun identifiant de compte et aucune publicité personnalisée ne sont concernés.</Text>
+          }]}>Ces statistiques incluent un identifiant d'installation aléatoire, le modèle de l'appareil, la version de l'app, le pays approximatif et les sessions. Aucune note, aucun identifiant de compte et aucune publicité personnalisée ne sont concernés.</Text>
 
           <CustomSection
             title={"Avancé"}
