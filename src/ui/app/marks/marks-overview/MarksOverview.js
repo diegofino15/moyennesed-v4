@@ -11,6 +11,7 @@ import CustomChooser from "../../../components/CustomChooser";
 import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
 import CustomAdBannerForOtherApp from "../../../components/CustomAdBannerForOtherApp";
+import CustomAnalyticsConsentBanner from "../../../components/CustomAnalyticsConsentBanner";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import { formatAverage } from "../../../../util/Utils";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
@@ -25,7 +26,7 @@ function MarksOverview({
   periods,
   navigation,
 }) {
-  const { theme } = useGlobalAppContext();
+  const { theme, analyticsConsent } = useGlobalAppContext();
   const { globalDisplayUpdater } = useAppStackContext();
   const { accountID } = useCurrentAccountContext();
 
@@ -76,7 +77,12 @@ function MarksOverview({
 
   return (
     <View>
-      {!canShowAverage && <CustomAdBannerForOtherApp/>}
+      {/* Analytics consent takes priority over the "MoyennesED Sans Pubs" banner */}
+      {analyticsConsent == null ? (
+        <CustomAnalyticsConsentBanner/>
+      ) : (
+        !canShowAverage && <CustomAdBannerForOtherApp/>
+      )}
 
       <View style={{
         backgroundColor: theme.colors.surface,

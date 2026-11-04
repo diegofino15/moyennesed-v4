@@ -27,7 +27,7 @@
     },
     "android": {
       "package": "me.diegof.moyennesed",
-      "versionCode": 67,
+      "versionCode": 68,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -82,7 +82,6 @@
         "react-native-permissions",
         {
           "iosPermissions": [
-            "AppTrackingTransparency",
             "Notifications"
           ]
         }
@@ -92,7 +91,6 @@
         {
           "androidAppId": "ca-app-pub-1869877675520642~9782266497",
           "iosAppId": "ca-app-pub-1869877675520642~9540112976",
-          "userTrackingUsageDescription": "Autorisez-vous les publicités personnalisées sur MoyennesED ?",
           "skAdNetworkItems": [
             "cstr6suwn9.skadnetwork",
             "4fzdc2evr5.skadnetwork",

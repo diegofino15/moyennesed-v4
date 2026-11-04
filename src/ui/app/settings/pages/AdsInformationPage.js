@@ -1,6 +1,6 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import useState from "react-usestateref";
-import { Dimensions, Text, View } from "react-native";
+import { Alert, Dimensions, Text, View } from "react-native";
 import LottieView from "lottie-react-native";
 
 import CustomModal from "../../../components/CustomModal";
@@ -16,8 +16,47 @@ import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
 function AdsInformationPage({ navigation }) {
   const { theme } = useGlobalAppContext();
   
-  // Change ad choices
-  const [needToRestartApp, setNeedToRestartApp] = useState(false);
+  // Consent form state
+  const [canShowAdChoices, setCanShowAdChoices] = useState(false);
+  const [feedback, setFeedback] = useState("idle"); // idle | updated | error
+  const [, setIsUpdating, isUpdatingRef] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    AdsHandler.canShowAdChoices().then((canShow) => {
+      if (mounted) { setCanShowAdChoices(canShow); }
+    });
+    return () => { mounted = false; };
+  }, []);
+
+  // Open the privacy options form
+  async function changeAdChoices() {
+    if (isUpdatingRef.current) { return; }
+
+    setIsUpdating(true);
+    setFeedback("idle");
+    try {
+      await AdsHandler.showAdChoices();
+      setFeedback("updated");
+      setCanShowAdChoices(await AdsHandler.canShowAdChoices());
+    } catch (e) {
+      console.warn("Unable to show privacy options form:", e);
+      setFeedback("error");
+    } finally {
+      setIsUpdating(false);
+    }
+  }
+
+  // Open the Ad Inspector (dev only). It only works on registered test devices.
+  async function openAdInspector() {
+    const opened = await AdsHandler.openDebugger();
+    if (!opened) {
+      Alert.alert(
+        "Ad Inspector indisponible",
+        "Cet appareil doit être enregistré comme appareil de test. Ajoutez son identifiant (affiché dans les logs) à EXPO_PUBLIC_ADMOB_TEST_DEVICE_IDS, puis redémarrez l'app."
+      );
+    }
+  }
 
   const [windowWidth, setWindowWidth] = useState(Dimensions.get('window').width);
   
@@ -49,46 +88,51 @@ function AdsInformationPage({ navigation }) {
           
           <View style={{ paddingHorizontal: 20, marginTop: 20 }}>
             <Text style={[theme.fonts.labelLarge, { textAlign: "justify", marginBottom: 10 }]}>Les publicités permettent le financement du développement de l'app, afin qu'elle soit mise à jour régulièrement et que les bugs soient réglés au plus vite.</Text>
-            <Text style={[theme.fonts.labelLarge, { textAlign: "justify", marginBottom: 20 }]}>Vous pouvez changer à tout moment vos préférences de personnalisation des publicités.</Text>
-            <CustomButton
-              style={{
-                backgroundColor: theme.colors.primaryLight,
-                borderWidth: 2,
-                borderColor: theme.colors.primary,
-                paddingVertical: 10,
-              }}
-              onPress={() => {
-                AdsHandler.resetAdChoices();
-                setNeedToRestartApp(true);
-              }}
-              title={(
-                <CustomAnimatedChangeableItem
-                  animationTime={100}
-                  updaters={[needToRestartApp]}
-                  item={needToRestartApp ? (
-                    <>
-                      <Text style={[theme.fonts.bodyMedium, { textAlign: "center" }]}>Redémarrez l'app</Text>
-                      <Text style={[theme.fonts.labelMedium, { textAlign: "center" }]}>pour choisir à nouveau</Text>
-                    </>
-                  ) : (
-                    <Text style={[theme.fonts.bodyMedium, { color: theme.colors.primary }]}>Changer de choix</Text>
-                  )}
-                />
-              )}
-            />
+            <Text style={[theme.fonts.labelLarge, { textAlign: "justify", marginBottom: 20 }]}>Les publicités restent toujours non personnalisées : vos données ne servent pas à vous profiler et aucun suivi entre applications ne vous est demandé. Vous pouvez modifier vos choix de consentement à tout moment.</Text>
+            {canShowAdChoices ? (
+              <CustomButton
+                style={{
+                  backgroundColor: theme.colors.primaryLight,
+                  borderWidth: 2,
+                  borderColor: theme.colors.primary,
+                  paddingVertical: 10,
+                }}
+                onPress={changeAdChoices}
+                title={(
+                  <CustomAnimatedChangeableItem
+                    animationTime={100}
+                    updaters={[feedback]}
+                    item={feedback === "updated" ? (
+                      <>
+                        <Text style={[theme.fonts.bodyMedium, { textAlign: "center" }]}>Préférences mises à jour</Text>
+                        <Text style={[theme.fonts.labelMedium, { textAlign: "center" }]}>Vous pouvez les modifier à nouveau</Text>
+                      </>
+                    ) : feedback === "error" ? (
+                      <>
+                        <Text style={[theme.fonts.bodyMedium, { textAlign: "center" }]}>Réessayer</Text>
+                        <Text style={[theme.fonts.labelMedium, { textAlign: "center" }]}>Impossible d'ouvrir le formulaire</Text>
+                      </>
+                    ) : (
+                      <Text style={[theme.fonts.bodyMedium, { color: theme.colors.primary }]}>Gérer mes choix</Text>
+                    )}
+                  />
+                )}
+              />
+            ) : null}
 
             {/* Ad */}
             <View style={{
               paddingVertical: 20,
               marginHorizontal: -20,
             }}>
+              <Text style={[theme.fonts.labelLarge, { textAlign: "justify", margin: 20 }]}>Vous voulez profiter d'une expérience sans aucune publicité ? MoyennesED Sans Pubs est conçue pour cela.</Text>
               <CustomAdBannerForOtherApp alwaysShow/>
             </View>
 
             {/* Ad debugger */}
             {__DEV__ ? (
               <CustomLink
-                onPress={() => AdsHandler.openDebugger()}
+                onPress={openAdInspector}
                 title={"Open ad debugger"}
               />
             ) : null}

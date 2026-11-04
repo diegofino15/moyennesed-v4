@@ -1,26 +1,58 @@
-import mobileAds, { AdsConsent, MaxAdContentRating } from 'react-native-google-mobile-ads';
-import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
-import { setConsent, setAnalyticsCollectionEnabled, getAnalytics } from '@react-native-firebase/analytics';
-import { getApp } from '@react-native-firebase/app';
-import { Platform } from 'react-native';
+import mobileAds, {
+  AdsConsent,
+  AdsConsentDebugGeography,
+  AdsConsentPrivacyOptionsRequirementStatus,
+  AgeRestrictedTreatment,
+  MaxAdContentRating,
+} from 'react-native-google-mobile-ads';
 
 
 // Class used to serve Admob ads
 class AdsHandler {
-  // Are ads personalized or not
-  static servePersonalizedAds;
   static canServeAds = false;
-  
+
+  // Test devices used by Ad Inspector / test ads (dev builds only)
+  static getTestDeviceIdentifiers() {
+    if (!__DEV__) { return []; }
+
+    const envDeviceIds = (process.env.EXPO_PUBLIC_ADMOB_TEST_DEVICE_IDS || '')
+      .split(',')
+      .map((id) => id.trim())
+      .filter(Boolean);
+
+    return ['EMULATOR', ...envDeviceIds];
+  }
+
+  // Options passed to the UMP SDK. In development, force an EEA geography so
+  // the consent form can be tested even if the device is detected as non-EEA.
+  // Debug geography is ignored for non-test devices and never used in release.
+  static getConsentOptions() {
+    if (!__DEV__) { return {}; }
+
+    const options = {
+      debugGeography: AdsConsentDebugGeography.EEA,
+    };
+
+    const envDeviceIds = (process.env.EXPO_PUBLIC_ADMOB_TEST_DEVICE_IDS || '')
+      .split(',')
+      .map((id) => id.trim())
+      .filter(Boolean);
+
+    if (envDeviceIds.length > 0) {
+      options.testDeviceIdentifiers = envDeviceIds;
+    }
+
+    return options;
+  }
+
   // Set configuration for the app
   static async configureAds() {
     await mobileAds().setRequestConfiguration({
+      // The app is aimed at a young audience, so only allow ads suitable for
+      // teens and below. Personalization is disabled separately.
       maxAdContentRating: MaxAdContentRating.T,
-      tagForChildDirectedTreatment: true,
-      tagForUnderAgeOfConsent: true,
-
-      testDeviceIdentifiers: __DEV__ ? [
-        'EMULATOR',
-      ] : [],
+      ageRestrictedTreatment: AgeRestrictedTreatment.TEEN,
+      testDeviceIdentifiers: this.getTestDeviceIdentifiers(),
     });
   }
 
@@ -30,25 +62,21 @@ class AdsHandler {
     await mobileAds().initialize();
   }
 
-  // Check ATT consent
-  static async checkATTConsent() {
-    const result = await check(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
-    if (result == RESULTS.DENIED) {
-      const newResult = await request(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
-      return newResult == RESULTS.GRANTED;
-    }
-    return result == RESULTS.GRANTED;
-  }
-
   // Complete function
-  static async setupAdmob({ checkForConsent=true, setCanServeAds, setIsAdsHandlerLoaded }){  
+  static async setupAdmob({ checkForConsent=true, setCanServeAds, setIsAdsHandlerLoaded }){
     try {
+      let consentInfo = null;
+
       if (checkForConsent) {
-        await this.askForAdChoices();
+        // Ask for consent with Google's UMP message
+        consentInfo = await this.askForAdChoices();
       }
-  
+
       // Init Admob
       await this.initAds();
+
+      // Ads are mandatory: they are always served, but never personalized.
+      this.canServeAds = checkForConsent;
 
       if (checkForConsent && typeof setCanServeAds === "function") {
         setCanServeAds(true);
@@ -56,7 +84,9 @@ class AdsHandler {
       } else {
         console.log("Ads not allowed !");
       }
-      
+      if (consentInfo) {
+        console.log("Ads consent info:", consentInfo);
+      }
       console.log("Admob setup completed");
     } catch (e) {
       console.warn("Error while setting up Admob");
@@ -67,49 +97,51 @@ class AdsHandler {
     }
   }
 
-  // Reset choices
-  static resetAdChoices() { AdsConsent.reset(); }
+  // Is a privacy options form available to change ad choices ?
+  static async canShowAdChoices() {
+    try {
+      const consentInfo = await AdsConsent.getConsentInfo();
+      return consentInfo.privacyOptionsRequirementStatus === AdsConsentPrivacyOptionsRequirementStatus.REQUIRED;
+    } catch (e) {
+      console.warn("getConsentInfo failed:", e);
+      return false;
+    }
+  }
+
+  // Open the privacy options form
+  static async showAdChoices() {
+    return await AdsConsent.showPrivacyOptionsForm();
+  }
 
   // Ask again for choices
   static async askForAdChoices() {
-    // Check consent with Google's UMP message
-    var adsConsentInfo = await AdsConsent.requestInfoUpdate();
-    if (adsConsentInfo.isConsentFormAvailable) { adsConsentInfo = await AdsConsent.loadAndShowConsentFormIfRequired(); }
-    const userPreferences = await AdsConsent.getUserChoices();
-    var allowPersonalizedAds = userPreferences.selectPersonalisedAds;
-    try {
-      const analytics = getAnalytics(getApp());
-      await setConsent(analytics, {
-        analytics_storage: userPreferences.storeAndAccessInformationOnDevice,
-        ad_storage: userPreferences.storeAndAccessInformationOnDevice,
-        ad_user_data: userPreferences.createAPersonalisedAdsProfile,
-        ad_personalization: userPreferences.selectPersonalisedAds,
-      });
-    } catch (e) {
-      console.warn("setConsent failed:", e);
+    const options = this.getConsentOptions();
+    let adsConsentInfo = await AdsConsent.requestInfoUpdate(options);
+
+    console.log("UMP consent state:", {
+      status: adsConsentInfo.status,
+      isConsentFormAvailable: adsConsentInfo.isConsentFormAvailable,
+      privacyOptionsRequirementStatus: adsConsentInfo.privacyOptionsRequirementStatus,
+      canRequestAds: adsConsentInfo.canRequestAds,
+      gdprApplies: await AdsConsent.getGdprApplies(),
+      options: options,
+    });
+
+    if (adsConsentInfo.isConsentFormAvailable) {
+      adsConsentInfo = await AdsConsent.loadAndShowConsentFormIfRequired();
     }
 
-    // Check consent with Apple's ATT message
-    var attConsent = (Platform.OS == "android");
-    if (Platform.OS == "ios") {
-      attConsent = await this.checkATTConsent();
-    }
-    try {
-      const analytics = getAnalytics(getApp());
-      await setAnalyticsCollectionEnabled(analytics, attConsent);
-    } catch (e) {
-      console.warn("setAnalyticsCollectionEnabled failed:", e);
-    }
-
-    this.servePersonalizedAds = allowPersonalizedAds && attConsent;
+    return adsConsentInfo;
   }
 
   // Open debugger
   static async openDebugger() {
     try { // The promise will resolve when the inspector is closed.
       await mobileAds().openAdInspector();
+      return true;
     } catch (error) { // The promise will reject if ad inspector is closed due to an error.
-      console.log(error);
+      console.warn("Ad Inspector failed:", error);
+      return false;
     }
   }
 }

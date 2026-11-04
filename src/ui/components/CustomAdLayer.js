@@ -6,7 +6,6 @@ import { HelpCircleIcon, VideoIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import { BlurView } from "expo-blur";
 
-import AdsHandler from "../../core/AdsHandler";
 import { useGlobalAppContext } from "../../util/GlobalAppContext";
 import StorageHandler from "../../core/StorageHandler";
 
@@ -20,6 +19,7 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
   
   // Ad objects
   const AD_COOLDOWN = 24 * 60 * 60 * 1000; // 24h
+  const FIRST_LAUNCH_GRACE = 7 * 24 * 60 * 60 * 1000; // 1 week
   const [rewardedAd, setRewardedAd, rewardedAdRef] = useState(null);
   const [loadingAd, setLoadingAd] = useState(true);
 
@@ -27,14 +27,29 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
   useEffect(() => { checkIfAdShouldBeShown(); }, [isAdsHandlerLoaded]);
   async function checkIfAdShouldBeShown() {
     if (rewardedAd) { return; }
+
     const lastAdTime = await StorageHandler.getData('lastAdTime');
-    if (lastAdTime == null) { // Don't show ads for a week
-      console.log("First time opening app, no ad");
-      setCanShowContent(true);
-      setCanShowAverage(true);
-      StorageHandler.saveData("lastAdTime", (Date.now() + 7 * 24 * 60 * 60 * 1000).toString());
-    } else if (Date.now() - parseInt(lastAdTime) < AD_COOLDOWN || isAdsHandlerLoaded && !canServeAds) {
-      console.log("Ad cooldown not finished");
+    const now = Date.now();
+
+    // In development, skip the cooldown so ads can be tested right away.
+    if (!__DEV__) {
+      if (lastAdTime == null) { // Don't show ads for a week after the first launch
+        console.log("First time opening app, no ad");
+        setCanShowContent(true);
+        setCanShowAverage(true);
+        StorageHandler.saveData("lastAdTime", (now + FIRST_LAUNCH_GRACE).toString());
+        return;
+      }
+      if (now - parseInt(lastAdTime) < AD_COOLDOWN) {
+        console.log("Ad cooldown not finished");
+        setCanShowAverage(true);
+        setCanShowContent(true);
+        return;
+      }
+    }
+
+    if (isAdsHandlerLoaded && !canServeAds) {
+      console.log("Ads not allowed");
       setCanShowAverage(true);
       setCanShowContent(true);
     } else if (canServeAds) {
@@ -50,7 +65,7 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
   })}
   function getNewAd() { return RewardedAd.createForAdRequest(getAdUnitID(), {
     keywords: ['élève', 'lycéen', 'collège', 'lycée', 'école', 'éducation'],
-    requestNonPersonalizedAdsOnly: !AdsHandler.servePersonalizedAds,
+    requestNonPersonalizedAdsOnly: true,
   });}
   async function loadAd() {
     setLoadingAd(true);
@@ -60,11 +75,15 @@ function CustomAdLayer({ width, height, child, setCanShowAverage, navigation }) 
       if (event.type === RewardedAdEventType.LOADED) {
         console.log("Ad loaded !")
         setLoadingAd(false);
-      } else if (event.type === RewardedAdEventType.EARNED_REWARD || event.type === AdEventType.ERROR) {
+      } else if (event.type === RewardedAdEventType.EARNED_REWARD) {
         console.log("Ad finished, granting reward !");
         setCanShowContent(true);
         setCanShowAverage(true);
         StorageHandler.saveData("lastAdTime", Date.now().toString());
+      } else if (event.type === AdEventType.ERROR) {
+        console.warn("Ad failed:", event.error);
+        setCanShowContent(true);
+        setCanShowAverage(true);
       } else if (event.type === AdEventType.CLOSED && !canShowContentRef.current) {
         console.log("Closed ad before end !");
         setRewardedAd(null);
