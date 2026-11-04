@@ -12,7 +12,7 @@ import CustomChooser from "../../../components/CustomChooser";
 import CustomBigTextInput from "../../../components/CustomBigTextInput";
 import CustomSimpleInformationCard from "../../../components/CustomSimpleInformationCard";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
-import { anonymiseForBugReport, anonymiseAccountKeyedLogs } from "../../../../util/anonymise";
+import { anonymiseBugReportLogs } from "../../../../util/anonymise";
 import StorageHandler from "../../../../core/StorageHandler";
 
 
@@ -54,10 +54,15 @@ function BugReportPage({ navigation }) {
     setErrorWhileSendingBugReport(false);
     setIsSendingBugReport(true);
 
-    // Get logs, without secrets nor personal data
-    const loginLogs = anonymiseLogin(await StorageHandler.getData("logs-login"));
-    const marksLogs = anonymiseAccountKeyedLogs(await StorageHandler.getData("logs-marks"));
-    const homeworkLogs = anonymiseAccountKeyedLogs(await StorageHandler.getData("logs-homework"));
+    // Get logs, without secrets nor personal data, and with random account IDs
+    const anonymisedLogs = anonymiseBugReportLogs({
+      login: await StorageHandler.getData("logs-login"),
+      marks: await StorageHandler.getData("logs-marks"),
+      homework: await StorageHandler.getData("logs-homework"),
+    });
+    const loginLogs = anonymiseLoginNames(anonymisedLogs.login);
+    const marksLogs = anonymisedLogs.marks;
+    const homeworkLogs = anonymisedLogs.homework;
 
     try {
       // Random document ID : the report must not be linked to the ÉcoleDirecte username
@@ -85,9 +90,8 @@ function BugReportPage({ navigation }) {
     setIsSendingBugReport(false);
   }
 
-  // Login logs : keep placeholder names so the replayed account still displays
-  function anonymiseLogin(loginLogs) {
-    const anonymised = anonymiseForBugReport(loginLogs);
+  // Login logs (already anonymised) : keep placeholder names so the replayed account still displays
+  function anonymiseLoginNames(anonymised) {
     anonymised?.data?.accounts?.forEach(account => {
       account.prenom = "Jack";
       account.nom = "Sparrow";
@@ -190,7 +194,8 @@ function BugReportPage({ navigation }) {
               title={"Plus d'infos"}
             />
             <Text style={[theme.fonts.labelLarge, { textAlign: "justify", marginBottom: 10 }]}>En envoyant un signalement de bug, vous acceptez de partager l'ensemble des informations recueillies par l'app sur votre compte, y compris vos notes, moyennes, etc.</Text>
-            <Text style={[theme.fonts.labelLarge, { textAlign: "justify" }]}>Votre identifiant, votre mot de passe et vos jetons de connexion ne sont jamais envoyés. Les noms, coordonnées, photos, l'établissement et les appréciations sont retirés avant l'envoi.</Text>
+            <Text style={[theme.fonts.labelLarge, { textAlign: "justify" }]}>Votre identifiant, votre mot de passe et vos jetons de connexion ne sont jamais envoyés. Les noms, coordonnées, photos, l'établissement et les appréciations sont retirés avant l'envoi, et les numéros internes de compte sont remplacés par des numéros aléatoires.</Text>
+            <Text style={[theme.fonts.labelLarge, { textAlign: "justify", marginTop: 10 }]}>La description est envoyée telle quelle : n'y mettez aucune information personnelle (nom, adresse, numéro de téléphone...).</Text>
           </View>
         </View>
       )}
