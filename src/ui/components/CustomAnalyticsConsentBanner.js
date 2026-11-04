@@ -90,7 +90,7 @@ function CustomAnalyticsConsentBanner() {
         textAlign: "justify",
         marginBottom: 12,
       }]}>
-        Acceptez-vous de partager des statistiques d'utilisation ? Aucune information personnelle n'est envoyée.
+        Acceptez-vous de partager des statistiques d'utilisation ? Ni vos notes ni votre identifiant de compte ne sont envoyés, seulement un identifiant d'installation aléatoire et des données techniques (modèle de l'appareil, version de l'app, pays approximatif, sessions).
       </Text>
 
       {/* Choices */}
