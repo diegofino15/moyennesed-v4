@@ -50,8 +50,8 @@ function anonymiseForBugReport(data: any): any {
   return _strip(stripSecrets(data), PERSONAL_KEYS, false);
 }
 
-// Logs keyed by ÉcoleDirecte internal account ID (kept, so that the report can still be
-// replayed against the login logs : it is a numeric ID, not the username)
+// Logs keyed by ÉcoleDirecte internal account ID (the keys are replaced afterwards, see
+// anonymiseBugReportLogs)
 function anonymiseAccountKeyedLogs(logs: any): any {
   if (!logs) { return null; }
   const result: any = {};
@@ -61,4 +61,69 @@ function anonymiseAccountKeyedLogs(logs: any): any {
   return result;
 }
 
-export { stripSecrets, anonymiseForBugReport, anonymiseAccountKeyedLogs };
+
+// Internal ÉcoleDirecte account IDs (numeric) : they identify the account on ÉcoleDirecte's side,
+// so they are replaced by random numbers, the same way everywhere in one report so that it can
+// still be replayed. IDs shorter than this are left alone to avoid replacing unrelated numbers.
+const MIN_ACCOUNT_ID_LENGTH = 4;
+
+function _collectAccountIDs(loginLogs: any, marksLogs: any, homeworkLogs: any): Set<string> {
+  const ids = new Set<string>();
+  const add = (value: any) => {
+    if (value === null || value === undefined) { return; }
+    const id = String(value);
+    if (id.length >= MIN_ACCOUNT_ID_LENGTH) { ids.add(id); }
+  };
+
+  loginLogs?.data?.accounts?.forEach((account: any) => {
+    add(account?.id);
+    account?.profile?.eleves?.forEach((eleve: any) => add(eleve?.id));
+  });
+  Object.keys(marksLogs ?? {}).forEach(add);
+  Object.keys(homeworkLogs ?? {}).forEach(add);
+  return ids;
+}
+
+// New random IDs for this report only (nothing here needs to be unpredictable, they just must not
+// be derived from the real ones)
+function _randomIDs(realIDs: Set<string>): Map<string, string> {
+  const mapping = new Map<string, string>();
+  const used = new Set<string>(realIDs);
+  realIDs.forEach(realID => {
+    let fakeID: string;
+    do { fakeID = String(100000000 + Math.floor(Math.random() * 900000000)); } while (used.has(fakeID));
+    used.add(fakeID);
+    mapping.set(realID, fakeID);
+  });
+  return mapping;
+}
+
+// Deep copy where every key or value equal to a known account ID is replaced (numbers stay numbers)
+function _replaceIDs(data: any, mapping: Map<string, string>): any {
+  if (Array.isArray(data)) { return data.map(item => _replaceIDs(item, mapping)); }
+  if (data !== null && typeof data === "object") {
+    const result: any = {};
+    for (const [key, value] of Object.entries(data)) {
+      result[mapping.get(key) ?? key] = _replaceIDs(value, mapping);
+    }
+    return result;
+  }
+  if ((typeof data === "number" || typeof data === "string") && mapping.has(String(data))) {
+    const fakeID = mapping.get(String(data)) as string;
+    return typeof data === "number" ? Number(fakeID) : fakeID;
+  }
+  return data;
+}
+
+// Everything that goes in a bug report : secrets and personal data removed, and the ÉcoleDirecte
+// account IDs replaced by random ones (identical in the three logs)
+function anonymiseBugReportLogs({ login, marks, homework }: { login: any, marks: any, homework: any }): { login: any, marks: any, homework: any } {
+  const mapping = _randomIDs(_collectAccountIDs(login, marks, homework));
+  return {
+    login: _replaceIDs(anonymiseForBugReport(login), mapping),
+    marks: _replaceIDs(anonymiseAccountKeyedLogs(marks), mapping),
+    homework: _replaceIDs(anonymiseAccountKeyedLogs(homework), mapping),
+  };
+}
+
+export { stripSecrets, anonymiseForBugReport, anonymiseAccountKeyedLogs, anonymiseBugReportLogs };
