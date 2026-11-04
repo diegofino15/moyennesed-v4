@@ -11,6 +11,7 @@ import { Themes, initFontsAndThemes } from "../util/Styles";
 import { GlobalAppContextProvider, useGlobalAppContext } from "../util/GlobalAppContext";
 import { initFirebaseAppCheck } from "../util/firebase/firebaseAppCheck";
 import { setupNotifications } from "../util/firebase/firebaseCloudMessaging";
+import AnalyticsHandler from "../core/AnalyticsHandler";
 import ColorsHandler from "../core/ColorsHandler";
 import CoefficientHandler from "../core/CoefficientHandler";
 import AccountHandler from "../core/AccountHandler";
@@ -30,6 +31,7 @@ function AppRoot() {
   // Theme
   const [theme, setTheme] = useState(null);
   const [isAutoTheme, setIsAutoTheme] = useState(true);
+  const [analyticsConsent, setAnalyticsConsent] = useState(null);
 
   // Prepare function
   useEffect(() => { prepare(); }, []);
@@ -48,16 +50,19 @@ function AppRoot() {
       }).catch((err) => {
         console.warn("Notifications error:", err);
       });
-    
-    // Load UI
-    await initFontsAndThemes();
-    const themeData = await StorageHandler.getData("theme");
-    if (themeData) {
-      setIsAutoTheme(themeData.isAutoTheme);
-      setTheme(themeData.savedTheme == "dark" ? Themes.DarkTheme : Themes.LightTheme);
-    } else {
-      setTheme(Themes.DarkTheme)
-    }
+      
+      // Load UI
+      await initFontsAndThemes();
+      const themeData = await StorageHandler.getData("theme");
+      if (themeData) {
+        setIsAutoTheme(themeData.isAutoTheme);
+        setTheme(themeData.savedTheme == "dark" ? Themes.DarkTheme : Themes.LightTheme);
+      } else {
+        setTheme(Themes.DarkTheme)
+      }
+
+      // Apply analytics consent before anything else can be collected
+      setAnalyticsConsent(await AnalyticsHandler.applyStoredConsent());
 
       // Check if logged-in
       await StorageHandler.purgeOrphanSecureData();
@@ -82,6 +87,7 @@ function AppRoot() {
       loggedIn={isLoggedIn}
       autoTheme={isAutoTheme}
       savedTheme={theme}
+      _analyticsConsent={analyticsConsent}
     >
       <GlobalStack
         cameFromAuthStack={cameFromAuthStack}

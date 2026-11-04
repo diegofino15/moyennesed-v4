@@ -443,9 +443,17 @@ class AccountHandler {
 
   // Erase all data //
   static async eraseData() {
+    // Analytics consent applies to the device, not to the account: keep it
+    // when the user logs out.
+    const analyticsConsent = await StorageHandler.getData("analytics-consent");
+
     ColorsHandler.resetSubjectColors();
     CoefficientHandler.erase();
     await StorageHandler.clear();
+
+    if (analyticsConsent != null) {
+      await StorageHandler.saveData("analytics-consent", analyticsConsent);
+    }
   }
   static async eraseCacheData() {
     // Put here temporary files

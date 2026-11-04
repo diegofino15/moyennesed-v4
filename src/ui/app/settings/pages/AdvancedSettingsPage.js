@@ -1,7 +1,7 @@
 import { memo, useEffect } from "react";
 import useState from "react-usestateref";
 import { View, Text, Switch, ActivityIndicator, Platform } from "react-native";
-import { ArrowBigRightDashIcon, LandPlotIcon, LockIcon, MoonIcon, SunIcon, TrashIcon } from "lucide-react-native";
+import { ArrowBigRightDashIcon, ChartNoAxesColumnIcon, LandPlotIcon, LockIcon, MoonIcon, SunIcon, TrashIcon } from "lucide-react-native";
 import { PressableScale } from "react-native-pressable-scale";
 import Constants from "expo-constants";
 
@@ -117,7 +117,7 @@ function ThemeSwitcher() {
 
 // Settings page
 function AdvancedSettingsPage({ navigation }) {
-  const { theme } = useGlobalAppContext();
+  const { theme, analyticsConsent, changeAnalyticsConsent } = useGlobalAppContext();
   const { globalDisplayUpdater, updateGlobalDisplay } = useAppStackContext();
   const { mainAccount } = useCurrentAccountContext();
 
@@ -137,6 +137,26 @@ function AdvancedSettingsPage({ navigation }) {
   useEffect(() => {
     AccountHandler.getPreference("enableVibrations").then(setEnableVibrations);
   }, [globalDisplayUpdater, forceUpdate]);
+
+  // Analytics consent
+  const [isChangingAnalyticsConsent, setIsChangingAnalyticsConsent] = useState(false);
+  async function updateAnalyticsConsent(granted) {
+    if (isChangingAnalyticsConsent) { return; }
+    setIsChangingAnalyticsConsent(true);
+    try {
+      await changeAnalyticsConsent(granted ? "granted" : "denied");
+    } finally {
+      setIsChangingAnalyticsConsent(false);
+    }
+  }
+
+  const analyticsConsentSubtitle = analyticsConsent === "granted" ? (
+    "Activées. Ces statistiques servent uniquement à améliorer l'app et ne sont jamais utilisées pour la publicité."
+  ) : analyticsConsent === "denied" ? (
+    "Désactivées. Aucune statistique d'utilisation n'est envoyée."
+  ) : (
+    "Vous n'avez pas encore choisi. Aucune donnée n'est envoyée tant que vous n'avez pas accepté."
+  );
 
   // Is reconnecting
   const [isReconnecting, setIsReconnecting] = useState(false);
@@ -195,6 +215,34 @@ function AdvancedSettingsPage({ navigation }) {
               />
             )}
           />
+
+          <CustomSection
+            title={"Confidentialité"}
+          />
+          <CustomSimpleInformationCard
+            content={"Statistiques d'utilisation"}
+            textStyle={theme.fonts.bodyLarge}
+            icon={<ChartNoAxesColumnIcon size={20} color={theme.colors.onSurfaceDisabled}/>}
+            subtitle={analyticsConsentSubtitle}
+            rightIcon={<Switch
+              value={analyticsConsent === "granted"}
+              onValueChange={updateAnalyticsConsent}
+            />}
+            additionalObject={analyticsConsent == null ? (
+              <PressableScale style={{
+                marginTop: 10,
+                alignSelf: "flex-start",
+              }} onPress={() => updateAnalyticsConsent(false)}>
+                <Text style={[theme.fonts.labelLarge, { color: theme.colors.error }]}>
+                  Non merci, ne pas envoyer de statistiques
+                </Text>
+              </PressableScale>
+            ) : null}
+          />
+          <Text style={[theme.fonts.labelLarge, {
+            textAlign: 'justify',
+            marginTop: 10,
+          }]}>Ces statistiques incluent le modèle de l'appareil, la version de l'app et les sessions. Aucune note, aucun identifiant de compte et aucune publicité personnalisée ne sont concernés.</Text>
 
           <CustomSection
             title={"Avancé"}

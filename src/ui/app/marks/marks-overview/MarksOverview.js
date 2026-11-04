@@ -8,6 +8,7 @@ import RecentMarkCard from "./RecentMarkCard";
 import CustomChooser from "../../../components/CustomChooser";
 import CustomEvolutionChart from "../../../components/CustomEvolutionChart";
 import CustomAnimatedIndicator from "../../../components/CustomAnimatedIndicator";
+import CustomAnalyticsConsentBanner from "../../../components/CustomAnalyticsConsentBanner";
 import HapticsHandler from "../../../../core/HapticsHandler";
 import { formatAverage } from "../../../../util/Utils";
 import { useGlobalAppContext } from "../../../../util/GlobalAppContext";
@@ -23,7 +24,7 @@ function MarksOverview({
   periods,
   navigation,
 }) {
-  const { theme } = useGlobalAppContext();
+  const { theme, analyticsConsent } = useGlobalAppContext();
   const { globalDisplayUpdater } = useAppStackContext();
   const { accountID } = useCurrentAccountContext();
 
@@ -70,20 +71,26 @@ function MarksOverview({
   }, [showEvolution, selectedPeriod]);
 
   return (
-    <View style={{
-      backgroundColor: theme.colors.surface,
-      borderRadius: 20,
-      padding: 20,
-      paddingBottom: 10,
-      marginHorizontal: 20,
-    }}>
+    <View>
+      {/* Analytics consent when necessary */}
+      {analyticsConsent == null ? (
+        <CustomAnalyticsConsentBanner/>
+      ) : null}
+
       <View style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        backgroundColor: theme.colors.surface,
+        borderRadius: 20,
+        padding: 20,
+        paddingBottom: 10,
+        marginHorizontal: 20,
       }}>
-        {/* Loading status */}
-        <View/>
-        <View style={{ position: 'absolute', alignSelf: "flex-start" }}><MarksStatus navigation={navigation}/></View>
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+          {/* Loading status */}
+          <View/>
+          <View style={{ position: 'absolute', alignSelf: "flex-start" }}><MarksStatus navigation={navigation}/></View>
 
         {/* Period chooser */}
         <View style={{
