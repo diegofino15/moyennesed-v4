@@ -48,10 +48,12 @@ class AdsHandler {
   // Set configuration for the app
   static async configureAds() {
     await mobileAds().setRequestConfiguration({
-      // The app is aimed at a young audience, so only allow ads suitable for
-      // teens and below. Personalization is disabled separately.
-      maxAdContentRating: MaxAdContentRating.T,
-      ageRestrictedTreatment: AgeRestrictedTreatment.TEEN,
+      // The Play Console target audience includes children (9-12) and the age of
+      // the user is unknown (no age screen), so every ad request gets child
+      // treatment and a "G" rating, as required by Google Play's Families policy.
+      // Personalization is disabled separately.
+      maxAdContentRating: MaxAdContentRating.G,
+      ageRestrictedTreatment: AgeRestrictedTreatment.CHILD,
       testDeviceIdentifiers: this.getTestDeviceIdentifiers(),
     });
   }
