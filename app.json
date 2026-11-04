@@ -50,7 +50,14 @@
         }
       ],
       "@react-native-firebase/app",
-      "@react-native-firebase/analytics",
+      [
+        "@react-native-firebase/analytics",
+        {
+          "ios": {
+            "withoutAdIdSupport": true
+          }
+        }
+      ],
       "@react-native-firebase/app-check",
       "@react-native-firebase/messaging",
       "expo-font",
