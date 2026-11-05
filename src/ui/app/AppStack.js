@@ -43,17 +43,21 @@ function MainAndSettingsStack() {
   const [showMarksAccount, setShowMarksAccount] = useState({});
   useEffect(() => {
     async function setup() {
+      // Only select an account once the session is actually authenticated
+      if (!isConnected) { return; }
       // Check if account is already a student account
       if (mainAccount.accountType == "E") {
         await AccountHandler.setSelectedChildAccount(mainAccount.id);
         setShowMarksAccount(mainAccount);
-      } else {
-        await AccountHandler.setSelectedChildAccount(Object.keys(mainAccount.children)[0]);
-        setShowMarksAccount(Object.values(mainAccount.children)[0]);
+      } else if (mainAccount.children && Object.keys(mainAccount.children).length > 0) {
+        // Only select a child that is actually owned by the authenticated main account
+        const childID = Object.keys(mainAccount.children)[0];
+        await AccountHandler.setSelectedChildAccount(childID);
+        setShowMarksAccount(mainAccount.children[childID]);
       }
     }
     setup();
-  }, [mainAccount.id]);
+  }, [mainAccount.id, isConnected]);
 
   // Marks
   const [_gotMarksForID, _setGotMarksForID, gotMarksForIDRef] = useState({});
