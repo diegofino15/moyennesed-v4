@@ -242,6 +242,7 @@ function MarksOverview({
           <Text style={theme.fonts.labelLarge}>Aucune note</Text>
         </View>
       )}
+      </View>
     </View>
   );
 }
