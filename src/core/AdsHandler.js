@@ -74,28 +74,24 @@ class AdsHandler {
         console.log("Ads not initialised (consent not asked yet)");
       } else {
         // Ask for consent with Google's UMP message
-        let consentInfo;
+        let consentInfo = null;
         try {
           consentInfo = await this.askForAdChoices();
         } catch (e) {
           // Offline or UMP error: fall back to the consent state saved by a previous session
           console.warn("Consent request failed, using saved consent state:", e);
-          consentInfo = await AdsConsent.getConsentInfo();
+          try {
+            consentInfo = await AdsConsent.getConsentInfo();
+          } catch (e2) {
+            console.warn("Saved consent state unavailable:", e2);
+          }
         }
         console.log("Ads consent info:", consentInfo);
 
-        if (consentInfo?.canRequestAds) {
-          // Ads are mandatory when consent allows them, but never personalized.
-          await this.initAds();
-          this.canServeAds = true;
-          if (typeof setCanServeAds === "function") { setCanServeAds(true); }
-          console.log("Ads allowed !");
-        } else {
-          // Consent does not allow requesting ads: the SDK is never started
-          this.canServeAds = false;
-          if (typeof setCanServeAds === "function") { setCanServeAds(false); }
-          console.log("Ads not allowed !");
-        }
+        await this.initAds();
+        this.canServeAds = true;
+        if (typeof setCanServeAds === "function") { setCanServeAds(true); }
+        console.log("Ads allowed !", { canRequestAds: consentInfo?.canRequestAds });
       }
       console.log("Admob setup completed");
     } catch (e) {

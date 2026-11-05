@@ -8,7 +8,7 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "bundleIdentifier": "me.diegof.moyennesed",
-      "buildNumber": "1",
+      "buildNumber": "2",
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
       "entitlements": {
@@ -27,7 +27,7 @@
     },
     "android": {
       "package": "me.diegof.moyennesed",
-      "versionCode": 68,
+      "versionCode": 70,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -96,8 +96,8 @@
       [
         "react-native-google-mobile-ads",
         {
-          "androidAppId": "ca-app-pub-1869877675520642~9782266497",
-          "iosAppId": "ca-app-pub-1869877675520642~9540112976",
+          "androidAppId": "ca-app-pub-1874413526628374~2990407560",
+          "iosAppId": "ca-app-pub-1874413526628374~3113696497",
           "skAdNetworkItems": [
             "cstr6suwn9.skadnetwork",
             "4fzdc2evr5.skadnetwork",
